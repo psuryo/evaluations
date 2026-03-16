@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.4.2
- * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.4.2",
-  engine: "94a226be1cf2967af2541cca5529f0f7ba866919"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,28 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.AccountScalarFieldEnum = {
-  id: 'id',
-  nrp: 'nrp',
-  type: 'type',
-  provider: 'provider',
-  providerAccountId: 'providerAccountId',
-  refresh_token: 'refresh_token',
-  access_token: 'access_token',
-  expires_at: 'expires_at',
-  token_type: 'token_type',
-  scope: 'scope',
-  id_token: 'id_token',
-  session_state: 'session_state'
-};
-
-exports.Prisma.SessionScalarFieldEnum = {
-  id: 'id',
-  sessionToken: 'sessionToken',
-  nrp: 'nrp',
-  expires: 'expires'
-};
-
 exports.Prisma.EvaluationsScalarFieldEnum = {
   id: 'id',
   evaluator_nrp: 'evaluator_nrp',
@@ -177,14 +155,6 @@ exports.Prisma.NilaiScalarFieldEnum = {
   bobot: 'bobot'
 };
 
-exports.Prisma.UserScalarFieldEnum = {
-  nrp: 'nrp',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image'
-};
-
 exports.Prisma.UserNilaiScalarFieldEnum = {
   nrp: 'nrp',
   nama: 'nama',
@@ -198,8 +168,31 @@ exports.Prisma.SubmissionScalarFieldEnum = {
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
-  id: 'id',
+  identifier: 'identifier',
   token: 'token',
+  expires: 'expires'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  userId: 'userId',
   expires: 'expires'
 };
 
@@ -220,17 +213,17 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Account: 'Account',
-  Session: 'Session',
   Evaluations: 'Evaluations',
   Group: 'Group',
   Kriteria: 'Kriteria',
   Kuliah: 'Kuliah',
   Nilai: 'Nilai',
-  User: 'User',
   UserNilai: 'UserNilai',
   Submission: 'Submission',
-  VerificationToken: 'VerificationToken'
+  VerificationToken: 'VerificationToken',
+  User: 'User',
+  Account: 'Account',
+  Session: 'Session'
 };
 
 /**

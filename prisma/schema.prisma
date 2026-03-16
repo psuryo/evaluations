@@ -7,34 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  nrp               String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-
-  user              User @relation(fields: [nrp], references: [nrp], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  nrp          String
-  expires      DateTime
-
-  user         User     @relation(fields: [nrp], references: [nrp], onDelete: Cascade)
-}
-
 model Evaluations {
   id            Int     @id @default(autoincrement())
   evaluator_nrp String?
@@ -57,7 +29,7 @@ model Kriteria {
   namakriteria String? @db.VarChar
   bobot        Int?
 
-    @@map("kriteria")
+  @@map("kriteria")
 }
 
 model Kuliah {
@@ -73,38 +45,23 @@ model Nilai {
   idnilai       Int        @id(map: "nilai_pk") @default(autoincrement())
   grade         Decimal?   @db.Decimal
   kriteria      String?    @db.VarChar
-  nrp           String     @db.VarChar
+  nrp           String?    @db.VarChar
   idkuliah      Int?
   judulkriteria String?    @db.VarChar
   bobot         Int?
   kuliah        Kuliah?    @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction, map: "nilai_kuliah_fk")
-  usernilai     UserNilai  @relation(fields: [nrp], references: [nrp], onDelete: NoAction, onUpdate: NoAction, map: "nilai_usernilai_fk")
+  usernilai     UserNilai? @relation(fields: [nrp], references: [nrp], onDelete: NoAction, onUpdate: NoAction, map: "nilai_usernilai_fk")
 
   @@map("nilai")
 }
 
-model User {
-  nrp           String    @id 
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  usernilai     UserNilai?
-}
-
 model UserNilai {
-  nrp      String   @id @db.VarChar
-  nama     String?  @db.VarChar
-  password String?  @db.VarChar
-
-  user     User     @relation(fields: [nrp], references: [nrp])
-
+  nrp      String  @id(map: "usernilai_pk") @db.VarChar
+  nama     String? @db.VarChar
+  password String? @db.VarChar
   nilai    Nilai[]
 
   @@map("usernilai")
-
 }
 
 model Submission {
@@ -116,11 +73,41 @@ model Submission {
 }
 
 model VerificationToken {
-  id      Int       @id @default(autoincrement())
-  token   String?   @unique
-  expires DateTime? @db.Timestamp(6)
+  identifier String
+  token      String @unique
+  expires    DateTime
 
-  @@unique([id, token], map: "constraint_1")
+  @@unique([identifier, token])
+}
 
-  @@map("verificationtoken")
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String?  @unique
+  emailVerified DateTime?
+  image         String?
+
+  accounts Account[]
+  sessions Session[]
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
