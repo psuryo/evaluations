@@ -79,12 +79,16 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  usernilai     usernilai?
 }
 
 model usernilai {
-  nrp      String  @id(map: "usernilai_pk") @db.VarChar
-  nama     String? @db.VarChar
-  password String? @db.VarChar
+  nrp      String   @id @db.VarChar
+  nama     String?  @db.VarChar
+  password String?  @db.VarChar
+
+  user     User     @relation(fields: [nrp], references: [nrp])
+
   nilai    nilai[]
 }
 
