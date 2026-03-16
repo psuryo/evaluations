@@ -6,7 +6,7 @@ import { useState } from "react"
 export default function LoginPage() {
   const [email, setEmail] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     await signIn("email", {
