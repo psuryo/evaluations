@@ -59,7 +59,7 @@ model kuliah {
   nilai    nilai[]
 }
 
-model nilai {
+model Nilai {
   idnilai       Int        @id(map: "nilai_pk") @default(autoincrement())
   grade         Decimal?   @db.Decimal
   kriteria      String?    @db.VarChar
@@ -69,10 +69,12 @@ model nilai {
   bobot         Int?
   kuliah        kuliah?    @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction, map: "nilai_kuliah_fk")
   usernilai     usernilai? @relation(fields: [nrp], references: [nrp], onDelete: NoAction, onUpdate: NoAction, map: "nilai_usernilai_fk")
+
+  @@map("nilai")
 }
 
 model User {
-  nrp           String    @id @default(cuid())
+  nrp           String    @id 
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -82,7 +84,7 @@ model User {
   usernilai     usernilai?
 }
 
-model usernilai {
+model UserNilai {
   nrp      String   @id @db.VarChar
   nama     String?  @db.VarChar
   password String?  @db.VarChar
@@ -90,6 +92,9 @@ model usernilai {
   user     User     @relation(fields: [nrp], references: [nrp])
 
   nilai    nilai[]
+
+  @@map("usernilai")
+
 }
 
 model submission {
