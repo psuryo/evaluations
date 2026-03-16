@@ -20,7 +20,8 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user              User @relation(fields: [nrp], references: [nrp], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -28,47 +29,56 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
+  nrp          String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user         User     @relation(fields: [nrp], references: [nrp], onDelete: Cascade)
 }
 
-model evaluations {
+model Evaluations {
   id            Int     @id @default(autoincrement())
   evaluator_nrp String?
   evaluated_nrp String?
   points        Int?
+
+  @@map("evaluations")
 }
 
-model group {
+model Group {
   id       Int     @id @default(autoincrement())
   nrp      String?
   group_id String?
+
+  @@map("group")
 }
 
-model kriteria {
+model Kriteria {
   idkriteria   Int     @id(map: "kriteria_pk") @default(autoincrement())
   namakriteria String? @db.VarChar
   bobot        Int?
+
+    @@map("kriteria")
 }
 
-model kuliah {
+model Kuliah {
   idkuliah Int     @id(map: "kategori_pk") @default(autoincrement())
   matkul   String? @db.VarChar
   tahun    String? @db.VarChar
-  nilai    nilai[]
+  nilai    Nilai[]
+
+  @@map("kuliah")
 }
 
 model Nilai {
   idnilai       Int        @id(map: "nilai_pk") @default(autoincrement())
   grade         Decimal?   @db.Decimal
   kriteria      String?    @db.VarChar
-  nrp           String?    @db.VarChar
+  nrp           String     @db.VarChar
   idkuliah      Int?
   judulkriteria String?    @db.VarChar
   bobot         Int?
-  kuliah        kuliah?    @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction, map: "nilai_kuliah_fk")
-  usernilai     usernilai? @relation(fields: [nrp], references: [nrp], onDelete: NoAction, onUpdate: NoAction, map: "nilai_usernilai_fk")
+  kuliah        Kuliah?    @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction, map: "nilai_kuliah_fk")
+  usernilai     UserNilai  @relation(fields: [nrp], references: [nrp], onDelete: NoAction, onUpdate: NoAction, map: "nilai_usernilai_fk")
 
   @@map("nilai")
 }
@@ -81,7 +91,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  usernilai     usernilai?
+  usernilai     UserNilai?
 }
 
 model UserNilai {
@@ -91,22 +101,26 @@ model UserNilai {
 
   user     User     @relation(fields: [nrp], references: [nrp])
 
-  nilai    nilai[]
+  nilai    Nilai[]
 
   @@map("usernilai")
 
 }
 
-model submission {
+model Submission {
   id         Int       @id @default(autoincrement())
   nrp        String?   @unique
   created_at DateTime? @default(now()) @db.Timestamp(6)
+
+  @@map("submission")
 }
 
-model verificationtoken {
+model VerificationToken {
   id      Int       @id @default(autoincrement())
   token   String?   @unique
   expires DateTime? @db.Timestamp(6)
 
   @@unique([id, token], map: "constraint_1")
+
+  @@map("verificationtoken")
 }
