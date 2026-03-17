@@ -124,13 +124,15 @@ exports.Prisma.EvaluationsScalarFieldEnum = {
   id: 'id',
   evaluator_nrp: 'evaluator_nrp',
   evaluated_nrp: 'evaluated_nrp',
-  points: 'points'
+  points: 'points',
+  idkuliah: 'idkuliah'
 };
 
 exports.Prisma.GroupScalarFieldEnum = {
   id: 'id',
   nrp: 'nrp',
-  group_id: 'group_id'
+  group_id: 'group_id',
+  idkuliah: 'idkuliah'
 };
 
 exports.Prisma.KriteriaScalarFieldEnum = {
@@ -158,12 +160,14 @@ exports.Prisma.NilaiScalarFieldEnum = {
 exports.Prisma.UserNilaiScalarFieldEnum = {
   nrp: 'nrp',
   nama: 'nama',
+  email: 'email',
   password: 'password'
 };
 
 exports.Prisma.SubmissionScalarFieldEnum = {
   id: 'id',
   nrp: 'nrp',
+  idkuliah: 'idkuliah',
   created_at: 'created_at'
 };
 
