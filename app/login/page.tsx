@@ -82,7 +82,7 @@ export default function LoginPage() {
 
         .login-sub {
           font-size: 14px;
-          color: #999;
+          color: #6B7280;
           font-weight: 300;
           margin-bottom: 36px;
           line-height: 1.5;
@@ -94,7 +94,7 @@ export default function LoginPage() {
           font-weight: 500;
           letter-spacing: 0.07em;
           text-transform: uppercase;
-          color: #aaa;
+          color: #6B7280;
           margin-bottom: 8px;
         }
 
@@ -175,7 +175,7 @@ export default function LoginPage() {
           font-size: 10px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #444;
+          color: #9CA3AF;
           margin-bottom: 6px;
           font-family: 'Sora', system-ui, sans-serif;
         }
@@ -188,7 +188,7 @@ export default function LoginPage() {
         }
         .aside-desc {
           font-size: 12px;
-          color: #505050;
+          color: #9CA3AF;
           line-height: 1.65;
           font-family: 'Sora', system-ui, sans-serif;
         }
@@ -202,12 +202,12 @@ export default function LoginPage() {
       <div className="login-page">
         <div className="login-card">
           <div className="login-main">
-            <p className="wordmark">evaluations</p>
+            <p className="wordmark">Grade and Evaluations</p>
 
             {status === "sent" ? (
               <>
                 <h1 className="login-heading">Check your inbox</h1>
-                <p className="login-sub">Your magic link is on its way.</p>
+                <p className="login-sub">Your link is on its way.</p>
                 <div className="success-box">
                   We sent a sign-in link to <strong>{email}</strong>.
                   Click the link in your email to continue — no password needed.
@@ -218,7 +218,7 @@ export default function LoginPage() {
               <>
                 <h1 className="login-heading">Sign in</h1>
                 <p className="login-sub">
-                  Enter your email and we&apos;ll send you a magic link.
+                  Enter your campus email and we&apos;ll send you a link to login.
                 </p>
 
                 <form onSubmit={handleSubmit}>
@@ -229,7 +229,7 @@ export default function LoginPage() {
                     id="email"
                     className="email-input"
                     type="email"
-                    placeholder="student@email.com"
+                    placeholder="student@ukwms.ac.id"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
@@ -240,7 +240,7 @@ export default function LoginPage() {
                     type="submit"
                     disabled={status === "loading"}
                   >
-                    {status === "loading" ? "Sending…" : "Send magic link"}
+                    {status === "loading" ? "Sending…" : "Send login link"}
                   </button>
 
                   {status === "error" && (
