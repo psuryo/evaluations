@@ -1,9 +1,8 @@
 // prisma/schema.prisma
 // Changes from previous version:
-//   - UserNilai: added `email` field for NextAuth mapping
-//   - Group: added `idkuliah` to support per-course group assignments
-//   - Evaluations: added `idkuliah` + relations, compound unique to prevent duplicates
-//   - Submission: changed from unique nrp to compound unique (nrp + idkuliah)
+//   - Evaluations: replaced `points` with `score` (1–10) + added `idkriteria`
+//     One row per evaluator × evaluated × criteria × course
+//   - Kriteria: added relation to Evaluations
 
 generator client {
   provider = "prisma-client-js"
@@ -15,16 +14,18 @@ datasource db {
 }
 
 model Evaluations {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   evaluator_nrp String?
   evaluated_nrp String?
-  points        Int?
+  score         Int?      // 1–10 per criteria (replaces `points`)
   idkuliah      Int?
+  idkriteria    Int?      // ← new: which criteria this score is for
 
-  kuliah        Kuliah?  @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction)
+  kuliah        Kuliah?   @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction)
+  kriteria      Kriteria? @relation(fields: [idkriteria], references: [idkriteria], onDelete: NoAction, onUpdate: NoAction)
 
-  // Prevent a student from evaluating the same peer twice in the same course
-  @@unique([evaluator_nrp, evaluated_nrp, idkuliah])
+  // One score per evaluator × evaluated × criteria × course
+  @@unique([evaluator_nrp, evaluated_nrp, idkriteria, idkuliah])
   @@map("evaluations")
 }
 
@@ -40,17 +41,18 @@ model Group {
 }
 
 model Kriteria {
-  idkriteria   Int     @id(map: "kriteria_pk") @default(autoincrement())
-  namakriteria String? @db.VarChar
+  idkriteria   Int          @id(map: "kriteria_pk") @default(autoincrement())
+  namakriteria String?      @db.VarChar
   bobot        Int?
+  evaluations  Evaluations[]
 
   @@map("kriteria")
 }
 
 model Kuliah {
-  idkuliah    Int          @id(map: "kategori_pk") @default(autoincrement())
-  matkul      String?      @db.VarChar
-  tahun       String?      @db.VarChar
+  idkuliah    Int           @id(map: "kategori_pk") @default(autoincrement())
+  matkul      String?       @db.VarChar
+  tahun       String?       @db.VarChar
   nilai       Nilai[]
   evaluations Evaluations[]
   groups      Group[]
@@ -76,7 +78,7 @@ model Nilai {
 model UserNilai {
   nrp      String  @id(map: "usernilai_pk") @db.VarChar
   nama     String? @db.VarChar
-  email    String? @db.VarChar @unique  // ← new: maps NextAuth email to NRP
+  email    String? @db.VarChar @unique
   password String? @db.VarChar
   nilai    Nilai[]
 
@@ -86,12 +88,11 @@ model UserNilai {
 model Submission {
   id         Int       @id @default(autoincrement())
   nrp        String?
-  idkuliah   Int?       // ← new: submission is now per course
+  idkuliah   Int?
   created_at DateTime? @default(now()) @db.Timestamp(6)
 
   kuliah     Kuliah?   @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction)
 
-  // One submission per student per course
   @@unique([nrp, idkuliah])
   @@map("submission")
 }

@@ -28,7 +28,7 @@ export default function LoginPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -39,7 +39,7 @@ export default function LoginPage() {
           justify-content: center;
           background: #f5f4f0;
           padding: 24px;
-          font-family: 'DM Sans', system-ui, sans-serif;
+          font-family: 'Sora', system-ui, sans-serif;
         }
 
         .login-card {
@@ -64,7 +64,7 @@ export default function LoginPage() {
         }
 
         .wordmark {
-          font-family: 'Instrument Serif', Georgia, serif;
+          font-family: 'Sora', system-ui, sans-serif;
           font-size: 20px;
           color: #111;
           margin-bottom: 52px;
@@ -72,9 +72,9 @@ export default function LoginPage() {
         }
 
         .login-heading {
-          font-family: 'Instrument Serif', Georgia, serif;
+          font-family: 'Sora', system-ui, sans-serif;
           font-size: 32px;
-          font-weight: 400;
+          font-weight: 600;
           color: #111;
           line-height: 1.15;
           margin-bottom: 8px;
@@ -177,10 +177,10 @@ export default function LoginPage() {
           text-transform: uppercase;
           color: #444;
           margin-bottom: 6px;
-          font-family: 'DM Sans', system-ui, sans-serif;
+          font-family: 'Sora', system-ui, sans-serif;
         }
         .aside-stat {
-          font-family: 'Instrument Serif', Georgia, serif;
+          font-family: 'Sora', system-ui, sans-serif;
           font-size: 40px;
           color: #efefef;
           line-height: 1;
@@ -190,7 +190,7 @@ export default function LoginPage() {
           font-size: 12px;
           color: #505050;
           line-height: 1.65;
-          font-family: 'DM Sans', system-ui, sans-serif;
+          font-family: 'Sora', system-ui, sans-serif;
         }
 
         @media (max-width: 580px) {

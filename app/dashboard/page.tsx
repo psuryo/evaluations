@@ -40,14 +40,14 @@ export default async function Dashboard() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         .db-root {
           min-height: 100dvh;
           background: #f5f4f0;
-          font-family: 'DM Sans', system-ui, sans-serif;
+          font-family: 'Sora', system-ui, sans-serif;
           color: #111;
         }
 
@@ -65,7 +65,7 @@ export default async function Dashboard() {
         }
 
         .db-wordmark {
-          font-family: 'Instrument Serif', Georgia, serif;
+          font-family: 'Sora', system-ui, sans-serif;
           font-size: 19px;
           color: #111;
           letter-spacing: -0.3px;
@@ -103,9 +103,9 @@ export default async function Dashboard() {
         }
 
         .db-title {
-          font-family: 'Instrument Serif', Georgia, serif;
+          font-family: 'Sora', system-ui, sans-serif;
           font-size: 30px;
-          font-weight: 400;
+          font-weight: 600;
           color: #111;
           margin-bottom: 4px;
         }
@@ -140,7 +140,7 @@ export default async function Dashboard() {
         }
 
         .stat-value {
-          font-family: 'Instrument Serif', Georgia, serif;
+          font-family: 'Sora', system-ui, sans-serif;
           font-size: 48px;
           line-height: 1;
           margin-bottom: 6px;
