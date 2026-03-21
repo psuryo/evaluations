@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/app/src/lib/prisma"
+import Link from "next/link"
+import LogoutButton from "./LogoutButton"
 
 async function getDashboardStats() {
   const [
@@ -170,6 +172,32 @@ export default async function Dashboard() {
         .dot-positive { background: #2d8a5e; }
         .dot-warning  { background: #c97d10; }
 
+        .db-nav-link {
+          font-family: 'Sora', system-ui, sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: #fff;
+          background: #111;
+          border-radius: 6px;
+          padding: 6px 14px;
+          text-decoration: none;
+          transition: opacity 0.15s;
+        }
+        .db-nav-link:hover { opacity: 0.8; }
+
+        .db-logout {
+          font-family: 'Sora', system-ui, sans-serif;
+          font-size: 13px;
+          color: #999;
+          background: none;
+          border: 0.5px solid rgba(0,0,0,0.12);
+          border-radius: 6px;
+          padding: 5px 12px;
+          cursor: pointer;
+          transition: color 0.15s, border-color 0.15s;
+        }
+        .db-logout:hover { color: #111; border-color: rgba(0,0,0,0.3); }
+
         @media (max-width: 640px) {
           .stat-grid { grid-template-columns: 1fr; }
           .db-body { padding: 28px 20px 60px; }
@@ -184,11 +212,15 @@ export default async function Dashboard() {
           <div className="db-user">
             <span className="db-email">{userEmail}</span>
             <div className="db-avatar">{userInitial}</div>
+            <LogoutButton />
           </div>
         </header>
 
         <div className="db-body">
-          <h1 className="db-title">Dashboard</h1>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+            <h1 className="db-title">Dashboard</h1>
+            <Link href="/evaluate" className="db-nav-link">Start evaluation →</Link>
+          </div>
           <p className="db-subtitle">Group evaluations &amp; grade overview.</p>
 
           <div className="stat-grid">

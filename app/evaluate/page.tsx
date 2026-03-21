@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import LogoutButton from "../dashboard/LogoutButton"
 import { prisma } from "@/app/src/lib/prisma"
 
 async function getCourseList(nrp: string) {
@@ -137,6 +138,19 @@ export default async function EvaluateIndexPage() {
 
         .ev-arrow { font-size: 16px; color: #ccc; margin-left: 4px; }
 
+        .ev-logout {
+          font-family: 'Sora', system-ui, sans-serif;
+          font-size: 13px;
+          color: #999;
+          background: none;
+          border: 0.5px solid rgba(0,0,0,0.12);
+          border-radius: 6px;
+          padding: 5px 12px;
+          cursor: pointer;
+          transition: color 0.15s, border-color 0.15s;
+        }
+        .ev-logout:hover { color: #111; border-color: rgba(0,0,0,0.3); }
+
         .ev-empty {
           text-align: center;
           padding: 60px 24px;
@@ -158,6 +172,7 @@ export default async function EvaluateIndexPage() {
           <div className="ev-user">
             <span className="ev-email">{session.user.email}</span>
             <div className="ev-avatar">{userInitial}</div>
+            <LogoutButton className="ev-logout" />
           </div>
         </header>
 

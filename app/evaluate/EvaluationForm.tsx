@@ -247,7 +247,7 @@ const formStyles = `
   .ev-grid-header { padding: 0 14px 10px; border-bottom: 0.5px solid rgba(0,0,0,0.07); align-items: flex-end; }
   .ev-col-k { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .ev-k-name { font-size: 10px; color: #888; text-align: center; line-height: 1.3; }
-  .ev-k-bobot { font-size: 9px; color: #ccc; background: #f0efeb; padding: 1px 5px; border-radius: 20px; }
+  .ev-k-bobot { font-size: 9px; color: #625f5f; background: #f3df91; padding: 1px 5px; border-radius: 20px; }
   .ev-col-avg { font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #bbb; }
 
   /* Per-criteria running total */
@@ -276,8 +276,8 @@ const formStyles = `
 
   .ev-peer-info { display: flex; align-items: center; gap: 8px; }
   .ev-peer-avatar { width: 28px; height: 28px; border-radius: 50%; background: #f0efeb; color: #555; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ev-peer-name { font-size: 12px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ev-peer-nrp { font-size: 10px; color: #bbb; }
+  .ev-peer-name { font-size: 10px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ev-peer-nrp { font-size: 8px; color: #737272; }
 
   /* Score input cells */
   .ev-score-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }

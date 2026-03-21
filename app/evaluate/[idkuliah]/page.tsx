@@ -3,6 +3,7 @@ import { redirect, notFound } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/app/src/lib/prisma"
 import EvaluationForm from "../EvaluationForm"
+import LogoutButton from "../../dashboard/LogoutButton"
 
 async function getEvaluationData(nrp: string, idkuliah: number) {
   const [course, groupMembership, kriteriaList, alreadySubmitted] =
@@ -82,6 +83,18 @@ export default async function EvaluateCourse({
         .ev-user { display: flex; align-items: center; gap: 10px; }
         .ev-avatar { width: 30px; height: 30px; border-radius: 50%; background: #141414; color: #efefef; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
         .ev-email { font-size: 13px; color: #999; }
+        .ev-logout {
+          font-family: 'Sora', system-ui, sans-serif;
+          font-size: 13px;
+          color: #999;
+          background: none;
+          border: 0.5px solid rgba(0,0,0,0.12);
+          border-radius: 6px;
+          padding: 5px 12px;
+          cursor: pointer;
+          transition: color 0.15s, border-color 0.15s;
+        }
+        .ev-logout:hover { color: #111; border-color: rgba(0,0,0,0.3); }
 
         .ev-body { max-width: 600px; margin: 0 auto; padding: 48px 40px 80px; }
 
@@ -100,7 +113,7 @@ export default async function EvaluateCourse({
           margin-bottom: 16px;
         }
         .ev-heading { font-family: 'Sora', system-ui, sans-serif; font-size: 30px; font-weight: 600; color: #111; margin-bottom: 4px; }
-        .ev-sub { font-size: 14px; color: #aaa; font-weight: 300; margin-bottom: 36px; line-height: 1.5; }
+        .ev-sub { font-size: 14px; color: #6B7280; font-weight: 300; margin-bottom: 36px; line-height: 1.5; text-align: justify; }
         .ev-sub strong { font-weight: 500; color: #777; }
 
         .ev-no-group {
@@ -132,6 +145,7 @@ export default async function EvaluateCourse({
           <div className="ev-user">
             <span className="ev-email">{session.user.email}</span>
             <div className="ev-avatar">{userInitial}</div>
+            <LogoutButton className="ev-logout" />
           </div>
         </header>
 
@@ -139,8 +153,7 @@ export default async function EvaluateCourse({
           <span className="ev-course-tag">{data.course.tahun ?? "—"}</span>
           <h1 className="ev-heading">{data.course.matkul ?? "Untitled course"}</h1>
           <p className="ev-sub">
-            Distribute <strong>100 points</strong> across your group members based on their contribution to the project.
-            Consider each grading dimension carefully.
+            Bagikan <strong>100 poin</strong> di antara anggota kelompok Anda berdasarkan kontribusi mereka terhadap proyek. Pertimbangkan setiap aspek penilaian dengan cermat.
           </p>
 
           {data.noGroup ? (
