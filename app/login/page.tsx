@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react"
 import { useState } from "react"
+import Image from "next/image"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -193,6 +194,14 @@ export default function LoginPage() {
           font-family: 'Sora', system-ui, sans-serif;
         }
 
+        .aside-logo {
+        width: 100%;
+        height: auto;        /* keeps proportions */
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        opacity: 0.85;
+        }
+
         @media (max-width: 580px) {
           .login-aside { display: none; }
           .login-main { padding: 40px 28px; }
@@ -254,9 +263,19 @@ export default function LoginPage() {
           </div>
 
           <aside className="login-aside">
+
+
+            <Image
+              src="/logowm.png"
+              alt="evaluations logo"
+              width={120}
+              height={135}
+              className="aside-logo"
+              priority
+            />
             <p className="aside-label">this week</p>
             <p className="aside-stat">247</p>
-            <p className="aside-desc">evaluations run across your team</p>
+            <p className="aside-desc">Universitas Katolik Widya Mandala Surabaya</p>
           </aside>
         </div>
       </div>
