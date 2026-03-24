@@ -28,12 +28,13 @@ type ScoreMap = Record<number, Record<string, number>>
 function weightedAvg(
   nrp: string,
   scores: ScoreMap,
-  kriteriaList: Kriteria[]
+  kriteriaList: Kriteria[],
+  touched: Record<string, boolean>
 ): number | null {
   const totalBobot = kriteriaList.reduce((a, k) => a + (k.bobot ?? 0), 0)
   if (totalBobot === 0) return null
   const allFilled = kriteriaList.every(
-    (k) => (scores[k.idkriteria]?.[nrp] ?? -1) >= 0
+    (k) => touched[`${k.idkriteria}-${nrp}`] === true
   )
   if (!allFilled) return null
   const weighted = kriteriaList.reduce((a, k) => {
@@ -62,21 +63,34 @@ export default function EvaluationForm({
   const [scores, setScores] = useState<ScoreMap>(
     Object.fromEntries(kriteriaList.map((k) => [k.idkriteria, {}]))
   )
+  // tracks which (idkriteria, nrp) cells have been explicitly filled by the user
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle")
   const [errorMsg, setErrorMsg] = useState("")
 
   const ready = allReady(scores, kriteriaList, peers)
 
   function handleChange(idkriteria: number, nrp: string, raw: string) {
-    const val = Math.max(0, Math.min(100, parseInt(raw) || 0))
+    const val = Math.max(0, Math.min(100, raw === "" ? 0 : (parseInt(raw) ?? 0)))
     const otherTotal = peers
       .filter((p) => p.nrp !== nrp)
       .reduce((a, p) => a + (scores[idkriteria]?.[p.nrp] ?? 0), 0)
     const clamped = Math.min(val, 100 - otherTotal)
-    setScores((prev) => ({
-      ...prev,
-      [idkriteria]: { ...prev[idkriteria], [nrp]: clamped },
-    }))
+
+    const newScores = { ...scores, [idkriteria]: { ...scores[idkriteria], [nrp]: clamped } }
+    const newTotal = peers.reduce((a, p) => a + (newScores[idkriteria]?.[p.nrp] ?? 0), 0)
+
+    setScores(newScores)
+    setTouched((prev) => {
+      const next = { ...prev, [`${idkriteria}-${nrp}`]: true }
+      // if column now sums to 100, auto-mark all untouched peers in this column
+      if (newTotal === 100) {
+        peers.forEach((p) => {
+          next[`${idkriteria}-${p.nrp}`] = true
+        })
+      }
+      return next
+    })
   }
 
   async function handleSubmit() {
@@ -146,7 +160,7 @@ export default function EvaluationForm({
         {/* Peer rows */}
         <div className="ev-peers">
           {peers.map((peer) => {
-            const avg = weightedAvg(peer.nrp, scores, kriteriaList)
+            const avg = weightedAvg(peer.nrp, scores, kriteriaList, touched)
             return (
               <div key={peer.nrp} className="ev-peer-row">
                 {/* Identity */}
@@ -247,7 +261,7 @@ const formStyles = `
   .ev-grid-header { padding: 0 14px 10px; border-bottom: 0.5px solid rgba(0,0,0,0.07); align-items: flex-end; }
   .ev-col-k { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .ev-k-name { font-size: 10px; color: #888; text-align: center; line-height: 1.3; }
-  .ev-k-bobot { font-size: 9px; color: #625f5f; background: #f3df91; padding: 1px 5px; border-radius: 20px; }
+  .ev-k-bobot { font-size: 9px; color: #ccc; background: #f0efeb; padding: 1px 5px; border-radius: 20px; }
   .ev-col-avg { font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #bbb; }
 
   /* Per-criteria running total */
@@ -276,8 +290,8 @@ const formStyles = `
 
   .ev-peer-info { display: flex; align-items: center; gap: 8px; }
   .ev-peer-avatar { width: 28px; height: 28px; border-radius: 50%; background: #f0efeb; color: #555; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ev-peer-name { font-size: 10px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ev-peer-nrp { font-size: 8px; color: #737272; }
+  .ev-peer-name { font-size: 12px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ev-peer-nrp { font-size: 10px; color: #bbb; }
 
   /* Score input cells */
   .ev-score-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
