@@ -167,39 +167,25 @@ export default function LoginPage() {
           background: #141414;
           display: flex;
           flex-direction: column;
-          justify-content: flex-end;
-          padding: 32px 28px;
+          align-items: center;
+          justify-content: center;
           flex-shrink: 0;
+          padding: 28px;
+          gap: 20px;
         }
 
-        .aside-label {
-          font-size: 10px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #9CA3AF;
-          margin-bottom: 6px;
-          font-family: 'Sora', system-ui, sans-serif;
-        }
-        .aside-stat {
-          font-family: 'Sora', system-ui, sans-serif;
-          font-size: 40px;
-          color: #efefef;
-          line-height: 1;
-          margin-bottom: 8px;
-        }
         .aside-desc {
-          font-size: 12px;
+          font-size: 14px;
           color: #9CA3AF;
           line-height: 1.65;
+          text-align: center;
           font-family: 'Sora', system-ui, sans-serif;
         }
 
         .aside-logo {
-        width: 100%;
+        width: 70%;
         height: auto;        /* keeps proportions */
         object-fit: contain;
-        filter: brightness(0) invert(1);
-        opacity: 0.85;
         }
 
         @media (max-width: 580px) {
@@ -263,18 +249,14 @@ export default function LoginPage() {
           </div>
 
           <aside className="login-aside">
-
-
             <Image
               src="/logowm.png"
               alt="evaluations logo"
-              width={120}
-              height={135}
+              width={899}
+              height={1002}
               className="aside-logo"
               priority
             />
-            <p className="aside-label">this week</p>
-            <p className="aside-stat">247</p>
             <p className="aside-desc">Universitas Katolik Widya Mandala Surabaya</p>
           </aside>
         </div>
