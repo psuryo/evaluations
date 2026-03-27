@@ -1,5 +1,6 @@
 "use client"
 
+import "./EvaluationForm.css"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -65,6 +66,7 @@ export default function EvaluationForm({
   )
   // tracks which (idkriteria, nrp) cells have been explicitly filled by the user
   const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle")
   const [errorMsg, setErrorMsg] = useState("")
 
@@ -116,7 +118,6 @@ export default function EvaluationForm({
   if (alreadySubmitted || status === "done") {
     return (
       <>
-        <style>{doneStyles}</style>
         <div className="ev-done">
           <div className="ev-done-icon">✓</div>
           <h2 className="ev-done-title">Evaluation submitted</h2>
@@ -128,7 +129,6 @@ export default function EvaluationForm({
 
   return (
     <>
-      <style>{formStyles}</style>
       <div className="ev-form">
 
         {/* Column headers: one per criteria */}
@@ -165,9 +165,23 @@ export default function EvaluationForm({
               <div key={peer.nrp} className="ev-peer-row">
                 {/* Identity */}
                 <div className="ev-col-peer ev-peer-info">
-                  <span className="ev-peer-avatar">
-                    {(peer.nama ?? peer.nrp).charAt(0).toUpperCase()}
-                  </span>
+                  <div className="ev-avatar-wrap">
+                    <div
+                      className="ev-peer-avatar"
+                      title={`${peer.nama ?? ""} (${peer.nrp})`}
+                      onClick={() =>
+                        setActiveTooltip(activeTooltip === peer.nrp ? null : peer.nrp)
+                      }
+                    >
+                      {(peer.nama ?? peer.nrp).charAt(0).toUpperCase()}
+                    </div>
+                    {activeTooltip === peer.nrp && (
+                      <div className="ev-avatar-tooltip">
+                        <strong>{peer.nama ?? peer.nrp}</strong>
+                        <span>{peer.nrp}</span>
+                      </div>
+                    )}
+                  </div>
                   <div>
                     <p className="ev-peer-name">{peer.nama ?? "—"}</p>
                     <p className="ev-peer-nrp">{peer.nrp}</p>
@@ -241,104 +255,3 @@ export default function EvaluationForm({
     </>
   )
 }
-
-const formStyles = `
-  .ev-form { display: flex; flex-direction: column; gap: 10px; font-family: 'Sora', system-ui, sans-serif; }
-
-  /* Grid layout: peer col + one col per criteria + avg col */
-  .ev-grid-header,
-  .ev-peer-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .ev-col-peer { width: 160px; flex-shrink: 0; }
-  .ev-col-k    { flex: 1; min-width: 0; }
-  .ev-col-avg  { width: 52px; flex-shrink: 0; text-align: center; }
-
-  /* Header */
-  .ev-grid-header { padding: 0 14px 10px; border-bottom: 0.5px solid rgba(0,0,0,0.07); align-items: flex-end; }
-  .ev-col-k { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .ev-k-name { font-size: 10px; color: #888; text-align: center; line-height: 1.3; }
-  .ev-k-bobot { font-size: 9px; color: #ccc; background: #f0efeb; padding: 1px 5px; border-radius: 20px; }
-  .ev-col-avg { font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #bbb; }
-
-  /* Per-criteria running total */
-  .ev-k-total {
-    width: 100%; background: #f0efeb; border-radius: 4px;
-    overflow: hidden; position: relative; height: 18px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .ev-k-total-bar {
-    position: absolute; left: 0; top: 0; bottom: 0;
-    background: #ddd; border-radius: 4px; transition: width 0.15s;
-  }
-  .ev-k-total.done .ev-k-total-bar  { background: #a8d8bc; }
-  .ev-k-total.over .ev-k-total-bar  { background: #f0b0a8; }
-  .ev-k-total-label {
-    position: relative; z-index: 1;
-    font-size: 9px; font-weight: 500; color: #888;
-    white-space: nowrap;
-  }
-  .ev-k-total.done .ev-k-total-label { color: #2d6e4e; }
-  .ev-k-total.over .ev-k-total-label { color: #a03030; }
-
-  /* Peer rows */
-  .ev-peers { display: flex; flex-direction: column; gap: 7px; }
-  .ev-peer-row { background: #fff; border: 0.5px solid rgba(0,0,0,0.07); border-radius: 10px; padding: 10px 14px; }
-
-  .ev-peer-info { display: flex; align-items: center; gap: 8px; }
-  .ev-peer-avatar { width: 28px; height: 28px; border-radius: 50%; background: #f0efeb; color: #555; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ev-peer-name { font-size: 12px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ev-peer-nrp { font-size: 10px; color: #bbb; }
-
-  /* Score input cells */
-  .ev-score-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-  .ev-score-input {
-    width: 100%; font-family: inherit; font-size: 15px; font-weight: 500;
-    color: #ccc; text-align: center; border: 0.5px solid rgba(0,0,0,0.08);
-    border-radius: 6px; padding: 5px 2px; background: #fafaf8; outline: none;
-    transition: border-color 0.15s, color 0.15s;
-    -moz-appearance: textfield;
-  }
-  .ev-score-input::-webkit-outer-spin-button,
-  .ev-score-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-  .ev-score-input:focus { border-color: #888; background: #fff; color: #111; }
-  .ev-score-input.filled { color: #111; border-color: rgba(0,0,0,0.15); background: #fff; }
-  .ev-score-bar { width: 100%; height: 2px; background: #141414; border-radius: 99px; transition: width 0.15s; }
-
-  /* Avg */
-  .ev-peer-avg { display: flex; align-items: center; justify-content: center; }
-  .ev-avg-val { font-family: 'Sora', system-ui, sans-serif; font-size: 17px; line-height: 1; }
-  .ev-avg-val.high { color: #1f6b45; }
-  .ev-avg-val.mid  { color: #8a6200; }
-  .ev-avg-val.low  { color: #a03030; }
-  .ev-avg-empty { font-size: 13px; color: #ddd; }
-
-  /* Status + submit */
-  .ev-status-bar { border: 0.5px solid rgba(0,0,0,0.07); border-radius: 8px; padding: 9px 14px; background: #fafaf8; }
-  .ev-status-bar.ready { border-color: #a8d8bc; background: #f2faf6; }
-  .ev-status-text { font-size: 12px; color: #aaa; }
-  .ev-status-bar.ready .ev-status-text { color: #2d6e4e; }
-
-  .ev-error { font-size: 13px; color: #c0392b; }
-
-  .ev-submit { width: 100%; padding: 13px; font-family: inherit; font-size: 14px; font-weight: 500; color: #fff; background: #111; border: none; border-radius: 8px; cursor: pointer; letter-spacing: 0.02em; transition: opacity 0.15s, transform 0.1s; }
-  .ev-submit:hover:not(:disabled) { opacity: 0.8; }
-  .ev-submit:active:not(:disabled) { transform: scale(0.99); }
-  .ev-submit:disabled { opacity: 0.35; cursor: default; }
-
-  @media (max-width: 680px) {
-    .ev-col-peer { width: 90px; }
-    .ev-k-name { font-size: 9px; }
-    .ev-score-input { font-size: 13px; }
-  }
-`
-
-const doneStyles = `
-  .ev-done { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; text-align: center; gap: 12px; font-family: 'Sora', system-ui, sans-serif; }
-  .ev-done-icon { width: 48px; height: 48px; border-radius: 50%; background: #f0faf5; border: 0.5px solid #a8d8bc; color: #2d8a5e; font-size: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
-  .ev-done-title { font-family: 'Sora', system-ui, sans-serif; font-size: 24px; font-weight: 600; color: #111; }
-  .ev-done-sub { font-size: 14px; color: #aaa; font-weight: 300; }
-`

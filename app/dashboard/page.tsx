@@ -4,27 +4,37 @@ import { prisma } from "@/app/src/lib/prisma"
 import Link from "next/link"
 import LogoutButton from "./LogoutButton"
 
-async function getDashboardStats() {
-  const [
-    totalStudents,
-    completedSubmissions,
-    coursesWithGrades,
-  ] = await Promise.all([
-    prisma.userNilai.count(),
-    prisma.submission.count(),
+async function getDashboardStats(nrp: string) {
+  // Courses this student is assigned to (via Group)
+  const studentGroups = await prisma.group.findMany({
+    where: { nrp },
+    select: { idkuliah: true },
+  })
+
+  const assignedCourseIds = studentGroups
+    .map((g) => g.idkuliah)
+    .filter(Boolean) as number[]
+
+  const totalAssignedCourses = assignedCourseIds.length
+
+  const [completedSubmissions, coursesWithGrades] = await Promise.all([
+    // How many courses this student has already submitted
+    prisma.submission.count({
+      where: { nrp, idkuliah: { in: assignedCourseIds } },
+    }),
+    // Courses that have any grade recorded
     prisma.kuliah.count({
-      where: {
-        nilai: { some: {} },
-      },
+      where: { nilai: { some: {} } },
     }),
   ])
 
-  const pendingEvaluations = Math.max(0, totalStudents - completedSubmissions)
+  const pendingEvaluations = Math.max(0, totalAssignedCourses - completedSubmissions)
 
   return {
     completedSubmissions,
     pendingEvaluations,
     coursesWithGrades,
+    totalAssignedCourses,
   }
 }
 
@@ -35,8 +45,14 @@ export default async function Dashboard() {
     redirect("/login")
   }
 
-  const stats = await getDashboardStats()
   const userEmail = session.user?.email ?? ""
+
+  const student = await prisma.userNilai.findUnique({
+    where: { email: userEmail },
+    select: { nrp: true },
+  })
+
+  const stats = await getDashboardStats(student?.nrp ?? "")
   const userInitial = userEmail.charAt(0).toUpperCase()
 
   return (
@@ -235,7 +251,7 @@ export default async function Dashboard() {
               <p className="stat-value positive">{stats.completedSubmissions}</p>
               <p className="stat-sub">
                 <span className="stat-dot dot-positive" />
-                submissions completed
+                of {stats.totalAssignedCourses} courses submitted
               </p>
             </div>
 
@@ -244,7 +260,7 @@ export default async function Dashboard() {
               <p className="stat-value warning">{stats.pendingEvaluations}</p>
               <p className="stat-sub">
                 <span className="stat-dot dot-warning" />
-                pending submissions
+                courses still pending
               </p>
             </div>
           </div>
