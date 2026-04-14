@@ -54,6 +54,12 @@ async function getAdminData() {
           nama: studentMap.get(nrp)?.nama ?? nrp,
           email: studentMap.get(nrp)?.email ?? "—",
         })),
+        allMembers: members.map((nrp) => ({
+          nrp,
+          nama: studentMap.get(nrp)?.nama ?? nrp,
+          email: studentMap.get(nrp)?.email ?? "—",
+          submitted: submittedSet.has(`${nrp}:${c.idkuliah}`),
+        })),
       }
     })
 
@@ -237,8 +243,6 @@ export default async function AdminPage() {
 
           {courseData.length === 0 ? (
             <p className="ad-all-done">No courses found.</p>
-          ) : totalPending === 0 ? (
-            <p className="ad-all-done">All students have submitted their evaluations.</p>
           ) : (
             <div className="course-list">
               {courseData.map((course) => {
@@ -275,24 +279,63 @@ export default async function AdminPage() {
                       </div>
                     </div>
 
-                    {course.pending.length > 0 && (
-                      <div className="student-list">
-                        {course.pending.map((student) => (
-                          <div key={student.nrp} className="student-row">
-                            <div className="student-left">
-                              <div className="student-avatar">
-                                {(student.nama || student.nrp).charAt(0).toUpperCase()}
-                              </div>
-                              <div>
-                                <p className="student-nama">{student.nama || student.nrp}</p>
-                                <p className="student-email">{student.email}</p>
-                              </div>
+                    <div className="student-list">
+                      {course.allMembers.map((student) => (
+                        <div key={student.nrp} className="student-row">
+                          <div className="student-left">
+                            <div className="student-avatar">
+                              {(student.nama || student.nrp).charAt(0).toUpperCase()}
                             </div>
-                            <span className="student-nrp">{student.nrp}</span>
+                            <div>
+                              <p className="student-nama">{student.nama || student.nrp}</p>
+                              <p className="student-email">{student.email}</p>
+                            </div>
                           </div>
-                        ))}
-                      </div>
-                    )}
+                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                            <span className="student-nrp">{student.nrp}</span>
+                            {student.submitted ? (
+                              <span className="badge badge-ok" style={{ fontSize: 10, padding: "2px 8px" }}>
+                                <span className="badge-dot" />
+                                Submitted
+                              </span>
+                            ) : (
+                              <span className="badge badge-pending" style={{ fontSize: 10, padding: "2px 8px" }}>
+                                <span className="badge-dot" />
+                                Pending
+                              </span>
+                            )}
+                            <Link
+                              href={`/dashboard?viewAs=${student.nrp}`}
+                              style={{
+                                fontSize: 11,
+                                color: "#888",
+                                border: "0.5px solid rgba(0,0,0,0.12)",
+                                borderRadius: 5,
+                                padding: "3px 8px",
+                                textDecoration: "none",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              View dashboard
+                            </Link>
+                            <Link
+                              href={`/grade?viewAs=${student.nrp}`}
+                              style={{
+                                fontSize: 11,
+                                color: "#888",
+                                border: "0.5px solid rgba(0,0,0,0.12)",
+                                borderRadius: 5,
+                                padding: "3px 8px",
+                                textDecoration: "none",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              View grades
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )
               })}

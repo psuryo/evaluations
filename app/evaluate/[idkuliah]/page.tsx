@@ -17,7 +17,11 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
   if (!course) return null
 
   if (!groupMembership?.group_id) {
-    return { course, peers: [], kriteriaList, alreadySubmitted: !!alreadySubmitted, noGroup: true }
+    // No group assignment — auto-create a submission so it doesn't block grade access
+    if (!alreadySubmitted) {
+      await prisma.submission.create({ data: { nrp, idkuliah } })
+    }
+    return { course, peers: [], kriteriaList, alreadySubmitted: true, noGroup: true }
   }
 
   const groupMembers = await prisma.group.findMany({
