@@ -15,18 +15,67 @@ async function getCourseList(nrp: string) {
     .map((g) => g.idkuliah)
     .filter(Boolean) as number[]
 
-  const [courses, submissions] = await Promise.all([
+  const [courses, kriteriaList, groupsWithMembers, evaluations] = await Promise.all([
     prisma.kuliah.findMany({
       where: { idkuliah: { in: idkuliahList } },
       orderBy: { idkuliah: "asc" },
     }),
-    prisma.submission.findMany({
+    prisma.kriteria.findMany(),
+    prisma.group.findMany({
       where: { nrp, idkuliah: { in: idkuliahList } },
-      select: { idkuliah: true },
+      select: { idkuliah: true, group_id: true },
+    }),
+    prisma.evaluations.findMany({
+      where: { evaluator_nrp: nrp, idkuliah: { in: idkuliahList } },
+      select: { idkuliah: true, idkriteria: true, evaluated_nrp: true, score: true },
     }),
   ])
 
-  const submittedSet = new Set(submissions.map((s) => s.idkuliah))
+  // Group evaluations by course
+  const evaluationsByIdkuliah = new Map<number, typeof evaluations>()
+  evaluations.forEach((ev) => {
+    if (!evaluationsByIdkuliah.has(ev.idkuliah!)) {
+      evaluationsByIdkuliah.set(ev.idkuliah!, [])
+    }
+    evaluationsByIdkuliah.get(ev.idkuliah!)!.push(ev)
+  })
+
+  // For each course, check if evaluation is complete
+  const submittedSet = new Set<number>()
+  for (const course of courses) {
+    // Get peer list for this course
+    const groupInfo = groupsWithMembers.find((g) => g.idkuliah === course.idkuliah)
+    if (!groupInfo?.group_id) continue
+
+    const groupMembers = await prisma.group.findMany({
+      where: { group_id: groupInfo.group_id, idkuliah: course.idkuliah, NOT: { nrp } },
+      select: { nrp: true },
+    })
+    const peerNrps = groupMembers.map((m) => m.nrp).filter(Boolean) as string[]
+
+    // Check if all criteria sum to 100 for each peer
+    const courseEvals = evaluationsByIdkuliah.get(course.idkuliah) || []
+    const scoresMap = new Map<number, Map<string, number>>()
+    
+    courseEvals.forEach((ev) => {
+      if (!scoresMap.has(ev.idkriteria!)) {
+        scoresMap.set(ev.idkriteria!, new Map())
+      }
+      scoresMap.get(ev.idkriteria!)!.set(ev.evaluated_nrp!, ev.score || 0)
+    })
+
+    // Check if all criteria columns sum to 100
+    const isComplete = kriteriaList.every((k) => {
+      const total = peerNrps.reduce((sum, pnrp) => {
+        return sum + (scoresMap.get(k.idkriteria)?.get(pnrp) ?? 0)
+      }, 0)
+      return total === 100
+    })
+
+    if (isComplete && peerNrps.length > 0) {
+      submittedSet.add(course.idkuliah)
+    }
+  }
 
   return courses.map((c) => ({
     ...c,
