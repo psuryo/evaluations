@@ -72,7 +72,8 @@ async function getCourseList(nrp: string) {
       return total === 100
     })
 
-    if (isComplete && peerNrps.length > 0) {
+    // Mark as submitted if: no peers (nothing to evaluate) OR all criteria complete
+    if (peerNrps.length === 0 || isComplete) {
       submittedSet.add(course.idkuliah)
     }
   }

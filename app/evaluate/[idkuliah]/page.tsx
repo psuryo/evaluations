@@ -40,7 +40,10 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
   const existingEvaluations: Record<string, Record<string, number>> = {}
   let isComplete = false
 
-  if (submission) {
+  if (peerNrps.length === 0) {
+    // No peers to evaluate = automatically complete
+    isComplete = true
+  } else if (submission) {
     const evaluations = await prisma.evaluations.findMany({
       where: { evaluator_nrp: nrp, idkuliah },
     })
