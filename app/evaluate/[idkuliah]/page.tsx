@@ -6,7 +6,7 @@ import EvaluationForm from "../EvaluationForm"
 import LogoutButton from "../../dashboard/LogoutButton"
 
 async function getEvaluationData(nrp: string, idkuliah: number) {
-  const [course, groupMembership, kriteriaList, alreadySubmitted] =
+  const [course, groupMembership, kriteriaList, submission] =
     await Promise.all([
       prisma.kuliah.findUnique({ where: { idkuliah } }),
       prisma.group.findFirst({ where: { nrp, idkuliah } }),
@@ -18,10 +18,10 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
 
   if (!groupMembership?.group_id) {
     // No group assignment — auto-create a submission so it doesn't block grade access
-    if (!alreadySubmitted) {
+    if (!submission) {
       await prisma.submission.create({ data: { nrp, idkuliah } })
     }
-    return { course, peers: [], kriteriaList, alreadySubmitted: true, noGroup: true }
+    return { course, peers: [], kriteriaList, alreadySubmitted: true, noGroup: true, existingEvaluations: {} }
   }
 
   const groupMembers = await prisma.group.findMany({
@@ -36,7 +36,40 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
     select: { nrp: true, nama: true },
   })
 
-  return { course, peers, kriteriaList, alreadySubmitted: !!alreadySubmitted, noGroup: false }
+  // Load existing evaluations if submission exists
+  const existingEvaluations: Record<string, Record<string, number>> = {}
+  let isComplete = false
+
+  if (submission) {
+    const evaluations = await prisma.evaluations.findMany({
+      where: { evaluator_nrp: nrp, idkuliah },
+    })
+
+    // Rebuild scores structure from database
+    evaluations.forEach((ev) => {
+      if (!existingEvaluations[ev.idkriteria!]) {
+        existingEvaluations[ev.idkriteria!] = {}
+      }
+      existingEvaluations[ev.idkriteria!][ev.evaluated_nrp!] = ev.score || 0
+    })
+
+    // Check if all criteria columns sum to 100
+    const allComplete = kriteriaList.every((k) => {
+      const total = peerNrps.reduce((sum, pnrp) => sum + (existingEvaluations[k.idkriteria]?.[pnrp] ?? 0), 0)
+      return total === 100
+    })
+
+    isComplete = allComplete
+  }
+
+  return {
+    course,
+    peers,
+    kriteriaList,
+    alreadySubmitted: isComplete,
+    noGroup: false,
+    existingEvaluations,
+  }
 }
 
 export default async function EvaluateCourse({
@@ -172,6 +205,7 @@ export default async function EvaluateCourse({
               kriteriaList={data.kriteriaList}
               alreadySubmitted={data.alreadySubmitted}
               idkuliah={idkuliah}
+              existingEvaluations={data.existingEvaluations}
             />
           )}
         </div>

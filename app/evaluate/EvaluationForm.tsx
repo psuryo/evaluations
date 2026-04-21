@@ -21,6 +21,7 @@ type Props = {
   kriteriaList: Kriteria[]
   alreadySubmitted: boolean
   idkuliah: number
+  existingEvaluations?: ScoreMap
 }
 
 // scores[idkriteria][peerNrp] = points (each criteria column sums to 100)
@@ -58,14 +59,27 @@ export default function EvaluationForm({
   kriteriaList,
   alreadySubmitted,
   idkuliah,
+  existingEvaluations,
 }: Props) {
   const router = useRouter()
 
   const [scores, setScores] = useState<ScoreMap>(
-    Object.fromEntries(kriteriaList.map((k) => [k.idkriteria, {}]))
+    existingEvaluations || Object.fromEntries(kriteriaList.map((k) => [k.idkriteria, {}]))
   )
   // tracks which (idkriteria, nrp) cells have been explicitly filled by the user
-  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const initialTouched = existingEvaluations
+    ? Object.entries(existingEvaluations).reduce(
+        (acc, [idkriteria, peerScores]) => {
+          Object.keys(peerScores).forEach((nrp) => {
+            acc[`${idkriteria}-${nrp}`] = true
+          })
+          return acc
+        },
+        {} as Record<string, boolean>
+      )
+    : {}
+
+  const [touched, setTouched] = useState<Record<string, boolean>>(initialTouched)
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle")
   const [errorMsg, setErrorMsg] = useState("")
