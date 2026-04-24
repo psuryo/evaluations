@@ -3,6 +3,8 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/app/src/lib/prisma"
 import LogoutButton from "../dashboard/LogoutButton"
+import { getImpersonatedEmail } from "@/app/src/lib/impersonate"
+import ImpersonationBackButton from "../dashboard/ImpersonationBackButton"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
@@ -91,13 +93,27 @@ export default async function GradePage({
 
   const isAdmin = !!ADMIN_EMAIL && session.user.email === ADMIN_EMAIL
   const { viewAs } = await searchParams
+  
+  // Check for impersonation cookie
+  const impersonatedEmail = await getImpersonatedEmail()
+  const isImpersonating = !!impersonatedEmail
 
   // Admin can pass ?viewAs=NRP to see a specific student's view
-  const viewingAs = isAdmin && viewAs ? viewAs : null
+  const legacyViewingAs = isAdmin && viewAs ? viewAs : null
 
   let nrp: string | null = null
-  if (viewingAs) {
-    nrp = viewingAs
+  let viewingStudentEmail: string | null = null
+  
+  if (impersonatedEmail) {
+    // Using impersonation cookie
+    const student = await prisma.userNilai.findUnique({
+      where: { email: impersonatedEmail },
+      select: { nrp: true },
+    })
+    nrp = student?.nrp ?? null
+    viewingStudentEmail = impersonatedEmail
+  } else if (legacyViewingAs) {
+    nrp = legacyViewingAs
   } else if (!isAdmin) {
     const student = await prisma.userNilai.findUnique({
       where: { email: session.user.email },
@@ -125,15 +141,24 @@ export default async function GradePage({
     if (submittedCount < requiresEvalIds.length) redirect("/dashboard")
   }
 
-  // When viewingAs, fetch student name for context
-  const viewingStudent = viewingAs
-    ? await prisma.userNilai.findUnique({
-        where: { nrp: viewingAs },
-        select: { nama: true, nrp: true },
-      })
-    : null
+  // Fetch viewing student info
+  let viewingStudent: { nrp: string; nama: string | null } | null = null
+  if (isImpersonating && nrp) {
+    viewingStudent = await prisma.userNilai.findUnique({
+      where: { nrp },
+      select: { nrp: true, nama: true },
+    })
+  } else if (legacyViewingAs) {
+    viewingStudent = await prisma.userNilai.findUnique({
+      where: { nrp: legacyViewingAs },
+      select: { nrp: true, nama: true },
+    })
+  }
 
-  const subjects = await getGradesBySubject(nrp, isAdmin && !viewingAs)
+  // Define viewingAs for JSX: either the impersonated/legacy viewed NRP or null
+  const viewingAs = isImpersonating || legacyViewingAs ? viewingStudent?.nrp ?? legacyViewingAs : null
+
+  const subjects = await getGradesBySubject(nrp, isAdmin && !legacyViewingAs && !isImpersonating)
   const userInitial = session.user.email.charAt(0).toUpperCase()
 
   return (
@@ -316,21 +341,25 @@ export default async function GradePage({
         <main className="gr-body">
           <h1 className="gr-title">Grades</h1>
           <p className="gr-subtitle">
-            {viewingAs
+            {isImpersonating || viewingAs
               ? `Viewing as student`
               : isAdmin
               ? "All student grades by subject"
               : "Your grades by subject"}
           </p>
 
-          {viewingAs && (
+          {(isImpersonating || viewingAs) && (
             <div className="gr-impersonate-banner">
               <span>
                 Viewing grades for{" "}
-                <strong>{viewingStudent?.nama ?? viewingAs}</strong>{" "}
-                <span style={{ opacity: 0.6, fontFamily: "monospace", fontSize: "12px" }}>({viewingAs})</span>
+                <strong>{viewingStudent?.nama ?? viewingAs ?? "user"}</strong>{" "}
+                <span style={{ opacity: 0.6, fontFamily: "monospace", fontSize: "12px" }}>({viewingStudent?.nrp})</span>
               </span>
-              <Link href="/admin" className="gr-back-link">← Back to admin</Link>
+              {isImpersonating ? (
+                <ImpersonationBackButton />
+              ) : (
+                <Link href="/admin" className="gr-back-link">← Back to admin</Link>
+              )}
             </div>
           )}
 

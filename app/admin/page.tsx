@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/app/src/lib/prisma"
 import LogoutButton from "../dashboard/LogoutButton"
+import ImpersonateButton from "./ImpersonateButton"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
@@ -304,6 +305,10 @@ export default async function AdminPage() {
                                 Pending
                               </span>
                             )}
+                            <ImpersonateButton 
+                              email={student.email} 
+                              nama={student.nama}
+                            />
                             <Link
                               href={`/dashboard?viewAs=${student.nrp}`}
                               style={{

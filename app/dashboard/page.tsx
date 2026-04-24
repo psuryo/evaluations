@@ -3,6 +3,8 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/app/src/lib/prisma"
 import Link from "next/link"
 import LogoutButton from "./LogoutButton"
+import { getImpersonatedEmail } from "@/app/src/lib/impersonate"
+import ImpersonationBackButton from "./ImpersonationBackButton"
 
 async function getDashboardStats(nrp: string) {
   // Only courses where the student has an actual group_id require evaluation
@@ -57,24 +59,40 @@ export default async function Dashboard({
   const userEmail = session.user?.email ?? ""
   const isAdmin = !!process.env.ADMIN_EMAIL && userEmail === process.env.ADMIN_EMAIL
   const { viewAs } = await searchParams
-  const viewingAs = isAdmin && viewAs ? viewAs : null
-
+  
+  // Check for impersonation cookie first, then fall back to viewAs parameter
+  const impersonatedEmail = await getImpersonatedEmail()
+  const isImpersonating = !!impersonatedEmail
+  const legacyViewingAs = isAdmin && viewAs ? viewAs : null
+  
   let nrp: string | null = null
   let viewingStudent: { nrp: string; nama: string | null } | null = null
 
-  if (viewingAs) {
+  if (impersonatedEmail) {
+    // Using impersonation cookie
     viewingStudent = await prisma.userNilai.findUnique({
-      where: { nrp: viewingAs },
+      where: { email: impersonatedEmail },
       select: { nrp: true, nama: true },
     })
-    nrp = viewingAs
+    nrp = viewingStudent?.nrp ?? null
+  } else if (legacyViewingAs) {
+    // Using viewAs parameter (legacy)
+    viewingStudent = await prisma.userNilai.findUnique({
+      where: { nrp: legacyViewingAs },
+      select: { nrp: true, nama: true },
+    })
+    nrp = legacyViewingAs
   } else {
+    // Normal user view
     const student = await prisma.userNilai.findUnique({
       where: { email: userEmail },
       select: { nrp: true },
     })
     nrp = student?.nrp ?? null
   }
+
+  // Define viewingAs for JSX: either the impersonated/legacy viewed NRP or null
+  const viewingAs = isImpersonating || legacyViewingAs ? viewingStudent?.nrp ?? legacyViewingAs : null
 
   const stats = await getDashboardStats(nrp ?? "")
   const userInitial = userEmail.charAt(0).toUpperCase()
@@ -327,19 +345,23 @@ export default async function Dashboard({
         </header>
 
         <div className="db-body">
-          {viewingAs && (
+          {(isImpersonating || viewingAs) && (
             <div className="db-impersonate-banner">
               <span>
                 Viewing dashboard for{" "}
-                <strong>{viewingStudent?.nama ?? viewingAs}</strong>{" "}
-                <span style={{ opacity: 0.6, fontFamily: "monospace", fontSize: "12px" }}>({viewingAs})</span>
+                <strong>{viewingStudent?.nama ?? viewingAs ?? "user"}</strong>{" "}
+                <span style={{ opacity: 0.6, fontFamily: "monospace", fontSize: "12px" }}>({viewingStudent?.nrp})</span>
               </span>
-              <Link href="/admin" className="db-back-link">← Back to admin</Link>
+              {isImpersonating ? (
+                <ImpersonationBackButton />
+              ) : (
+                <Link href="/admin" className="db-back-link">← Back to admin</Link>
+              )}
             </div>
           )}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-            <h1 className="db-title">{viewingAs ? "Student Dashboard" : "Dashboard"}</h1>
-            {!viewingAs && <Link href="/evaluate" className="db-nav-link">Start evaluation →</Link>}
+            <h1 className="db-title">{isImpersonating || viewingAs ? "Student Dashboard" : "Dashboard"}</h1>
+            {!isImpersonating && !viewingAs && <Link href="/evaluate" className="db-nav-link">Start evaluation →</Link>}
           </div>
           <p className="db-subtitle">Group evaluations &amp; grade overview.</p>
 
