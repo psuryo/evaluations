@@ -8,7 +8,7 @@ import ImpersonateButton from "./ImpersonateButton"
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
 async function getAdminData() {
-  const [groups, submissions, students, courses] = await Promise.all([
+  const [groups, submissions, students, courses, gradesData] = await Promise.all([
     prisma.group.findMany({
       select: { nrp: true, idkuliah: true },
     }),
@@ -22,33 +22,50 @@ async function getAdminData() {
       select: { idkuliah: true, matkul: true, tahun: true },
       orderBy: { idkuliah: "asc" },
     }),
+    prisma.nilai.findMany({
+      select: { nrp: true, idkuliah: true },
+      distinct: ['nrp', 'idkuliah'],
+    }),
   ])
 
   const studentMap = new Map(students.map((s) => [s.nrp, s]))
   const submittedSet = new Set(submissions.map((s) => `${s.nrp}:${s.idkuliah}`))
 
   // Group members per course
-  const courseGroups = new Map<number, string[]>()
+  const courseGroups = new Map<number, Set<string>>()
   for (const g of groups) {
     if (!g.nrp || !g.idkuliah) continue
-    if (!courseGroups.has(g.idkuliah)) courseGroups.set(g.idkuliah, [])
-    courseGroups.get(g.idkuliah)!.push(g.nrp)
+    if (!courseGroups.has(g.idkuliah)) courseGroups.set(g.idkuliah, new Set())
+    courseGroups.get(g.idkuliah)!.add(g.nrp)
+  }
+
+  // Students with grades per course
+  const courseGrades = new Map<number, Set<string>>()
+  for (const grade of gradesData) {
+    if (!grade.nrp || !grade.idkuliah) continue
+    if (!courseGrades.has(grade.idkuliah)) courseGrades.set(grade.idkuliah, new Set())
+    courseGrades.get(grade.idkuliah)!.add(grade.nrp)
   }
 
   const courseData = courses
-    .filter((c) => courseGroups.has(c.idkuliah))
     .map((c) => {
-      const members = courseGroups.get(c.idkuliah) ?? []
-      const pending = members.filter(
+      const groupMembers = courseGroups.get(c.idkuliah) ?? new Set()
+      const gradedStudents = courseGrades.get(c.idkuliah) ?? new Set()
+      
+      // All students: combine group members and graded students
+      const allStudents = new Set([...groupMembers, ...gradedStudents])
+      const members = Array.from(allStudents)
+
+      const pending = Array.from(groupMembers).filter(
         (nrp) => !submittedSet.has(`${nrp}:${c.idkuliah}`)
       )
-      const submitted = members.length - pending.length
+      const submitted = groupMembers.size - pending.length
 
       return {
         idkuliah: c.idkuliah,
         matkul: c.matkul ?? "Untitled course",
         tahun: c.tahun ?? "—",
-        total: members.length,
+        total: groupMembers.size,
         submitted,
         pending: pending.map((nrp) => ({
           nrp,
@@ -60,6 +77,7 @@ async function getAdminData() {
           nama: studentMap.get(nrp)?.nama ?? nrp,
           email: studentMap.get(nrp)?.email ?? "—",
           submitted: submittedSet.has(`${nrp}:${c.idkuliah}`),
+          inGroup: groupMembers.has(nrp),
         })),
       }
     })
@@ -294,16 +312,20 @@ export default async function AdminPage() {
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                             <span className="student-nrp">{student.nrp}</span>
-                            {student.submitted ? (
-                              <span className="badge badge-ok" style={{ fontSize: 10, padding: "2px 8px" }}>
-                                <span className="badge-dot" />
-                                Submitted
-                              </span>
-                            ) : (
-                              <span className="badge badge-pending" style={{ fontSize: 10, padding: "2px 8px" }}>
-                                <span className="badge-dot" />
-                                Pending
-                              </span>
+                            {student.inGroup && (
+                              <>
+                                {student.submitted ? (
+                                  <span className="badge badge-ok" style={{ fontSize: 10, padding: "2px 8px" }}>
+                                    <span className="badge-dot" />
+                                    Submitted
+                                  </span>
+                                ) : (
+                                  <span className="badge badge-pending" style={{ fontSize: 10, padding: "2px 8px" }}>
+                                    <span className="badge-dot" />
+                                    Pending
+                                  </span>
+                                )}
+                              </>
                             )}
                             <ImpersonateButton 
                               email={student.email} 
