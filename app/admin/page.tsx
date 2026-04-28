@@ -234,6 +234,19 @@ export default async function AdminPage() {
           <h1 className="ad-title">Admin</h1>
           <p className="ad-subtitle">Submission status across all courses and students.</p>
 
+          {/* Quick Access to Evaluation Dashboard */}
+          <div style={{ marginBottom: "40px", padding: "20px", background: "#f8f8f6", borderRadius: "12px", border: "0.5px solid rgba(0,0,0,0.06)" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ fontSize: "15px", fontWeight: "500", color: "#111", marginBottom: "4px" }}>Peer Evaluation Tracker</div>
+                <div style={{ fontSize: "13px", color: "#999", fontWeight: "300" }}>View detailed completion status per group and member</div>
+              </div>
+              <Link href="/admin/evaluations" style={{ fontSize: "13px", color: "#fff", background: "#111", border: "none", borderRadius: "6px", padding: "8px 16px", textDecoration: "none", fontWeight: "500", whiteSpace: "nowrap", cursor: "pointer", transition: "opacity 0.15s" }}>
+                View Evaluations
+              </Link>
+            </div>
+          </div>
+
           <div className="stat-grid">
             <div className="stat-card">
               <p className="stat-label">Total assignments</p>

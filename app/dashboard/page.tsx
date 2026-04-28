@@ -25,19 +25,64 @@ async function getDashboardStats(nrp: string) {
 
   const totalAssignedCourses = requiresEvalIds.length
 
-  const [completedSubmissions, coursesWithGrades] = await Promise.all([
-    prisma.submission.count({
+  const [submissions, coursesWithGrades] = await Promise.all([
+    prisma.submission.findMany({
       where: { nrp, idkuliah: { in: requiresEvalIds } },
+      select: { idkuliah: true, nrp: true },
     }),
     prisma.kuliah.count({
       where: { nilai: { some: {} } },
     }),
   ])
 
-  const pendingEvaluations = Math.max(0, totalAssignedCourses - completedSubmissions)
+  // Check which submissions are actually COMPLETE by verifying they evaluated all group members
+  let completedCount = 0
+  for (const submission of submissions) {
+    const group = await prisma.group.findFirst({
+      where: {
+        nrp: submission.nrp,
+        idkuliah: submission.idkuliah,
+      },
+      select: { group_id: true },
+    })
+
+    if (!group?.group_id) continue
+
+    // Get all group members
+    const groupMembers = await prisma.group.findMany({
+      where: {
+        group_id: group.group_id,
+        idkuliah: submission.idkuliah,
+      },
+      select: { nrp: true },
+    })
+
+    const totalMembers = groupMembers.length
+    const targetCount = totalMembers - 1 // Don't evaluate self
+
+    // Get all evaluations they made and count unique evaluees
+    const evaluations = await prisma.evaluations.findMany({
+      where: {
+        evaluator_nrp: submission.nrp,
+        idkuliah: submission.idkuliah,
+      },
+      select: { evaluated_nrp: true },
+    })
+
+    // Count unique people they evaluated
+    const uniqueEvaluees = new Set(evaluations.map(e => e.evaluated_nrp))
+    const evaluatedCount = uniqueEvaluees.size
+
+    // If they evaluated everyone, mark as complete
+    if (evaluatedCount >= targetCount) {
+      completedCount++
+    }
+  }
+
+  const pendingEvaluations = Math.max(0, totalAssignedCourses - completedCount)
 
   return {
-    completedSubmissions,
+    completedSubmissions: completedCount,
     pendingEvaluations,
     coursesWithGrades,
     totalAssignedCourses,
@@ -403,9 +448,13 @@ export default async function Dashboard({
               )}
             </div>
             {stats.pendingEvaluations > 0 ? (
-              <span className="db-grades-locked">
-                🔒 Locked
-              </span>
+              <Link
+                href={viewingAs ? `/evaluate?viewAs=${viewingAs}` : "/evaluate"}
+                className="db-grades-btn"
+                style={{ background: "#c97d10" }}
+              >
+                Complete evaluation →
+              </Link>
             ) : (
               <Link
                 href={viewingAs ? `/grade?viewAs=${viewingAs}` : "/grade"}
