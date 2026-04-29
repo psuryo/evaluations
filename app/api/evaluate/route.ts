@@ -34,14 +34,26 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Guard: already submitted for this course
+  const transactionItems: any[] = []
+
+  // Check if they already submitted
   const existing = await prisma.submission.findFirst({
     where: { nrp: evaluatorNrp, idkuliah },
   })
+  
   if (existing) {
-    return NextResponse.json(
-      { error: "Already submitted for this course" },
-      { status: 409 }
+    // Delete existing evaluations so we can replace them with the new complete set
+    transactionItems.push(
+      prisma.evaluations.deleteMany({
+        where: { evaluator_nrp: evaluatorNrp, idkuliah }
+      })
+    )
+  } else {
+    // Create submission record for the first time
+    transactionItems.push(
+      prisma.submission.create({
+        data: { nrp: evaluatorNrp, idkuliah },
+      })
     )
   }
 
@@ -61,12 +73,9 @@ export async function POST(req: NextRequest) {
       )
   )
 
-  await prisma.$transaction([
-    ...evaluationRows,
-    prisma.submission.create({
-      data: { nrp: evaluatorNrp, idkuliah },
-    }),
-  ])
+  transactionItems.push(...evaluationRows)
+
+  await prisma.$transaction(transactionItems)
 
   return NextResponse.json({ ok: true })
 }
