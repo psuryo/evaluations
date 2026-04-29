@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { prisma } from "@/app/src/lib/prisma"
-import { getGroupEvaluationStatus } from "@/app/src/lib/evaluationStatus"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
@@ -17,53 +16,39 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { searchParams } = new URL(req.url)
-    const idkuliah = searchParams.get("idkuliah")
-
-    // Get all group records
-    const where: any = { group_id: { not: null } }
-    if (idkuliah) {
-      where.idkuliah = parseInt(idkuliah)
-    }
-
-    const allGroupRecords = await prisma.group.findMany({
-      where,
-      select: { group_id: true, idkuliah: true },
-      orderBy: [{ idkuliah: "asc" }, { group_id: "asc" }],
-    })
-
-    // Deduplicate groups in memory
-    const uniqueGroupsMap = new Map<string, { group_id: string; idkuliah: number }>()
-    allGroupRecords.forEach((g) => {
-      if (g.group_id !== null && g.idkuliah !== null) {
-        const key = `${g.group_id}:${g.idkuliah}`
-        if (!uniqueGroupsMap.has(key)) {
-          uniqueGroupsMap.set(key, { group_id: g.group_id, idkuliah: g.idkuliah })
-        }
-      }
-    })
-    const uniqueGroups = Array.from(uniqueGroupsMap.values())
-
-    const courseMap = new Map<number, string>()
-    const courses = await prisma.kuliah.findMany({
-      select: { idkuliah: true, matkul: true },
-    })
-    courses.forEach((c) => courseMap.set(c.idkuliah, c.matkul ?? "Unknown"))
-
-    // Get status for all groups
-    const statusData = await Promise.all(
-      uniqueGroups.map((g) =>
-        getGroupEvaluationStatus(g.group_id!, g.idkuliah!)
-          .catch((error) => {
-            console.error(`Error getting status for group ${g.group_id} in course ${g.idkuliah}:`, error)
-            return null
-          })
+    const stats = await prisma.$queryRaw`
+      WITH DoneCounts AS (
+        SELECT evaluator_nrp, idkuliah, count(evaluated_nrp)::int as done_count 
+        FROM evaluations 
+        GROUP BY evaluator_nrp, idkuliah
+      ),
+      GroupShouldDo AS (
+        SELECT group_id, idkuliah, (count(nrp) - 1)*3::int as should_do 
+        FROM "group" 
+        GROUP BY group_id, idkuliah
+      ),
+      UserGroups AS (
+        SELECT g.nrp, g.idkuliah, SUM(gs.should_do)::int as total_should_do
+        FROM "group" g
+        JOIN GroupShouldDo gs ON g.group_id = gs.group_id AND g.idkuliah = gs.idkuliah
+        GROUP BY g.nrp, g.idkuliah
       )
-    ).then((results) => results.filter((r) => r !== null))
+      SELECT 
+        ug.nrp as evaluator_nrp,
+        u.nama,
+        k.matkul,
+        k.idkuliah,
+        COALESCE(dc.done_count, 0)::int as done_count,
+        ug.total_should_do as should_do
+      FROM UserGroups ug
+      LEFT JOIN DoneCounts dc ON ug.nrp = dc.evaluator_nrp AND ug.idkuliah = dc.idkuliah
+      LEFT JOIN usernilai u ON ug.nrp = u.nrp
+      LEFT JOIN kuliah k ON ug.idkuliah = k.idkuliah
+      ORDER BY ug.idkuliah ASC, (ug.total_should_do - COALESCE(dc.done_count, 0)) DESC;
+    `
 
     return NextResponse.json({
-      groups: statusData,
-      courseMap: Object.fromEntries(courseMap),
+      stats
     })
   } catch (error) {
     console.error("Error fetching evaluation status:", error)

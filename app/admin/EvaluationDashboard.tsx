@@ -3,316 +3,153 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 
-interface PersonEvaluationStatus {
-  nrp: string
-  nama?: string
-  hasSubmitted: boolean
-  isInProgress: boolean
-  isSubmittedButIncomplete: boolean
-  evaluatedCount: number
-  evaluatedBy: string[]
-  missingEvaluators: string[]
-  criteriaScores: Record<number, boolean>
-  isComplete: boolean
-}
-
-interface GroupCompletionStatus {
-  groupId: string
+interface EvaluatorStat {
+  evaluator_nrp: string
+  nama: string | null
+  matkul: string | null
   idkuliah: number
-  totalMembers: number
-  submittedCount: number
-  allSubmitted: boolean
-  memberStatus: PersonEvaluationStatus[]
-  summaryByPerson: Record<
-    string,
-    {
-      submitted: boolean
-      evaluatedByCount: number
-      isComplete: boolean
-    }
-  >
-}
-
-interface DashboardData {
-  groups: GroupCompletionStatus[]
-  courseMap: Record<number, string>
+  done_count: number
+  should_do: number
 }
 
 export default function EvaluationDashboard() {
-  const [data, setData] = useState<DashboardData | null>(null)
+  const [stats, setStats] = useState<EvaluatorStat[] | null>(null)
   const [loading, setLoading] = useState(true)
-  const [expandedGroup, setExpandedGroup] = useState<string | null>(null)
 
   useEffect(() => {
     fetch("/api/admin/evaluation-status")
       .then((res) => res.json())
       .then((data) => {
-        setData(data)
+        setStats(data.stats)
         setLoading(false)
       })
       .catch((error) => {
-        console.error("Error fetching evaluation status:", error)
+        console.error("Error fetching evaluation stats:", error)
         setLoading(false)
       })
   }, [])
 
   if (loading) {
-    return <div className="p-8 text-center">Loading evaluation data...</div>
+    return <div className="p-8 text-center text-gray-500">Loading evaluation statistics...</div>
   }
 
-  if (!data) {
+  if (!stats) {
     return <div className="p-8 text-center text-red-500">Failed to load data</div>
   }
 
-  const completedGroups = data.groups.filter((g) => g.allSubmitted && g.memberStatus.every(m => m.isComplete))
-  const incompleteGroups = data.groups.filter((g) => !g.allSubmitted || g.memberStatus.some(m => !m.isComplete))
+  // Group stats by course
+  const coursesMap = new Map<number, { idkuliah: number; matkul: string; evaluators: EvaluatorStat[] }>()
+  stats.forEach(stat => {
+    if (!coursesMap.has(stat.idkuliah)) {
+      coursesMap.set(stat.idkuliah, {
+        idkuliah: stat.idkuliah,
+        matkul: stat.matkul || "Unknown Course",
+        evaluators: []
+      })
+    }
+    coursesMap.get(stat.idkuliah)!.evaluators.push(stat)
+  })
 
-  // Calculate overall statistics
-  const totalMembers = data.groups.reduce((sum, g) => sum + g.totalMembers, 0)
-  const totalCompleted = data.groups.reduce((sum, g) => {
-    return sum + g.memberStatus.filter((m) => m.isComplete).length
-  }, 0)
-  const totalSubmittedButIncomplete = data.groups.reduce((sum, g) => {
-    return sum + g.memberStatus.filter((m) => m.isSubmittedButIncomplete).length
-  }, 0)
-  const totalInProgress = data.groups.reduce((sum, g) => {
-    return sum + g.memberStatus.filter((m) => m.isInProgress).length
-  }, 0)
-  const totalNotStarted = totalMembers - totalCompleted - totalSubmittedButIncomplete - totalInProgress
+  const courses = Array.from(coursesMap.values())
 
   return (
     <div className="space-y-8">
-      {/* Stats Section */}
-      <div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
-            <div className="text-4xl font-bold text-blue-700 mb-2">
-              {data.groups.length}
-            </div>
-            <div className="text-sm font-medium text-blue-600">Total Groups</div>
-          </div>
-          <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200">
-            <div className="text-4xl font-bold text-green-700 mb-2">
-              {totalCompleted}
-            </div>
-            <div className="text-sm font-medium text-green-600">Completed ✓</div>
-          </div>
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200">
-            <div className="text-4xl font-bold text-orange-700 mb-2">
-              {totalSubmittedButIncomplete}
-            </div>
-            <div className="text-sm font-medium text-orange-600">Incomplete ⚠</div>
-          </div>
-          <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 p-6 rounded-xl border border-cyan-200">
-            <div className="text-4xl font-bold text-cyan-700 mb-2">
-              {totalInProgress}
-            </div>
-            <div className="text-sm font-medium text-cyan-600">In Progress ◐</div>
-          </div>
-          <div className="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border border-red-200">
-            <div className="text-4xl font-bold text-red-700 mb-2">
-              {totalNotStarted}
-            </div>
-            <div className="text-sm font-medium text-red-600">Not Started ✗</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Completed Groups */}
-      {completedGroups.length > 0 && (
-        <section>
-          <h3 className="text-lg font-semibold mb-4 text-green-800 flex items-center gap-2">
-            <span className="text-2xl">✓</span> Completed ({completedGroups.length})
-          </h3>
-          <div className="space-y-3">
-            {completedGroups.map((group) => (
-              <div
-                key={`${group.groupId}-${group.idkuliah}`}
-                className="bg-gradient-to-r from-green-50 to-green-100 p-5 rounded-xl border-l-4 border-green-500 hover:shadow-md transition"
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="font-bold text-green-900 text-lg">
-                      {group.groupId}
-                    </div>
-                    <div className="text-sm text-green-700 mt-1">
-                      {data.courseMap[group.idkuliah] || "Unknown Course"}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-green-600">
-                      {group.totalMembers}/{group.totalMembers}
-                    </div>
-                    <div className="text-xs text-green-600 font-medium">members completed</div>
-                  </div>
+      {courses.map((course) => {
+        // Calculate totals for course
+        const totalDone = course.evaluators.reduce((sum, e) => sum + e.done_count, 0)
+        const totalShouldDo = course.evaluators.reduce((sum, e) => sum + e.should_do, 0)
+        const completionRate = totalShouldDo > 0 ? (totalDone / totalShouldDo) * 100 : 0
+        
+        return (
+          <div key={course.idkuliah} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="p-6 border-b border-gray-100 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">{course.matkul}</h3>
+                <p className="text-sm text-gray-500 mt-1">Course ID: {course.idkuliah} • {course.evaluators.length} Evaluators</p>
+              </div>
+              <div className="flex items-center gap-4 bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm">
+                <div className="text-center">
+                  <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Completion</div>
+                  <div className="text-lg font-bold text-blue-600">{completionRate.toFixed(1)}%</div>
+                </div>
+                <div className="h-8 w-px bg-gray-200"></div>
+                <div className="text-center">
+                  <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Done / Total</div>
+                  <div className="text-lg font-bold text-gray-800">{totalDone} / {totalShouldDo}</div>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Incomplete/Pending Groups */}
-      {incompleteGroups.length > 0 && (
-        <section>
-          <h3 className="text-lg font-semibold mb-4 text-orange-800 flex items-center gap-2">
-            <span className="text-2xl">⚠</span> Pending ({incompleteGroups.length})
-          </h3>
-          <div className="space-y-4">
-            {incompleteGroups.map((group) => {
-              const groupKey = `${group.groupId}-${group.idkuliah}`
-              return (
-              <div
-                key={groupKey}
-                className="bg-white border-2 border-orange-200 rounded-xl overflow-hidden hover:shadow-lg transition"
-              >
-                <button
-                  onClick={() => {
-                    setExpandedGroup(expandedGroup === groupKey ? null : groupKey)
-                  }}
-                  className="w-full bg-gradient-to-r from-orange-50 to-yellow-50 p-6 hover:from-orange-100 hover:to-yellow-100 transition text-left"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <div className="font-bold text-orange-900 text-lg">
-                        {group.groupId}
-                      </div>
-                      <div className="text-sm text-orange-700 mt-1">
-                        {data.courseMap[group.idkuliah] || "Unknown Course"}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-orange-600">
-                        {group.submittedCount}/{group.totalMembers}
-                      </div>
-                      <div className="text-xs text-orange-600 font-medium">members submitted</div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        {expandedGroup === groupKey ? "▲" : "▼"} Click to expand
-                      </div>
-                    </div>
-                  </div>
-                </button>
-
-                {expandedGroup === groupKey && (
-                  <div className="bg-gray-50 p-6 space-y-4 border-t-2 border-orange-200">
-                    {group.memberStatus.map((member) => (
-                      <div
-                        key={member.nrp}
-                        className={`p-5 rounded-xl border-l-4 ${
-                          member.isComplete
-                            ? "bg-green-50 border-green-500"
-                            : member.isSubmittedButIncomplete
-                            ? "bg-orange-50 border-orange-500"
-                            : member.isInProgress
-                            ? "bg-blue-50 border-blue-500"
-                            : "bg-red-50 border-red-500"
-                        }`}
-                      >
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="flex-1">
-                            <div className="font-bold text-lg text-gray-800">
-                              {member.nama && member.nama !== member.nrp
-                                ? `${member.nama} (${member.nrp})`
-                                : member.nrp}
-                            </div>
-                            <div className="mt-2 flex gap-2 flex-wrap">
-                              {member.isComplete && (
-                                <span className="inline-block px-3 py-1 bg-green-200 text-green-800 rounded-full text-xs font-semibold">✓ Completed</span>
-                              )}
-                              {member.isSubmittedButIncomplete && (
-                                <span className="inline-block px-3 py-1 bg-orange-200 text-orange-800 rounded-full text-xs font-semibold">⚠ Submitted but incomplete</span>
-                              )}
-                              {member.isInProgress && (
-                                <span className="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-semibold">◐ In Progress</span>
-                              )}
-                              {!member.hasSubmitted && !member.isInProgress && (
-                                <span className="inline-block px-3 py-1 bg-red-200 text-red-800 rounded-full text-xs font-semibold">✗ Not started</span>
-                              )}
-                            </div>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-white border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+                    <th className="p-4 pl-6">NRP</th>
+                    <th className="p-4">Name</th>
+                    <th className="p-4 text-center">Done</th>
+                    <th className="p-4 text-center">Should Do</th>
+                    <th className="p-4 pr-6 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {course.evaluators.map((ev) => {
+                    const isComplete = ev.done_count >= ev.should_do
+                    const isMissing = ev.done_count < ev.should_do
+                    const percentComplete = ev.should_do > 0 ? (ev.done_count / ev.should_do) * 100 : 100
+                    
+                    return (
+                      <tr key={ev.evaluator_nrp} className="hover:bg-gray-50 transition-colors group">
+                        <td className="p-4 pl-6 font-mono text-sm text-gray-600">
+                          {ev.evaluator_nrp}
+                        </td>
+                        <td className="p-4">
+                          <div className="font-medium text-gray-900">{ev.nama || "Unknown"}</div>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex justify-center">
+                            <span className={`inline-flex items-center justify-center px-2.5 py-1 text-sm font-bold rounded-md ${isMissing ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-800'}`}>
+                              {ev.done_count}
+                            </span>
                           </div>
-                          <div className="text-right ml-6 bg-gray-100 px-4 py-2 rounded-lg">
-                            <div className="text-2xl font-bold text-gray-700">
-                              {member.evaluatedCount}/{group.totalMembers - 1}
-                            </div>
-                            <div className="text-xs text-gray-600 font-medium">Evaluated</div>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex justify-center">
+                            <span className="inline-flex items-center justify-center px-2.5 py-1 text-sm font-medium rounded-md bg-gray-100 text-gray-600">
+                              {ev.should_do}
+                            </span>
                           </div>
-                        </div>
-
-                        {/* Evaluation Summary Section */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                          {member.hasSubmitted && (
-                            <div className="p-3 bg-green-50 border border-green-300 rounded-lg">
-                              <div className="text-xs font-semibold text-green-900 mb-1">✓ Submitted</div>
-                              <div className="text-sm text-green-700">Form submitted</div>
+                        </td>
+                        <td className="p-4 pr-6 text-right">
+                          {isComplete ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 border border-green-200 text-xs font-semibold">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                              Complete
                             </div>
-                          )}
-                          {member.isInProgress && !member.hasSubmitted && (
-                            <div className="p-3 bg-blue-50 border border-blue-300 rounded-lg">
-                              <div className="text-xs font-semibold text-blue-900 mb-1">◐ In Progress</div>
-                              <div className="text-sm text-blue-700">Started but not submitted</div>
-                            </div>
-                          )}
-                          {!member.hasSubmitted && !member.isInProgress && (
-                            <div className="p-3 bg-red-50 border border-red-300 rounded-lg">
-                              <div className="text-xs font-semibold text-red-900 mb-1">✗ Not Started</div>
-                              <div className="text-sm text-red-700">No evaluation begun</div>
-                            </div>
-                          )}
-                          <div className="p-3 bg-blue-50 border border-blue-300 rounded-lg">
-                            <div className="text-xs font-semibold text-blue-900 mb-1">📊 Progress</div>
-                            <div className="text-sm text-blue-700">Evaluated {member.evaluatedCount} of {group.totalMembers - 1} members</div>
-                          </div>
-                        </div>
-
-                        {/* People this member hasn't evaluated */}
-                        {(member.isSubmittedButIncomplete || member.isInProgress) && (
-                          (() => {
-                            const notEvaluatedBy = group.memberStatus
-                              .filter(other => other.nrp !== member.nrp && !other.evaluatedBy.includes(member.nrp))
-                              .map(other => ({
-                                nrp: other.nrp,
-                                nama: other.nama
-                              }))
-                            
-                            return notEvaluatedBy.length > 0 ? (
-                              <div className="mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
-                                <div className="font-bold text-red-900 mb-3 flex items-center gap-2">
-                                  <span>❌ {member.nama || member.nrp} hasn't evaluated {notEvaluatedBy.length} person(s)</span>
-                                </div>
-                                <div className="text-red-800 text-sm space-y-2">
-                                  <div className="text-xs font-semibold text-red-700 uppercase">Still needs to evaluate:</div>
-                                  <div className="space-y-2">
-                                    {notEvaluatedBy.map((target) => (
-                                      <div key={target.nrp} className="flex items-center gap-2 p-2 bg-white rounded border border-red-200">
-                                        <span className="text-red-600">→</span>
-                                        <span className="text-red-700 font-medium">
-                                          {target.nama && target.nama !== target.nrp
-                                            ? `${target.nama} (${target.nrp})`
-                                            : target.nrp}
-                                        </span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
+                          ) : (
+                            <div className="inline-flex items-center justify-end gap-2 w-full">
+                              <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className="h-full bg-orange-500 rounded-full" style={{ width: `${Math.min(percentComplete, 100)}%` }}></div>
                               </div>
-                            ) : null
-                          })()
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )
-            })}
+                              <span className="text-xs font-semibold text-orange-600 w-16 text-right">
+                                {ev.should_do - ev.done_count} missing
+                              </span>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </section>
-      )}
-
-      {data.groups.length === 0 && (
-        <div className="text-center p-16 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
-          <div className="text-gray-500 text-lg">📊 No groups found</div>
-          <div className="text-gray-400 text-sm mt-2">There are no groups with evaluation data yet</div>
+        )
+      })}
+      
+      {courses.length === 0 && (
+        <div className="text-center p-16 bg-white rounded-xl border border-dashed border-gray-300">
+          <div className="text-gray-500 text-lg font-medium">No evaluation statistics available</div>
+          <div className="text-gray-400 text-sm mt-2">There are no courses with assigned groups yet.</div>
         </div>
       )}
     </div>
