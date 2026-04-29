@@ -76,7 +76,7 @@ export async function getGroupEvaluationStatus(
   })
 
   const startedEvaluatorSet = new Set(
-    startedEvaluators.map((e) => e.evaluator_nrp).filter(Boolean)
+    startedEvaluators.map((e) => e.evaluator_nrp).filter((e): e is string => e !== null)
   )
 
   // 4. For each member, check evaluation details
@@ -93,7 +93,7 @@ export async function getGroupEvaluationStatus(
       })
 
       const evaluatedBySet = new Set(
-        evaluators.map((e) => e.evaluator_nrp).filter(Boolean)
+        evaluators.map((e) => e.evaluator_nrp).filter((e): e is string => e !== null)
       )
 
       const missingEvaluators = memberNrps.filter(

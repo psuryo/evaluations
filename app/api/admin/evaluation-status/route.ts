@@ -35,9 +35,11 @@ export async function GET(req: NextRequest) {
     // Deduplicate groups in memory
     const uniqueGroupsMap = new Map<string, { group_id: string; idkuliah: number }>()
     allGroupRecords.forEach((g) => {
-      const key = `${g.group_id}:${g.idkuliah}`
-      if (!uniqueGroupsMap.has(key)) {
-        uniqueGroupsMap.set(key, g)
+      if (g.group_id !== null && g.idkuliah !== null) {
+        const key = `${g.group_id}:${g.idkuliah}`
+        if (!uniqueGroupsMap.has(key)) {
+          uniqueGroupsMap.set(key, { group_id: g.group_id, idkuliah: g.idkuliah })
+        }
       }
     })
     const uniqueGroups = Array.from(uniqueGroupsMap.values())
