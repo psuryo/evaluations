@@ -57,9 +57,6 @@ async function getDashboardStats(nrp: string) {
       select: { nrp: true },
     })
 
-    const totalMembers = groupMembers.length
-    const targetCount = totalMembers - 1 // Don't evaluate self
-
     // Get all evaluations they made and count unique evaluees
     const evaluations = await prisma.evaluations.findMany({
       where: {
@@ -69,12 +66,22 @@ async function getDashboardStats(nrp: string) {
       select: { evaluated_nrp: true },
     })
 
-    // Count unique people they evaluated
-    const uniqueEvaluees = new Set(evaluations.map(e => e.evaluated_nrp))
-    const evaluatedCount = uniqueEvaluees.size
+    // Count evaluations per person (must be at least 3 per kriteria)
+    const evaluationCounts: Record<string, number> = {}
+    for (const evaluation of evaluations) {
+      if (evaluation.evaluated_nrp) {
+        evaluationCounts[evaluation.evaluated_nrp] = (evaluationCounts[evaluation.evaluated_nrp] || 0) + 1
+      }
+    }
 
-    // If they evaluated everyone, mark as complete
-    if (evaluatedCount >= targetCount) {
+    // Check if all group members were evaluated at least 3 times
+    const allGroupMembersEvaluated = groupMembers.every(member => {
+      if (!member.nrp || member.nrp === submission.nrp) return true // Skip self or null nrp
+      return (evaluationCounts[member.nrp] || 0) >= 3 // Must have at least 3 evaluations
+    })
+
+    // If all group members evaluated 3 times, mark as complete
+    if (allGroupMembersEvaluated) {
       completedCount++
     }
   }
