@@ -39,6 +39,7 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
   // Load existing evaluations if submission exists
   const existingEvaluations: Record<string, Record<string, number>> = {}
   let isComplete = false
+  let hasIncompleteSubmission = false
 
   if (peerNrps.length === 0) {
     // No peers to evaluate = automatically complete
@@ -63,6 +64,7 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
     })
 
     isComplete = allComplete
+    hasIncompleteSubmission = !allComplete && evaluations.length > 0
   }
 
   return {
@@ -70,6 +72,7 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
     peers,
     kriteriaList,
     alreadySubmitted: isComplete,
+    hasIncompleteSubmission,
     noGroup: false,
     existingEvaluations,
   }
@@ -207,6 +210,7 @@ export default async function EvaluateCourse({
               peers={data.peers}
               kriteriaList={data.kriteriaList}
               alreadySubmitted={data.alreadySubmitted}
+              hasIncompleteSubmission={data.hasIncompleteSubmission}
               idkuliah={idkuliah}
               existingEvaluations={data.existingEvaluations}
             />

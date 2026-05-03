@@ -20,6 +20,7 @@ type Props = {
   peers: Peer[]
   kriteriaList: Kriteria[]
   alreadySubmitted: boolean
+  hasIncompleteSubmission?: boolean
   idkuliah: number
   existingEvaluations?: ScoreMap
 }
@@ -58,6 +59,7 @@ export default function EvaluationForm({
   peers,
   kriteriaList,
   alreadySubmitted,
+  hasIncompleteSubmission,
   idkuliah,
   existingEvaluations,
 }: Props) {
@@ -129,7 +131,19 @@ export default function EvaluationForm({
     }
   }
 
-  if (alreadySubmitted || status === "done") {
+  if (alreadySubmitted && status === "done") {
+    return (
+      <>
+        <div className="ev-done">
+          <div className="ev-done-icon">✓</div>
+          <h2 className="ev-done-title">Evaluation submitted</h2>
+          <p className="ev-done-sub">Your peer grades for this course have been recorded.</p>
+        </div>
+      </>
+    )
+  }
+
+  if (alreadySubmitted && !hasIncompleteSubmission) {
     return (
       <>
         <div className="ev-done">
