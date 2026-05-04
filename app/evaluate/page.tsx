@@ -15,7 +15,7 @@ async function getCourseList(nrp: string) {
     .map((g) => g.idkuliah)
     .filter(Boolean) as number[]
 
-  const [courses, kriteriaList, groupsWithMembers, evaluations] = await Promise.all([
+  const [courses, kriteriaList, groupsWithMembers, evaluations, submissions] = await Promise.all([
     prisma.kuliah.findMany({
       where: { idkuliah: { in: idkuliahList } },
       orderBy: { idkuliah: "asc" },
@@ -29,7 +29,16 @@ async function getCourseList(nrp: string) {
       where: { evaluator_nrp: nrp, idkuliah: { in: idkuliahList } },
       select: { idkuliah: true, idkriteria: true, evaluated_nrp: true, score: true },
     }),
+    prisma.submission.findMany({
+      where: { nrp, idkuliah: { in: idkuliahList } },
+      select: { idkuliah: true },
+    }),
   ])
+
+  // Build set of submitted course IDs
+  const submissionSet = new Set<number>(
+    submissions.map((s) => s.idkuliah).filter((id) => id !== null && id !== undefined) as number[]
+  )
 
   // Group evaluations by course
   const evaluationsByIdkuliah = new Map<number, typeof evaluations>()
@@ -43,6 +52,9 @@ async function getCourseList(nrp: string) {
   // For each course, check if evaluation is complete
   const submittedSet = new Set<number>()
   for (const course of courses) {
+    // Must have a submission record
+    if (!submissionSet.has(course.idkuliah)) continue
+
     // Get peer list for this course
     const groupInfo = groupsWithMembers.find((g) => g.idkuliah === course.idkuliah)
     if (!groupInfo?.group_id) continue
@@ -72,7 +84,7 @@ async function getCourseList(nrp: string) {
       return total === 100
     })
 
-    // Mark as submitted if: no peers (nothing to evaluate) OR all criteria complete
+    // Mark as submitted if: all criteria complete (AND submission exists from above check)
     if (peerNrps.length === 0 || isComplete) {
       submittedSet.add(course.idkuliah)
     }
