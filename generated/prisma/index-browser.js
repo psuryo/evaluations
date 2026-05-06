@@ -124,9 +124,7 @@ exports.Prisma.EvaluationsScalarFieldEnum = {
   id: 'id',
   evaluator_nrp: 'evaluator_nrp',
   evaluated_nrp: 'evaluated_nrp',
-  score: 'score',
-  idkuliah: 'idkuliah',
-  idkriteria: 'idkriteria'
+  points: 'points'
 };
 
 exports.Prisma.GroupScalarFieldEnum = {

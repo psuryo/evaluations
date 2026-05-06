@@ -14,18 +14,11 @@ datasource db {
 }
 
 model Evaluations {
-  id            Int       @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   evaluator_nrp String?
   evaluated_nrp String?
-  score         Int?      // 1–10 per criteria (replaces `points`)
-  idkuliah      Int?
-  idkriteria    Int?      // ← new: which criteria this score is for
+  points        Int?
 
-  kuliah        Kuliah?   @relation(fields: [idkuliah], references: [idkuliah], onDelete: NoAction, onUpdate: NoAction)
-  kriteria      Kriteria? @relation(fields: [idkriteria], references: [idkriteria], onDelete: NoAction, onUpdate: NoAction)
-
-  // One score per evaluator × evaluated × criteria × course
-  @@unique([evaluator_nrp, evaluated_nrp, idkriteria, idkuliah])
   @@map("evaluations")
 }
 
@@ -41,20 +34,18 @@ model Group {
 }
 
 model Kriteria {
-  idkriteria   Int          @id(map: "kriteria_pk") @default(autoincrement())
-  namakriteria String?      @db.VarChar
+  idkriteria   Int     @id(map: "kriteria_pk") @default(autoincrement())
+  namakriteria String? @db.VarChar
   bobot        Int?
-  evaluations  Evaluations[]
 
   @@map("kriteria")
 }
 
 model Kuliah {
-  idkuliah    Int           @id(map: "kategori_pk") @default(autoincrement())
-  matkul      String?       @db.VarChar
-  tahun       String?       @db.VarChar
+  idkuliah    Int     @id(map: "kategori_pk") @default(autoincrement())
+  matkul      String? @db.VarChar
+  tahun       String? @db.VarChar
   nilai       Nilai[]
-  evaluations Evaluations[]
   groups      Group[]
   submissions Submission[]
 

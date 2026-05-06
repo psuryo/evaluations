@@ -1772,50 +1772,17 @@ export namespace Prisma {
 
 
   /**
-   * Count Type KriteriaCountOutputType
-   */
-
-  export type KriteriaCountOutputType = {
-    evaluations: number
-  }
-
-  export type KriteriaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    evaluations?: boolean | KriteriaCountOutputTypeCountEvaluationsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * KriteriaCountOutputType without action
-   */
-  export type KriteriaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the KriteriaCountOutputType
-     */
-    select?: KriteriaCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * KriteriaCountOutputType without action
-   */
-  export type KriteriaCountOutputTypeCountEvaluationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EvaluationsWhereInput
-  }
-
-
-  /**
    * Count Type KuliahCountOutputType
    */
 
   export type KuliahCountOutputType = {
     nilai: number
-    evaluations: number
     groups: number
     submissions: number
   }
 
   export type KuliahCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     nilai?: boolean | KuliahCountOutputTypeCountNilaiArgs
-    evaluations?: boolean | KuliahCountOutputTypeCountEvaluationsArgs
     groups?: boolean | KuliahCountOutputTypeCountGroupsArgs
     submissions?: boolean | KuliahCountOutputTypeCountSubmissionsArgs
   }
@@ -1836,13 +1803,6 @@ export namespace Prisma {
    */
   export type KuliahCountOutputTypeCountNilaiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NilaiWhereInput
-  }
-
-  /**
-   * KuliahCountOutputType without action
-   */
-  export type KuliahCountOutputTypeCountEvaluationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EvaluationsWhereInput
   }
 
   /**
@@ -1949,86 +1909,66 @@ export namespace Prisma {
 
   export type EvaluationsAvgAggregateOutputType = {
     id: number | null
-    score: number | null
-    idkuliah: number | null
-    idkriteria: number | null
+    points: number | null
   }
 
   export type EvaluationsSumAggregateOutputType = {
     id: number | null
-    score: number | null
-    idkuliah: number | null
-    idkriteria: number | null
+    points: number | null
   }
 
   export type EvaluationsMinAggregateOutputType = {
     id: number | null
     evaluator_nrp: string | null
     evaluated_nrp: string | null
-    score: number | null
-    idkuliah: number | null
-    idkriteria: number | null
+    points: number | null
   }
 
   export type EvaluationsMaxAggregateOutputType = {
     id: number | null
     evaluator_nrp: string | null
     evaluated_nrp: string | null
-    score: number | null
-    idkuliah: number | null
-    idkriteria: number | null
+    points: number | null
   }
 
   export type EvaluationsCountAggregateOutputType = {
     id: number
     evaluator_nrp: number
     evaluated_nrp: number
-    score: number
-    idkuliah: number
-    idkriteria: number
+    points: number
     _all: number
   }
 
 
   export type EvaluationsAvgAggregateInputType = {
     id?: true
-    score?: true
-    idkuliah?: true
-    idkriteria?: true
+    points?: true
   }
 
   export type EvaluationsSumAggregateInputType = {
     id?: true
-    score?: true
-    idkuliah?: true
-    idkriteria?: true
+    points?: true
   }
 
   export type EvaluationsMinAggregateInputType = {
     id?: true
     evaluator_nrp?: true
     evaluated_nrp?: true
-    score?: true
-    idkuliah?: true
-    idkriteria?: true
+    points?: true
   }
 
   export type EvaluationsMaxAggregateInputType = {
     id?: true
     evaluator_nrp?: true
     evaluated_nrp?: true
-    score?: true
-    idkuliah?: true
-    idkriteria?: true
+    points?: true
   }
 
   export type EvaluationsCountAggregateInputType = {
     id?: true
     evaluator_nrp?: true
     evaluated_nrp?: true
-    score?: true
-    idkuliah?: true
-    idkriteria?: true
+    points?: true
     _all?: true
   }
 
@@ -2122,9 +2062,7 @@ export namespace Prisma {
     id: number
     evaluator_nrp: string | null
     evaluated_nrp: string | null
-    score: number | null
-    idkuliah: number | null
-    idkriteria: number | null
+    points: number | null
     _count: EvaluationsCountAggregateOutputType | null
     _avg: EvaluationsAvgAggregateOutputType | null
     _sum: EvaluationsSumAggregateOutputType | null
@@ -2150,71 +2088,40 @@ export namespace Prisma {
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
-    score?: boolean
-    idkuliah?: boolean
-    idkriteria?: boolean
-    kuliah?: boolean | Evaluations$kuliahArgs<ExtArgs>
-    kriteria?: boolean | Evaluations$kriteriaArgs<ExtArgs>
+    points?: boolean
   }, ExtArgs["result"]["evaluations"]>
 
   export type EvaluationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
-    score?: boolean
-    idkuliah?: boolean
-    idkriteria?: boolean
-    kuliah?: boolean | Evaluations$kuliahArgs<ExtArgs>
-    kriteria?: boolean | Evaluations$kriteriaArgs<ExtArgs>
+    points?: boolean
   }, ExtArgs["result"]["evaluations"]>
 
   export type EvaluationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
-    score?: boolean
-    idkuliah?: boolean
-    idkriteria?: boolean
-    kuliah?: boolean | Evaluations$kuliahArgs<ExtArgs>
-    kriteria?: boolean | Evaluations$kriteriaArgs<ExtArgs>
+    points?: boolean
   }, ExtArgs["result"]["evaluations"]>
 
   export type EvaluationsSelectScalar = {
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
-    score?: boolean
-    idkuliah?: boolean
-    idkriteria?: boolean
+    points?: boolean
   }
 
-  export type EvaluationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "evaluator_nrp" | "evaluated_nrp" | "score" | "idkuliah" | "idkriteria", ExtArgs["result"]["evaluations"]>
-  export type EvaluationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    kuliah?: boolean | Evaluations$kuliahArgs<ExtArgs>
-    kriteria?: boolean | Evaluations$kriteriaArgs<ExtArgs>
-  }
-  export type EvaluationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    kuliah?: boolean | Evaluations$kuliahArgs<ExtArgs>
-    kriteria?: boolean | Evaluations$kriteriaArgs<ExtArgs>
-  }
-  export type EvaluationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    kuliah?: boolean | Evaluations$kuliahArgs<ExtArgs>
-    kriteria?: boolean | Evaluations$kriteriaArgs<ExtArgs>
-  }
+  export type EvaluationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "evaluator_nrp" | "evaluated_nrp" | "points", ExtArgs["result"]["evaluations"]>
 
   export type $EvaluationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Evaluations"
-    objects: {
-      kuliah: Prisma.$KuliahPayload<ExtArgs> | null
-      kriteria: Prisma.$KriteriaPayload<ExtArgs> | null
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       evaluator_nrp: string | null
       evaluated_nrp: string | null
-      score: number | null
-      idkuliah: number | null
-      idkriteria: number | null
+      points: number | null
     }, ExtArgs["result"]["evaluations"]>
     composites: {}
   }
@@ -2609,8 +2516,6 @@ export namespace Prisma {
    */
   export interface Prisma__EvaluationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    kuliah<T extends Evaluations$kuliahArgs<ExtArgs> = {}>(args?: Subset<T, Evaluations$kuliahArgs<ExtArgs>>): Prisma__KuliahClient<$Result.GetResult<Prisma.$KuliahPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    kriteria<T extends Evaluations$kriteriaArgs<ExtArgs> = {}>(args?: Subset<T, Evaluations$kriteriaArgs<ExtArgs>>): Prisma__KriteriaClient<$Result.GetResult<Prisma.$KriteriaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2643,9 +2548,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Evaluations", 'Int'>
     readonly evaluator_nrp: FieldRef<"Evaluations", 'String'>
     readonly evaluated_nrp: FieldRef<"Evaluations", 'String'>
-    readonly score: FieldRef<"Evaluations", 'Int'>
-    readonly idkuliah: FieldRef<"Evaluations", 'Int'>
-    readonly idkriteria: FieldRef<"Evaluations", 'Int'>
+    readonly points: FieldRef<"Evaluations", 'Int'>
   }
     
 
@@ -2662,10 +2565,6 @@ export namespace Prisma {
      * Omit specific fields from the Evaluations
      */
     omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
     /**
      * Filter, which Evaluations to fetch.
      */
@@ -2685,10 +2584,6 @@ export namespace Prisma {
      */
     omit?: EvaluationsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
-    /**
      * Filter, which Evaluations to fetch.
      */
     where: EvaluationsWhereUniqueInput
@@ -2706,10 +2601,6 @@ export namespace Prisma {
      * Omit specific fields from the Evaluations
      */
     omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
     /**
      * Filter, which Evaluations to fetch.
      */
@@ -2759,10 +2650,6 @@ export namespace Prisma {
      */
     omit?: EvaluationsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
-    /**
      * Filter, which Evaluations to fetch.
      */
     where?: EvaluationsWhereInput
@@ -2810,10 +2697,6 @@ export namespace Prisma {
      * Omit specific fields from the Evaluations
      */
     omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
     /**
      * Filter, which Evaluations to fetch.
      */
@@ -2863,10 +2746,6 @@ export namespace Prisma {
      */
     omit?: EvaluationsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
-    /**
      * The data needed to create a Evaluations.
      */
     data?: XOR<EvaluationsCreateInput, EvaluationsUncheckedCreateInput>
@@ -2900,10 +2779,6 @@ export namespace Prisma {
      */
     data: EvaluationsCreateManyInput | EvaluationsCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2918,10 +2793,6 @@ export namespace Prisma {
      * Omit specific fields from the Evaluations
      */
     omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
     /**
      * The data needed to update a Evaluations.
      */
@@ -2974,10 +2845,6 @@ export namespace Prisma {
      * Limit how many Evaluations to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2992,10 +2859,6 @@ export namespace Prisma {
      * Omit specific fields from the Evaluations
      */
     omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
     /**
      * The filter to search for the Evaluations to update in case it exists.
      */
@@ -3023,10 +2886,6 @@ export namespace Prisma {
      */
     omit?: EvaluationsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
-    /**
      * Filter which Evaluations to delete.
      */
     where: EvaluationsWhereUniqueInput
@@ -3047,44 +2906,6 @@ export namespace Prisma {
   }
 
   /**
-   * Evaluations.kuliah
-   */
-  export type Evaluations$kuliahArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Kuliah
-     */
-    select?: KuliahSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Kuliah
-     */
-    omit?: KuliahOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KuliahInclude<ExtArgs> | null
-    where?: KuliahWhereInput
-  }
-
-  /**
-   * Evaluations.kriteria
-   */
-  export type Evaluations$kriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Kriteria
-     */
-    select?: KriteriaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Kriteria
-     */
-    omit?: KriteriaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    where?: KriteriaWhereInput
-  }
-
-  /**
    * Evaluations without action
    */
   export type EvaluationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3096,10 +2917,6 @@ export namespace Prisma {
      * Omit specific fields from the Evaluations
      */
     omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
   }
 
 
@@ -4396,8 +4213,6 @@ export namespace Prisma {
     idkriteria?: boolean
     namakriteria?: boolean
     bobot?: boolean
-    evaluations?: boolean | Kriteria$evaluationsArgs<ExtArgs>
-    _count?: boolean | KriteriaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["kriteria"]>
 
   export type KriteriaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4419,18 +4234,10 @@ export namespace Prisma {
   }
 
   export type KriteriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idkriteria" | "namakriteria" | "bobot", ExtArgs["result"]["kriteria"]>
-  export type KriteriaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    evaluations?: boolean | Kriteria$evaluationsArgs<ExtArgs>
-    _count?: boolean | KriteriaCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type KriteriaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type KriteriaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $KriteriaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Kriteria"
-    objects: {
-      evaluations: Prisma.$EvaluationsPayload<ExtArgs>[]
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       idkriteria: number
       namakriteria: string | null
@@ -4829,7 +4636,6 @@ export namespace Prisma {
    */
   export interface Prisma__KriteriaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    evaluations<T extends Kriteria$evaluationsArgs<ExtArgs> = {}>(args?: Subset<T, Kriteria$evaluationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvaluationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4879,10 +4685,6 @@ export namespace Prisma {
      */
     omit?: KriteriaOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    /**
      * Filter, which Kriteria to fetch.
      */
     where: KriteriaWhereUniqueInput
@@ -4901,10 +4703,6 @@ export namespace Prisma {
      */
     omit?: KriteriaOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    /**
      * Filter, which Kriteria to fetch.
      */
     where: KriteriaWhereUniqueInput
@@ -4922,10 +4720,6 @@ export namespace Prisma {
      * Omit specific fields from the Kriteria
      */
     omit?: KriteriaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
     /**
      * Filter, which Kriteria to fetch.
      */
@@ -4975,10 +4769,6 @@ export namespace Prisma {
      */
     omit?: KriteriaOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    /**
      * Filter, which Kriteria to fetch.
      */
     where?: KriteriaWhereInput
@@ -5026,10 +4816,6 @@ export namespace Prisma {
      * Omit specific fields from the Kriteria
      */
     omit?: KriteriaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
     /**
      * Filter, which Kriterias to fetch.
      */
@@ -5079,10 +4865,6 @@ export namespace Prisma {
      */
     omit?: KriteriaOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    /**
      * The data needed to create a Kriteria.
      */
     data?: XOR<KriteriaCreateInput, KriteriaUncheckedCreateInput>
@@ -5130,10 +4912,6 @@ export namespace Prisma {
      * Omit specific fields from the Kriteria
      */
     omit?: KriteriaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
     /**
      * The data needed to update a Kriteria.
      */
@@ -5201,10 +4979,6 @@ export namespace Prisma {
      */
     omit?: KriteriaOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    /**
      * The filter to search for the Kriteria to update in case it exists.
      */
     where: KriteriaWhereUniqueInput
@@ -5231,10 +5005,6 @@ export namespace Prisma {
      */
     omit?: KriteriaOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
-    /**
      * Filter which Kriteria to delete.
      */
     where: KriteriaWhereUniqueInput
@@ -5255,30 +5025,6 @@ export namespace Prisma {
   }
 
   /**
-   * Kriteria.evaluations
-   */
-  export type Kriteria$evaluationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Evaluations
-     */
-    select?: EvaluationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Evaluations
-     */
-    omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
-    where?: EvaluationsWhereInput
-    orderBy?: EvaluationsOrderByWithRelationInput | EvaluationsOrderByWithRelationInput[]
-    cursor?: EvaluationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EvaluationsScalarFieldEnum | EvaluationsScalarFieldEnum[]
-  }
-
-  /**
    * Kriteria without action
    */
   export type KriteriaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5290,10 +5036,6 @@ export namespace Prisma {
      * Omit specific fields from the Kriteria
      */
     omit?: KriteriaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: KriteriaInclude<ExtArgs> | null
   }
 
 
@@ -5480,7 +5222,6 @@ export namespace Prisma {
     matkul?: boolean
     tahun?: boolean
     nilai?: boolean | Kuliah$nilaiArgs<ExtArgs>
-    evaluations?: boolean | Kuliah$evaluationsArgs<ExtArgs>
     groups?: boolean | Kuliah$groupsArgs<ExtArgs>
     submissions?: boolean | Kuliah$submissionsArgs<ExtArgs>
     _count?: boolean | KuliahCountOutputTypeDefaultArgs<ExtArgs>
@@ -5507,7 +5248,6 @@ export namespace Prisma {
   export type KuliahOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idkuliah" | "matkul" | "tahun", ExtArgs["result"]["kuliah"]>
   export type KuliahInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     nilai?: boolean | Kuliah$nilaiArgs<ExtArgs>
-    evaluations?: boolean | Kuliah$evaluationsArgs<ExtArgs>
     groups?: boolean | Kuliah$groupsArgs<ExtArgs>
     submissions?: boolean | Kuliah$submissionsArgs<ExtArgs>
     _count?: boolean | KuliahCountOutputTypeDefaultArgs<ExtArgs>
@@ -5519,7 +5259,6 @@ export namespace Prisma {
     name: "Kuliah"
     objects: {
       nilai: Prisma.$NilaiPayload<ExtArgs>[]
-      evaluations: Prisma.$EvaluationsPayload<ExtArgs>[]
       groups: Prisma.$GroupPayload<ExtArgs>[]
       submissions: Prisma.$SubmissionPayload<ExtArgs>[]
     }
@@ -5922,7 +5661,6 @@ export namespace Prisma {
   export interface Prisma__KuliahClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     nilai<T extends Kuliah$nilaiArgs<ExtArgs> = {}>(args?: Subset<T, Kuliah$nilaiArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NilaiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    evaluations<T extends Kuliah$evaluationsArgs<ExtArgs> = {}>(args?: Subset<T, Kuliah$evaluationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvaluationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     groups<T extends Kuliah$groupsArgs<ExtArgs> = {}>(args?: Subset<T, Kuliah$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submissions<T extends Kuliah$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Kuliah$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -6371,30 +6109,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NilaiScalarFieldEnum | NilaiScalarFieldEnum[]
-  }
-
-  /**
-   * Kuliah.evaluations
-   */
-  export type Kuliah$evaluationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Evaluations
-     */
-    select?: EvaluationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Evaluations
-     */
-    omit?: EvaluationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EvaluationsInclude<ExtArgs> | null
-    where?: EvaluationsWhereInput
-    orderBy?: EvaluationsOrderByWithRelationInput | EvaluationsOrderByWithRelationInput[]
-    cursor?: EvaluationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EvaluationsScalarFieldEnum | EvaluationsScalarFieldEnum[]
   }
 
   /**
@@ -14022,9 +13736,7 @@ export namespace Prisma {
     id: 'id',
     evaluator_nrp: 'evaluator_nrp',
     evaluated_nrp: 'evaluated_nrp',
-    score: 'score',
-    idkuliah: 'idkuliah',
-    idkriteria: 'idkriteria'
+    points: 'points'
   };
 
   export type EvaluationsScalarFieldEnum = (typeof EvaluationsScalarFieldEnum)[keyof typeof EvaluationsScalarFieldEnum]
@@ -14241,46 +13953,31 @@ export namespace Prisma {
     id?: IntFilter<"Evaluations"> | number
     evaluator_nrp?: StringNullableFilter<"Evaluations"> | string | null
     evaluated_nrp?: StringNullableFilter<"Evaluations"> | string | null
-    score?: IntNullableFilter<"Evaluations"> | number | null
-    idkuliah?: IntNullableFilter<"Evaluations"> | number | null
-    idkriteria?: IntNullableFilter<"Evaluations"> | number | null
-    kuliah?: XOR<KuliahNullableScalarRelationFilter, KuliahWhereInput> | null
-    kriteria?: XOR<KriteriaNullableScalarRelationFilter, KriteriaWhereInput> | null
+    points?: IntNullableFilter<"Evaluations"> | number | null
   }
 
   export type EvaluationsOrderByWithRelationInput = {
     id?: SortOrder
     evaluator_nrp?: SortOrderInput | SortOrder
     evaluated_nrp?: SortOrderInput | SortOrder
-    score?: SortOrderInput | SortOrder
-    idkuliah?: SortOrderInput | SortOrder
-    idkriteria?: SortOrderInput | SortOrder
-    kuliah?: KuliahOrderByWithRelationInput
-    kriteria?: KriteriaOrderByWithRelationInput
+    points?: SortOrderInput | SortOrder
   }
 
   export type EvaluationsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    evaluator_nrp_evaluated_nrp_idkriteria_idkuliah?: EvaluationsEvaluator_nrpEvaluated_nrpIdkriteriaIdkuliahCompoundUniqueInput
     AND?: EvaluationsWhereInput | EvaluationsWhereInput[]
     OR?: EvaluationsWhereInput[]
     NOT?: EvaluationsWhereInput | EvaluationsWhereInput[]
     evaluator_nrp?: StringNullableFilter<"Evaluations"> | string | null
     evaluated_nrp?: StringNullableFilter<"Evaluations"> | string | null
-    score?: IntNullableFilter<"Evaluations"> | number | null
-    idkuliah?: IntNullableFilter<"Evaluations"> | number | null
-    idkriteria?: IntNullableFilter<"Evaluations"> | number | null
-    kuliah?: XOR<KuliahNullableScalarRelationFilter, KuliahWhereInput> | null
-    kriteria?: XOR<KriteriaNullableScalarRelationFilter, KriteriaWhereInput> | null
-  }, "id" | "evaluator_nrp_evaluated_nrp_idkriteria_idkuliah">
+    points?: IntNullableFilter<"Evaluations"> | number | null
+  }, "id">
 
   export type EvaluationsOrderByWithAggregationInput = {
     id?: SortOrder
     evaluator_nrp?: SortOrderInput | SortOrder
     evaluated_nrp?: SortOrderInput | SortOrder
-    score?: SortOrderInput | SortOrder
-    idkuliah?: SortOrderInput | SortOrder
-    idkriteria?: SortOrderInput | SortOrder
+    points?: SortOrderInput | SortOrder
     _count?: EvaluationsCountOrderByAggregateInput
     _avg?: EvaluationsAvgOrderByAggregateInput
     _max?: EvaluationsMaxOrderByAggregateInput
@@ -14295,9 +13992,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Evaluations"> | number
     evaluator_nrp?: StringNullableWithAggregatesFilter<"Evaluations"> | string | null
     evaluated_nrp?: StringNullableWithAggregatesFilter<"Evaluations"> | string | null
-    score?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
-    idkuliah?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
-    idkriteria?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
+    points?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
   }
 
   export type GroupWhereInput = {
@@ -14359,14 +14054,12 @@ export namespace Prisma {
     idkriteria?: IntFilter<"Kriteria"> | number
     namakriteria?: StringNullableFilter<"Kriteria"> | string | null
     bobot?: IntNullableFilter<"Kriteria"> | number | null
-    evaluations?: EvaluationsListRelationFilter
   }
 
   export type KriteriaOrderByWithRelationInput = {
     idkriteria?: SortOrder
     namakriteria?: SortOrderInput | SortOrder
     bobot?: SortOrderInput | SortOrder
-    evaluations?: EvaluationsOrderByRelationAggregateInput
   }
 
   export type KriteriaWhereUniqueInput = Prisma.AtLeast<{
@@ -14376,7 +14069,6 @@ export namespace Prisma {
     NOT?: KriteriaWhereInput | KriteriaWhereInput[]
     namakriteria?: StringNullableFilter<"Kriteria"> | string | null
     bobot?: IntNullableFilter<"Kriteria"> | number | null
-    evaluations?: EvaluationsListRelationFilter
   }, "idkriteria">
 
   export type KriteriaOrderByWithAggregationInput = {
@@ -14407,7 +14099,6 @@ export namespace Prisma {
     matkul?: StringNullableFilter<"Kuliah"> | string | null
     tahun?: StringNullableFilter<"Kuliah"> | string | null
     nilai?: NilaiListRelationFilter
-    evaluations?: EvaluationsListRelationFilter
     groups?: GroupListRelationFilter
     submissions?: SubmissionListRelationFilter
   }
@@ -14417,7 +14108,6 @@ export namespace Prisma {
     matkul?: SortOrderInput | SortOrder
     tahun?: SortOrderInput | SortOrder
     nilai?: NilaiOrderByRelationAggregateInput
-    evaluations?: EvaluationsOrderByRelationAggregateInput
     groups?: GroupOrderByRelationAggregateInput
     submissions?: SubmissionOrderByRelationAggregateInput
   }
@@ -14430,7 +14120,6 @@ export namespace Prisma {
     matkul?: StringNullableFilter<"Kuliah"> | string | null
     tahun?: StringNullableFilter<"Kuliah"> | string | null
     nilai?: NilaiListRelationFilter
-    evaluations?: EvaluationsListRelationFilter
     groups?: GroupListRelationFilter
     submissions?: SubmissionListRelationFilter
   }, "idkuliah">
@@ -14838,59 +14527,47 @@ export namespace Prisma {
   export type EvaluationsCreateInput = {
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
-    score?: number | null
-    kuliah?: KuliahCreateNestedOneWithoutEvaluationsInput
-    kriteria?: KriteriaCreateNestedOneWithoutEvaluationsInput
+    points?: number | null
   }
 
   export type EvaluationsUncheckedCreateInput = {
     id?: number
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
-    score?: number | null
-    idkuliah?: number | null
-    idkriteria?: number | null
+    points?: number | null
   }
 
   export type EvaluationsUpdateInput = {
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    kuliah?: KuliahUpdateOneWithoutEvaluationsNestedInput
-    kriteria?: KriteriaUpdateOneWithoutEvaluationsNestedInput
+    points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type EvaluationsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
-    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
+    points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type EvaluationsCreateManyInput = {
     id?: number
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
-    score?: number | null
-    idkuliah?: number | null
-    idkriteria?: number | null
+    points?: number | null
   }
 
   export type EvaluationsUpdateManyMutationInput = {
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
+    points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type EvaluationsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
-    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
+    points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type GroupCreateInput = {
@@ -14941,27 +14618,23 @@ export namespace Prisma {
   export type KriteriaCreateInput = {
     namakriteria?: string | null
     bobot?: number | null
-    evaluations?: EvaluationsCreateNestedManyWithoutKriteriaInput
   }
 
   export type KriteriaUncheckedCreateInput = {
     idkriteria?: number
     namakriteria?: string | null
     bobot?: number | null
-    evaluations?: EvaluationsUncheckedCreateNestedManyWithoutKriteriaInput
   }
 
   export type KriteriaUpdateInput = {
     namakriteria?: NullableStringFieldUpdateOperationsInput | string | null
     bobot?: NullableIntFieldUpdateOperationsInput | number | null
-    evaluations?: EvaluationsUpdateManyWithoutKriteriaNestedInput
   }
 
   export type KriteriaUncheckedUpdateInput = {
     idkriteria?: IntFieldUpdateOperationsInput | number
     namakriteria?: NullableStringFieldUpdateOperationsInput | string | null
     bobot?: NullableIntFieldUpdateOperationsInput | number | null
-    evaluations?: EvaluationsUncheckedUpdateManyWithoutKriteriaNestedInput
   }
 
   export type KriteriaCreateManyInput = {
@@ -14985,7 +14658,6 @@ export namespace Prisma {
     matkul?: string | null
     tahun?: string | null
     nilai?: NilaiCreateNestedManyWithoutKuliahInput
-    evaluations?: EvaluationsCreateNestedManyWithoutKuliahInput
     groups?: GroupCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionCreateNestedManyWithoutKuliahInput
   }
@@ -14995,7 +14667,6 @@ export namespace Prisma {
     matkul?: string | null
     tahun?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
-    evaluations?: EvaluationsUncheckedCreateNestedManyWithoutKuliahInput
     groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
   }
@@ -15004,7 +14675,6 @@ export namespace Prisma {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutKuliahNestedInput
-    evaluations?: EvaluationsUpdateManyWithoutKuliahNestedInput
     groups?: GroupUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
   }
@@ -15014,7 +14684,6 @@ export namespace Prisma {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
-    evaluations?: EvaluationsUncheckedUpdateManyWithoutKuliahNestedInput
     groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
   }
@@ -15445,67 +15114,40 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type KuliahNullableScalarRelationFilter = {
-    is?: KuliahWhereInput | null
-    isNot?: KuliahWhereInput | null
-  }
-
-  export type KriteriaNullableScalarRelationFilter = {
-    is?: KriteriaWhereInput | null
-    isNot?: KriteriaWhereInput | null
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type EvaluationsEvaluator_nrpEvaluated_nrpIdkriteriaIdkuliahCompoundUniqueInput = {
-    evaluator_nrp: string
-    evaluated_nrp: string
-    idkriteria: number
-    idkuliah: number
   }
 
   export type EvaluationsCountOrderByAggregateInput = {
     id?: SortOrder
     evaluator_nrp?: SortOrder
     evaluated_nrp?: SortOrder
-    score?: SortOrder
-    idkuliah?: SortOrder
-    idkriteria?: SortOrder
+    points?: SortOrder
   }
 
   export type EvaluationsAvgOrderByAggregateInput = {
     id?: SortOrder
-    score?: SortOrder
-    idkuliah?: SortOrder
-    idkriteria?: SortOrder
+    points?: SortOrder
   }
 
   export type EvaluationsMaxOrderByAggregateInput = {
     id?: SortOrder
     evaluator_nrp?: SortOrder
     evaluated_nrp?: SortOrder
-    score?: SortOrder
-    idkuliah?: SortOrder
-    idkriteria?: SortOrder
+    points?: SortOrder
   }
 
   export type EvaluationsMinOrderByAggregateInput = {
     id?: SortOrder
     evaluator_nrp?: SortOrder
     evaluated_nrp?: SortOrder
-    score?: SortOrder
-    idkuliah?: SortOrder
-    idkriteria?: SortOrder
+    points?: SortOrder
   }
 
   export type EvaluationsSumOrderByAggregateInput = {
     id?: SortOrder
-    score?: SortOrder
-    idkuliah?: SortOrder
-    idkriteria?: SortOrder
+    points?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -15558,6 +15200,11 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type KuliahNullableScalarRelationFilter = {
+    is?: KuliahWhereInput | null
+    isNot?: KuliahWhereInput | null
+  }
+
   export type GroupCountOrderByAggregateInput = {
     id?: SortOrder
     nrp?: SortOrder
@@ -15587,16 +15234,6 @@ export namespace Prisma {
   export type GroupSumOrderByAggregateInput = {
     id?: SortOrder
     idkuliah?: SortOrder
-  }
-
-  export type EvaluationsListRelationFilter = {
-    every?: EvaluationsWhereInput
-    some?: EvaluationsWhereInput
-    none?: EvaluationsWhereInput
-  }
-
-  export type EvaluationsOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type KriteriaCountOrderByAggregateInput = {
@@ -16021,18 +15658,6 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type KuliahCreateNestedOneWithoutEvaluationsInput = {
-    create?: XOR<KuliahCreateWithoutEvaluationsInput, KuliahUncheckedCreateWithoutEvaluationsInput>
-    connectOrCreate?: KuliahCreateOrConnectWithoutEvaluationsInput
-    connect?: KuliahWhereUniqueInput
-  }
-
-  export type KriteriaCreateNestedOneWithoutEvaluationsInput = {
-    create?: XOR<KriteriaCreateWithoutEvaluationsInput, KriteriaUncheckedCreateWithoutEvaluationsInput>
-    connectOrCreate?: KriteriaCreateOrConnectWithoutEvaluationsInput
-    connect?: KriteriaWhereUniqueInput
-  }
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -16043,26 +15668,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type KuliahUpdateOneWithoutEvaluationsNestedInput = {
-    create?: XOR<KuliahCreateWithoutEvaluationsInput, KuliahUncheckedCreateWithoutEvaluationsInput>
-    connectOrCreate?: KuliahCreateOrConnectWithoutEvaluationsInput
-    upsert?: KuliahUpsertWithoutEvaluationsInput
-    disconnect?: KuliahWhereInput | boolean
-    delete?: KuliahWhereInput | boolean
-    connect?: KuliahWhereUniqueInput
-    update?: XOR<XOR<KuliahUpdateToOneWithWhereWithoutEvaluationsInput, KuliahUpdateWithoutEvaluationsInput>, KuliahUncheckedUpdateWithoutEvaluationsInput>
-  }
-
-  export type KriteriaUpdateOneWithoutEvaluationsNestedInput = {
-    create?: XOR<KriteriaCreateWithoutEvaluationsInput, KriteriaUncheckedCreateWithoutEvaluationsInput>
-    connectOrCreate?: KriteriaCreateOrConnectWithoutEvaluationsInput
-    upsert?: KriteriaUpsertWithoutEvaluationsInput
-    disconnect?: KriteriaWhereInput | boolean
-    delete?: KriteriaWhereInput | boolean
-    connect?: KriteriaWhereUniqueInput
-    update?: XOR<XOR<KriteriaUpdateToOneWithWhereWithoutEvaluationsInput, KriteriaUpdateWithoutEvaluationsInput>, KriteriaUncheckedUpdateWithoutEvaluationsInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -16089,60 +15694,11 @@ export namespace Prisma {
     update?: XOR<XOR<KuliahUpdateToOneWithWhereWithoutGroupsInput, KuliahUpdateWithoutGroupsInput>, KuliahUncheckedUpdateWithoutGroupsInput>
   }
 
-  export type EvaluationsCreateNestedManyWithoutKriteriaInput = {
-    create?: XOR<EvaluationsCreateWithoutKriteriaInput, EvaluationsUncheckedCreateWithoutKriteriaInput> | EvaluationsCreateWithoutKriteriaInput[] | EvaluationsUncheckedCreateWithoutKriteriaInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKriteriaInput | EvaluationsCreateOrConnectWithoutKriteriaInput[]
-    createMany?: EvaluationsCreateManyKriteriaInputEnvelope
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-  }
-
-  export type EvaluationsUncheckedCreateNestedManyWithoutKriteriaInput = {
-    create?: XOR<EvaluationsCreateWithoutKriteriaInput, EvaluationsUncheckedCreateWithoutKriteriaInput> | EvaluationsCreateWithoutKriteriaInput[] | EvaluationsUncheckedCreateWithoutKriteriaInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKriteriaInput | EvaluationsCreateOrConnectWithoutKriteriaInput[]
-    createMany?: EvaluationsCreateManyKriteriaInputEnvelope
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-  }
-
-  export type EvaluationsUpdateManyWithoutKriteriaNestedInput = {
-    create?: XOR<EvaluationsCreateWithoutKriteriaInput, EvaluationsUncheckedCreateWithoutKriteriaInput> | EvaluationsCreateWithoutKriteriaInput[] | EvaluationsUncheckedCreateWithoutKriteriaInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKriteriaInput | EvaluationsCreateOrConnectWithoutKriteriaInput[]
-    upsert?: EvaluationsUpsertWithWhereUniqueWithoutKriteriaInput | EvaluationsUpsertWithWhereUniqueWithoutKriteriaInput[]
-    createMany?: EvaluationsCreateManyKriteriaInputEnvelope
-    set?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    disconnect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    delete?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    update?: EvaluationsUpdateWithWhereUniqueWithoutKriteriaInput | EvaluationsUpdateWithWhereUniqueWithoutKriteriaInput[]
-    updateMany?: EvaluationsUpdateManyWithWhereWithoutKriteriaInput | EvaluationsUpdateManyWithWhereWithoutKriteriaInput[]
-    deleteMany?: EvaluationsScalarWhereInput | EvaluationsScalarWhereInput[]
-  }
-
-  export type EvaluationsUncheckedUpdateManyWithoutKriteriaNestedInput = {
-    create?: XOR<EvaluationsCreateWithoutKriteriaInput, EvaluationsUncheckedCreateWithoutKriteriaInput> | EvaluationsCreateWithoutKriteriaInput[] | EvaluationsUncheckedCreateWithoutKriteriaInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKriteriaInput | EvaluationsCreateOrConnectWithoutKriteriaInput[]
-    upsert?: EvaluationsUpsertWithWhereUniqueWithoutKriteriaInput | EvaluationsUpsertWithWhereUniqueWithoutKriteriaInput[]
-    createMany?: EvaluationsCreateManyKriteriaInputEnvelope
-    set?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    disconnect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    delete?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    update?: EvaluationsUpdateWithWhereUniqueWithoutKriteriaInput | EvaluationsUpdateWithWhereUniqueWithoutKriteriaInput[]
-    updateMany?: EvaluationsUpdateManyWithWhereWithoutKriteriaInput | EvaluationsUpdateManyWithWhereWithoutKriteriaInput[]
-    deleteMany?: EvaluationsScalarWhereInput | EvaluationsScalarWhereInput[]
-  }
-
   export type NilaiCreateNestedManyWithoutKuliahInput = {
     create?: XOR<NilaiCreateWithoutKuliahInput, NilaiUncheckedCreateWithoutKuliahInput> | NilaiCreateWithoutKuliahInput[] | NilaiUncheckedCreateWithoutKuliahInput[]
     connectOrCreate?: NilaiCreateOrConnectWithoutKuliahInput | NilaiCreateOrConnectWithoutKuliahInput[]
     createMany?: NilaiCreateManyKuliahInputEnvelope
     connect?: NilaiWhereUniqueInput | NilaiWhereUniqueInput[]
-  }
-
-  export type EvaluationsCreateNestedManyWithoutKuliahInput = {
-    create?: XOR<EvaluationsCreateWithoutKuliahInput, EvaluationsUncheckedCreateWithoutKuliahInput> | EvaluationsCreateWithoutKuliahInput[] | EvaluationsUncheckedCreateWithoutKuliahInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKuliahInput | EvaluationsCreateOrConnectWithoutKuliahInput[]
-    createMany?: EvaluationsCreateManyKuliahInputEnvelope
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
   }
 
   export type GroupCreateNestedManyWithoutKuliahInput = {
@@ -16164,13 +15720,6 @@ export namespace Prisma {
     connectOrCreate?: NilaiCreateOrConnectWithoutKuliahInput | NilaiCreateOrConnectWithoutKuliahInput[]
     createMany?: NilaiCreateManyKuliahInputEnvelope
     connect?: NilaiWhereUniqueInput | NilaiWhereUniqueInput[]
-  }
-
-  export type EvaluationsUncheckedCreateNestedManyWithoutKuliahInput = {
-    create?: XOR<EvaluationsCreateWithoutKuliahInput, EvaluationsUncheckedCreateWithoutKuliahInput> | EvaluationsCreateWithoutKuliahInput[] | EvaluationsUncheckedCreateWithoutKuliahInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKuliahInput | EvaluationsCreateOrConnectWithoutKuliahInput[]
-    createMany?: EvaluationsCreateManyKuliahInputEnvelope
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
   }
 
   export type GroupUncheckedCreateNestedManyWithoutKuliahInput = {
@@ -16199,20 +15748,6 @@ export namespace Prisma {
     update?: NilaiUpdateWithWhereUniqueWithoutKuliahInput | NilaiUpdateWithWhereUniqueWithoutKuliahInput[]
     updateMany?: NilaiUpdateManyWithWhereWithoutKuliahInput | NilaiUpdateManyWithWhereWithoutKuliahInput[]
     deleteMany?: NilaiScalarWhereInput | NilaiScalarWhereInput[]
-  }
-
-  export type EvaluationsUpdateManyWithoutKuliahNestedInput = {
-    create?: XOR<EvaluationsCreateWithoutKuliahInput, EvaluationsUncheckedCreateWithoutKuliahInput> | EvaluationsCreateWithoutKuliahInput[] | EvaluationsUncheckedCreateWithoutKuliahInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKuliahInput | EvaluationsCreateOrConnectWithoutKuliahInput[]
-    upsert?: EvaluationsUpsertWithWhereUniqueWithoutKuliahInput | EvaluationsUpsertWithWhereUniqueWithoutKuliahInput[]
-    createMany?: EvaluationsCreateManyKuliahInputEnvelope
-    set?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    disconnect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    delete?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    update?: EvaluationsUpdateWithWhereUniqueWithoutKuliahInput | EvaluationsUpdateWithWhereUniqueWithoutKuliahInput[]
-    updateMany?: EvaluationsUpdateManyWithWhereWithoutKuliahInput | EvaluationsUpdateManyWithWhereWithoutKuliahInput[]
-    deleteMany?: EvaluationsScalarWhereInput | EvaluationsScalarWhereInput[]
   }
 
   export type GroupUpdateManyWithoutKuliahNestedInput = {
@@ -16255,20 +15790,6 @@ export namespace Prisma {
     update?: NilaiUpdateWithWhereUniqueWithoutKuliahInput | NilaiUpdateWithWhereUniqueWithoutKuliahInput[]
     updateMany?: NilaiUpdateManyWithWhereWithoutKuliahInput | NilaiUpdateManyWithWhereWithoutKuliahInput[]
     deleteMany?: NilaiScalarWhereInput | NilaiScalarWhereInput[]
-  }
-
-  export type EvaluationsUncheckedUpdateManyWithoutKuliahNestedInput = {
-    create?: XOR<EvaluationsCreateWithoutKuliahInput, EvaluationsUncheckedCreateWithoutKuliahInput> | EvaluationsCreateWithoutKuliahInput[] | EvaluationsUncheckedCreateWithoutKuliahInput[]
-    connectOrCreate?: EvaluationsCreateOrConnectWithoutKuliahInput | EvaluationsCreateOrConnectWithoutKuliahInput[]
-    upsert?: EvaluationsUpsertWithWhereUniqueWithoutKuliahInput | EvaluationsUpsertWithWhereUniqueWithoutKuliahInput[]
-    createMany?: EvaluationsCreateManyKuliahInputEnvelope
-    set?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    disconnect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    delete?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    connect?: EvaluationsWhereUniqueInput | EvaluationsWhereUniqueInput[]
-    update?: EvaluationsUpdateWithWhereUniqueWithoutKuliahInput | EvaluationsUpdateWithWhereUniqueWithoutKuliahInput[]
-    updateMany?: EvaluationsUpdateManyWithWhereWithoutKuliahInput | EvaluationsUpdateManyWithWhereWithoutKuliahInput[]
-    deleteMany?: EvaluationsScalarWhereInput | EvaluationsScalarWhereInput[]
   }
 
   export type GroupUncheckedUpdateManyWithoutKuliahNestedInput = {
@@ -16736,99 +16257,10 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type KuliahCreateWithoutEvaluationsInput = {
-    matkul?: string | null
-    tahun?: string | null
-    nilai?: NilaiCreateNestedManyWithoutKuliahInput
-    groups?: GroupCreateNestedManyWithoutKuliahInput
-    submissions?: SubmissionCreateNestedManyWithoutKuliahInput
-  }
-
-  export type KuliahUncheckedCreateWithoutEvaluationsInput = {
-    idkuliah?: number
-    matkul?: string | null
-    tahun?: string | null
-    nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
-    groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
-    submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
-  }
-
-  export type KuliahCreateOrConnectWithoutEvaluationsInput = {
-    where: KuliahWhereUniqueInput
-    create: XOR<KuliahCreateWithoutEvaluationsInput, KuliahUncheckedCreateWithoutEvaluationsInput>
-  }
-
-  export type KriteriaCreateWithoutEvaluationsInput = {
-    namakriteria?: string | null
-    bobot?: number | null
-  }
-
-  export type KriteriaUncheckedCreateWithoutEvaluationsInput = {
-    idkriteria?: number
-    namakriteria?: string | null
-    bobot?: number | null
-  }
-
-  export type KriteriaCreateOrConnectWithoutEvaluationsInput = {
-    where: KriteriaWhereUniqueInput
-    create: XOR<KriteriaCreateWithoutEvaluationsInput, KriteriaUncheckedCreateWithoutEvaluationsInput>
-  }
-
-  export type KuliahUpsertWithoutEvaluationsInput = {
-    update: XOR<KuliahUpdateWithoutEvaluationsInput, KuliahUncheckedUpdateWithoutEvaluationsInput>
-    create: XOR<KuliahCreateWithoutEvaluationsInput, KuliahUncheckedCreateWithoutEvaluationsInput>
-    where?: KuliahWhereInput
-  }
-
-  export type KuliahUpdateToOneWithWhereWithoutEvaluationsInput = {
-    where?: KuliahWhereInput
-    data: XOR<KuliahUpdateWithoutEvaluationsInput, KuliahUncheckedUpdateWithoutEvaluationsInput>
-  }
-
-  export type KuliahUpdateWithoutEvaluationsInput = {
-    matkul?: NullableStringFieldUpdateOperationsInput | string | null
-    tahun?: NullableStringFieldUpdateOperationsInput | string | null
-    nilai?: NilaiUpdateManyWithoutKuliahNestedInput
-    groups?: GroupUpdateManyWithoutKuliahNestedInput
-    submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
-  }
-
-  export type KuliahUncheckedUpdateWithoutEvaluationsInput = {
-    idkuliah?: IntFieldUpdateOperationsInput | number
-    matkul?: NullableStringFieldUpdateOperationsInput | string | null
-    tahun?: NullableStringFieldUpdateOperationsInput | string | null
-    nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
-    groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
-    submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
-  }
-
-  export type KriteriaUpsertWithoutEvaluationsInput = {
-    update: XOR<KriteriaUpdateWithoutEvaluationsInput, KriteriaUncheckedUpdateWithoutEvaluationsInput>
-    create: XOR<KriteriaCreateWithoutEvaluationsInput, KriteriaUncheckedCreateWithoutEvaluationsInput>
-    where?: KriteriaWhereInput
-  }
-
-  export type KriteriaUpdateToOneWithWhereWithoutEvaluationsInput = {
-    where?: KriteriaWhereInput
-    data: XOR<KriteriaUpdateWithoutEvaluationsInput, KriteriaUncheckedUpdateWithoutEvaluationsInput>
-  }
-
-  export type KriteriaUpdateWithoutEvaluationsInput = {
-    namakriteria?: NullableStringFieldUpdateOperationsInput | string | null
-    bobot?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type KriteriaUncheckedUpdateWithoutEvaluationsInput = {
-    idkriteria?: IntFieldUpdateOperationsInput | number
-    namakriteria?: NullableStringFieldUpdateOperationsInput | string | null
-    bobot?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
   export type KuliahCreateWithoutGroupsInput = {
     matkul?: string | null
     tahun?: string | null
     nilai?: NilaiCreateNestedManyWithoutKuliahInput
-    evaluations?: EvaluationsCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionCreateNestedManyWithoutKuliahInput
   }
 
@@ -16837,7 +16269,6 @@ export namespace Prisma {
     matkul?: string | null
     tahun?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
-    evaluations?: EvaluationsUncheckedCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
   }
 
@@ -16861,7 +16292,6 @@ export namespace Prisma {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutKuliahNestedInput
-    evaluations?: EvaluationsUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
   }
 
@@ -16870,61 +16300,7 @@ export namespace Prisma {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
-    evaluations?: EvaluationsUncheckedUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
-  }
-
-  export type EvaluationsCreateWithoutKriteriaInput = {
-    evaluator_nrp?: string | null
-    evaluated_nrp?: string | null
-    score?: number | null
-    kuliah?: KuliahCreateNestedOneWithoutEvaluationsInput
-  }
-
-  export type EvaluationsUncheckedCreateWithoutKriteriaInput = {
-    id?: number
-    evaluator_nrp?: string | null
-    evaluated_nrp?: string | null
-    score?: number | null
-    idkuliah?: number | null
-  }
-
-  export type EvaluationsCreateOrConnectWithoutKriteriaInput = {
-    where: EvaluationsWhereUniqueInput
-    create: XOR<EvaluationsCreateWithoutKriteriaInput, EvaluationsUncheckedCreateWithoutKriteriaInput>
-  }
-
-  export type EvaluationsCreateManyKriteriaInputEnvelope = {
-    data: EvaluationsCreateManyKriteriaInput | EvaluationsCreateManyKriteriaInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type EvaluationsUpsertWithWhereUniqueWithoutKriteriaInput = {
-    where: EvaluationsWhereUniqueInput
-    update: XOR<EvaluationsUpdateWithoutKriteriaInput, EvaluationsUncheckedUpdateWithoutKriteriaInput>
-    create: XOR<EvaluationsCreateWithoutKriteriaInput, EvaluationsUncheckedCreateWithoutKriteriaInput>
-  }
-
-  export type EvaluationsUpdateWithWhereUniqueWithoutKriteriaInput = {
-    where: EvaluationsWhereUniqueInput
-    data: XOR<EvaluationsUpdateWithoutKriteriaInput, EvaluationsUncheckedUpdateWithoutKriteriaInput>
-  }
-
-  export type EvaluationsUpdateManyWithWhereWithoutKriteriaInput = {
-    where: EvaluationsScalarWhereInput
-    data: XOR<EvaluationsUpdateManyMutationInput, EvaluationsUncheckedUpdateManyWithoutKriteriaInput>
-  }
-
-  export type EvaluationsScalarWhereInput = {
-    AND?: EvaluationsScalarWhereInput | EvaluationsScalarWhereInput[]
-    OR?: EvaluationsScalarWhereInput[]
-    NOT?: EvaluationsScalarWhereInput | EvaluationsScalarWhereInput[]
-    id?: IntFilter<"Evaluations"> | number
-    evaluator_nrp?: StringNullableFilter<"Evaluations"> | string | null
-    evaluated_nrp?: StringNullableFilter<"Evaluations"> | string | null
-    score?: IntNullableFilter<"Evaluations"> | number | null
-    idkuliah?: IntNullableFilter<"Evaluations"> | number | null
-    idkriteria?: IntNullableFilter<"Evaluations"> | number | null
   }
 
   export type NilaiCreateWithoutKuliahInput = {
@@ -16951,31 +16327,6 @@ export namespace Prisma {
 
   export type NilaiCreateManyKuliahInputEnvelope = {
     data: NilaiCreateManyKuliahInput | NilaiCreateManyKuliahInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type EvaluationsCreateWithoutKuliahInput = {
-    evaluator_nrp?: string | null
-    evaluated_nrp?: string | null
-    score?: number | null
-    kriteria?: KriteriaCreateNestedOneWithoutEvaluationsInput
-  }
-
-  export type EvaluationsUncheckedCreateWithoutKuliahInput = {
-    id?: number
-    evaluator_nrp?: string | null
-    evaluated_nrp?: string | null
-    score?: number | null
-    idkriteria?: number | null
-  }
-
-  export type EvaluationsCreateOrConnectWithoutKuliahInput = {
-    where: EvaluationsWhereUniqueInput
-    create: XOR<EvaluationsCreateWithoutKuliahInput, EvaluationsUncheckedCreateWithoutKuliahInput>
-  }
-
-  export type EvaluationsCreateManyKuliahInputEnvelope = {
-    data: EvaluationsCreateManyKuliahInput | EvaluationsCreateManyKuliahInput[]
     skipDuplicates?: boolean
   }
 
@@ -17050,22 +16401,6 @@ export namespace Prisma {
     bobot?: IntNullableFilter<"Nilai"> | number | null
   }
 
-  export type EvaluationsUpsertWithWhereUniqueWithoutKuliahInput = {
-    where: EvaluationsWhereUniqueInput
-    update: XOR<EvaluationsUpdateWithoutKuliahInput, EvaluationsUncheckedUpdateWithoutKuliahInput>
-    create: XOR<EvaluationsCreateWithoutKuliahInput, EvaluationsUncheckedCreateWithoutKuliahInput>
-  }
-
-  export type EvaluationsUpdateWithWhereUniqueWithoutKuliahInput = {
-    where: EvaluationsWhereUniqueInput
-    data: XOR<EvaluationsUpdateWithoutKuliahInput, EvaluationsUncheckedUpdateWithoutKuliahInput>
-  }
-
-  export type EvaluationsUpdateManyWithWhereWithoutKuliahInput = {
-    where: EvaluationsScalarWhereInput
-    data: XOR<EvaluationsUpdateManyMutationInput, EvaluationsUncheckedUpdateManyWithoutKuliahInput>
-  }
-
   export type GroupUpsertWithWhereUniqueWithoutKuliahInput = {
     where: GroupWhereUniqueInput
     update: XOR<GroupUpdateWithoutKuliahInput, GroupUncheckedUpdateWithoutKuliahInput>
@@ -17121,7 +16456,6 @@ export namespace Prisma {
   export type KuliahCreateWithoutNilaiInput = {
     matkul?: string | null
     tahun?: string | null
-    evaluations?: EvaluationsCreateNestedManyWithoutKuliahInput
     groups?: GroupCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionCreateNestedManyWithoutKuliahInput
   }
@@ -17130,7 +16464,6 @@ export namespace Prisma {
     idkuliah?: number
     matkul?: string | null
     tahun?: string | null
-    evaluations?: EvaluationsUncheckedCreateNestedManyWithoutKuliahInput
     groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
   }
@@ -17173,7 +16506,6 @@ export namespace Prisma {
   export type KuliahUpdateWithoutNilaiInput = {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluations?: EvaluationsUpdateManyWithoutKuliahNestedInput
     groups?: GroupUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
   }
@@ -17182,7 +16514,6 @@ export namespace Prisma {
     idkuliah?: IntFieldUpdateOperationsInput | number
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluations?: EvaluationsUncheckedUpdateManyWithoutKuliahNestedInput
     groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
   }
@@ -17259,7 +16590,6 @@ export namespace Prisma {
     matkul?: string | null
     tahun?: string | null
     nilai?: NilaiCreateNestedManyWithoutKuliahInput
-    evaluations?: EvaluationsCreateNestedManyWithoutKuliahInput
     groups?: GroupCreateNestedManyWithoutKuliahInput
   }
 
@@ -17268,7 +16598,6 @@ export namespace Prisma {
     matkul?: string | null
     tahun?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
-    evaluations?: EvaluationsUncheckedCreateNestedManyWithoutKuliahInput
     groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
   }
 
@@ -17292,7 +16621,6 @@ export namespace Prisma {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutKuliahNestedInput
-    evaluations?: EvaluationsUpdateManyWithoutKuliahNestedInput
     groups?: GroupUpdateManyWithoutKuliahNestedInput
   }
 
@@ -17301,7 +16629,6 @@ export namespace Prisma {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
-    evaluations?: EvaluationsUncheckedUpdateManyWithoutKuliahNestedInput
     groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
   }
 
@@ -17508,37 +16835,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type EvaluationsCreateManyKriteriaInput = {
-    id?: number
-    evaluator_nrp?: string | null
-    evaluated_nrp?: string | null
-    score?: number | null
-    idkuliah?: number | null
-  }
-
-  export type EvaluationsUpdateWithoutKriteriaInput = {
-    evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    kuliah?: KuliahUpdateOneWithoutEvaluationsNestedInput
-  }
-
-  export type EvaluationsUncheckedUpdateWithoutKriteriaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type EvaluationsUncheckedUpdateManyWithoutKriteriaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
   export type NilaiCreateManyKuliahInput = {
     idnilai?: number
     grade?: Decimal | DecimalJsLike | number | string | null
@@ -17546,14 +16842,6 @@ export namespace Prisma {
     nrp?: string | null
     judulkriteria?: string | null
     bobot?: number | null
-  }
-
-  export type EvaluationsCreateManyKuliahInput = {
-    id?: number
-    evaluator_nrp?: string | null
-    evaluated_nrp?: string | null
-    score?: number | null
-    idkriteria?: number | null
   }
 
   export type GroupCreateManyKuliahInput = {
@@ -17592,29 +16880,6 @@ export namespace Prisma {
     nrp?: NullableStringFieldUpdateOperationsInput | string | null
     judulkriteria?: NullableStringFieldUpdateOperationsInput | string | null
     bobot?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type EvaluationsUpdateWithoutKuliahInput = {
-    evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    kriteria?: KriteriaUpdateOneWithoutEvaluationsNestedInput
-  }
-
-  export type EvaluationsUncheckedUpdateWithoutKuliahInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type EvaluationsUncheckedUpdateManyWithoutKuliahInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type GroupUpdateWithoutKuliahInput = {

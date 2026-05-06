@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // Build rows: one per evaluator × evaluated × criteria × course
+  // Build rows: one per evaluator × evaluated
   const evaluationRows = Object.entries(scores).flatMap(
     ([idkriteria, peerScores]) =>
       Object.entries(peerScores).map(([evaluatedNrp, score]) =>
@@ -65,9 +65,7 @@ export async function POST(req: NextRequest) {
           data: {
             evaluator_nrp: evaluatorNrp,
             evaluated_nrp: evaluatedNrp,
-            score,
-            idkriteria: parseInt(idkriteria),
-            idkuliah,
+            points: score,
           },
         })
       )
