@@ -21,6 +21,7 @@ model Evaluations {
   idkriteria    Int?
   score         Int?
 
+  @@unique([evaluator_nrp, evaluated_nrp, idkuliah, idkriteria])
   @@map("evaluations")
 }
 

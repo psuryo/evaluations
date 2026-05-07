@@ -34,48 +34,43 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const transactionItems: any[] = []
-
-  // Check if they already submitted
-  const existing = await prisma.submission.findFirst({
-    where: { nrp: evaluatorNrp, idkuliah },
+  // Upsert submission record
+  await prisma.submission.upsert({
+    where: {
+      nrp_idkuliah: {
+        nrp: evaluatorNrp,
+        idkuliah,
+      },
+    },
+    update: {},
+    create: {
+      nrp: evaluatorNrp,
+      idkuliah,
+    },
   })
-  
-  if (existing) {
-    // Delete existing evaluations so we can replace them with the new complete set
-    transactionItems.push(
-      prisma.evaluations.deleteMany({
-        where: { evaluator_nrp: evaluatorNrp, idkuliah }
-      })
-    )
-  } else {
-    // Create submission record for the first time
-    transactionItems.push(
-      prisma.submission.create({
-        data: { nrp: evaluatorNrp, idkuliah },
-      })
-    )
-  }
 
-  // Build rows: one per evaluator × evaluated
+  // Delete existing evaluations first
+  await prisma.evaluations.deleteMany({
+    where: { evaluator_nrp: evaluatorNrp, idkuliah },
+  })
+
+  // Build and create new evaluations
   const evaluationRows = Object.entries(scores).flatMap(
     ([idkriteria, peerScores]) =>
-      Object.entries(peerScores).map(([evaluatedNrp, score]) =>
-        prisma.evaluations.create({
-          data: {
-            evaluator_nrp: evaluatorNrp,
-            evaluated_nrp: evaluatedNrp,
-            idkuliah,
-            idkriteria: parseInt(idkriteria),
-            score: score,
-          },
-        })
-      )
+      Object.entries(peerScores).map(([evaluatedNrp, score]) => ({
+        evaluator_nrp: evaluatorNrp,
+        evaluated_nrp: evaluatedNrp,
+        idkuliah,
+        idkriteria: parseInt(idkriteria),
+        score: score,
+      }))
   )
 
-  transactionItems.push(...evaluationRows)
-
-  await prisma.$transaction(transactionItems)
+  if (evaluationRows.length > 0) {
+    await prisma.evaluations.createMany({
+      data: evaluationRows,
+    })
+  }
 
   return NextResponse.json({ ok: true })
 }
