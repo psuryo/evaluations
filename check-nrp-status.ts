@@ -69,7 +69,7 @@ async function checkNrpStatus(nrp: string, idkuliah?: number) {
             idkuliah: group.idkuliah,
             idkriteria: k.idkriteria,
           },
-          select: { evaluated_nrp: true, points: true },
+          select: { evaluated_nrp: true, score: true },
         })
 
         const total = evaluations.reduce((sum, e) => sum + (e.score || 0), 0)

@@ -39,7 +39,7 @@ async function resetSubmission(nrp: string, idkuliah: number) {
     // Check evaluations
     const evaluations = await prisma.evaluations.findMany({
       where: { evaluator_nrp: nrp, idkuliah },
-      select: { id: true, evaluated_nrp: true, idkriteria: true, points: true },
+      select: { id: true, evaluated_nrp: true, idkriteria: true, score: true },
     })
 
     console.log(`\n📋 Found:`)
