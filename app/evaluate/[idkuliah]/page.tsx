@@ -54,7 +54,7 @@ async function getEvaluationData(nrp: string, idkuliah: number) {
       if (!existingEvaluations[ev.idkriteria!]) {
         existingEvaluations[ev.idkriteria!] = {}
       }
-      existingEvaluations[ev.idkriteria!][ev.evaluated_nrp!] = ev.points || 0
+      existingEvaluations[ev.idkriteria!][ev.evaluated_nrp!] = ev.score || 0
     })
 
     // Check if all criteria columns sum to 100

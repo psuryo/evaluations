@@ -27,7 +27,7 @@ async function getCourseList(nrp: string) {
     }),
     prisma.evaluations.findMany({
       where: { evaluator_nrp: nrp, idkuliah: { in: idkuliahList } },
-      select: { idkuliah: true, idkriteria: true, evaluated_nrp: true, points: true },
+      select: { idkuliah: true, idkriteria: true, evaluated_nrp: true, score: true },
     }),
     prisma.submission.findMany({
       where: { nrp, idkuliah: { in: idkuliahList } },
@@ -73,7 +73,7 @@ async function getCourseList(nrp: string) {
       if (!scoresMap.has(ev.idkriteria!)) {
         scoresMap.set(ev.idkriteria!, new Map())
       }
-      scoresMap.get(ev.idkriteria!)!.set(ev.evaluated_nrp!, ev.points || 0)
+      scoresMap.get(ev.idkriteria!)!.set(ev.evaluated_nrp!, ev.score || 0)
     })
 
     // Check if all criteria columns sum to 100

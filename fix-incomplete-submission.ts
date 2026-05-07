@@ -50,7 +50,7 @@ async function resetSubmission(nrp: string, idkuliah: number) {
       console.log("\n   Evaluations to be deleted:")
       evaluations.slice(0, 5).forEach((e) => {
         console.log(
-          `   - Evaluated ${e.evaluated_nrp} on criteria ${e.idkriteria}: ${e.points}`
+          `   - Evaluated ${e.evaluated_nrp} on criteria ${e.idkriteria}: ${e.score}`
         )
       })
       if (evaluations.length > 5) {
