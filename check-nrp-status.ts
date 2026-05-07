@@ -69,10 +69,10 @@ async function checkNrpStatus(nrp: string, idkuliah?: number) {
             idkuliah: group.idkuliah,
             idkriteria: k.idkriteria,
           },
-          select: { evaluated_nrp: true, score: true },
+          select: { evaluated_nrp: true, points: true },
         })
 
-        const total = evaluations.reduce((sum, e) => sum + (e.score || 0), 0)
+        const total = evaluations.reduce((sum, e) => sum + (e.points || 0), 0)
         const count = evaluations.length
         const complete = total === 100
 
@@ -83,7 +83,7 @@ async function checkNrpStatus(nrp: string, idkuliah?: number) {
 
         if (evaluations.length > 0) {
           evaluations.forEach((e) => {
-            console.log(`       - ${e.evaluated_nrp}: ${e.score}`)
+            console.log(`       - ${e.evaluated_nrp}: ${e.points}`)
           })
         }
       }

@@ -1909,11 +1909,15 @@ export namespace Prisma {
 
   export type EvaluationsAvgAggregateOutputType = {
     id: number | null
+    idkuliah: number | null
+    idkriteria: number | null
     points: number | null
   }
 
   export type EvaluationsSumAggregateOutputType = {
     id: number | null
+    idkuliah: number | null
+    idkriteria: number | null
     points: number | null
   }
 
@@ -1921,6 +1925,8 @@ export namespace Prisma {
     id: number | null
     evaluator_nrp: string | null
     evaluated_nrp: string | null
+    idkuliah: number | null
+    idkriteria: number | null
     points: number | null
   }
 
@@ -1928,6 +1934,8 @@ export namespace Prisma {
     id: number | null
     evaluator_nrp: string | null
     evaluated_nrp: string | null
+    idkuliah: number | null
+    idkriteria: number | null
     points: number | null
   }
 
@@ -1935,6 +1943,8 @@ export namespace Prisma {
     id: number
     evaluator_nrp: number
     evaluated_nrp: number
+    idkuliah: number
+    idkriteria: number
     points: number
     _all: number
   }
@@ -1942,11 +1952,15 @@ export namespace Prisma {
 
   export type EvaluationsAvgAggregateInputType = {
     id?: true
+    idkuliah?: true
+    idkriteria?: true
     points?: true
   }
 
   export type EvaluationsSumAggregateInputType = {
     id?: true
+    idkuliah?: true
+    idkriteria?: true
     points?: true
   }
 
@@ -1954,6 +1968,8 @@ export namespace Prisma {
     id?: true
     evaluator_nrp?: true
     evaluated_nrp?: true
+    idkuliah?: true
+    idkriteria?: true
     points?: true
   }
 
@@ -1961,6 +1977,8 @@ export namespace Prisma {
     id?: true
     evaluator_nrp?: true
     evaluated_nrp?: true
+    idkuliah?: true
+    idkriteria?: true
     points?: true
   }
 
@@ -1968,6 +1986,8 @@ export namespace Prisma {
     id?: true
     evaluator_nrp?: true
     evaluated_nrp?: true
+    idkuliah?: true
+    idkriteria?: true
     points?: true
     _all?: true
   }
@@ -2062,6 +2082,8 @@ export namespace Prisma {
     id: number
     evaluator_nrp: string | null
     evaluated_nrp: string | null
+    idkuliah: number | null
+    idkriteria: number | null
     points: number | null
     _count: EvaluationsCountAggregateOutputType | null
     _avg: EvaluationsAvgAggregateOutputType | null
@@ -2088,6 +2110,8 @@ export namespace Prisma {
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
+    idkuliah?: boolean
+    idkriteria?: boolean
     points?: boolean
   }, ExtArgs["result"]["evaluations"]>
 
@@ -2095,6 +2119,8 @@ export namespace Prisma {
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
+    idkuliah?: boolean
+    idkriteria?: boolean
     points?: boolean
   }, ExtArgs["result"]["evaluations"]>
 
@@ -2102,6 +2128,8 @@ export namespace Prisma {
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
+    idkuliah?: boolean
+    idkriteria?: boolean
     points?: boolean
   }, ExtArgs["result"]["evaluations"]>
 
@@ -2109,10 +2137,12 @@ export namespace Prisma {
     id?: boolean
     evaluator_nrp?: boolean
     evaluated_nrp?: boolean
+    idkuliah?: boolean
+    idkriteria?: boolean
     points?: boolean
   }
 
-  export type EvaluationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "evaluator_nrp" | "evaluated_nrp" | "points", ExtArgs["result"]["evaluations"]>
+  export type EvaluationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "evaluator_nrp" | "evaluated_nrp" | "idkuliah" | "idkriteria" | "points", ExtArgs["result"]["evaluations"]>
 
   export type $EvaluationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Evaluations"
@@ -2121,6 +2151,8 @@ export namespace Prisma {
       id: number
       evaluator_nrp: string | null
       evaluated_nrp: string | null
+      idkuliah: number | null
+      idkriteria: number | null
       points: number | null
     }, ExtArgs["result"]["evaluations"]>
     composites: {}
@@ -2548,6 +2580,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Evaluations", 'Int'>
     readonly evaluator_nrp: FieldRef<"Evaluations", 'String'>
     readonly evaluated_nrp: FieldRef<"Evaluations", 'String'>
+    readonly idkuliah: FieldRef<"Evaluations", 'Int'>
+    readonly idkriteria: FieldRef<"Evaluations", 'Int'>
     readonly points: FieldRef<"Evaluations", 'Int'>
   }
     
@@ -13736,6 +13770,8 @@ export namespace Prisma {
     id: 'id',
     evaluator_nrp: 'evaluator_nrp',
     evaluated_nrp: 'evaluated_nrp',
+    idkuliah: 'idkuliah',
+    idkriteria: 'idkriteria',
     points: 'points'
   };
 
@@ -13953,6 +13989,8 @@ export namespace Prisma {
     id?: IntFilter<"Evaluations"> | number
     evaluator_nrp?: StringNullableFilter<"Evaluations"> | string | null
     evaluated_nrp?: StringNullableFilter<"Evaluations"> | string | null
+    idkuliah?: IntNullableFilter<"Evaluations"> | number | null
+    idkriteria?: IntNullableFilter<"Evaluations"> | number | null
     points?: IntNullableFilter<"Evaluations"> | number | null
   }
 
@@ -13960,6 +13998,8 @@ export namespace Prisma {
     id?: SortOrder
     evaluator_nrp?: SortOrderInput | SortOrder
     evaluated_nrp?: SortOrderInput | SortOrder
+    idkuliah?: SortOrderInput | SortOrder
+    idkriteria?: SortOrderInput | SortOrder
     points?: SortOrderInput | SortOrder
   }
 
@@ -13970,6 +14010,8 @@ export namespace Prisma {
     NOT?: EvaluationsWhereInput | EvaluationsWhereInput[]
     evaluator_nrp?: StringNullableFilter<"Evaluations"> | string | null
     evaluated_nrp?: StringNullableFilter<"Evaluations"> | string | null
+    idkuliah?: IntNullableFilter<"Evaluations"> | number | null
+    idkriteria?: IntNullableFilter<"Evaluations"> | number | null
     points?: IntNullableFilter<"Evaluations"> | number | null
   }, "id">
 
@@ -13977,6 +14019,8 @@ export namespace Prisma {
     id?: SortOrder
     evaluator_nrp?: SortOrderInput | SortOrder
     evaluated_nrp?: SortOrderInput | SortOrder
+    idkuliah?: SortOrderInput | SortOrder
+    idkriteria?: SortOrderInput | SortOrder
     points?: SortOrderInput | SortOrder
     _count?: EvaluationsCountOrderByAggregateInput
     _avg?: EvaluationsAvgOrderByAggregateInput
@@ -13992,6 +14036,8 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Evaluations"> | number
     evaluator_nrp?: StringNullableWithAggregatesFilter<"Evaluations"> | string | null
     evaluated_nrp?: StringNullableWithAggregatesFilter<"Evaluations"> | string | null
+    idkuliah?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
+    idkriteria?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
     points?: IntNullableWithAggregatesFilter<"Evaluations"> | number | null
   }
 
@@ -14527,6 +14573,8 @@ export namespace Prisma {
   export type EvaluationsCreateInput = {
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
+    idkuliah?: number | null
+    idkriteria?: number | null
     points?: number | null
   }
 
@@ -14534,12 +14582,16 @@ export namespace Prisma {
     id?: number
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
+    idkuliah?: number | null
+    idkriteria?: number | null
     points?: number | null
   }
 
   export type EvaluationsUpdateInput = {
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
     points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -14547,6 +14599,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
     points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -14554,12 +14608,16 @@ export namespace Prisma {
     id?: number
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
+    idkuliah?: number | null
+    idkriteria?: number | null
     points?: number | null
   }
 
   export type EvaluationsUpdateManyMutationInput = {
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
     points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -14567,6 +14625,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     evaluator_nrp?: NullableStringFieldUpdateOperationsInput | string | null
     evaluated_nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    idkriteria?: NullableIntFieldUpdateOperationsInput | number | null
     points?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -15123,11 +15183,15 @@ export namespace Prisma {
     id?: SortOrder
     evaluator_nrp?: SortOrder
     evaluated_nrp?: SortOrder
+    idkuliah?: SortOrder
+    idkriteria?: SortOrder
     points?: SortOrder
   }
 
   export type EvaluationsAvgOrderByAggregateInput = {
     id?: SortOrder
+    idkuliah?: SortOrder
+    idkriteria?: SortOrder
     points?: SortOrder
   }
 
@@ -15135,6 +15199,8 @@ export namespace Prisma {
     id?: SortOrder
     evaluator_nrp?: SortOrder
     evaluated_nrp?: SortOrder
+    idkuliah?: SortOrder
+    idkriteria?: SortOrder
     points?: SortOrder
   }
 
@@ -15142,11 +15208,15 @@ export namespace Prisma {
     id?: SortOrder
     evaluator_nrp?: SortOrder
     evaluated_nrp?: SortOrder
+    idkuliah?: SortOrder
+    idkriteria?: SortOrder
     points?: SortOrder
   }
 
   export type EvaluationsSumOrderByAggregateInput = {
     id?: SortOrder
+    idkuliah?: SortOrder
+    idkriteria?: SortOrder
     points?: SortOrder
   }
 

@@ -65,6 +65,8 @@ export async function POST(req: NextRequest) {
           data: {
             evaluator_nrp: evaluatorNrp,
             evaluated_nrp: evaluatedNrp,
+            idkuliah,
+            idkriteria: parseInt(idkriteria),
             points: score,
           },
         })

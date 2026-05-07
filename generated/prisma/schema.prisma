@@ -17,6 +17,8 @@ model Evaluations {
   id            Int     @id @default(autoincrement())
   evaluator_nrp String?
   evaluated_nrp String?
+  idkuliah      Int?
+  idkriteria    Int?
   points        Int?
 
   @@map("evaluations")

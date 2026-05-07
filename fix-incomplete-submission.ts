@@ -39,7 +39,7 @@ async function resetSubmission(nrp: string, idkuliah: number) {
     // Check evaluations
     const evaluations = await prisma.evaluations.findMany({
       where: { evaluator_nrp: nrp, idkuliah },
-      select: { id: true, evaluated_nrp: true, idkriteria: true, score: true },
+      select: { id: true, evaluated_nrp: true, idkriteria: true, points: true },
     })
 
     console.log(`\n📋 Found:`)
@@ -50,7 +50,7 @@ async function resetSubmission(nrp: string, idkuliah: number) {
       console.log("\n   Evaluations to be deleted:")
       evaluations.slice(0, 5).forEach((e) => {
         console.log(
-          `   - Evaluated ${e.evaluated_nrp} on criteria ${e.idkriteria}: ${e.score}`
+          `   - Evaluated ${e.evaluated_nrp} on criteria ${e.idkriteria}: ${e.points}`
         )
       })
       if (evaluations.length > 5) {
