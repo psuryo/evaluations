@@ -68,6 +68,16 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  * 
  */
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
+/**
+ * Model StudentFinalGrade
+ * 
+ */
+export type StudentFinalGrade = $Result.DefaultSelection<Prisma.$StudentFinalGradePayload>
+/**
+ * Model CourseGradeWeights
+ * 
+ */
+export type CourseGradeWeights = $Result.DefaultSelection<Prisma.$CourseGradeWeightsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -299,6 +309,26 @@ export class PrismaClient<
     * ```
     */
   get session(): Prisma.SessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studentFinalGrade`: Exposes CRUD operations for the **StudentFinalGrade** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudentFinalGrades
+    * const studentFinalGrades = await prisma.studentFinalGrade.findMany()
+    * ```
+    */
+  get studentFinalGrade(): Prisma.StudentFinalGradeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.courseGradeWeights`: Exposes CRUD operations for the **CourseGradeWeights** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CourseGradeWeights
+    * const courseGradeWeights = await prisma.courseGradeWeights.findMany()
+    * ```
+    */
+  get courseGradeWeights(): Prisma.CourseGradeWeightsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -743,7 +773,9 @@ export namespace Prisma {
     VerificationToken: 'VerificationToken',
     User: 'User',
     Account: 'Account',
-    Session: 'Session'
+    Session: 'Session',
+    StudentFinalGrade: 'StudentFinalGrade',
+    CourseGradeWeights: 'CourseGradeWeights'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -759,7 +791,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "evaluations" | "group" | "kriteria" | "kuliah" | "nilai" | "userNilai" | "submission" | "verificationToken" | "user" | "account" | "session"
+      modelProps: "evaluations" | "group" | "kriteria" | "kuliah" | "nilai" | "userNilai" | "submission" | "verificationToken" | "user" | "account" | "session" | "studentFinalGrade" | "courseGradeWeights"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1577,6 +1609,154 @@ export namespace Prisma {
           }
         }
       }
+      StudentFinalGrade: {
+        payload: Prisma.$StudentFinalGradePayload<ExtArgs>
+        fields: Prisma.StudentFinalGradeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudentFinalGradeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudentFinalGradeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>
+          }
+          findFirst: {
+            args: Prisma.StudentFinalGradeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudentFinalGradeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>
+          }
+          findMany: {
+            args: Prisma.StudentFinalGradeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>[]
+          }
+          create: {
+            args: Prisma.StudentFinalGradeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>
+          }
+          createMany: {
+            args: Prisma.StudentFinalGradeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudentFinalGradeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>[]
+          }
+          delete: {
+            args: Prisma.StudentFinalGradeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>
+          }
+          update: {
+            args: Prisma.StudentFinalGradeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>
+          }
+          deleteMany: {
+            args: Prisma.StudentFinalGradeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudentFinalGradeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudentFinalGradeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>[]
+          }
+          upsert: {
+            args: Prisma.StudentFinalGradeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentFinalGradePayload>
+          }
+          aggregate: {
+            args: Prisma.StudentFinalGradeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudentFinalGrade>
+          }
+          groupBy: {
+            args: Prisma.StudentFinalGradeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudentFinalGradeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudentFinalGradeCountArgs<ExtArgs>
+            result: $Utils.Optional<StudentFinalGradeCountAggregateOutputType> | number
+          }
+        }
+      }
+      CourseGradeWeights: {
+        payload: Prisma.$CourseGradeWeightsPayload<ExtArgs>
+        fields: Prisma.CourseGradeWeightsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CourseGradeWeightsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CourseGradeWeightsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>
+          }
+          findFirst: {
+            args: Prisma.CourseGradeWeightsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CourseGradeWeightsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>
+          }
+          findMany: {
+            args: Prisma.CourseGradeWeightsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>[]
+          }
+          create: {
+            args: Prisma.CourseGradeWeightsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>
+          }
+          createMany: {
+            args: Prisma.CourseGradeWeightsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CourseGradeWeightsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>[]
+          }
+          delete: {
+            args: Prisma.CourseGradeWeightsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>
+          }
+          update: {
+            args: Prisma.CourseGradeWeightsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>
+          }
+          deleteMany: {
+            args: Prisma.CourseGradeWeightsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CourseGradeWeightsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CourseGradeWeightsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>[]
+          }
+          upsert: {
+            args: Prisma.CourseGradeWeightsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseGradeWeightsPayload>
+          }
+          aggregate: {
+            args: Prisma.CourseGradeWeightsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCourseGradeWeights>
+          }
+          groupBy: {
+            args: Prisma.CourseGradeWeightsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CourseGradeWeightsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CourseGradeWeightsCountArgs<ExtArgs>
+            result: $Utils.Optional<CourseGradeWeightsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1696,6 +1876,8 @@ export namespace Prisma {
     user?: UserOmit
     account?: AccountOmit
     session?: SessionOmit
+    studentFinalGrade?: StudentFinalGradeOmit
+    courseGradeWeights?: CourseGradeWeightsOmit
   }
 
   /* Types for Logging */
@@ -13753,6 +13935,2183 @@ export namespace Prisma {
 
 
   /**
+   * Model StudentFinalGrade
+   */
+
+  export type AggregateStudentFinalGrade = {
+    _count: StudentFinalGradeCountAggregateOutputType | null
+    _avg: StudentFinalGradeAvgAggregateOutputType | null
+    _sum: StudentFinalGradeSumAggregateOutputType | null
+    _min: StudentFinalGradeMinAggregateOutputType | null
+    _max: StudentFinalGradeMaxAggregateOutputType | null
+  }
+
+  export type StudentFinalGradeAvgAggregateOutputType = {
+    id: number | null
+    idkuliah: number | null
+    mid_assignment_grade: Decimal | null
+    mid_exam_grade: Decimal | null
+    final_assignment_grade: Decimal | null
+    final_exam_grade: Decimal | null
+    final_grade: Decimal | null
+  }
+
+  export type StudentFinalGradeSumAggregateOutputType = {
+    id: number | null
+    idkuliah: number | null
+    mid_assignment_grade: Decimal | null
+    mid_exam_grade: Decimal | null
+    final_assignment_grade: Decimal | null
+    final_exam_grade: Decimal | null
+    final_grade: Decimal | null
+  }
+
+  export type StudentFinalGradeMinAggregateOutputType = {
+    id: number | null
+    nrp: string | null
+    idkuliah: number | null
+    mid_assignment_grade: Decimal | null
+    mid_exam_grade: Decimal | null
+    final_assignment_grade: Decimal | null
+    final_exam_grade: Decimal | null
+    final_grade: Decimal | null
+    updated_at: Date | null
+  }
+
+  export type StudentFinalGradeMaxAggregateOutputType = {
+    id: number | null
+    nrp: string | null
+    idkuliah: number | null
+    mid_assignment_grade: Decimal | null
+    mid_exam_grade: Decimal | null
+    final_assignment_grade: Decimal | null
+    final_exam_grade: Decimal | null
+    final_grade: Decimal | null
+    updated_at: Date | null
+  }
+
+  export type StudentFinalGradeCountAggregateOutputType = {
+    id: number
+    nrp: number
+    idkuliah: number
+    mid_assignment_grade: number
+    mid_exam_grade: number
+    final_assignment_grade: number
+    final_exam_grade: number
+    final_grade: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type StudentFinalGradeAvgAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_grade?: true
+    mid_exam_grade?: true
+    final_assignment_grade?: true
+    final_exam_grade?: true
+    final_grade?: true
+  }
+
+  export type StudentFinalGradeSumAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_grade?: true
+    mid_exam_grade?: true
+    final_assignment_grade?: true
+    final_exam_grade?: true
+    final_grade?: true
+  }
+
+  export type StudentFinalGradeMinAggregateInputType = {
+    id?: true
+    nrp?: true
+    idkuliah?: true
+    mid_assignment_grade?: true
+    mid_exam_grade?: true
+    final_assignment_grade?: true
+    final_exam_grade?: true
+    final_grade?: true
+    updated_at?: true
+  }
+
+  export type StudentFinalGradeMaxAggregateInputType = {
+    id?: true
+    nrp?: true
+    idkuliah?: true
+    mid_assignment_grade?: true
+    mid_exam_grade?: true
+    final_assignment_grade?: true
+    final_exam_grade?: true
+    final_grade?: true
+    updated_at?: true
+  }
+
+  export type StudentFinalGradeCountAggregateInputType = {
+    id?: true
+    nrp?: true
+    idkuliah?: true
+    mid_assignment_grade?: true
+    mid_exam_grade?: true
+    final_assignment_grade?: true
+    final_exam_grade?: true
+    final_grade?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type StudentFinalGradeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentFinalGrade to aggregate.
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentFinalGrades to fetch.
+     */
+    orderBy?: StudentFinalGradeOrderByWithRelationInput | StudentFinalGradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudentFinalGradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentFinalGrades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentFinalGrades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudentFinalGrades
+    **/
+    _count?: true | StudentFinalGradeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StudentFinalGradeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StudentFinalGradeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudentFinalGradeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudentFinalGradeMaxAggregateInputType
+  }
+
+  export type GetStudentFinalGradeAggregateType<T extends StudentFinalGradeAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudentFinalGrade]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudentFinalGrade[P]>
+      : GetScalarType<T[P], AggregateStudentFinalGrade[P]>
+  }
+
+
+
+
+  export type StudentFinalGradeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentFinalGradeWhereInput
+    orderBy?: StudentFinalGradeOrderByWithAggregationInput | StudentFinalGradeOrderByWithAggregationInput[]
+    by: StudentFinalGradeScalarFieldEnum[] | StudentFinalGradeScalarFieldEnum
+    having?: StudentFinalGradeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudentFinalGradeCountAggregateInputType | true
+    _avg?: StudentFinalGradeAvgAggregateInputType
+    _sum?: StudentFinalGradeSumAggregateInputType
+    _min?: StudentFinalGradeMinAggregateInputType
+    _max?: StudentFinalGradeMaxAggregateInputType
+  }
+
+  export type StudentFinalGradeGroupByOutputType = {
+    id: number
+    nrp: string | null
+    idkuliah: number | null
+    mid_assignment_grade: Decimal | null
+    mid_exam_grade: Decimal | null
+    final_assignment_grade: Decimal | null
+    final_exam_grade: Decimal | null
+    final_grade: Decimal | null
+    updated_at: Date
+    _count: StudentFinalGradeCountAggregateOutputType | null
+    _avg: StudentFinalGradeAvgAggregateOutputType | null
+    _sum: StudentFinalGradeSumAggregateOutputType | null
+    _min: StudentFinalGradeMinAggregateOutputType | null
+    _max: StudentFinalGradeMaxAggregateOutputType | null
+  }
+
+  type GetStudentFinalGradeGroupByPayload<T extends StudentFinalGradeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudentFinalGradeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudentFinalGradeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudentFinalGradeGroupByOutputType[P]>
+            : GetScalarType<T[P], StudentFinalGradeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudentFinalGradeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nrp?: boolean
+    idkuliah?: boolean
+    mid_assignment_grade?: boolean
+    mid_exam_grade?: boolean
+    final_assignment_grade?: boolean
+    final_exam_grade?: boolean
+    final_grade?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["studentFinalGrade"]>
+
+  export type StudentFinalGradeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nrp?: boolean
+    idkuliah?: boolean
+    mid_assignment_grade?: boolean
+    mid_exam_grade?: boolean
+    final_assignment_grade?: boolean
+    final_exam_grade?: boolean
+    final_grade?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["studentFinalGrade"]>
+
+  export type StudentFinalGradeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nrp?: boolean
+    idkuliah?: boolean
+    mid_assignment_grade?: boolean
+    mid_exam_grade?: boolean
+    final_assignment_grade?: boolean
+    final_exam_grade?: boolean
+    final_grade?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["studentFinalGrade"]>
+
+  export type StudentFinalGradeSelectScalar = {
+    id?: boolean
+    nrp?: boolean
+    idkuliah?: boolean
+    mid_assignment_grade?: boolean
+    mid_exam_grade?: boolean
+    final_assignment_grade?: boolean
+    final_exam_grade?: boolean
+    final_grade?: boolean
+    updated_at?: boolean
+  }
+
+  export type StudentFinalGradeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nrp" | "idkuliah" | "mid_assignment_grade" | "mid_exam_grade" | "final_assignment_grade" | "final_exam_grade" | "final_grade" | "updated_at", ExtArgs["result"]["studentFinalGrade"]>
+
+  export type $StudentFinalGradePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudentFinalGrade"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nrp: string | null
+      idkuliah: number | null
+      mid_assignment_grade: Prisma.Decimal | null
+      mid_exam_grade: Prisma.Decimal | null
+      final_assignment_grade: Prisma.Decimal | null
+      final_exam_grade: Prisma.Decimal | null
+      final_grade: Prisma.Decimal | null
+      updated_at: Date
+    }, ExtArgs["result"]["studentFinalGrade"]>
+    composites: {}
+  }
+
+  type StudentFinalGradeGetPayload<S extends boolean | null | undefined | StudentFinalGradeDefaultArgs> = $Result.GetResult<Prisma.$StudentFinalGradePayload, S>
+
+  type StudentFinalGradeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudentFinalGradeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudentFinalGradeCountAggregateInputType | true
+    }
+
+  export interface StudentFinalGradeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudentFinalGrade'], meta: { name: 'StudentFinalGrade' } }
+    /**
+     * Find zero or one StudentFinalGrade that matches the filter.
+     * @param {StudentFinalGradeFindUniqueArgs} args - Arguments to find a StudentFinalGrade
+     * @example
+     * // Get one StudentFinalGrade
+     * const studentFinalGrade = await prisma.studentFinalGrade.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudentFinalGradeFindUniqueArgs>(args: SelectSubset<T, StudentFinalGradeFindUniqueArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudentFinalGrade that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudentFinalGradeFindUniqueOrThrowArgs} args - Arguments to find a StudentFinalGrade
+     * @example
+     * // Get one StudentFinalGrade
+     * const studentFinalGrade = await prisma.studentFinalGrade.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudentFinalGradeFindUniqueOrThrowArgs>(args: SelectSubset<T, StudentFinalGradeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentFinalGrade that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeFindFirstArgs} args - Arguments to find a StudentFinalGrade
+     * @example
+     * // Get one StudentFinalGrade
+     * const studentFinalGrade = await prisma.studentFinalGrade.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudentFinalGradeFindFirstArgs>(args?: SelectSubset<T, StudentFinalGradeFindFirstArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentFinalGrade that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeFindFirstOrThrowArgs} args - Arguments to find a StudentFinalGrade
+     * @example
+     * // Get one StudentFinalGrade
+     * const studentFinalGrade = await prisma.studentFinalGrade.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudentFinalGradeFindFirstOrThrowArgs>(args?: SelectSubset<T, StudentFinalGradeFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudentFinalGrades that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudentFinalGrades
+     * const studentFinalGrades = await prisma.studentFinalGrade.findMany()
+     * 
+     * // Get first 10 StudentFinalGrades
+     * const studentFinalGrades = await prisma.studentFinalGrade.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studentFinalGradeWithIdOnly = await prisma.studentFinalGrade.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudentFinalGradeFindManyArgs>(args?: SelectSubset<T, StudentFinalGradeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudentFinalGrade.
+     * @param {StudentFinalGradeCreateArgs} args - Arguments to create a StudentFinalGrade.
+     * @example
+     * // Create one StudentFinalGrade
+     * const StudentFinalGrade = await prisma.studentFinalGrade.create({
+     *   data: {
+     *     // ... data to create a StudentFinalGrade
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudentFinalGradeCreateArgs>(args: SelectSubset<T, StudentFinalGradeCreateArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudentFinalGrades.
+     * @param {StudentFinalGradeCreateManyArgs} args - Arguments to create many StudentFinalGrades.
+     * @example
+     * // Create many StudentFinalGrades
+     * const studentFinalGrade = await prisma.studentFinalGrade.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudentFinalGradeCreateManyArgs>(args?: SelectSubset<T, StudentFinalGradeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudentFinalGrades and returns the data saved in the database.
+     * @param {StudentFinalGradeCreateManyAndReturnArgs} args - Arguments to create many StudentFinalGrades.
+     * @example
+     * // Create many StudentFinalGrades
+     * const studentFinalGrade = await prisma.studentFinalGrade.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudentFinalGrades and only return the `id`
+     * const studentFinalGradeWithIdOnly = await prisma.studentFinalGrade.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudentFinalGradeCreateManyAndReturnArgs>(args?: SelectSubset<T, StudentFinalGradeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudentFinalGrade.
+     * @param {StudentFinalGradeDeleteArgs} args - Arguments to delete one StudentFinalGrade.
+     * @example
+     * // Delete one StudentFinalGrade
+     * const StudentFinalGrade = await prisma.studentFinalGrade.delete({
+     *   where: {
+     *     // ... filter to delete one StudentFinalGrade
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudentFinalGradeDeleteArgs>(args: SelectSubset<T, StudentFinalGradeDeleteArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudentFinalGrade.
+     * @param {StudentFinalGradeUpdateArgs} args - Arguments to update one StudentFinalGrade.
+     * @example
+     * // Update one StudentFinalGrade
+     * const studentFinalGrade = await prisma.studentFinalGrade.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudentFinalGradeUpdateArgs>(args: SelectSubset<T, StudentFinalGradeUpdateArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudentFinalGrades.
+     * @param {StudentFinalGradeDeleteManyArgs} args - Arguments to filter StudentFinalGrades to delete.
+     * @example
+     * // Delete a few StudentFinalGrades
+     * const { count } = await prisma.studentFinalGrade.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudentFinalGradeDeleteManyArgs>(args?: SelectSubset<T, StudentFinalGradeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentFinalGrades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudentFinalGrades
+     * const studentFinalGrade = await prisma.studentFinalGrade.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudentFinalGradeUpdateManyArgs>(args: SelectSubset<T, StudentFinalGradeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentFinalGrades and returns the data updated in the database.
+     * @param {StudentFinalGradeUpdateManyAndReturnArgs} args - Arguments to update many StudentFinalGrades.
+     * @example
+     * // Update many StudentFinalGrades
+     * const studentFinalGrade = await prisma.studentFinalGrade.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudentFinalGrades and only return the `id`
+     * const studentFinalGradeWithIdOnly = await prisma.studentFinalGrade.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudentFinalGradeUpdateManyAndReturnArgs>(args: SelectSubset<T, StudentFinalGradeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudentFinalGrade.
+     * @param {StudentFinalGradeUpsertArgs} args - Arguments to update or create a StudentFinalGrade.
+     * @example
+     * // Update or create a StudentFinalGrade
+     * const studentFinalGrade = await prisma.studentFinalGrade.upsert({
+     *   create: {
+     *     // ... data to create a StudentFinalGrade
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudentFinalGrade we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudentFinalGradeUpsertArgs>(args: SelectSubset<T, StudentFinalGradeUpsertArgs<ExtArgs>>): Prisma__StudentFinalGradeClient<$Result.GetResult<Prisma.$StudentFinalGradePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudentFinalGrades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeCountArgs} args - Arguments to filter StudentFinalGrades to count.
+     * @example
+     * // Count the number of StudentFinalGrades
+     * const count = await prisma.studentFinalGrade.count({
+     *   where: {
+     *     // ... the filter for the StudentFinalGrades we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudentFinalGradeCountArgs>(
+      args?: Subset<T, StudentFinalGradeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudentFinalGradeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudentFinalGrade.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudentFinalGradeAggregateArgs>(args: Subset<T, StudentFinalGradeAggregateArgs>): Prisma.PrismaPromise<GetStudentFinalGradeAggregateType<T>>
+
+    /**
+     * Group by StudentFinalGrade.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentFinalGradeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudentFinalGradeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudentFinalGradeGroupByArgs['orderBy'] }
+        : { orderBy?: StudentFinalGradeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudentFinalGradeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudentFinalGradeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudentFinalGrade model
+   */
+  readonly fields: StudentFinalGradeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudentFinalGrade.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudentFinalGradeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudentFinalGrade model
+   */
+  interface StudentFinalGradeFieldRefs {
+    readonly id: FieldRef<"StudentFinalGrade", 'Int'>
+    readonly nrp: FieldRef<"StudentFinalGrade", 'String'>
+    readonly idkuliah: FieldRef<"StudentFinalGrade", 'Int'>
+    readonly mid_assignment_grade: FieldRef<"StudentFinalGrade", 'Decimal'>
+    readonly mid_exam_grade: FieldRef<"StudentFinalGrade", 'Decimal'>
+    readonly final_assignment_grade: FieldRef<"StudentFinalGrade", 'Decimal'>
+    readonly final_exam_grade: FieldRef<"StudentFinalGrade", 'Decimal'>
+    readonly final_grade: FieldRef<"StudentFinalGrade", 'Decimal'>
+    readonly updated_at: FieldRef<"StudentFinalGrade", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudentFinalGrade findUnique
+   */
+  export type StudentFinalGradeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * Filter, which StudentFinalGrade to fetch.
+     */
+    where: StudentFinalGradeWhereUniqueInput
+  }
+
+  /**
+   * StudentFinalGrade findUniqueOrThrow
+   */
+  export type StudentFinalGradeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * Filter, which StudentFinalGrade to fetch.
+     */
+    where: StudentFinalGradeWhereUniqueInput
+  }
+
+  /**
+   * StudentFinalGrade findFirst
+   */
+  export type StudentFinalGradeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * Filter, which StudentFinalGrade to fetch.
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentFinalGrades to fetch.
+     */
+    orderBy?: StudentFinalGradeOrderByWithRelationInput | StudentFinalGradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentFinalGrades.
+     */
+    cursor?: StudentFinalGradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentFinalGrades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentFinalGrades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentFinalGrades.
+     */
+    distinct?: StudentFinalGradeScalarFieldEnum | StudentFinalGradeScalarFieldEnum[]
+  }
+
+  /**
+   * StudentFinalGrade findFirstOrThrow
+   */
+  export type StudentFinalGradeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * Filter, which StudentFinalGrade to fetch.
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentFinalGrades to fetch.
+     */
+    orderBy?: StudentFinalGradeOrderByWithRelationInput | StudentFinalGradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentFinalGrades.
+     */
+    cursor?: StudentFinalGradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentFinalGrades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentFinalGrades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentFinalGrades.
+     */
+    distinct?: StudentFinalGradeScalarFieldEnum | StudentFinalGradeScalarFieldEnum[]
+  }
+
+  /**
+   * StudentFinalGrade findMany
+   */
+  export type StudentFinalGradeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * Filter, which StudentFinalGrades to fetch.
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentFinalGrades to fetch.
+     */
+    orderBy?: StudentFinalGradeOrderByWithRelationInput | StudentFinalGradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudentFinalGrades.
+     */
+    cursor?: StudentFinalGradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentFinalGrades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentFinalGrades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentFinalGrades.
+     */
+    distinct?: StudentFinalGradeScalarFieldEnum | StudentFinalGradeScalarFieldEnum[]
+  }
+
+  /**
+   * StudentFinalGrade create
+   */
+  export type StudentFinalGradeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a StudentFinalGrade.
+     */
+    data?: XOR<StudentFinalGradeCreateInput, StudentFinalGradeUncheckedCreateInput>
+  }
+
+  /**
+   * StudentFinalGrade createMany
+   */
+  export type StudentFinalGradeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudentFinalGrades.
+     */
+    data: StudentFinalGradeCreateManyInput | StudentFinalGradeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudentFinalGrade createManyAndReturn
+   */
+  export type StudentFinalGradeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudentFinalGrades.
+     */
+    data: StudentFinalGradeCreateManyInput | StudentFinalGradeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudentFinalGrade update
+   */
+  export type StudentFinalGradeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a StudentFinalGrade.
+     */
+    data: XOR<StudentFinalGradeUpdateInput, StudentFinalGradeUncheckedUpdateInput>
+    /**
+     * Choose, which StudentFinalGrade to update.
+     */
+    where: StudentFinalGradeWhereUniqueInput
+  }
+
+  /**
+   * StudentFinalGrade updateMany
+   */
+  export type StudentFinalGradeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudentFinalGrades.
+     */
+    data: XOR<StudentFinalGradeUpdateManyMutationInput, StudentFinalGradeUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentFinalGrades to update
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * Limit how many StudentFinalGrades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentFinalGrade updateManyAndReturn
+   */
+  export type StudentFinalGradeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * The data used to update StudentFinalGrades.
+     */
+    data: XOR<StudentFinalGradeUpdateManyMutationInput, StudentFinalGradeUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentFinalGrades to update
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * Limit how many StudentFinalGrades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentFinalGrade upsert
+   */
+  export type StudentFinalGradeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the StudentFinalGrade to update in case it exists.
+     */
+    where: StudentFinalGradeWhereUniqueInput
+    /**
+     * In case the StudentFinalGrade found by the `where` argument doesn't exist, create a new StudentFinalGrade with this data.
+     */
+    create: XOR<StudentFinalGradeCreateInput, StudentFinalGradeUncheckedCreateInput>
+    /**
+     * In case the StudentFinalGrade was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudentFinalGradeUpdateInput, StudentFinalGradeUncheckedUpdateInput>
+  }
+
+  /**
+   * StudentFinalGrade delete
+   */
+  export type StudentFinalGradeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+    /**
+     * Filter which StudentFinalGrade to delete.
+     */
+    where: StudentFinalGradeWhereUniqueInput
+  }
+
+  /**
+   * StudentFinalGrade deleteMany
+   */
+  export type StudentFinalGradeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentFinalGrades to delete
+     */
+    where?: StudentFinalGradeWhereInput
+    /**
+     * Limit how many StudentFinalGrades to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentFinalGrade without action
+   */
+  export type StudentFinalGradeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentFinalGrade
+     */
+    select?: StudentFinalGradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentFinalGrade
+     */
+    omit?: StudentFinalGradeOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CourseGradeWeights
+   */
+
+  export type AggregateCourseGradeWeights = {
+    _count: CourseGradeWeightsCountAggregateOutputType | null
+    _avg: CourseGradeWeightsAvgAggregateOutputType | null
+    _sum: CourseGradeWeightsSumAggregateOutputType | null
+    _min: CourseGradeWeightsMinAggregateOutputType | null
+    _max: CourseGradeWeightsMaxAggregateOutputType | null
+  }
+
+  export type CourseGradeWeightsAvgAggregateOutputType = {
+    id: number | null
+    idkuliah: number | null
+    mid_assignment_weight: number | null
+    mid_exam_weight: number | null
+    final_assignment_weight: number | null
+    final_exam_weight: number | null
+  }
+
+  export type CourseGradeWeightsSumAggregateOutputType = {
+    id: number | null
+    idkuliah: number | null
+    mid_assignment_weight: number | null
+    mid_exam_weight: number | null
+    final_assignment_weight: number | null
+    final_exam_weight: number | null
+  }
+
+  export type CourseGradeWeightsMinAggregateOutputType = {
+    id: number | null
+    idkuliah: number | null
+    mid_assignment_weight: number | null
+    mid_exam_weight: number | null
+    final_assignment_weight: number | null
+    final_exam_weight: number | null
+  }
+
+  export type CourseGradeWeightsMaxAggregateOutputType = {
+    id: number | null
+    idkuliah: number | null
+    mid_assignment_weight: number | null
+    mid_exam_weight: number | null
+    final_assignment_weight: number | null
+    final_exam_weight: number | null
+  }
+
+  export type CourseGradeWeightsCountAggregateOutputType = {
+    id: number
+    idkuliah: number
+    mid_assignment_weight: number
+    mid_exam_weight: number
+    final_assignment_weight: number
+    final_exam_weight: number
+    _all: number
+  }
+
+
+  export type CourseGradeWeightsAvgAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_weight?: true
+    mid_exam_weight?: true
+    final_assignment_weight?: true
+    final_exam_weight?: true
+  }
+
+  export type CourseGradeWeightsSumAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_weight?: true
+    mid_exam_weight?: true
+    final_assignment_weight?: true
+    final_exam_weight?: true
+  }
+
+  export type CourseGradeWeightsMinAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_weight?: true
+    mid_exam_weight?: true
+    final_assignment_weight?: true
+    final_exam_weight?: true
+  }
+
+  export type CourseGradeWeightsMaxAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_weight?: true
+    mid_exam_weight?: true
+    final_assignment_weight?: true
+    final_exam_weight?: true
+  }
+
+  export type CourseGradeWeightsCountAggregateInputType = {
+    id?: true
+    idkuliah?: true
+    mid_assignment_weight?: true
+    mid_exam_weight?: true
+    final_assignment_weight?: true
+    final_exam_weight?: true
+    _all?: true
+  }
+
+  export type CourseGradeWeightsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CourseGradeWeights to aggregate.
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseGradeWeights to fetch.
+     */
+    orderBy?: CourseGradeWeightsOrderByWithRelationInput | CourseGradeWeightsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CourseGradeWeightsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseGradeWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseGradeWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CourseGradeWeights
+    **/
+    _count?: true | CourseGradeWeightsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CourseGradeWeightsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CourseGradeWeightsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CourseGradeWeightsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CourseGradeWeightsMaxAggregateInputType
+  }
+
+  export type GetCourseGradeWeightsAggregateType<T extends CourseGradeWeightsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCourseGradeWeights]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCourseGradeWeights[P]>
+      : GetScalarType<T[P], AggregateCourseGradeWeights[P]>
+  }
+
+
+
+
+  export type CourseGradeWeightsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourseGradeWeightsWhereInput
+    orderBy?: CourseGradeWeightsOrderByWithAggregationInput | CourseGradeWeightsOrderByWithAggregationInput[]
+    by: CourseGradeWeightsScalarFieldEnum[] | CourseGradeWeightsScalarFieldEnum
+    having?: CourseGradeWeightsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CourseGradeWeightsCountAggregateInputType | true
+    _avg?: CourseGradeWeightsAvgAggregateInputType
+    _sum?: CourseGradeWeightsSumAggregateInputType
+    _min?: CourseGradeWeightsMinAggregateInputType
+    _max?: CourseGradeWeightsMaxAggregateInputType
+  }
+
+  export type CourseGradeWeightsGroupByOutputType = {
+    id: number
+    idkuliah: number
+    mid_assignment_weight: number
+    mid_exam_weight: number
+    final_assignment_weight: number
+    final_exam_weight: number
+    _count: CourseGradeWeightsCountAggregateOutputType | null
+    _avg: CourseGradeWeightsAvgAggregateOutputType | null
+    _sum: CourseGradeWeightsSumAggregateOutputType | null
+    _min: CourseGradeWeightsMinAggregateOutputType | null
+    _max: CourseGradeWeightsMaxAggregateOutputType | null
+  }
+
+  type GetCourseGradeWeightsGroupByPayload<T extends CourseGradeWeightsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CourseGradeWeightsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CourseGradeWeightsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CourseGradeWeightsGroupByOutputType[P]>
+            : GetScalarType<T[P], CourseGradeWeightsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CourseGradeWeightsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    idkuliah?: boolean
+    mid_assignment_weight?: boolean
+    mid_exam_weight?: boolean
+    final_assignment_weight?: boolean
+    final_exam_weight?: boolean
+  }, ExtArgs["result"]["courseGradeWeights"]>
+
+  export type CourseGradeWeightsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    idkuliah?: boolean
+    mid_assignment_weight?: boolean
+    mid_exam_weight?: boolean
+    final_assignment_weight?: boolean
+    final_exam_weight?: boolean
+  }, ExtArgs["result"]["courseGradeWeights"]>
+
+  export type CourseGradeWeightsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    idkuliah?: boolean
+    mid_assignment_weight?: boolean
+    mid_exam_weight?: boolean
+    final_assignment_weight?: boolean
+    final_exam_weight?: boolean
+  }, ExtArgs["result"]["courseGradeWeights"]>
+
+  export type CourseGradeWeightsSelectScalar = {
+    id?: boolean
+    idkuliah?: boolean
+    mid_assignment_weight?: boolean
+    mid_exam_weight?: boolean
+    final_assignment_weight?: boolean
+    final_exam_weight?: boolean
+  }
+
+  export type CourseGradeWeightsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idkuliah" | "mid_assignment_weight" | "mid_exam_weight" | "final_assignment_weight" | "final_exam_weight", ExtArgs["result"]["courseGradeWeights"]>
+
+  export type $CourseGradeWeightsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CourseGradeWeights"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      idkuliah: number
+      mid_assignment_weight: number
+      mid_exam_weight: number
+      final_assignment_weight: number
+      final_exam_weight: number
+    }, ExtArgs["result"]["courseGradeWeights"]>
+    composites: {}
+  }
+
+  type CourseGradeWeightsGetPayload<S extends boolean | null | undefined | CourseGradeWeightsDefaultArgs> = $Result.GetResult<Prisma.$CourseGradeWeightsPayload, S>
+
+  type CourseGradeWeightsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CourseGradeWeightsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CourseGradeWeightsCountAggregateInputType | true
+    }
+
+  export interface CourseGradeWeightsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CourseGradeWeights'], meta: { name: 'CourseGradeWeights' } }
+    /**
+     * Find zero or one CourseGradeWeights that matches the filter.
+     * @param {CourseGradeWeightsFindUniqueArgs} args - Arguments to find a CourseGradeWeights
+     * @example
+     * // Get one CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CourseGradeWeightsFindUniqueArgs>(args: SelectSubset<T, CourseGradeWeightsFindUniqueArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CourseGradeWeights that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CourseGradeWeightsFindUniqueOrThrowArgs} args - Arguments to find a CourseGradeWeights
+     * @example
+     * // Get one CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CourseGradeWeightsFindUniqueOrThrowArgs>(args: SelectSubset<T, CourseGradeWeightsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CourseGradeWeights that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsFindFirstArgs} args - Arguments to find a CourseGradeWeights
+     * @example
+     * // Get one CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CourseGradeWeightsFindFirstArgs>(args?: SelectSubset<T, CourseGradeWeightsFindFirstArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CourseGradeWeights that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsFindFirstOrThrowArgs} args - Arguments to find a CourseGradeWeights
+     * @example
+     * // Get one CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CourseGradeWeightsFindFirstOrThrowArgs>(args?: SelectSubset<T, CourseGradeWeightsFindFirstOrThrowArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CourseGradeWeights that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.findMany()
+     * 
+     * // Get first 10 CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const courseGradeWeightsWithIdOnly = await prisma.courseGradeWeights.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CourseGradeWeightsFindManyArgs>(args?: SelectSubset<T, CourseGradeWeightsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CourseGradeWeights.
+     * @param {CourseGradeWeightsCreateArgs} args - Arguments to create a CourseGradeWeights.
+     * @example
+     * // Create one CourseGradeWeights
+     * const CourseGradeWeights = await prisma.courseGradeWeights.create({
+     *   data: {
+     *     // ... data to create a CourseGradeWeights
+     *   }
+     * })
+     * 
+     */
+    create<T extends CourseGradeWeightsCreateArgs>(args: SelectSubset<T, CourseGradeWeightsCreateArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CourseGradeWeights.
+     * @param {CourseGradeWeightsCreateManyArgs} args - Arguments to create many CourseGradeWeights.
+     * @example
+     * // Create many CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CourseGradeWeightsCreateManyArgs>(args?: SelectSubset<T, CourseGradeWeightsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CourseGradeWeights and returns the data saved in the database.
+     * @param {CourseGradeWeightsCreateManyAndReturnArgs} args - Arguments to create many CourseGradeWeights.
+     * @example
+     * // Create many CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CourseGradeWeights and only return the `id`
+     * const courseGradeWeightsWithIdOnly = await prisma.courseGradeWeights.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CourseGradeWeightsCreateManyAndReturnArgs>(args?: SelectSubset<T, CourseGradeWeightsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CourseGradeWeights.
+     * @param {CourseGradeWeightsDeleteArgs} args - Arguments to delete one CourseGradeWeights.
+     * @example
+     * // Delete one CourseGradeWeights
+     * const CourseGradeWeights = await prisma.courseGradeWeights.delete({
+     *   where: {
+     *     // ... filter to delete one CourseGradeWeights
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CourseGradeWeightsDeleteArgs>(args: SelectSubset<T, CourseGradeWeightsDeleteArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CourseGradeWeights.
+     * @param {CourseGradeWeightsUpdateArgs} args - Arguments to update one CourseGradeWeights.
+     * @example
+     * // Update one CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CourseGradeWeightsUpdateArgs>(args: SelectSubset<T, CourseGradeWeightsUpdateArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CourseGradeWeights.
+     * @param {CourseGradeWeightsDeleteManyArgs} args - Arguments to filter CourseGradeWeights to delete.
+     * @example
+     * // Delete a few CourseGradeWeights
+     * const { count } = await prisma.courseGradeWeights.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CourseGradeWeightsDeleteManyArgs>(args?: SelectSubset<T, CourseGradeWeightsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CourseGradeWeights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CourseGradeWeightsUpdateManyArgs>(args: SelectSubset<T, CourseGradeWeightsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CourseGradeWeights and returns the data updated in the database.
+     * @param {CourseGradeWeightsUpdateManyAndReturnArgs} args - Arguments to update many CourseGradeWeights.
+     * @example
+     * // Update many CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CourseGradeWeights and only return the `id`
+     * const courseGradeWeightsWithIdOnly = await prisma.courseGradeWeights.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CourseGradeWeightsUpdateManyAndReturnArgs>(args: SelectSubset<T, CourseGradeWeightsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CourseGradeWeights.
+     * @param {CourseGradeWeightsUpsertArgs} args - Arguments to update or create a CourseGradeWeights.
+     * @example
+     * // Update or create a CourseGradeWeights
+     * const courseGradeWeights = await prisma.courseGradeWeights.upsert({
+     *   create: {
+     *     // ... data to create a CourseGradeWeights
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CourseGradeWeights we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CourseGradeWeightsUpsertArgs>(args: SelectSubset<T, CourseGradeWeightsUpsertArgs<ExtArgs>>): Prisma__CourseGradeWeightsClient<$Result.GetResult<Prisma.$CourseGradeWeightsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CourseGradeWeights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsCountArgs} args - Arguments to filter CourseGradeWeights to count.
+     * @example
+     * // Count the number of CourseGradeWeights
+     * const count = await prisma.courseGradeWeights.count({
+     *   where: {
+     *     // ... the filter for the CourseGradeWeights we want to count
+     *   }
+     * })
+    **/
+    count<T extends CourseGradeWeightsCountArgs>(
+      args?: Subset<T, CourseGradeWeightsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CourseGradeWeightsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CourseGradeWeights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CourseGradeWeightsAggregateArgs>(args: Subset<T, CourseGradeWeightsAggregateArgs>): Prisma.PrismaPromise<GetCourseGradeWeightsAggregateType<T>>
+
+    /**
+     * Group by CourseGradeWeights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseGradeWeightsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CourseGradeWeightsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CourseGradeWeightsGroupByArgs['orderBy'] }
+        : { orderBy?: CourseGradeWeightsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CourseGradeWeightsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCourseGradeWeightsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CourseGradeWeights model
+   */
+  readonly fields: CourseGradeWeightsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CourseGradeWeights.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CourseGradeWeightsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CourseGradeWeights model
+   */
+  interface CourseGradeWeightsFieldRefs {
+    readonly id: FieldRef<"CourseGradeWeights", 'Int'>
+    readonly idkuliah: FieldRef<"CourseGradeWeights", 'Int'>
+    readonly mid_assignment_weight: FieldRef<"CourseGradeWeights", 'Int'>
+    readonly mid_exam_weight: FieldRef<"CourseGradeWeights", 'Int'>
+    readonly final_assignment_weight: FieldRef<"CourseGradeWeights", 'Int'>
+    readonly final_exam_weight: FieldRef<"CourseGradeWeights", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CourseGradeWeights findUnique
+   */
+  export type CourseGradeWeightsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * Filter, which CourseGradeWeights to fetch.
+     */
+    where: CourseGradeWeightsWhereUniqueInput
+  }
+
+  /**
+   * CourseGradeWeights findUniqueOrThrow
+   */
+  export type CourseGradeWeightsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * Filter, which CourseGradeWeights to fetch.
+     */
+    where: CourseGradeWeightsWhereUniqueInput
+  }
+
+  /**
+   * CourseGradeWeights findFirst
+   */
+  export type CourseGradeWeightsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * Filter, which CourseGradeWeights to fetch.
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseGradeWeights to fetch.
+     */
+    orderBy?: CourseGradeWeightsOrderByWithRelationInput | CourseGradeWeightsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CourseGradeWeights.
+     */
+    cursor?: CourseGradeWeightsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseGradeWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseGradeWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CourseGradeWeights.
+     */
+    distinct?: CourseGradeWeightsScalarFieldEnum | CourseGradeWeightsScalarFieldEnum[]
+  }
+
+  /**
+   * CourseGradeWeights findFirstOrThrow
+   */
+  export type CourseGradeWeightsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * Filter, which CourseGradeWeights to fetch.
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseGradeWeights to fetch.
+     */
+    orderBy?: CourseGradeWeightsOrderByWithRelationInput | CourseGradeWeightsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CourseGradeWeights.
+     */
+    cursor?: CourseGradeWeightsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseGradeWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseGradeWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CourseGradeWeights.
+     */
+    distinct?: CourseGradeWeightsScalarFieldEnum | CourseGradeWeightsScalarFieldEnum[]
+  }
+
+  /**
+   * CourseGradeWeights findMany
+   */
+  export type CourseGradeWeightsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * Filter, which CourseGradeWeights to fetch.
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseGradeWeights to fetch.
+     */
+    orderBy?: CourseGradeWeightsOrderByWithRelationInput | CourseGradeWeightsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CourseGradeWeights.
+     */
+    cursor?: CourseGradeWeightsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseGradeWeights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseGradeWeights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CourseGradeWeights.
+     */
+    distinct?: CourseGradeWeightsScalarFieldEnum | CourseGradeWeightsScalarFieldEnum[]
+  }
+
+  /**
+   * CourseGradeWeights create
+   */
+  export type CourseGradeWeightsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a CourseGradeWeights.
+     */
+    data: XOR<CourseGradeWeightsCreateInput, CourseGradeWeightsUncheckedCreateInput>
+  }
+
+  /**
+   * CourseGradeWeights createMany
+   */
+  export type CourseGradeWeightsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CourseGradeWeights.
+     */
+    data: CourseGradeWeightsCreateManyInput | CourseGradeWeightsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CourseGradeWeights createManyAndReturn
+   */
+  export type CourseGradeWeightsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * The data used to create many CourseGradeWeights.
+     */
+    data: CourseGradeWeightsCreateManyInput | CourseGradeWeightsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CourseGradeWeights update
+   */
+  export type CourseGradeWeightsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a CourseGradeWeights.
+     */
+    data: XOR<CourseGradeWeightsUpdateInput, CourseGradeWeightsUncheckedUpdateInput>
+    /**
+     * Choose, which CourseGradeWeights to update.
+     */
+    where: CourseGradeWeightsWhereUniqueInput
+  }
+
+  /**
+   * CourseGradeWeights updateMany
+   */
+  export type CourseGradeWeightsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CourseGradeWeights.
+     */
+    data: XOR<CourseGradeWeightsUpdateManyMutationInput, CourseGradeWeightsUncheckedUpdateManyInput>
+    /**
+     * Filter which CourseGradeWeights to update
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * Limit how many CourseGradeWeights to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CourseGradeWeights updateManyAndReturn
+   */
+  export type CourseGradeWeightsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * The data used to update CourseGradeWeights.
+     */
+    data: XOR<CourseGradeWeightsUpdateManyMutationInput, CourseGradeWeightsUncheckedUpdateManyInput>
+    /**
+     * Filter which CourseGradeWeights to update
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * Limit how many CourseGradeWeights to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CourseGradeWeights upsert
+   */
+  export type CourseGradeWeightsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the CourseGradeWeights to update in case it exists.
+     */
+    where: CourseGradeWeightsWhereUniqueInput
+    /**
+     * In case the CourseGradeWeights found by the `where` argument doesn't exist, create a new CourseGradeWeights with this data.
+     */
+    create: XOR<CourseGradeWeightsCreateInput, CourseGradeWeightsUncheckedCreateInput>
+    /**
+     * In case the CourseGradeWeights was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CourseGradeWeightsUpdateInput, CourseGradeWeightsUncheckedUpdateInput>
+  }
+
+  /**
+   * CourseGradeWeights delete
+   */
+  export type CourseGradeWeightsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+    /**
+     * Filter which CourseGradeWeights to delete.
+     */
+    where: CourseGradeWeightsWhereUniqueInput
+  }
+
+  /**
+   * CourseGradeWeights deleteMany
+   */
+  export type CourseGradeWeightsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CourseGradeWeights to delete
+     */
+    where?: CourseGradeWeightsWhereInput
+    /**
+     * Limit how many CourseGradeWeights to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CourseGradeWeights without action
+   */
+  export type CourseGradeWeightsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseGradeWeights
+     */
+    select?: CourseGradeWeightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseGradeWeights
+     */
+    omit?: CourseGradeWeightsOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13880,6 +16239,33 @@ export namespace Prisma {
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+  export const StudentFinalGradeScalarFieldEnum: {
+    id: 'id',
+    nrp: 'nrp',
+    idkuliah: 'idkuliah',
+    mid_assignment_grade: 'mid_assignment_grade',
+    mid_exam_grade: 'mid_exam_grade',
+    final_assignment_grade: 'final_assignment_grade',
+    final_exam_grade: 'final_exam_grade',
+    final_grade: 'final_grade',
+    updated_at: 'updated_at'
+  };
+
+  export type StudentFinalGradeScalarFieldEnum = (typeof StudentFinalGradeScalarFieldEnum)[keyof typeof StudentFinalGradeScalarFieldEnum]
+
+
+  export const CourseGradeWeightsScalarFieldEnum: {
+    id: 'id',
+    idkuliah: 'idkuliah',
+    mid_assignment_weight: 'mid_assignment_weight',
+    mid_exam_weight: 'mid_exam_weight',
+    final_assignment_weight: 'final_assignment_weight',
+    final_exam_weight: 'final_exam_weight'
+  };
+
+  export type CourseGradeWeightsScalarFieldEnum = (typeof CourseGradeWeightsScalarFieldEnum)[keyof typeof CourseGradeWeightsScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -14005,6 +16391,7 @@ export namespace Prisma {
 
   export type EvaluationsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    evaluator_nrp_evaluated_nrp_idkuliah_idkriteria?: EvaluationsEvaluator_nrpEvaluated_nrpIdkuliahIdkriteriaCompoundUniqueInput
     AND?: EvaluationsWhereInput | EvaluationsWhereInput[]
     OR?: EvaluationsWhereInput[]
     NOT?: EvaluationsWhereInput | EvaluationsWhereInput[]
@@ -14013,7 +16400,7 @@ export namespace Prisma {
     idkuliah?: IntNullableFilter<"Evaluations"> | number | null
     idkriteria?: IntNullableFilter<"Evaluations"> | number | null
     score?: IntNullableFilter<"Evaluations"> | number | null
-  }, "id">
+  }, "id" | "evaluator_nrp_evaluated_nrp_idkuliah_idkriteria">
 
   export type EvaluationsOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14568,6 +16955,140 @@ export namespace Prisma {
     sessionToken?: StringWithAggregatesFilter<"Session"> | string
     userId?: StringWithAggregatesFilter<"Session"> | string
     expires?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+  }
+
+  export type StudentFinalGradeWhereInput = {
+    AND?: StudentFinalGradeWhereInput | StudentFinalGradeWhereInput[]
+    OR?: StudentFinalGradeWhereInput[]
+    NOT?: StudentFinalGradeWhereInput | StudentFinalGradeWhereInput[]
+    id?: IntFilter<"StudentFinalGrade"> | number
+    nrp?: StringNullableFilter<"StudentFinalGrade"> | string | null
+    idkuliah?: IntNullableFilter<"StudentFinalGrade"> | number | null
+    mid_assignment_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeFilter<"StudentFinalGrade"> | Date | string
+  }
+
+  export type StudentFinalGradeOrderByWithRelationInput = {
+    id?: SortOrder
+    nrp?: SortOrderInput | SortOrder
+    idkuliah?: SortOrderInput | SortOrder
+    mid_assignment_grade?: SortOrderInput | SortOrder
+    mid_exam_grade?: SortOrderInput | SortOrder
+    final_assignment_grade?: SortOrderInput | SortOrder
+    final_exam_grade?: SortOrderInput | SortOrder
+    final_grade?: SortOrderInput | SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type StudentFinalGradeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    nrp_idkuliah?: StudentFinalGradeNrpIdkuliahCompoundUniqueInput
+    AND?: StudentFinalGradeWhereInput | StudentFinalGradeWhereInput[]
+    OR?: StudentFinalGradeWhereInput[]
+    NOT?: StudentFinalGradeWhereInput | StudentFinalGradeWhereInput[]
+    nrp?: StringNullableFilter<"StudentFinalGrade"> | string | null
+    idkuliah?: IntNullableFilter<"StudentFinalGrade"> | number | null
+    mid_assignment_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_grade?: DecimalNullableFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeFilter<"StudentFinalGrade"> | Date | string
+  }, "id" | "nrp_idkuliah">
+
+  export type StudentFinalGradeOrderByWithAggregationInput = {
+    id?: SortOrder
+    nrp?: SortOrderInput | SortOrder
+    idkuliah?: SortOrderInput | SortOrder
+    mid_assignment_grade?: SortOrderInput | SortOrder
+    mid_exam_grade?: SortOrderInput | SortOrder
+    final_assignment_grade?: SortOrderInput | SortOrder
+    final_exam_grade?: SortOrderInput | SortOrder
+    final_grade?: SortOrderInput | SortOrder
+    updated_at?: SortOrder
+    _count?: StudentFinalGradeCountOrderByAggregateInput
+    _avg?: StudentFinalGradeAvgOrderByAggregateInput
+    _max?: StudentFinalGradeMaxOrderByAggregateInput
+    _min?: StudentFinalGradeMinOrderByAggregateInput
+    _sum?: StudentFinalGradeSumOrderByAggregateInput
+  }
+
+  export type StudentFinalGradeScalarWhereWithAggregatesInput = {
+    AND?: StudentFinalGradeScalarWhereWithAggregatesInput | StudentFinalGradeScalarWhereWithAggregatesInput[]
+    OR?: StudentFinalGradeScalarWhereWithAggregatesInput[]
+    NOT?: StudentFinalGradeScalarWhereWithAggregatesInput | StudentFinalGradeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"StudentFinalGrade"> | number
+    nrp?: StringNullableWithAggregatesFilter<"StudentFinalGrade"> | string | null
+    idkuliah?: IntNullableWithAggregatesFilter<"StudentFinalGrade"> | number | null
+    mid_assignment_grade?: DecimalNullableWithAggregatesFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: DecimalNullableWithAggregatesFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: DecimalNullableWithAggregatesFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: DecimalNullableWithAggregatesFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    final_grade?: DecimalNullableWithAggregatesFilter<"StudentFinalGrade"> | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeWithAggregatesFilter<"StudentFinalGrade"> | Date | string
+  }
+
+  export type CourseGradeWeightsWhereInput = {
+    AND?: CourseGradeWeightsWhereInput | CourseGradeWeightsWhereInput[]
+    OR?: CourseGradeWeightsWhereInput[]
+    NOT?: CourseGradeWeightsWhereInput | CourseGradeWeightsWhereInput[]
+    id?: IntFilter<"CourseGradeWeights"> | number
+    idkuliah?: IntFilter<"CourseGradeWeights"> | number
+    mid_assignment_weight?: IntFilter<"CourseGradeWeights"> | number
+    mid_exam_weight?: IntFilter<"CourseGradeWeights"> | number
+    final_assignment_weight?: IntFilter<"CourseGradeWeights"> | number
+    final_exam_weight?: IntFilter<"CourseGradeWeights"> | number
+  }
+
+  export type CourseGradeWeightsOrderByWithRelationInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
+  }
+
+  export type CourseGradeWeightsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    idkuliah?: number
+    AND?: CourseGradeWeightsWhereInput | CourseGradeWeightsWhereInput[]
+    OR?: CourseGradeWeightsWhereInput[]
+    NOT?: CourseGradeWeightsWhereInput | CourseGradeWeightsWhereInput[]
+    mid_assignment_weight?: IntFilter<"CourseGradeWeights"> | number
+    mid_exam_weight?: IntFilter<"CourseGradeWeights"> | number
+    final_assignment_weight?: IntFilter<"CourseGradeWeights"> | number
+    final_exam_weight?: IntFilter<"CourseGradeWeights"> | number
+  }, "id" | "idkuliah">
+
+  export type CourseGradeWeightsOrderByWithAggregationInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
+    _count?: CourseGradeWeightsCountOrderByAggregateInput
+    _avg?: CourseGradeWeightsAvgOrderByAggregateInput
+    _max?: CourseGradeWeightsMaxOrderByAggregateInput
+    _min?: CourseGradeWeightsMinOrderByAggregateInput
+    _sum?: CourseGradeWeightsSumOrderByAggregateInput
+  }
+
+  export type CourseGradeWeightsScalarWhereWithAggregatesInput = {
+    AND?: CourseGradeWeightsScalarWhereWithAggregatesInput | CourseGradeWeightsScalarWhereWithAggregatesInput[]
+    OR?: CourseGradeWeightsScalarWhereWithAggregatesInput[]
+    NOT?: CourseGradeWeightsScalarWhereWithAggregatesInput | CourseGradeWeightsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
+    idkuliah?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
+    mid_assignment_weight?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
+    mid_exam_weight?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
+    final_assignment_weight?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
+    final_exam_weight?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
   }
 
   export type EvaluationsCreateInput = {
@@ -15137,6 +17658,147 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudentFinalGradeCreateInput = {
+    nrp?: string | null
+    idkuliah?: number | null
+    mid_assignment_grade?: Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: Decimal | DecimalJsLike | number | string | null
+    final_grade?: Decimal | DecimalJsLike | number | string | null
+    updated_at?: Date | string
+  }
+
+  export type StudentFinalGradeUncheckedCreateInput = {
+    id?: number
+    nrp?: string | null
+    idkuliah?: number | null
+    mid_assignment_grade?: Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: Decimal | DecimalJsLike | number | string | null
+    final_grade?: Decimal | DecimalJsLike | number | string | null
+    updated_at?: Date | string
+  }
+
+  export type StudentFinalGradeUpdateInput = {
+    nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudentFinalGradeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudentFinalGradeCreateManyInput = {
+    id?: number
+    nrp?: string | null
+    idkuliah?: number | null
+    mid_assignment_grade?: Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: Decimal | DecimalJsLike | number | string | null
+    final_grade?: Decimal | DecimalJsLike | number | string | null
+    updated_at?: Date | string
+  }
+
+  export type StudentFinalGradeUpdateManyMutationInput = {
+    nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudentFinalGradeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nrp?: NullableStringFieldUpdateOperationsInput | string | null
+    idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
+    mid_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    mid_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_assignment_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_exam_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    final_grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CourseGradeWeightsCreateInput = {
+    idkuliah: number
+    mid_assignment_weight?: number
+    mid_exam_weight?: number
+    final_assignment_weight?: number
+    final_exam_weight?: number
+  }
+
+  export type CourseGradeWeightsUncheckedCreateInput = {
+    id?: number
+    idkuliah: number
+    mid_assignment_weight?: number
+    mid_exam_weight?: number
+    final_assignment_weight?: number
+    final_exam_weight?: number
+  }
+
+  export type CourseGradeWeightsUpdateInput = {
+    idkuliah?: IntFieldUpdateOperationsInput | number
+    mid_assignment_weight?: IntFieldUpdateOperationsInput | number
+    mid_exam_weight?: IntFieldUpdateOperationsInput | number
+    final_assignment_weight?: IntFieldUpdateOperationsInput | number
+    final_exam_weight?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CourseGradeWeightsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    idkuliah?: IntFieldUpdateOperationsInput | number
+    mid_assignment_weight?: IntFieldUpdateOperationsInput | number
+    mid_exam_weight?: IntFieldUpdateOperationsInput | number
+    final_assignment_weight?: IntFieldUpdateOperationsInput | number
+    final_exam_weight?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CourseGradeWeightsCreateManyInput = {
+    id?: number
+    idkuliah: number
+    mid_assignment_weight?: number
+    mid_exam_weight?: number
+    final_assignment_weight?: number
+    final_exam_weight?: number
+  }
+
+  export type CourseGradeWeightsUpdateManyMutationInput = {
+    idkuliah?: IntFieldUpdateOperationsInput | number
+    mid_assignment_weight?: IntFieldUpdateOperationsInput | number
+    mid_exam_weight?: IntFieldUpdateOperationsInput | number
+    final_assignment_weight?: IntFieldUpdateOperationsInput | number
+    final_exam_weight?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CourseGradeWeightsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    idkuliah?: IntFieldUpdateOperationsInput | number
+    mid_assignment_weight?: IntFieldUpdateOperationsInput | number
+    mid_exam_weight?: IntFieldUpdateOperationsInput | number
+    final_assignment_weight?: IntFieldUpdateOperationsInput | number
+    final_exam_weight?: IntFieldUpdateOperationsInput | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -15177,6 +17839,13 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type EvaluationsEvaluator_nrpEvaluated_nrpIdkuliahIdkriteriaCompoundUniqueInput = {
+    evaluator_nrp: string
+    evaluated_nrp: string
+    idkuliah: number
+    idkriteria: number
   }
 
   export type EvaluationsCountOrderByAggregateInput = {
@@ -15726,6 +18395,112 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
+  }
+
+  export type StudentFinalGradeNrpIdkuliahCompoundUniqueInput = {
+    nrp: string
+    idkuliah: number
+  }
+
+  export type StudentFinalGradeCountOrderByAggregateInput = {
+    id?: SortOrder
+    nrp?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_grade?: SortOrder
+    mid_exam_grade?: SortOrder
+    final_assignment_grade?: SortOrder
+    final_exam_grade?: SortOrder
+    final_grade?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type StudentFinalGradeAvgOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_grade?: SortOrder
+    mid_exam_grade?: SortOrder
+    final_assignment_grade?: SortOrder
+    final_exam_grade?: SortOrder
+    final_grade?: SortOrder
+  }
+
+  export type StudentFinalGradeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nrp?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_grade?: SortOrder
+    mid_exam_grade?: SortOrder
+    final_assignment_grade?: SortOrder
+    final_exam_grade?: SortOrder
+    final_grade?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type StudentFinalGradeMinOrderByAggregateInput = {
+    id?: SortOrder
+    nrp?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_grade?: SortOrder
+    mid_exam_grade?: SortOrder
+    final_assignment_grade?: SortOrder
+    final_exam_grade?: SortOrder
+    final_grade?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type StudentFinalGradeSumOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_grade?: SortOrder
+    mid_exam_grade?: SortOrder
+    final_assignment_grade?: SortOrder
+    final_exam_grade?: SortOrder
+    final_grade?: SortOrder
+  }
+
+  export type CourseGradeWeightsCountOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
+  }
+
+  export type CourseGradeWeightsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
+  }
+
+  export type CourseGradeWeightsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
+  }
+
+  export type CourseGradeWeightsMinOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
+  }
+
+  export type CourseGradeWeightsSumOrderByAggregateInput = {
+    id?: SortOrder
+    idkuliah?: SortOrder
+    mid_assignment_weight?: SortOrder
+    mid_exam_weight?: SortOrder
+    final_assignment_weight?: SortOrder
+    final_exam_weight?: SortOrder
   }
 
   export type NullableStringFieldUpdateOperationsInput = {

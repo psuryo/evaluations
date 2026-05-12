@@ -21,6 +21,7 @@ model Evaluations {
   idkriteria    Int?
   score         Int?
 
+  @@unique([evaluator_nrp, evaluated_nrp, idkuliah, idkriteria])
   @@map("evaluations")
 }
 
@@ -128,4 +129,30 @@ model Session {
   expires      DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudentFinalGrade {
+  id                     Int      @id @default(autoincrement())
+  nrp                    String?
+  idkuliah               Int?
+  mid_assignment_grade   Decimal? @db.Decimal(5, 2)
+  mid_exam_grade         Decimal? @db.Decimal(5, 2)
+  final_assignment_grade Decimal? @db.Decimal(5, 2)
+  final_exam_grade       Decimal? @db.Decimal(5, 2)
+  final_grade            Decimal? @db.Decimal(5, 2)
+  updated_at             DateTime @default(now()) @updatedAt
+
+  @@unique([nrp, idkuliah])
+  @@map("student_final_grades")
+}
+
+model CourseGradeWeights {
+  id                      Int @id @default(autoincrement())
+  idkuliah                Int @unique
+  mid_assignment_weight   Int @default(15)
+  mid_exam_weight         Int @default(25)
+  final_assignment_weight Int @default(20)
+  final_exam_weight       Int @default(40)
+
+  @@map("course_grade_weights")
 }

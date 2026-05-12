@@ -97,6 +97,63 @@ async function getDashboardStats(nrp: string) {
   }
 }
 
+async function getStudentGrades(nrp: string) {
+  try {
+    const grades = await prisma.studentFinalGrade.findMany({
+      where: { nrp },
+    })
+
+    if (!grades || grades.length === 0) {
+      return []
+    }
+
+    const gradesWithCourseInfo = await Promise.all(
+      grades.map(async (grade) => {
+        const [course, weights] = await Promise.all([
+          prisma.kuliah.findUnique({
+            where: { idkuliah: grade.idkuliah ?? 0 },
+            select: { matkul: true },
+          }),
+          prisma.courseGradeWeights.findUnique({
+            where: { idkuliah: grade.idkuliah ?? 0 },
+          }),
+        ])
+
+        const midAssignmentGradeNum = grade.mid_assignment_grade ? parseFloat(grade.mid_assignment_grade.toString()) : 0
+        const midExamGradeNum = grade.mid_exam_grade ? parseFloat(grade.mid_exam_grade.toString()) : 0
+        const finalAssignmentGradeNum = grade.final_assignment_grade ? parseFloat(grade.final_assignment_grade.toString()) : 0
+        const finalExamGradeNum = grade.final_exam_grade ? parseFloat(grade.final_exam_grade.toString()) : 0
+
+        const midAssignmentWeight = (weights?.mid_assignment_weight ?? 15) / 100
+        const midExamWeight = (weights?.mid_exam_weight ?? 25) / 100
+        const finalAssignmentWeight = (weights?.final_assignment_weight ?? 20) / 100
+        const finalExamWeight = (weights?.final_exam_weight ?? 40) / 100
+
+        const sts = midAssignmentGradeNum * midAssignmentWeight + midExamGradeNum * midExamWeight
+        const sas = finalAssignmentGradeNum * finalAssignmentWeight + finalExamGradeNum * finalExamWeight
+        const finalGrade = 0.5 * sts + 0.5 * sas
+
+        return {
+          idkuliah: grade.idkuliah,
+          courseName: course?.matkul ?? "Unknown",
+          midAssignmentGrade: grade.mid_assignment_grade ? parseFloat(grade.mid_assignment_grade.toString()) : 0,
+          midExamGrade: grade.mid_exam_grade ? parseFloat(grade.mid_exam_grade.toString()) : 0,
+          finalAssignmentGrade: grade.final_assignment_grade ? parseFloat(grade.final_assignment_grade.toString()) : 0,
+          finalExamGrade: grade.final_exam_grade ? parseFloat(grade.final_exam_grade.toString()) : 0,
+          sts: parseFloat(sts.toFixed(2)),
+          sas: parseFloat(sas.toFixed(2)),
+          finalGrade: parseFloat(finalGrade.toFixed(2)),
+        }
+      })
+    )
+
+    return gradesWithCourseInfo
+  } catch (error) {
+    console.error("Error fetching student grades:", error)
+    return []
+  }
+}
+
 export default async function Dashboard({
   searchParams,
 }: {
@@ -147,6 +204,7 @@ export default async function Dashboard({
   const viewingAs = isImpersonating || legacyViewingAs ? viewingStudent?.nrp ?? legacyViewingAs : null
 
   const stats = await getDashboardStats(nrp ?? "")
+  const studentGrades = await getStudentGrades(nrp ?? "")
   const userInitial = userEmail.charAt(0).toUpperCase()
 
   return (
@@ -378,11 +436,82 @@ export default async function Dashboard({
         }
         .db-logout:hover { color: #111; border-color: rgba(0,0,0,0.3); }
 
+        .grades-table {
+          margin-top: 36px;
+          background: #fff;
+          border: 0.5px solid rgba(0,0,0,0.07);
+          border-radius: 12px;
+          overflow: hidden;
+        }
+
+        .grades-table-header {
+          background: #f9f8f5;
+          border-bottom: 0.5px solid rgba(0,0,0,0.07);
+        }
+
+        .grades-table-header tr {
+          display: grid;
+          grid-template-columns: 1.5fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr;
+          gap: 0;
+        }
+
+        .grades-table-header th {
+          padding: 14px 12px;
+          text-align: left;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: #999;
+        }
+
+        .grades-table tbody tr {
+          display: grid;
+          grid-template-columns: 1.5fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr;
+          gap: 0;
+          border-bottom: 0.5px solid rgba(0,0,0,0.05);
+        }
+
+        .grades-table tbody tr:last-child {
+          border-bottom: none;
+        }
+
+        .grades-table td {
+          padding: 14px 12px;
+          font-size: 13px;
+          color: #333;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .grades-table td:first-child {
+          white-space: normal;
+          max-width: 200px;
+        }
+
+        .grades-table .numeric {
+          text-align: left;
+          font-family: 'Monaco', 'Courier', monospace;
+          font-size: 12px;
+        }
+
+        .grades-table-empty {
+          padding: 32px;
+          text-align: center;
+          color: #aaa;
+          font-size: 14px;
+        }
+
         @media (max-width: 640px) {
           .stat-grid { grid-template-columns: 1fr; }
           .db-body { padding: 28px 20px 60px; }
           .db-topbar { padding: 0 20px; }
           .db-email { display: none; }
+          .grades-table-header tr,
+          .grades-table tbody tr {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
 
@@ -471,6 +600,41 @@ export default async function Dashboard({
               </Link>
             )}
           </div>
+
+          {studentGrades.length > 0 && (
+            <div className="grades-table">
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead className="grades-table-header">
+                  <tr>
+                    <th>Course</th>
+                    <th>Tugas UTS</th>
+                    <th>UTS</th>
+                    <th>STS</th>
+                    <th>Tugas UAS</th>
+                    <th>UAS</th>
+                    <th>SAS</th>
+                    <th>Final Grade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {studentGrades.map((grade) => (
+                    <tr key={grade.idkuliah}>
+                      <td>{grade.courseName}</td>
+                      <td className="numeric">{grade.midAssignmentGrade.toFixed(2)}</td>
+                      <td className="numeric">{grade.midExamGrade.toFixed(2)}</td>
+                      <td className="numeric">{grade.sts.toFixed(2)}</td>
+                      <td className="numeric">{grade.finalAssignmentGrade.toFixed(2)}</td>
+                      <td className="numeric">{grade.finalExamGrade.toFixed(2)}</td>
+                      <td className="numeric">{grade.sas.toFixed(2)}</td>
+                      <td className="numeric" style={{ fontWeight: 600, color: "#1f6b45" }}>
+                        {grade.finalGrade.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -201,6 +201,27 @@ exports.Prisma.SessionScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.StudentFinalGradeScalarFieldEnum = {
+  id: 'id',
+  nrp: 'nrp',
+  idkuliah: 'idkuliah',
+  mid_assignment_grade: 'mid_assignment_grade',
+  mid_exam_grade: 'mid_exam_grade',
+  final_assignment_grade: 'final_assignment_grade',
+  final_exam_grade: 'final_exam_grade',
+  final_grade: 'final_grade',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.CourseGradeWeightsScalarFieldEnum = {
+  id: 'id',
+  idkuliah: 'idkuliah',
+  mid_assignment_weight: 'mid_assignment_weight',
+  mid_exam_weight: 'mid_exam_weight',
+  final_assignment_weight: 'final_assignment_weight',
+  final_exam_weight: 'final_exam_weight'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -228,7 +249,9 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   User: 'User',
   Account: 'Account',
-  Session: 'Session'
+  Session: 'Session',
+  StudentFinalGrade: 'StudentFinalGrade',
+  CourseGradeWeights: 'CourseGradeWeights'
 };
 
 /**
