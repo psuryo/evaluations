@@ -278,19 +278,22 @@ export default async function Dashboard({
           font-weight: 600;
           color: #111;
           margin-bottom: 4px;
+          line-height: 1.2;
         }
 
         .db-subtitle {
           font-size: 14px;
           color: #aaa;
           font-weight: 300;
-          margin-bottom: 36px;
+          margin-bottom: 24px;
+          line-height: 1.4;
         }
 
         .stat-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
+          margin-bottom: 24px;
         }
 
         .stat-card {
@@ -504,13 +507,99 @@ export default async function Dashboard({
         }
 
         @media (max-width: 640px) {
-          .stat-grid { grid-template-columns: 1fr; }
+          .stat-grid { grid-template-columns: 1fr; margin-bottom: 20px; }
           .db-body { padding: 28px 20px 60px; }
           .db-topbar { padding: 0 20px; }
           .db-email { display: none; }
-          .grades-table-header tr,
+          
+          .grades-table {
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+          }
+          
+          .grades-table-header {
+            display: none;
+          }
+          
           .grades-table tbody tr {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 12px;
+            row-gap: 8px;
+            padding: 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            align-content: start;
+          }
+          
+          .grades-table tbody tr:last-child {
+            border-bottom: none;
+          }
+          
+          .grades-table td {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            font-size: 12px;
+            white-space: normal;
+            overflow: visible;
+          }
+          
+          .grades-table td:first-child {
+            grid-column: 1 / -1;
+            font-weight: 600;
+            color: #111;
+            font-size: 13px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+          }
+          
+          .grades-table td::before {
+            content: '';
+            font-weight: 500;
+            color: #999;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2px;
+          }
+          
+          .grades-table tbody tr td:nth-child(2)::before { content: 'Tugas UTS'; }
+          .grades-table tbody tr td:nth-child(3)::before { content: 'UTS'; }
+          .grades-table tbody tr td:nth-child(4)::before { content: 'STS'; }
+          .grades-table tbody tr td:nth-child(5)::before { content: 'Tugas UAS'; }
+          .grades-table tbody tr td:nth-child(6)::before { content: 'UAS'; }
+          .grades-table tbody tr td:nth-child(7)::before { content: 'SAS'; }
+          .grades-table tbody tr td:nth-child(8)::before { content: 'Final Grade'; font-weight: 600; }
+          
+          .grades-table .numeric {
+            color: #333;
+            font-family: 'Monaco', 'Courier', monospace;
+            font-size: 13px;
+          }
+          
+          .db-grades-card {
+            display: grid;
             grid-template-columns: 1fr;
+            gap: 12px;
+          }
+          
+          .db-grades-card-info {
+            gap: 6px;
+          }
+          
+          .db-grades-btn,
+          .db-grades-locked {
+            width: 100%;
+            text-align: center;
+            justify-self: stretch;
+          }
+          
+          .db-impersonate-banner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
           }
         }
       `}</style>
