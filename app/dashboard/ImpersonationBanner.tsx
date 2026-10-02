@@ -44,7 +44,7 @@ export default function ImpersonationBanner() {
       }}
     >
       <span style={{ color: "#92400e" }}>
-        🔍 <strong>Impersonation Mode:</strong> You're viewing as another user.
+        🔍 <strong>Impersonation Mode:</strong> You&apos;re viewing as another user.
       </span>
       <button
         onClick={handleExit}

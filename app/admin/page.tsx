@@ -121,6 +121,11 @@ export default async function AdminPage() {
           z-index: 10;
         }
         .ad-wordmark { font-family: 'Sora', system-ui, sans-serif; font-size: 19px; color: #111; letter-spacing: -0.3px; text-decoration: none; }
+        .ad-nav { display: flex; align-items: center; gap: 20px; }
+        .ad-nav-link { font-size: 13px; color: #666; text-decoration: none; transition: color 0.15s; }
+        .ad-nav-link:hover { color: #111; }
+        .ad-nav-link.active { color: #111; font-weight: 600; }
+
         .ad-user { display: flex; align-items: center; gap: 10px; }
         .ad-avatar { width: 30px; height: 30px; border-radius: 50%; background: #141414; color: #efefef; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .ad-email { font-size: 13px; color: #999; }
@@ -224,6 +229,17 @@ export default async function AdminPage() {
       <div className="ad-root">
         <header className="ad-topbar">
           <Link href="/dashboard" className="ad-wordmark">evaluations</Link>
+          <nav className="ad-nav">
+            <Link href="/admin" className="ad-nav-link active">
+              Dashboard
+            </Link>
+            <Link href="/admin/evaluations" className="ad-nav-link">
+              Evaluations
+            </Link>
+            <Link href="/admin/kuliah" className="ad-nav-link">
+              Kelola Kuliah
+            </Link>
+          </nav>
           <div className="ad-user">
             <span className="ad-email">{session.user.email}</span>
             <div className="ad-avatar">{userInitial}</div>
@@ -232,19 +248,53 @@ export default async function AdminPage() {
         </header>
 
         <div className="ad-body">
-          <h1 className="ad-title">Admin</h1>
-          <p className="ad-subtitle">Submission status across all courses and students.</p>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
+            <h1 className="ad-title">Admin &amp; Dosen</h1>
+            <Link
+              href="/admin/kuliah/new"
+              style={{
+                fontSize: "13px",
+                color: "#fff",
+                background: "#111",
+                border: "none",
+                borderRadius: "8px",
+                padding: "8px 16px",
+                textDecoration: "none",
+                fontWeight: "600",
+                whiteSpace: "nowrap",
+                cursor: "pointer",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+              }}
+            >
+              + Buat Kuliah Baru (100%)
+            </Link>
+          </div>
+          <p className="ad-subtitle">Submission status across all courses, grading criteria, and students.</p>
 
-          {/* Quick Access to Evaluation Dashboard */}
-          <div style={{ marginBottom: "40px", padding: "20px", background: "#f8f8f6", borderRadius: "12px", border: "0.5px solid rgba(0,0,0,0.06)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <div style={{ fontSize: "15px", fontWeight: "500", color: "#111", marginBottom: "4px" }}>Peer Evaluation Tracker</div>
-                <div style={{ fontSize: "13px", color: "#999", fontWeight: "300" }}>View detailed completion status per group and member</div>
+          {/* Quick Access Grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "12px", marginBottom: "36px" }}>
+            <div style={{ padding: "20px", background: "#fff", borderRadius: "12px", border: "0.5px solid rgba(0,0,0,0.08)" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: "15px", fontWeight: "600", color: "#111", marginBottom: "4px" }}>Kelola Kuliah &amp; Kriteria</div>
+                  <div style={{ fontSize: "13px", color: "#888", fontWeight: "300" }}>Buat kuliah baru dengan kriteria &amp; bobot 100%</div>
+                </div>
+                <Link href="/admin/kuliah" style={{ fontSize: "12px", color: "#fff", background: "#111", border: "none", borderRadius: "6px", padding: "7px 14px", textDecoration: "none", fontWeight: "500", whiteSpace: "nowrap" }}>
+                  Kelola →
+                </Link>
               </div>
-              <Link href="/admin/evaluations" style={{ fontSize: "13px", color: "#fff", background: "#111", border: "none", borderRadius: "6px", padding: "8px 16px", textDecoration: "none", fontWeight: "500", whiteSpace: "nowrap", cursor: "pointer", transition: "opacity 0.15s" }}>
-                View Evaluations
-              </Link>
+            </div>
+
+            <div style={{ padding: "20px", background: "#fff", borderRadius: "12px", border: "0.5px solid rgba(0,0,0,0.08)" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: "15px", fontWeight: "600", color: "#111", marginBottom: "4px" }}>Peer Evaluation Tracker</div>
+                  <div style={{ fontSize: "13px", color: "#888", fontWeight: "300" }}>View detailed completion status per group &amp; member</div>
+                </div>
+                <Link href="/admin/evaluations" style={{ fontSize: "12px", color: "#fff", background: "#111", border: "none", borderRadius: "6px", padding: "7px 14px", textDecoration: "none", fontWeight: "500", whiteSpace: "nowrap" }}>
+                  View Tracker →
+                </Link>
+              </div>
             </div>
           </div>
 

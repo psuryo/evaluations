@@ -608,6 +608,24 @@ export default async function Dashboard({
         <header className="db-topbar">
           <p className="db-wordmark">evaluations</p>
           <div className="db-user">
+            {isAdmin && (
+              <Link
+                href="/admin/kuliah"
+                style={{
+                  fontSize: "12px",
+                  color: "#111",
+                  background: "#f4f3ef",
+                  border: "0.5px solid rgba(0,0,0,0.15)",
+                  borderRadius: "6px",
+                  padding: "5px 12px",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  marginRight: "4px",
+                }}
+              >
+                Panel Dosen / Admin →
+              </Link>
+            )}
             <span className="db-email">{userEmail}</span>
             <div className="db-avatar">{userInitial}</div>
             <LogoutButton />

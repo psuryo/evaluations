@@ -80,6 +80,9 @@ export default async function EvaluationStatusPage() {
             <Link href="/admin/evaluations" className="ed-nav-link active">
               Evaluations
             </Link>
+            <Link href="/admin/kuliah" className="ed-nav-link">
+              Kelola Kuliah
+            </Link>
           </nav>
           <div className="ed-user">
             <span className="ed-email">{session.user.email}</span>
