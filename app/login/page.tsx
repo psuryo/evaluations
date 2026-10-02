@@ -4,6 +4,8 @@ import { signIn } from "next-auth/react"
 import { useState } from "react"
 import Image from "next/image"
 
+const isDev = process.env.NODE_ENV === "development"
+
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle")
@@ -23,6 +25,26 @@ export default function LoginPage() {
       setStatus("error")
     } else {
       setStatus("sent")
+    }
+  }
+
+  const handleDevLogin = async (targetEmail?: string) => {
+    const emailToUse = (targetEmail || email).trim()
+    if (!emailToUse) {
+      return
+    }
+    setStatus("loading")
+
+    const result = await signIn("dev-login", {
+      email: emailToUse,
+      callbackUrl: "/dashboard",
+      redirect: false,
+    })
+
+    if (result?.error) {
+      setStatus("error")
+    } else if (result?.url) {
+      window.location.href = result.url
     }
   }
 
@@ -136,6 +158,37 @@ export default function LoginPage() {
         .send-btn:active:not(:disabled) { transform: scale(0.99); }
         .send-btn:disabled { opacity: 0.4; cursor: default; }
 
+        .dev-box {
+          margin-top: 20px;
+          padding: 14px;
+          border-radius: 8px;
+          background: #fdf8f6;
+          border: 1px dashed #ea580c;
+        }
+        .dev-title {
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #c2410c;
+          margin-bottom: 8px;
+        }
+        .dev-btn {
+          width: 100%;
+          padding: 10px;
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 500;
+          color: #fff;
+          background: #ea580c;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: opacity 0.15s;
+        }
+        .dev-btn:hover:not(:disabled) { opacity: 0.85; }
+        .dev-btn:disabled { opacity: 0.5; cursor: default; }
+
         .success-box {
           background: #f2faf6;
           border: 0.5px solid #a8d8bc;
@@ -244,6 +297,20 @@ export default function LoginPage() {
                     </p>
                   )}
                 </form>
+
+                {isDev && (
+                  <div className="dev-box">
+                    <p className="dev-title">⚡ Localhost Dev: Bypass Magic Link</p>
+                    <button
+                      type="button"
+                      className="dev-btn"
+                      disabled={status === "loading" || !email}
+                      onClick={() => handleDevLogin()}
+                    >
+                      {status === "loading" ? "Signing in…" : email ? `Sign in instantly as ${email}` : "Type an email above to sign in instantly"}
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -264,3 +331,4 @@ export default function LoginPage() {
     </>
   )
 }
+
