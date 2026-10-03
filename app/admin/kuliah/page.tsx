@@ -19,6 +19,7 @@ async function getKuliahManagementData() {
             bobot: true,
             nrp: true,
           },
+          orderBy: { idnilai: "asc" },
         },
         groups: {
           select: {
@@ -42,20 +43,32 @@ async function getKuliahManagementData() {
 
   const formattedCourses = courses.map((c) => {
     // Unique criteria breakdown
-    const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number }>()
+    const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number; minIdnilai: number }>()
     for (const n of c.nilai) {
       if (!n.judulkriteria) continue
-      const key = `${n.judulkriteria}:::${n.kriteria ?? ""}`
-      if (!criteriaMap.has(key)) {
-        criteriaMap.set(key, {
+      const existing = criteriaMap.get(n.judulkriteria)
+      if (!existing) {
+        criteriaMap.set(n.judulkriteria, {
           judulkriteria: n.judulkriteria,
           kriteria: n.kriteria ?? "",
           bobot: n.bobot ?? 0,
+          minIdnilai: n.idnilai,
         })
+      } else {
+        if (n.idnilai < existing.minIdnilai) {
+          existing.minIdnilai = n.idnilai
+        }
       }
     }
 
     const criteriaList = Array.from(criteriaMap.values())
+      .sort((a, b) => {
+        if (a.minIdnilai !== b.minIdnilai) {
+          return a.minIdnilai - b.minIdnilai
+        }
+        return a.judulkriteria.localeCompare(b.judulkriteria, undefined, { numeric: true, sensitivity: "base" })
+      })
+      .map(({ judulkriteria, kriteria, bobot }) => ({ judulkriteria, kriteria, bobot }))
     const totalBobot = criteriaList.reduce((sum, item) => sum + (item.bobot || 0), 0)
 
     const studentNrps = new Set<string>()

@@ -84,8 +84,13 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
     .map((s) => ({
       ...s,
       students: Array.from(s.students.values()).map((st) => {
-        // Ensure criteria are strictly sorted by creation order (idnilai asc)
-        const sortedCriteria = [...st.criteria].sort((a, b) => (a.idnilai ?? 0) - (b.idnilai ?? 0))
+        // Ensure criteria are strictly sorted by creation order (idnilai asc) with natural sort fallback
+        const sortedCriteria = [...st.criteria].sort((a, b) => {
+          if (a.idnilai !== undefined && b.idnilai !== undefined && a.idnilai !== b.idnilai) {
+            return a.idnilai - b.idnilai
+          }
+          return a.judulkriteria.localeCompare(b.judulkriteria, undefined, { numeric: true, sensitivity: "base" })
+        })
         const gradesWithValue = sortedCriteria.filter((c) => c.grade !== null)
         const finalGrade =
           gradesWithValue.length > 0

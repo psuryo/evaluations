@@ -28,26 +28,40 @@ export default async function CourseGradesPage({
         include: {
           usernilai: { select: { nama: true, email: true } },
         },
-        orderBy: [{ nrp: "asc" }, { idnilai: "asc" }],
+        orderBy: [{ idnilai: "asc" }],
       },
     },
   })
 
   if (!course) notFound()
 
-  // Extract unique criteria definitions by judulkriteria
-  const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number }>()
+  // Extract unique criteria definitions by judulkriteria with minIdnilai to preserve exact creation order
+  const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number; minIdnilai: number }>()
   for (const n of course.nilai) {
     if (!n.judulkriteria) continue
-    if (!criteriaMap.has(n.judulkriteria)) {
+    const existing = criteriaMap.get(n.judulkriteria)
+    if (!existing) {
       criteriaMap.set(n.judulkriteria, {
         judulkriteria: n.judulkriteria,
         kriteria: n.kriteria ?? "",
         bobot: n.bobot ?? 0,
+        minIdnilai: n.idnilai,
       })
+    } else {
+      if (n.idnilai < existing.minIdnilai) {
+        existing.minIdnilai = n.idnilai
+      }
     }
   }
+
   const criteriaList = Array.from(criteriaMap.values())
+    .sort((a, b) => {
+      if (a.minIdnilai !== b.minIdnilai) {
+        return a.minIdnilai - b.minIdnilai
+      }
+      return a.judulkriteria.localeCompare(b.judulkriteria, undefined, { numeric: true, sensitivity: "base" })
+    })
+    .map(({ judulkriteria, kriteria, bobot }) => ({ judulkriteria, kriteria, bobot }))
 
   // Group student grades
   const studentMap = new Map<
@@ -81,7 +95,9 @@ export default async function CourseGradesPage({
     }
   }
 
-  const students = Array.from(studentMap.values())
+  const students = Array.from(studentMap.values()).sort((a, b) =>
+    a.nrp.localeCompare(b.nrp, undefined, { numeric: true })
+  )
   const userInitial = session.user.email.charAt(0).toUpperCase()
 
   return (
