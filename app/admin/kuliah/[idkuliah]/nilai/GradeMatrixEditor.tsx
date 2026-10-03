@@ -12,6 +12,7 @@ interface StudentGradeItem {
   idnilai: number
   grade: number | null
   bobot: number
+  kriteria?: string | null
 }
 
 interface StudentRow {
@@ -49,12 +50,36 @@ export default function GradeMatrixEditor({
     return map
   })
 
+  // State for all criteria comments / custom rubrics: Record<idnilai, string>
+  const [commentsMap, setCommentsMap] = useState<Record<number, string>>(() => {
+    const map: Record<number, string> = {}
+    for (const st of initialStudents) {
+      for (const crit of criteriaList) {
+        const item = st.grades[crit.judulkriteria]
+        if (item) {
+          map[item.idnilai] = item.kriteria ?? crit.kriteria ?? ""
+        }
+      }
+    }
+    return map
+  })
+
   const students = initialStudents
   const [viewMode, setViewMode] = useState<"single" | "table">("single")
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [saving, setSaving] = useState(false)
   const [toastMsg, setToastMsg] = useState<{ type: "success" | "error"; text: string } | null>(null)
+
+  // Modal for quick editing comment in table view
+  const [tableCommentModal, setTableCommentModal] = useState<{
+    idnilai: number
+    studentNama: string
+    studentNrp: string
+    judulkriteria: string
+    defaultKriteria: string
+    comment: string
+  } | null>(null)
 
   // Modal / box for adding new students
   const [showAddModal, setShowAddModal] = useState(false)
@@ -77,6 +102,15 @@ export default function GradeMatrixEditor({
     setGradesMap((prev) => ({
       ...prev,
       [idnilai]: clean,
+    }))
+  }
+
+  // Handle criteria comment / rubric change for a student
+  const handleCommentChange = (idnilai: number, val: string) => {
+    setToastMsg(null)
+    setCommentsMap((prev) => ({
+      ...prev,
+      [idnilai]: val,
     }))
   }
 
@@ -113,15 +147,19 @@ export default function GradeMatrixEditor({
     return count
   }
 
-  // Save all grades
+  // Save all grades and comments
   const handleSaveAll = async (showToast = true) => {
     setSaving(true)
     if (showToast) setToastMsg(null)
 
-    const updates = Object.entries(gradesMap).map(([idnilaiStr, gradeVal]) => ({
-      idnilai: parseInt(idnilaiStr, 10),
-      grade: gradeVal === "" ? null : Number(gradeVal),
-    }))
+    const updates = Object.entries(gradesMap).map(([idnilaiStr, gradeVal]) => {
+      const idnilai = parseInt(idnilaiStr, 10)
+      return {
+        idnilai,
+        grade: gradeVal === "" ? null : Number(gradeVal),
+        kriteria: commentsMap[idnilai] !== undefined ? commentsMap[idnilai] : undefined,
+      }
+    })
 
     try {
       const res = await fetch(`/api/admin/kuliah/${idkuliah}/nilai`, {
@@ -136,7 +174,7 @@ export default function GradeMatrixEditor({
       }
 
       if (showToast) {
-        setToastMsg({ type: "success", text: "Seluruh nilai berhasil disimpan ke database!" })
+        setToastMsg({ type: "success", text: "Seluruh nilai dan catatan komentar berhasil disimpan ke database!" })
       }
       return true
     } catch (err: unknown) {
@@ -153,9 +191,9 @@ export default function GradeMatrixEditor({
     await handleSaveAll(false)
     if (currentStudentIndex < students.length - 1) {
       setCurrentStudentIndex(currentStudentIndex + 1)
-      setToastMsg({ type: "success", text: `Nilai disimpan! Melanjutkan ke mahasiswa berikutnya.` })
+      setToastMsg({ type: "success", text: `Nilai & komentar disimpan! Melanjutkan ke mahasiswa berikutnya.` })
     } else {
-      setToastMsg({ type: "success", text: `Nilai disimpan! Anda telah berada di mahasiswa terakhir.` })
+      setToastMsg({ type: "success", text: `Nilai & komentar disimpan! Anda telah berada di mahasiswa terakhir.` })
     }
   }
 
@@ -257,50 +295,46 @@ export default function GradeMatrixEditor({
           border: none;
         }
         .gm-btn.primary { background: #111; color: #fff; }
-        .gm-btn.primary:hover:not(:disabled) { opacity: 0.85; }
-        .gm-btn.secondary { background: #f4f3ef; color: #333; border: 0.5px solid rgba(0,0,0,0.12); }
-        .gm-btn.secondary:hover { background: #e8e6e0; color: #111; }
+        .gm-btn.primary:hover:not(:disabled) { background: #333; }
+        .gm-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .gm-btn.secondary { background: #f4f3ef; color: #111; border: 0.5px solid rgba(0,0,0,0.12); }
+        .gm-btn.secondary:hover { background: #e8e6e0; }
 
-        /* SINGLE STUDENT VIEW STYLES */
+        /* SINGLE VIEW LAYOUT */
         .gm-single-layout {
           display: grid;
-          grid-template-columns: 320px 1fr;
-          gap: 24px;
+          grid-template-columns: 310px 1fr;
+          gap: 20px;
           align-items: start;
         }
 
+        /* Sidebar */
         .gm-student-sidebar {
           background: #fff;
           border: 0.5px solid rgba(0,0,0,0.08);
           border-radius: 12px;
-          padding: 20px;
+          padding: 16px;
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 12px;
+          max-height: calc(100vh - 180px);
+          overflow-y: auto;
           position: sticky;
-          top: 76px;
+          top: 80px;
         }
 
-        .gm-sidebar-search {
+        .gm-search-input {
           width: 100%;
+          padding: 8px 12px;
           font-family: inherit;
           font-size: 12px;
-          padding: 8px 12px;
           border: 0.5px solid rgba(0,0,0,0.15);
           border-radius: 6px;
-          background: #fafaf8;
           outline: none;
           box-sizing: border-box;
+          background: #fafaf8;
         }
-        .gm-sidebar-search:focus { border-color: #111; background: #fff; }
-
-        .gm-student-list-scroll {
-          max-height: 480px;
-          overflow-y: auto;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
+        .gm-search-input:focus { border-color: #111; background: #fff; }
 
         .gm-student-item {
           display: flex;
@@ -308,183 +342,172 @@ export default function GradeMatrixEditor({
           justify-content: space-between;
           padding: 10px 12px;
           border-radius: 8px;
-          border: 0.5px solid transparent;
-          background: transparent;
-          text-align: left;
           cursor: pointer;
-          transition: all 0.15s;
-          font-family: inherit;
+          transition: background 0.15s;
+          border: 0.5px solid transparent;
+          text-align: left;
           width: 100%;
+          background: none;
+          font-family: inherit;
         }
-        .gm-student-item:hover { background: #f5f4f0; }
+        .gm-student-item:hover { background: #f7f6f2; }
         .gm-student-item.active {
-          background: #111;
-          color: #fff;
-        }
-        .gm-student-item.active .gm-item-name { color: #fff; }
-        .gm-student-item.active .gm-item-nrp { color: rgba(255,255,255,0.7); }
-        .gm-student-item.active .gm-item-grade { color: #5eead4; }
-
-        .gm-item-info { display: flex; flex-direction: column; gap: 2px; }
-        .gm-item-name { font-size: 13px; font-weight: 500; color: #111; }
-        .gm-item-nrp { font-size: 11px; font-family: monospace; color: #888; }
-        .gm-item-grade { font-size: 12px; font-weight: 700; font-family: monospace; color: #1f6b45; }
-
-        /* Main Focused Student Card */
-        .gm-main-card {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
+          background: #f0faf5;
+          border-color: #a8d8bc;
         }
 
-        .gm-hero-card {
+        .gm-item-name { font-size: 13px; font-weight: 600; color: #111; }
+        .gm-item-nrp { font-size: 11px; color: #888; font-family: monospace; }
+        .gm-item-grade {
+          font-size: 12px;
+          font-weight: 700;
+          font-family: monospace;
+          color: #1f6b45;
+          background: #fff;
+          padding: 2px 6px;
+          border-radius: 4px;
+          border: 0.5px solid #a8d8bc;
+        }
+        .gm-item-pending { font-size: 11px; color: #aaa; }
+
+        /* Main Single Student Canvas */
+        .gm-student-canvas { display: flex; flex-direction: column; gap: 16px; }
+
+        /* Student Hero Banner */
+        .gm-student-hero {
           background: #fff;
           border: 0.5px solid rgba(0,0,0,0.08);
-          border-radius: 14px;
-          padding: 24px 28px;
+          border-radius: 12px;
+          padding: 20px 24px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 20px;
+          gap: 16px;
           flex-wrap: wrap;
         }
-
-        .gm-hero-left {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
+        .gm-hero-left { display: flex; align-items: center; gap: 14px; }
         .gm-hero-avatar {
-          width: 52px;
-          height: 52px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           background: #141414;
           color: #fff;
-          font-size: 20px;
+          font-size: 17px;
           font-weight: 600;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
         }
-        .gm-hero-name { font-size: 20px; font-weight: 700; color: #111; margin-bottom: 2px; }
-        .gm-hero-meta { font-size: 13px; color: #777; display: flex; align-items: center; gap: 10px; }
-        .gm-hero-nrp { font-family: monospace; font-weight: 600; color: #111; }
+        .gm-hero-name { font-size: 18px; font-weight: 600; color: #111; }
+        .gm-hero-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; margin-top: 2px; }
+        .gm-hero-nrp { font-family: monospace; font-weight: 600; color: #444; }
 
         .gm-hero-score-badge {
-          background: #f0faf5;
-          border: 1px solid #a8d8bc;
-          border-radius: 12px;
-          padding: 12px 20px;
+          background: #fdfdfc;
+          border: 0.5px solid rgba(0,0,0,0.12);
+          border-radius: 10px;
+          padding: 12px 18px;
           text-align: right;
-          min-width: 140px;
         }
-        .gm-hero-score-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #1f6b45; margin-bottom: 2px; }
-        .gm-hero-score-val { font-size: 28px; font-weight: 800; color: #1f6b45; font-family: 'Sora', monospace; line-height: 1; }
+        .gm-hero-score-label { font-size: 11px; text-transform: uppercase; color: #888; font-weight: 600; letter-spacing: 0.05em; }
+        .gm-hero-score-val { font-size: 26px; font-weight: 700; color: #1f6b45; font-family: monospace; }
 
-        /* Criteria Detail Cards List */
-        .gm-criteria-cards {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
+        /* Criteria Rubric Cards */
+        .gm-criteria-cards { display: flex; flex-direction: column; gap: 14px; }
         .gm-crit-card {
           background: #fff;
           border: 0.5px solid rgba(0,0,0,0.08);
           border-radius: 12px;
-          padding: 22px 26px;
+          padding: 20px 24px;
           display: flex;
           flex-direction: column;
           gap: 14px;
           transition: border-color 0.15s, box-shadow 0.15s;
         }
-        .gm-crit-card:hover {
-          border-color: rgba(0,0,0,0.18);
-          box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
+        .gm-crit-card:hover { border-color: rgba(0,0,0,0.18); box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
 
         .gm-crit-card-top {
           display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 16px;
-        }
-
-        .gm-crit-header-left {
-          display: flex;
           align-items: center;
-          gap: 10px;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
         }
+        .gm-crit-header-left { display: flex; align-items: center; gap: 10px; }
         .gm-crit-badge-num {
-          background: #111;
-          color: #fff;
           font-size: 11px;
-          font-weight: 700;
-          padding: 3px 8px;
-          border-radius: 6px;
-        }
-        .gm-crit-judul {
-          font-size: 16px;
           font-weight: 600;
-          color: #111;
+          color: #777;
+          background: #f4f3ef;
+          padding: 2px 8px;
+          border-radius: 4px;
         }
-
+        .gm-crit-judul { font-size: 16px; font-weight: 600; color: #111; }
         .gm-crit-max-badge {
-          background: #fdf8ee;
-          border: 0.5px solid #e8d08a;
-          color: #8a6200;
           font-size: 12px;
-          font-weight: 600;
-          padding: 4px 10px;
-          border-radius: 20px;
-          white-space: nowrap;
+          color: #1f6b45;
+          background: #edf8f2;
+          border: 0.5px solid #a8d8bc;
+          border-radius: 6px;
+          padding: 3px 10px;
+          font-weight: 500;
         }
 
-        /* Full Criteria Rubric Description Box */
         .gm-crit-rubrik-box {
           background: #fafaf8;
-          border-left: 3px solid #111;
+          border: 0.5px solid rgba(0,0,0,0.08);
+          border-radius: 8px;
           padding: 12px 16px;
-          border-radius: 0 8px 8px 0;
           font-size: 13px;
           color: #333;
-          line-height: 1.6;
-          white-space: pre-line;
+          line-height: 1.5;
+        }
+
+        .gm-crit-comment-textarea {
+          width: 100%;
+          font-family: inherit;
+          font-size: 13px;
+          padding: 8px 10px;
+          border: 0.5px solid rgba(0,0,0,0.18);
+          border-radius: 6px;
+          background: #fff;
+          color: #111;
+          outline: none;
+          box-sizing: border-box;
+          line-height: 1.4;
+          resize: vertical;
+          transition: border-color 0.15s;
+        }
+        .gm-crit-comment-textarea:focus {
+          border-color: #111;
+          box-shadow: 0 0 0 2px rgba(0,0,0,0.06);
         }
 
         .gm-crit-input-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 16px;
           flex-wrap: wrap;
-          gap: 14px;
-          padding-top: 10px;
+          padding-top: 6px;
           border-top: 0.5px solid rgba(0,0,0,0.06);
         }
 
-        .gm-crit-presets {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          flex-wrap: wrap;
-        }
+        .gm-crit-presets { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .gm-crit-preset-btn {
           font-family: inherit;
           font-size: 11px;
           font-weight: 500;
-          padding: 4px 10px;
-          border-radius: 6px;
+          color: #555;
           background: #f4f3ef;
           border: 0.5px solid rgba(0,0,0,0.1);
-          color: #555;
+          border-radius: 5px;
+          padding: 4px 8px;
           cursor: pointer;
-          transition: all 0.15s;
+          transition: all 0.12s;
         }
-        .gm-crit-preset-btn:hover {
-          background: #111;
-          color: #fff;
-        }
+        .gm-crit-preset-btn:hover { background: #111; color: #fff; border-color: #111; }
 
         .gm-crit-input-group {
           display: flex;
@@ -492,7 +515,7 @@ export default function GradeMatrixEditor({
           gap: 8px;
         }
         .gm-crit-number-input {
-          width: 80px;
+          width: 90px;
           padding: 8px 10px;
           font-family: monospace;
           font-size: 16px;
@@ -550,9 +573,16 @@ export default function GradeMatrixEditor({
         .gm-tr:hover { background: #fafaf8; }
         .gm-tr:last-child .gm-td { border-bottom: none; }
 
+        .gm-cell-flex {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+        }
+
         .gm-input-grade-table {
-          width: 65px;
-          padding: 6px 8px;
+          width: 58px;
+          padding: 6px 6px;
           font-family: monospace;
           font-size: 13px;
           font-weight: 600;
@@ -564,6 +594,31 @@ export default function GradeMatrixEditor({
           outline: none;
         }
         .gm-input-grade-table:focus { border-color: #111; background: #fff; }
+
+        .gm-cell-comment-btn {
+          background: none;
+          border: 0.5px solid rgba(0,0,0,0.12);
+          border-radius: 5px;
+          padding: 4px 6px;
+          font-size: 12px;
+          cursor: pointer;
+          color: #888;
+          transition: all 0.15s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .gm-cell-comment-btn:hover {
+          background: #f0ede8;
+          color: #111;
+          border-color: rgba(0,0,0,0.3);
+        }
+        .gm-cell-comment-btn.has-custom {
+          background: #edf8f2;
+          color: #1f6b45;
+          border-color: #a8d8bc;
+          font-weight: 600;
+        }
 
         .gm-badge-grade {
           font-family: monospace;
@@ -596,9 +651,9 @@ export default function GradeMatrixEditor({
         .gm-modal {
           background: #fff;
           border-radius: 14px;
-          padding: 28px;
+          padding: 24px 28px;
           width: 100%;
-          max-width: 500px;
+          max-width: 520px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
@@ -627,7 +682,7 @@ export default function GradeMatrixEditor({
                 className={`gm-toggle-btn ${viewMode === "single" ? "active" : ""}`}
                 onClick={() => setViewMode("single")}
               >
-                👤 Fokus 1 Mahasiswa (Kriteria Lengkap)
+                👤 Fokus 1 Mahasiswa (Kriteria &amp; Komentar Lengkap)
               </button>
               <button
                 type="button"
@@ -657,7 +712,7 @@ export default function GradeMatrixEditor({
               disabled={saving || students.length === 0}
               onClick={() => handleSaveAll(true)}
             >
-              {saving ? "Menyimpan..." : "💾 Simpan Semua Nilai"}
+              {saving ? "Menyimpan..." : "💾 Simpan Semua Nilai & Catatan"}
             </button>
           </div>
         </div>
@@ -688,7 +743,7 @@ export default function GradeMatrixEditor({
           </div>
         ) : viewMode === "single" && currentStudent ? (
           /* ========================================================== */
-          /* MODE 1: SINGLE STUDENT FOCUS WITH FULL CRITERIA RUBRIC VIEW */
+          /* MODE 1: SINGLE STUDENT FOCUS WITH FULL CRITERIA & COMMENT VIEW */
           /* ========================================================== */
           <div className="gm-single-layout">
             {/* Left Sidebar: Student Navigation & Jump List */}
@@ -698,44 +753,47 @@ export default function GradeMatrixEditor({
                   Daftar Mahasiswa ({students.length})
                 </div>
                 <div style={{ fontSize: "11px", color: "#888" }}>
-                  Pilih mahasiswa untuk melihat kriteria &amp; memberi nilai
+                  Klik nama untuk beralih mahasiswa
                 </div>
               </div>
 
               <input
                 type="text"
-                className="gm-sidebar-search"
-                placeholder="Cari nama atau NRP..."
+                placeholder="Cari nama / NRP..."
+                className="gm-search-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
 
-              <div className="gm-student-list-scroll">
+              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                 {filteredStudents.map((st) => {
                   const originalIndex = students.findIndex((s) => s.nrp === st.nrp)
-                  const isCurrent = originalIndex === currentStudentIndex
+                  const isActive = originalIndex === currentStudentIndex
+                  const finalGrade = calculateFinalGrade(st)
                   const filledCount = getFilledCriteriaCount(st)
-                  const isComplete = filledCount === criteriaList.length
-                  const stFinalGrade = calculateFinalGrade(st)
 
                   return (
                     <button
                       key={st.nrp}
                       type="button"
-                      className={`gm-student-item ${isCurrent ? "active" : ""}`}
+                      className={`gm-student-item ${isActive ? "active" : ""}`}
                       onClick={() => setCurrentStudentIndex(originalIndex)}
                     >
-                      <div className="gm-item-info">
-                        <span className="gm-item-name">{st.nama}</span>
-                        <span className="gm-item-nrp">{st.nrp}</span>
+                      <div>
+                        <div className="gm-item-name">{st.nama}</div>
+                        <div className="gm-item-nrp">{st.nrp}</div>
                       </div>
-                      <div style={{ textAlign: "right" }}>
-                        <div className="gm-item-grade">
-                          {stFinalGrade !== null ? stFinalGrade.toFixed(1) : "—"}
-                        </div>
-                        <div style={{ fontSize: "10px", color: isCurrent ? "rgba(255,255,255,0.7)" : "#aaa" }}>
-                          {isComplete ? "✓ Lengkap" : `${filledCount}/${criteriaList.length}`}
-                        </div>
+
+                      <div>
+                        {finalGrade !== null ? (
+                          <span className="gm-item-grade">
+                            {finalGrade.toFixed(2)}
+                          </span>
+                        ) : (
+                          <span className="gm-item-pending">
+                            {filledCount}/{criteriaList.length}
+                          </span>
+                        )}
                       </div>
                     </button>
                   )
@@ -743,10 +801,10 @@ export default function GradeMatrixEditor({
               </div>
             </aside>
 
-            {/* Right Main Column: Focused Student Details & Full Criteria List */}
-            <main className="gm-main-card">
-              {/* Student Hero Header Card */}
-              <div className="gm-hero-card">
+            {/* Right Main Canvas: Current Student Details, Comments & Grades */}
+            <main className="gm-student-canvas">
+              {/* Student Header */}
+              <div className="gm-student-hero">
                 <div className="gm-hero-left">
                   <div className="gm-hero-avatar">
                     {(currentStudent.nama || currentStudent.nrp).charAt(0).toUpperCase()}
@@ -783,11 +841,13 @@ export default function GradeMatrixEditor({
                 })()}
               </div>
 
-              {/* Full Criteria Rubric Cards */}
+              {/* Full Criteria Rubric & Comment Cards */}
               <div className="gm-criteria-cards">
                 {criteriaList.map((crit, idx) => {
                   const item = currentStudent.grades[crit.judulkriteria]
                   const currentVal = item ? gradesMap[item.idnilai] ?? "" : ""
+                  const currentComment = item ? commentsMap[item.idnilai] ?? "" : crit.kriteria
+                  const isCustomComment = item && currentComment !== crit.kriteria
 
                   return (
                     <div key={idx} className="gm-crit-card">
@@ -801,12 +861,47 @@ export default function GradeMatrixEditor({
                         </span>
                       </div>
 
-                      {/* Full Rubric Description */}
+                      {/* Rubric Description & Custom Comment Box */}
                       <div className="gm-crit-rubrik-box">
-                        <div style={{ fontSize: "11px", fontWeight: 600, color: "#888", textTransform: "uppercase", marginBottom: "4px" }}>
-                          Deskripsi &amp; Rubrik Penilaian:
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                          <label
+                            htmlFor={`comment-${item?.idnilai ?? idx}`}
+                            style={{ fontSize: "11px", fontWeight: 600, color: "#777", textTransform: "uppercase", letterSpacing: "0.04em" }}
+                          >
+                            Deskripsi Rubrik / Komentar Penilaian:
+                          </label>
+                          {item && isCustomComment && (
+                            <button
+                              type="button"
+                              style={{
+                                fontSize: "11px",
+                                color: "#1f6b45",
+                                background: "#edf8f2",
+                                border: "0.5px solid #a8d8bc",
+                                borderRadius: "4px",
+                                padding: "2px 8px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleCommentChange(item.idnilai, crit.kriteria)}
+                              title="Kembalikan ke deskripsi rubrik default mata kuliah"
+                            >
+                              ↺ Reset ke Rubrik Default
+                            </button>
+                          )}
                         </div>
-                        {crit.kriteria || "Tidak ada deskripsi tambahan."}
+
+                        {item ? (
+                          <textarea
+                            id={`comment-${item.idnilai}`}
+                            rows={2}
+                            className="gm-crit-comment-textarea"
+                            placeholder="Tuliskan komentar atau sesuaikan rubrik penilaian untuk mahasiswa ini..."
+                            value={currentComment}
+                            onChange={(e) => handleCommentChange(item.idnilai, e.target.value)}
+                          />
+                        ) : (
+                          <p style={{ fontSize: "13px", color: "#888" }}>{crit.kriteria || "Tidak ada deskripsi."}</p>
+                        )}
                       </div>
 
                       {/* Input Row & Quick Presets */}
@@ -900,7 +995,7 @@ export default function GradeMatrixEditor({
                     disabled={saving}
                     onClick={() => handleSaveAll(true)}
                   >
-                    💾 Simpan Nilai Saat Ini
+                    💾 Simpan Saat Ini
                   </button>
 
                   <button
@@ -929,7 +1024,7 @@ export default function GradeMatrixEditor({
                   <th className="gm-th" style={{ minWidth: "130px" }}>NRP</th>
                   <th className="gm-th" style={{ minWidth: "200px" }}>Nama Mahasiswa</th>
                   {criteriaList.map((crit, idx) => (
-                    <th key={idx} className="gm-th" style={{ textAlign: "center", minWidth: "110px" }}>
+                    <th key={idx} className="gm-th" style={{ textAlign: "center", minWidth: "120px" }}>
                       <div>{crit.judulkriteria}</div>
                       <div style={{ fontSize: "10px", color: "#888", fontWeight: 500 }}>
                         Max: {crit.bobot} poin
@@ -973,21 +1068,42 @@ export default function GradeMatrixEditor({
                       {criteriaList.map((crit, cIdx) => {
                         const item = st.grades[crit.judulkriteria]
                         const currentVal = item ? gradesMap[item.idnilai] ?? "" : ""
+                        const currentComment = item ? commentsMap[item.idnilai] ?? "" : crit.kriteria
+                        const hasCustomComment = item && currentComment !== crit.kriteria
 
                         return (
                           <td key={cIdx} className="gm-td" style={{ textAlign: "center" }}>
                             {item ? (
-                              <input
-                                type="number"
-                                min="0"
-                                max={crit.bobot}
-                                step="any"
-                                className="gm-input-grade-table"
-                                placeholder={`0-${crit.bobot}`}
-                                title={`Nilai maksimal: ${crit.bobot}`}
-                                value={currentVal}
-                                onChange={(e) => handleGradeChange(item.idnilai, crit.bobot, e.target.value)}
-                              />
+                              <div className="gm-cell-flex">
+                                <input
+                                  type="number"
+                                  min="0"
+                                  max={crit.bobot}
+                                  step="any"
+                                  className="gm-input-grade-table"
+                                  placeholder={`0-${crit.bobot}`}
+                                  title={`Nilai maksimal: ${crit.bobot}`}
+                                  value={currentVal}
+                                  onChange={(e) => handleGradeChange(item.idnilai, crit.bobot, e.target.value)}
+                                />
+                                <button
+                                  type="button"
+                                  className={`gm-cell-comment-btn ${hasCustomComment ? "has-custom" : ""}`}
+                                  title={hasCustomComment ? `Komentar khusus: "${currentComment}"` : "Tambah komentar kriteria"}
+                                  onClick={() => {
+                                    setTableCommentModal({
+                                      idnilai: item.idnilai,
+                                      studentNama: st.nama,
+                                      studentNrp: st.nrp,
+                                      judulkriteria: crit.judulkriteria,
+                                      defaultKriteria: crit.kriteria,
+                                      comment: currentComment,
+                                    })
+                                  }}
+                                >
+                                  💬
+                                </button>
+                              </div>
                             ) : (
                               <span style={{ color: "#ccc" }}>—</span>
                             )}
@@ -1020,6 +1136,90 @@ export default function GradeMatrixEditor({
                 })}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Modal: Edit Comment in Table View */}
+        {tableCommentModal && (
+          <div className="gm-modal-overlay" onClick={() => setTableCommentModal(null)}>
+            <div className="gm-modal" onClick={(e) => e.stopPropagation()}>
+              <h2 style={{ fontSize: "17px", fontWeight: 600, color: "#111", marginBottom: "4px" }}>
+                💬 Catatan Komentar Penilaian
+              </h2>
+              <p style={{ fontSize: "12px", color: "#666", marginBottom: "14px" }}>
+                <strong>{tableCommentModal.studentNama}</strong> ({tableCommentModal.studentNrp}) •{" "}
+                <span style={{ color: "#111", fontWeight: 600 }}>{tableCommentModal.judulkriteria}</span>
+              </p>
+
+              <div style={{ marginBottom: "12px" }}>
+                <div style={{ fontSize: "11px", color: "#888", marginBottom: "4px", textTransform: "uppercase" }}>
+                  Rubrik Default:
+                </div>
+                <div style={{ fontSize: "12px", color: "#555", background: "#fafaf8", padding: "8px 10px", borderRadius: "6px", border: "0.5px solid rgba(0,0,0,0.06)" }}>
+                  {tableCommentModal.defaultKriteria || "—"}
+                </div>
+              </div>
+
+              <div style={{ marginBottom: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                  <label style={{ fontSize: "11px", fontWeight: 600, color: "#333", textTransform: "uppercase" }}>
+                    Komentar / Rubrik Khusus Mahasiswa:
+                  </label>
+                  <button
+                    type="button"
+                    style={{ fontSize: "11px", color: "#1f6b45", background: "none", border: "none", cursor: "pointer" }}
+                    onClick={() => {
+                      setTableCommentModal({
+                        ...tableCommentModal,
+                        comment: tableCommentModal.defaultKriteria,
+                      })
+                    }}
+                  >
+                    ↺ Gunakan Default
+                  </button>
+                </div>
+                <textarea
+                  style={{
+                    width: "100%",
+                    minHeight: "80px",
+                    padding: "8px 10px",
+                    border: "0.5px solid rgba(0,0,0,0.18)",
+                    borderRadius: "6px",
+                    fontFamily: "inherit",
+                    fontSize: "13px",
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                  value={tableCommentModal.comment}
+                  onChange={(e) => {
+                    setTableCommentModal({
+                      ...tableCommentModal,
+                      comment: e.target.value,
+                    })
+                  }}
+                />
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+                <button
+                  type="button"
+                  className="gm-btn secondary"
+                  onClick={() => setTableCommentModal(null)}
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  className="gm-btn primary"
+                  onClick={() => {
+                    handleCommentChange(tableCommentModal.idnilai, tableCommentModal.comment)
+                    setTableCommentModal(null)
+                  }}
+                >
+                  Terapkan Catatan
+                </button>
+              </div>
+            </div>
           </div>
         )}
 

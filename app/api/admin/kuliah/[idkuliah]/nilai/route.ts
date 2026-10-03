@@ -46,13 +46,12 @@ export async function GET(
       return NextResponse.json({ error: "Kuliah tidak ditemukan" }, { status: 404 })
     }
 
-    // Extract unique criteria definitions
+    // Extract unique criteria definitions by judulkriteria
     const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number }>()
     for (const n of course.nilai) {
       if (!n.judulkriteria) continue
-      const key = `${n.judulkriteria}:::${n.kriteria ?? ""}`
-      if (!criteriaMap.has(key)) {
-        criteriaMap.set(key, {
+      if (!criteriaMap.has(n.judulkriteria)) {
+        criteriaMap.set(n.judulkriteria, {
           judulkriteria: n.judulkriteria,
           kriteria: n.kriteria ?? "",
           bobot: n.bobot ?? 0,
@@ -68,7 +67,7 @@ export async function GET(
         nrp: string
         nama: string
         email: string
-        grades: Record<string, { idnilai: number; grade: number | null; bobot: number }>
+        grades: Record<string, { idnilai: number; grade: number | null; bobot: number; kriteria: string }>
       }
     >()
 
@@ -88,6 +87,7 @@ export async function GET(
           idnilai: n.idnilai,
           grade: n.grade !== null ? Number(n.grade) : null,
           bobot: n.bobot ?? 0,
+          kriteria: n.kriteria ?? "",
         }
       }
     }
@@ -129,25 +129,29 @@ export async function POST(
     }
 
     const body = await req.json()
-    const { updates } = body // updates: Array<{ idnilai: number, grade: number | null }>
+    const { updates } = body // updates: Array<{ idnilai: number, grade: number | null, kriteria?: string | null }>
 
     if (!Array.isArray(updates)) {
       return NextResponse.json({ error: "Payload updates harus berupa array" }, { status: 400 })
     }
 
-    // Execute bulk update
+    // Execute bulk update of grades and custom criteria comments
     await Promise.all(
-      updates.map((u) =>
-        prisma.nilai.update({
+      updates.map((u) => {
+        const updateData: { grade: number | null; kriteria?: string } = {
+          grade: u.grade !== null && u.grade !== "" && !isNaN(Number(u.grade)) ? Number(u.grade) : null,
+        }
+        if (u.kriteria !== undefined) {
+          updateData.kriteria = u.kriteria !== null ? String(u.kriteria).trim() : ""
+        }
+        return prisma.nilai.update({
           where: { idnilai: u.idnilai },
-          data: {
-            grade: u.grade !== null && u.grade !== "" && !isNaN(Number(u.grade)) ? Number(u.grade) : null,
-          },
+          data: updateData,
         })
-      )
+      })
     )
 
-    return NextResponse.json({ message: "Nilai berhasil disimpan", count: updates.length })
+    return NextResponse.json({ message: "Nilai dan komentar berhasil disimpan", count: updates.length })
   } catch (error) {
     console.error("Error saving grades:", error)
     return NextResponse.json({ error: "Gagal menyimpan nilai mahasiswa" }, { status: 500 })
@@ -203,9 +207,8 @@ export async function PUT(
     const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number }>()
     for (const n of existingNilai) {
       if (!n.judulkriteria) continue
-      const key = `${n.judulkriteria}:::${n.kriteria ?? ""}`
-      if (!criteriaMap.has(key)) {
-        criteriaMap.set(key, {
+      if (!criteriaMap.has(n.judulkriteria)) {
+        criteriaMap.set(n.judulkriteria, {
           judulkriteria: n.judulkriteria,
           kriteria: n.kriteria ?? "",
           bobot: n.bobot ?? 0,

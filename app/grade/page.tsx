@@ -5,10 +5,11 @@ import { prisma } from "@/app/src/lib/prisma"
 import LogoutButton from "../dashboard/LogoutButton"
 import { getImpersonatedEmail } from "@/app/src/lib/impersonate"
 import ImpersonationBackButton from "../dashboard/ImpersonationBackButton"
+import CollapsibleGradeList, { SubjectGrade } from "./CollapsibleGradeList"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
-async function getGradesBySubject(nrp: string | null, isAdmin: boolean) {
+async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise<SubjectGrade[]> {
   const whereClause = isAdmin && !nrp ? {} : { nrp: nrp ?? undefined }
 
   const nilaiRecords = await prisma.nilai.findMany({
@@ -17,7 +18,9 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean) {
       kuliah: { select: { matkul: true, tahun: true } },
       usernilai: { select: { nama: true, nrp: true } },
     },
-    orderBy: [{ idkuliah: "asc" }, { nrp: "asc" }],
+    // Order courses by idkuliah desc (most recent first)
+    // and order criteria by idnilai asc (exact creation order)
+    orderBy: [{ idkuliah: "desc" }, { nrp: "asc" }, { idnilai: "asc" }],
   })
 
   // Group by idkuliah
@@ -32,7 +35,13 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean) {
         {
           nrp: string
           nama: string
-          criteria: { judulkriteria: string; kriteria: string; bobot: number | null; grade: number | null }[]
+          criteria: {
+            idnilai?: number
+            judulkriteria: string
+            kriteria: string
+            bobot: number | null
+            grade: number | null
+          }[]
         }
       >
     }
@@ -62,6 +71,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean) {
     }
 
     subject.students.get(nrpKey)!.criteria.push({
+      idnilai: n.idnilai,
       judulkriteria: n.judulkriteria ?? "—",
       kriteria: n.kriteria ?? "—",
       bobot: n.bobot,
@@ -69,18 +79,22 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean) {
     })
   }
 
-  return Array.from(subjectMap.values()).map((s) => ({
-    ...s,
-    students: Array.from(s.students.values()).map((st) => {
-      const gradesWithValue = st.criteria.filter((c) => c.grade !== null)
-      const finalGrade =
-        gradesWithValue.length > 0
-          ? gradesWithValue.reduce((acc, c) => acc + c.grade!, 0)
-          : null
+  return Array.from(subjectMap.values())
+    .sort((a, b) => b.idkuliah - a.idkuliah)
+    .map((s) => ({
+      ...s,
+      students: Array.from(s.students.values()).map((st) => {
+        // Ensure criteria are strictly sorted by creation order (idnilai asc)
+        const sortedCriteria = [...st.criteria].sort((a, b) => (a.idnilai ?? 0) - (b.idnilai ?? 0))
+        const gradesWithValue = sortedCriteria.filter((c) => c.grade !== null)
+        const finalGrade =
+          gradesWithValue.length > 0
+            ? gradesWithValue.reduce((acc, c) => acc + c.grade!, 0)
+            : null
 
-      return { ...st, finalGrade }
-    }),
-  }))
+        return { ...st, criteria: sortedCriteria, finalGrade }
+      }),
+    }))
 }
 
 export default async function GradePage({
@@ -157,8 +171,9 @@ export default async function GradePage({
 
   // Define viewingAs for JSX: either the impersonated/legacy viewed NRP or null
   const viewingAs = isImpersonating || legacyViewingAs ? viewingStudent?.nrp ?? legacyViewingAs : null
+  const isGlobalAdminView = isAdmin && !legacyViewingAs && !isImpersonating
 
-  const subjects = await getGradesBySubject(nrp, isAdmin && !legacyViewingAs && !isImpersonating)
+  const subjects = await getGradesBySubject(nrp, isGlobalAdminView)
   const userInitial = session.user.email.charAt(0).toUpperCase()
 
   return (
@@ -189,48 +204,164 @@ export default async function GradePage({
         .gr-body { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
 
         .gr-title { font-size: 30px; font-weight: 600; color: #111; margin-bottom: 4px; }
-        .gr-subtitle { font-size: 14px; color: #aaa; font-weight: 300; margin-bottom: 36px; }
+        .gr-subtitle { font-size: 14px; color: #aaa; font-weight: 300; margin-bottom: 32px; }
 
-        .gr-section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #bbb; margin-bottom: 14px; }
+        .gr-collapsible-wrapper { display: flex; flex-direction: column; gap: 14px; }
 
-        .gr-subject-list { display: flex; flex-direction: column; gap: 16px; }
+        .gr-list-toolbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+        }
 
-        .gr-subject-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.07); border-radius: 12px; overflow: hidden; }
+        .gr-section-label {
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.07em;
+          text-transform: uppercase;
+          color: #999;
+        }
+
+        .gr-toggle-all-btn {
+          font-family: 'Sora', system-ui, sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          color: #666;
+          background: #fff;
+          border: 0.5px solid rgba(0,0,0,0.12);
+          border-radius: 6px;
+          padding: 4px 10px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+        .gr-toggle-all-btn:hover {
+          color: #111;
+          border-color: rgba(0,0,0,0.3);
+          background: #fdfdfc;
+        }
+
+        .gr-subject-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .gr-subject-card {
+          background: #fff;
+          border: 0.5px solid rgba(0,0,0,0.08);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .gr-subject-card:hover {
+          border-color: rgba(0,0,0,0.16);
+        }
+        .gr-subject-card.gr-card-open {
+          border-color: rgba(0,0,0,0.14);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
 
         .gr-subject-header {
-          padding: 18px 22px;
+          width: 100%;
+          padding: 16px 20px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 16px;
-          border-bottom: 0.5px solid rgba(0,0,0,0.06);
+          background: #fff;
+          border: none;
+          cursor: pointer;
+          text-align: left;
+          font-family: inherit;
+          transition: background 0.15s ease;
         }
-        .gr-subject-info { display: flex; flex-direction: column; gap: 3px; }
-        .gr-subject-name { font-size: 15px; font-weight: 500; color: #111; }
-        .gr-subject-year { font-size: 12px; color: #bbb; font-weight: 300; }
-        .gr-subject-count { font-size: 12px; color: #bbb; }
+        .gr-subject-header:hover {
+          background: #faf9f6;
+        }
+        .gr-subject-header.is-open {
+          border-bottom: 0.5px solid rgba(0,0,0,0.06);
+          background: #faf9f6;
+        }
+        .gr-subject-header:focus-visible {
+          outline: 2px solid #111;
+          outline-offset: -2px;
+        }
+
+        .gr-subject-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .gr-subject-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .gr-subject-name { font-size: 15px; font-weight: 600; color: #111; }
+        .gr-subject-year {
+          font-size: 11px;
+          color: #777;
+          background: #f0ede8;
+          border-radius: 4px;
+          padding: 2px 7px;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+        }
+        .gr-subject-meta { font-size: 12px; color: #999; font-weight: 300; }
+        .gr-subject-count { font-size: 12px; color: #888; font-weight: 500; }
+
+        .gr-subject-header-right {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex-shrink: 0;
+        }
+
+        .gr-header-grade-preview {
+          display: flex;
+          align-items: center;
+        }
+
+        .gr-chevron-wrapper {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #f5f4f0;
+          color: #666;
+          transition: transform 0.2s ease, background 0.15s ease, color 0.15s ease;
+        }
+        .gr-subject-header:hover .gr-chevron-wrapper {
+          background: #ebe9e3;
+          color: #111;
+        }
+        .gr-chevron-wrapper.is-open {
+          transform: rotate(180deg);
+          background: #111;
+          color: #fff;
+        }
+
+        .gr-subject-content {
+          animation: grFadeIn 0.18s ease-out;
+        }
+
+        @keyframes grFadeIn {
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
 
         .gr-student-block { border-bottom: 0.5px solid rgba(0,0,0,0.05); }
         .gr-student-block:last-child { border-bottom: none; }
 
         .gr-student-header {
-          padding: 12px 22px;
+          padding: 12px 20px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: #fafafa;
+          background: #fbfbf9;
           border-bottom: 0.5px solid rgba(0,0,0,0.04);
         }
         .gr-student-left { display: flex; align-items: center; gap: 10px; }
-        .gr-student-avatar { width: 26px; height: 26px; border-radius: 50%; background: #f0ede8; color: #888; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .gr-student-avatar { width: 26px; height: 26px; border-radius: 50%; background: #e8e5df; color: #666; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .gr-student-nama { font-size: 13px; font-weight: 500; color: #333; }
-        .gr-student-nrp { font-size: 11px; color: #ccc; font-family: monospace; }
+        .gr-student-nrp { font-size: 11px; color: #aaa; font-family: monospace; }
 
         .gr-final-badge {
           font-size: 12px;
           font-weight: 600;
           color: #1f6b45;
-          background: #f0faf5;
+          background: #edf8f2;
           border: 0.5px solid #a8d8bc;
           border-radius: 20px;
           padding: 3px 10px;
@@ -238,7 +369,12 @@ export default async function GradePage({
         }
         .gr-final-na {
           font-size: 12px;
-          color: #ccc;
+          color: #aaa;
+          background: #f5f5f3;
+          border: 0.5px solid rgba(0,0,0,0.06);
+          border-radius: 20px;
+          padding: 3px 10px;
+          white-space: nowrap;
         }
 
         .gr-criteria-table { width: 100%; border-collapse: collapse; }
@@ -247,20 +383,31 @@ export default async function GradePage({
           font-weight: 500;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          color: #bbb;
+          color: #999;
           text-align: left;
-          padding: 8px 22px;
+          padding: 10px 18px;
+          background: #fdfdfc;
           border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
         .gr-criteria-table th:last-child { text-align: right; }
         .gr-criteria-table td {
           font-size: 13px;
-          color: #444;
-          padding: 9px 22px;
+          color: #333;
+          padding: 10px 18px;
           border-bottom: 0.5px solid rgba(0,0,0,0.04);
         }
         .gr-criteria-table tr:last-child td { border-bottom: none; }
         .gr-criteria-table td:last-child { text-align: right; }
+
+        .gr-td-num {
+          font-size: 12px;
+          font-weight: 600;
+          color: #888;
+          text-align: center;
+          width: 36px;
+        }
+        .gr-td-judul { font-weight: 500; color: #111; }
+        .gr-td-kriteria { color: #666; }
 
         .gr-grade-pill {
           display: inline-block;
@@ -271,13 +418,21 @@ export default async function GradePage({
           background: #f5f5f5;
           color: #555;
         }
-        .gr-grade-high { background: #f0faf5; color: #1f6b45; }
+        .gr-grade-high { background: #edf8f2; color: #1f6b45; }
         .gr-grade-mid  { background: #fdf8ee; color: #8a6200; }
         .gr-grade-low  { background: #fff1f1; color: #b02020; }
 
-        .gr-bobot { font-size: 11px; color: #bbb; }
+        .gr-bobot { font-size: 11px; color: #999; }
 
-        .gr-empty { text-align: center; padding: 72px 24px; color: #ccc; font-size: 14px; font-weight: 300; }
+        .gr-student-empty, .gr-criteria-empty {
+          padding: 24px;
+          text-align: center;
+          color: #aaa;
+          font-size: 13px;
+          font-weight: 300;
+        }
+
+        .gr-empty { text-align: center; padding: 72px 24px; color: #aaa; font-size: 14px; font-weight: 300; }
 
         .gr-logout {
           font-family: 'Sora', system-ui, sans-serif;
@@ -321,8 +476,7 @@ export default async function GradePage({
           .gr-body { padding: 28px 20px 60px; }
           .gr-topbar { padding: 0 20px; }
           .gr-email { display: none; }
-          .gr-criteria-table th:nth-child(2),
-          .gr-criteria-table td:nth-child(2),
+          .gr-subject-header { padding: 14px 16px; }
           .gr-criteria-table th:nth-child(3),
           .gr-criteria-table td:nth-child(3) { display: none; }
         }
@@ -363,92 +517,10 @@ export default async function GradePage({
             </div>
           )}
 
-          {subjects.length === 0 ? (
-            <div className="gr-empty">No grades recorded yet.</div>
-          ) : (
-            <>
-              <p className="gr-section-label">{subjects.length} subject{subjects.length !== 1 ? "s" : ""}</p>
-              <div className="gr-subject-list">
-                {subjects.map((subject) => (
-                  <div key={subject.idkuliah} className="gr-subject-card">
-                    <div className="gr-subject-header">
-                      <div className="gr-subject-info">
-                        <span className="gr-subject-name">{subject.matkul}</span>
-                        <span className="gr-subject-year">{subject.tahun}</span>
-                      </div>
-                      <span className="gr-subject-count">
-                        {subject.students.length} student{subject.students.length !== 1 ? "s" : ""}
-                      </span>
-                    </div>
-
-                    {subject.students.map((student) => (
-                      <div key={student.nrp} className="gr-student-block">
-                        <div className="gr-student-header">
-                          <div className="gr-student-left">
-                            <div className="gr-student-avatar">
-                              {student.nama.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                              <div className="gr-student-nama">{student.nama}</div>
-                              <div className="gr-student-nrp">{student.nrp}</div>
-                            </div>
-                          </div>
-                          {student.finalGrade !== null ? (
-                            <span className="gr-final-badge">
-                              Final: {student.finalGrade.toFixed(2)}
-                            </span>
-                          ) : (
-                            <span className="gr-final-na">—</span>
-                          )}
-                        </div>
-
-                        <table className="gr-criteria-table">
-                          <thead>
-                            <tr>
-                              <th>Judul Kriteria</th>
-                              <th>Kriteria</th>
-                              <th>Bobot</th>
-                              <th>Grade</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {student.criteria.map((c, i) => {
-                              const g = c.grade
-                              const pillClass =
-                                g === null
-                                  ? "gr-grade-pill"
-                                  : g >= 80
-                                  ? "gr-grade-pill gr-grade-high"
-                                  : g >= 60
-                                  ? "gr-grade-pill gr-grade-mid"
-                                  : "gr-grade-pill gr-grade-low"
-
-                              return (
-                                <tr key={i}>
-                                  <td>{c.judulkriteria}</td>
-                                  <td>{c.kriteria}</td>
-                                  <td>
-                                    <span className="gr-bobot">
-                                      {c.bobot !== null ? c.bobot : "—"}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span className={pillClass}>
-                                      {g !== null ? g.toFixed(2) : "—"}
-                                    </span>
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+          <CollapsibleGradeList
+            subjects={subjects}
+            isAdminView={isGlobalAdminView}
+          />
         </main>
       </div>
     </>

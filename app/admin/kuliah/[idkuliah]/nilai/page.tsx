@@ -35,13 +35,12 @@ export default async function CourseGradesPage({
 
   if (!course) notFound()
 
-  // Extract unique criteria
+  // Extract unique criteria definitions by judulkriteria
   const criteriaMap = new Map<string, { judulkriteria: string; kriteria: string; bobot: number }>()
   for (const n of course.nilai) {
     if (!n.judulkriteria) continue
-    const key = `${n.judulkriteria}:::${n.kriteria ?? ""}`
-    if (!criteriaMap.has(key)) {
-      criteriaMap.set(key, {
+    if (!criteriaMap.has(n.judulkriteria)) {
+      criteriaMap.set(n.judulkriteria, {
         judulkriteria: n.judulkriteria,
         kriteria: n.kriteria ?? "",
         bobot: n.bobot ?? 0,
@@ -57,7 +56,7 @@ export default async function CourseGradesPage({
       nrp: string
       nama: string
       email: string
-      grades: Record<string, { idnilai: number; grade: number | null; bobot: number }>
+      grades: Record<string, { idnilai: number; grade: number | null; bobot: number; kriteria?: string | null }>
     }
   >()
 
@@ -77,6 +76,7 @@ export default async function CourseGradesPage({
         idnilai: n.idnilai,
         grade: n.grade !== null ? Number(n.grade) : null,
         bobot: n.bobot ?? 0,
+        kriteria: n.kriteria ?? "",
       }
     }
   }
@@ -206,7 +206,7 @@ export default async function CourseGradesPage({
                 <span className="cg-badge-year">{course.tahun}</span>
               </h1>
               <p className="cg-subtitle">
-                Isi nilai kriteria (maksimal sesuai bobot kriteria). Nilai akhir dihitung otomatis dari penjumlahan seluruh nilai kriteria (Total 100 poin).
+                Isi nilai poin kriteria dan tambahkan catatan/komentar penilaian khusus per mahasiswa jika diperlukan.
               </p>
             </div>
 
