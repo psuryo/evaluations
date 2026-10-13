@@ -106,6 +106,7 @@ export async function GET(
         idkuliah: course.idkuliah,
         matkul: course.matkul,
         tahun: course.tahun,
+        kunci_jawaban: course.kunci_jawaban ?? null,
         criteriaList,
         totalBobot,
         students: studentDetails,
@@ -139,7 +140,7 @@ export async function PUT(
     }
 
     const body = await req.json()
-    const { matkul, tahun, kriteriaList } = body
+    const { matkul, tahun, kriteriaList, kunci_jawaban } = body
 
     if (!matkul || !matkul.trim()) {
       return NextResponse.json({ error: "Nama mata kuliah wajib diisi" }, { status: 400 })
@@ -195,6 +196,7 @@ export async function PUT(
       data: {
         matkul: matkul.trim(),
         tahun: tahun.trim(),
+        kunci_jawaban: typeof kunci_jawaban === "string" ? (kunci_jawaban.trim() || null) : null,
       },
     })
 

@@ -45,12 +45,13 @@ model Kriteria {
 }
 
 model Kuliah {
-  idkuliah    Int     @id(map: "kategori_pk") @default(autoincrement())
-  matkul      String? @db.VarChar
-  tahun       String? @db.VarChar
-  nilai       Nilai[]
-  groups      Group[]
-  submissions Submission[]
+  idkuliah      Int          @id(map: "kategori_pk") @default(autoincrement())
+  matkul        String?      @db.VarChar
+  tahun         String?      @db.VarChar
+  kunci_jawaban String?      @db.Text
+  nilai         Nilai[]
+  groups        Group[]
+  submissions   Submission[]
 
   @@map("kuliah")
 }

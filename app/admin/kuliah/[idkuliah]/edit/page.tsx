@@ -183,6 +183,7 @@ export default async function EditCoursePage({
               idkuliah: course.idkuliah,
               matkul: course.matkul ?? "",
               tahun: course.tahun ?? "",
+              kunci_jawaban: course.kunci_jawaban ?? "",
               criteriaList: criteriaList.length > 0 ? criteriaList : [
                 { judulkriteria: "Tugas", kriteria: "Penugasan berkala", bobot: 30 },
                 { judulkriteria: "UTS", kriteria: "Ujian Tengah Semester", bobot: 35 },

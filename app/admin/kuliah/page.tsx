@@ -83,6 +83,7 @@ async function getKuliahManagementData() {
       idkuliah: c.idkuliah,
       matkul: c.matkul ?? "Untitled",
       tahun: c.tahun ?? "—",
+      kunci_jawaban: c.kunci_jawaban ?? null,
       criteriaList,
       totalBobot,
       totalCriteria: criteriaList.length,

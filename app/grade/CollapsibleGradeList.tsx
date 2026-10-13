@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
 
 export interface CriterionGrade {
   idnilai?: number
@@ -21,6 +22,7 @@ export interface SubjectGrade {
   idkuliah: number
   matkul: string
   tahun: string
+  kunci_jawaban?: string | null
   students: StudentGrade[]
 }
 
@@ -35,6 +37,12 @@ export default function CollapsibleGradeList({
 }: CollapsibleGradeListProps) {
   // All courses collapsed by default so students can see the overview of all courses first
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set())
+  const [activeAnswerKey, setActiveAnswerKey] = useState<{
+    idkuliah: number
+    matkul: string
+    tahun: string
+    content: string
+  } | null>(null)
 
   const toggleCourse = (idkuliah: number) => {
     setExpandedIds((prev) => {
@@ -108,6 +116,37 @@ export default function CollapsibleGradeList({
                 </div>
 
                 <div className="gr-subject-header-right">
+                  {subject.kunci_jawaban && (
+                    <button
+                      type="button"
+                      className="gr-answer-key-btn"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setActiveAnswerKey({
+                          idkuliah: subject.idkuliah,
+                          matkul: subject.matkul,
+                          tahun: subject.tahun,
+                          content: subject.kunci_jawaban!,
+                        })
+                      }}
+                      title="Lihat Kunci Jawaban Ujian (.md)"
+                    >
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                      </svg>
+                      <span>Kunci Jawaban</span>
+                    </button>
+                  )}
+
                   {!isAdminView && singleStudent && (
                     <div className="gr-header-grade-preview">
                       {singleStudent.finalGrade !== null ? (
@@ -227,6 +266,40 @@ export default function CollapsibleGradeList({
           )
         })}
       </div>
+
+      <style>{`
+        .gr-answer-key-btn {
+          font-family: 'Sora', system-ui, sans-serif;
+          font-size: 11.5px;
+          font-weight: 500;
+          color: #93370d;
+          background: #fef3c7;
+          border: 0.5px solid #fde68a;
+          border-radius: 6px;
+          padding: 4px 10px;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          white-space: nowrap;
+        }
+        .gr-answer-key-btn:hover {
+          background: #fde68a;
+          border-color: #f59e0b;
+          color: #78350f;
+          transform: translateY(-0.5px);
+        }
+      `}</style>
+
+      <AnswerKeyModal
+        isOpen={!!activeAnswerKey}
+        onClose={() => setActiveAnswerKey(null)}
+        matkul={activeAnswerKey?.matkul ?? ""}
+        tahun={activeAnswerKey?.tahun ?? ""}
+        content={activeAnswerKey?.content ?? null}
+        idkuliah={isAdminView ? activeAnswerKey?.idkuliah : null}
+      />
     </div>
   )
 }

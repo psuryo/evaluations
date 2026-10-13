@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
 
 interface Criteria {
   judulkriteria: string
@@ -13,6 +14,7 @@ interface CourseItem {
   idkuliah: number
   matkul: string
   tahun: string
+  kunci_jawaban?: string | null
   criteriaList: Criteria[]
   totalBobot: number
   totalCriteria: number
@@ -32,6 +34,12 @@ export default function CourseList({ initialCourses }: CourseListProps) {
   const [expandedCourseId, setExpandedCourseId] = useState<number | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null)
+  const [selectedAnswerKeyCourse, setSelectedAnswerKeyCourse] = useState<{
+    idkuliah: number
+    matkul: string
+    tahun: string
+    content: string
+  } | null>(null)
 
   // Extract unique years for filter tabs
   const availableYears = Array.from(new Set(courses.map((c) => c.tahun).filter(Boolean))).sort().reverse()
@@ -450,6 +458,24 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                         <span className={`cl-badge ${is100 ? "ok" : "warn"}`}>
                           {is100 ? "✓ Bobot: 100%" : `⚠️ Bobot: ${c.totalBobot}%`}
                         </span>
+                        {c.kunci_jawaban && (
+                          <span
+                            className="cl-badge"
+                            style={{
+                              background: "#fef3c7",
+                              color: "#92400e",
+                              border: "0.5px solid #fde68a",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setSelectedAnswerKeyCourse({ idkuliah: c.idkuliah, matkul: c.matkul, tahun: c.tahun, content: c.kunci_jawaban! })
+                            }}
+                            title="Klik untuk melihat kunci jawaban (.md)"
+                          >
+                            🔑 Kunci Jawaban
+                          </span>
+                        )}
                         <span className="cl-badge info">
                           📋 {c.totalCriteria} Kriteria Penilaian
                         </span>
@@ -465,6 +491,17 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                     </div>
 
                     <div className="cl-card-actions" onClick={(e) => e.stopPropagation()}>
+                      {c.kunci_jawaban && (
+                        <button
+                          type="button"
+                          className="cl-action-btn"
+                          style={{ background: "#fef3c7", borderColor: "#fde68a", color: "#92400e" }}
+                          onClick={() => setSelectedAnswerKeyCourse({ idkuliah: c.idkuliah, matkul: c.matkul, tahun: c.tahun, content: c.kunci_jawaban! })}
+                          title="Lihat Kunci Jawaban Ujian (.md)"
+                        >
+                          🔑 Kunci
+                        </button>
+                      )}
                       <Link
                         href={`/admin/kuliah/${c.idkuliah}/nilai`}
                         className="cl-action-btn"
@@ -554,6 +591,15 @@ export default function CourseList({ initialCourses }: CourseListProps) {
           </div>
         )}
       </div>
+
+      <AnswerKeyModal
+        isOpen={!!selectedAnswerKeyCourse}
+        onClose={() => setSelectedAnswerKeyCourse(null)}
+        matkul={selectedAnswerKeyCourse?.matkul ?? ""}
+        tahun={selectedAnswerKeyCourse?.tahun ?? ""}
+        content={selectedAnswerKeyCourse?.content ?? null}
+        idkuliah={selectedAnswerKeyCourse?.idkuliah ?? null}
+      />
     </>
   )
 }

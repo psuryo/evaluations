@@ -15,7 +15,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
   const nilaiRecords = await prisma.nilai.findMany({
     where: whereClause,
     include: {
-      kuliah: { select: { matkul: true, tahun: true } },
+      kuliah: { select: { matkul: true, tahun: true, kunci_jawaban: true } },
       usernilai: { select: { nama: true, nrp: true } },
     },
     // Order courses by idkuliah desc (most recent first)
@@ -30,6 +30,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
       idkuliah: number
       matkul: string
       tahun: string
+      kunci_jawaban: string | null
       students: Map<
         string,
         {
@@ -55,6 +56,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
         idkuliah: n.idkuliah,
         matkul: n.kuliah?.matkul ?? "Untitled",
         tahun: n.kuliah?.tahun ?? "—",
+        kunci_jawaban: n.kuliah?.kunci_jawaban ?? null,
         students: new Map(),
       })
     }

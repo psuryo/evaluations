@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
 
 interface Criteria {
   judulkriteria: string
@@ -26,6 +27,7 @@ interface GradeMatrixEditorProps {
   idkuliah: number
   matkul: string
   tahun?: string
+  kunci_jawaban?: string | null
   criteriaList: Criteria[]
   initialStudents: StudentRow[]
 }
@@ -33,9 +35,13 @@ interface GradeMatrixEditorProps {
 export default function GradeMatrixEditor({
   idkuliah,
   matkul,
+  tahun = "",
+  kunci_jawaban,
   criteriaList,
   initialStudents,
 }: GradeMatrixEditorProps) {
+  const [showAnswerKeyModal, setShowAnswerKeyModal] = useState(false)
+
   // State for all grades: Record<idnilai, string | number>
   const [gradesMap, setGradesMap] = useState<Record<number, string | number>>(() => {
     const map: Record<number, string | number> = {}
@@ -699,6 +705,26 @@ export default function GradeMatrixEditor({
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {kunci_jawaban && (
+              <button
+                type="button"
+                className="gm-btn secondary"
+                style={{
+                  background: "#fef3c7",
+                  borderColor: "#fde68a",
+                  color: "#92400e",
+                  fontWeight: 600,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+                onClick={() => setShowAnswerKeyModal(true)}
+                title="Tampilkan Kunci Jawaban Ujian (.md)"
+              >
+                <span>🔑</span>
+                <span>Kunci Jawaban</span>
+              </button>
+            )}
             <button
               type="button"
               className="gm-btn secondary"
@@ -1272,6 +1298,15 @@ export default function GradeMatrixEditor({
             </div>
           </div>
         )}
+
+        {/* Modal Answer Key */}
+        <AnswerKeyModal
+          isOpen={showAnswerKeyModal}
+          onClose={() => setShowAnswerKeyModal(false)}
+          matkul={matkul}
+          tahun={tahun}
+          content={kunci_jawaban ?? null}
+        />
       </div>
     </>
   )

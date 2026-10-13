@@ -5279,18 +5279,21 @@ export namespace Prisma {
     idkuliah: number | null
     matkul: string | null
     tahun: string | null
+    kunci_jawaban: string | null
   }
 
   export type KuliahMaxAggregateOutputType = {
     idkuliah: number | null
     matkul: string | null
     tahun: string | null
+    kunci_jawaban: string | null
   }
 
   export type KuliahCountAggregateOutputType = {
     idkuliah: number
     matkul: number
     tahun: number
+    kunci_jawaban: number
     _all: number
   }
 
@@ -5307,18 +5310,21 @@ export namespace Prisma {
     idkuliah?: true
     matkul?: true
     tahun?: true
+    kunci_jawaban?: true
   }
 
   export type KuliahMaxAggregateInputType = {
     idkuliah?: true
     matkul?: true
     tahun?: true
+    kunci_jawaban?: true
   }
 
   export type KuliahCountAggregateInputType = {
     idkuliah?: true
     matkul?: true
     tahun?: true
+    kunci_jawaban?: true
     _all?: true
   }
 
@@ -5412,6 +5418,7 @@ export namespace Prisma {
     idkuliah: number
     matkul: string | null
     tahun: string | null
+    kunci_jawaban: string | null
     _count: KuliahCountAggregateOutputType | null
     _avg: KuliahAvgAggregateOutputType | null
     _sum: KuliahSumAggregateOutputType | null
@@ -5437,6 +5444,7 @@ export namespace Prisma {
     idkuliah?: boolean
     matkul?: boolean
     tahun?: boolean
+    kunci_jawaban?: boolean
     nilai?: boolean | Kuliah$nilaiArgs<ExtArgs>
     groups?: boolean | Kuliah$groupsArgs<ExtArgs>
     submissions?: boolean | Kuliah$submissionsArgs<ExtArgs>
@@ -5447,21 +5455,24 @@ export namespace Prisma {
     idkuliah?: boolean
     matkul?: boolean
     tahun?: boolean
+    kunci_jawaban?: boolean
   }, ExtArgs["result"]["kuliah"]>
 
   export type KuliahSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idkuliah?: boolean
     matkul?: boolean
     tahun?: boolean
+    kunci_jawaban?: boolean
   }, ExtArgs["result"]["kuliah"]>
 
   export type KuliahSelectScalar = {
     idkuliah?: boolean
     matkul?: boolean
     tahun?: boolean
+    kunci_jawaban?: boolean
   }
 
-  export type KuliahOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idkuliah" | "matkul" | "tahun", ExtArgs["result"]["kuliah"]>
+  export type KuliahOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idkuliah" | "matkul" | "tahun" | "kunci_jawaban", ExtArgs["result"]["kuliah"]>
   export type KuliahInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     nilai?: boolean | Kuliah$nilaiArgs<ExtArgs>
     groups?: boolean | Kuliah$groupsArgs<ExtArgs>
@@ -5482,6 +5493,7 @@ export namespace Prisma {
       idkuliah: number
       matkul: string | null
       tahun: string | null
+      kunci_jawaban: string | null
     }, ExtArgs["result"]["kuliah"]>
     composites: {}
   }
@@ -5911,6 +5923,7 @@ export namespace Prisma {
     readonly idkuliah: FieldRef<"Kuliah", 'Int'>
     readonly matkul: FieldRef<"Kuliah", 'String'>
     readonly tahun: FieldRef<"Kuliah", 'String'>
+    readonly kunci_jawaban: FieldRef<"Kuliah", 'String'>
   }
     
 
@@ -16159,7 +16172,8 @@ export namespace Prisma {
   export const KuliahScalarFieldEnum: {
     idkuliah: 'idkuliah',
     matkul: 'matkul',
-    tahun: 'tahun'
+    tahun: 'tahun',
+    kunci_jawaban: 'kunci_jawaban'
   };
 
   export type KuliahScalarFieldEnum = (typeof KuliahScalarFieldEnum)[keyof typeof KuliahScalarFieldEnum]
@@ -16531,6 +16545,7 @@ export namespace Prisma {
     idkuliah?: IntFilter<"Kuliah"> | number
     matkul?: StringNullableFilter<"Kuliah"> | string | null
     tahun?: StringNullableFilter<"Kuliah"> | string | null
+    kunci_jawaban?: StringNullableFilter<"Kuliah"> | string | null
     nilai?: NilaiListRelationFilter
     groups?: GroupListRelationFilter
     submissions?: SubmissionListRelationFilter
@@ -16540,6 +16555,7 @@ export namespace Prisma {
     idkuliah?: SortOrder
     matkul?: SortOrderInput | SortOrder
     tahun?: SortOrderInput | SortOrder
+    kunci_jawaban?: SortOrderInput | SortOrder
     nilai?: NilaiOrderByRelationAggregateInput
     groups?: GroupOrderByRelationAggregateInput
     submissions?: SubmissionOrderByRelationAggregateInput
@@ -16552,6 +16568,7 @@ export namespace Prisma {
     NOT?: KuliahWhereInput | KuliahWhereInput[]
     matkul?: StringNullableFilter<"Kuliah"> | string | null
     tahun?: StringNullableFilter<"Kuliah"> | string | null
+    kunci_jawaban?: StringNullableFilter<"Kuliah"> | string | null
     nilai?: NilaiListRelationFilter
     groups?: GroupListRelationFilter
     submissions?: SubmissionListRelationFilter
@@ -16561,6 +16578,7 @@ export namespace Prisma {
     idkuliah?: SortOrder
     matkul?: SortOrderInput | SortOrder
     tahun?: SortOrderInput | SortOrder
+    kunci_jawaban?: SortOrderInput | SortOrder
     _count?: KuliahCountOrderByAggregateInput
     _avg?: KuliahAvgOrderByAggregateInput
     _max?: KuliahMaxOrderByAggregateInput
@@ -16575,6 +16593,7 @@ export namespace Prisma {
     idkuliah?: IntWithAggregatesFilter<"Kuliah"> | number
     matkul?: StringNullableWithAggregatesFilter<"Kuliah"> | string | null
     tahun?: StringNullableWithAggregatesFilter<"Kuliah"> | string | null
+    kunci_jawaban?: StringNullableWithAggregatesFilter<"Kuliah"> | string | null
   }
 
   export type NilaiWhereInput = {
@@ -17238,6 +17257,7 @@ export namespace Prisma {
   export type KuliahCreateInput = {
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     nilai?: NilaiCreateNestedManyWithoutKuliahInput
     groups?: GroupCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionCreateNestedManyWithoutKuliahInput
@@ -17247,6 +17267,7 @@ export namespace Prisma {
     idkuliah?: number
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
     groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
@@ -17255,6 +17276,7 @@ export namespace Prisma {
   export type KuliahUpdateInput = {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutKuliahNestedInput
     groups?: GroupUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
@@ -17264,6 +17286,7 @@ export namespace Prisma {
     idkuliah?: IntFieldUpdateOperationsInput | number
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
     groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
@@ -17273,17 +17296,20 @@ export namespace Prisma {
     idkuliah?: number
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
   }
 
   export type KuliahUpdateManyMutationInput = {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KuliahUncheckedUpdateManyInput = {
     idkuliah?: IntFieldUpdateOperationsInput | number
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NilaiCreateInput = {
@@ -18037,6 +18063,7 @@ export namespace Prisma {
     idkuliah?: SortOrder
     matkul?: SortOrder
     tahun?: SortOrder
+    kunci_jawaban?: SortOrder
   }
 
   export type KuliahAvgOrderByAggregateInput = {
@@ -18047,12 +18074,14 @@ export namespace Prisma {
     idkuliah?: SortOrder
     matkul?: SortOrder
     tahun?: SortOrder
+    kunci_jawaban?: SortOrder
   }
 
   export type KuliahMinOrderByAggregateInput = {
     idkuliah?: SortOrder
     matkul?: SortOrder
     tahun?: SortOrder
+    kunci_jawaban?: SortOrder
   }
 
   export type KuliahSumOrderByAggregateInput = {
@@ -19105,6 +19134,7 @@ export namespace Prisma {
   export type KuliahCreateWithoutGroupsInput = {
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     nilai?: NilaiCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionCreateNestedManyWithoutKuliahInput
   }
@@ -19113,6 +19143,7 @@ export namespace Prisma {
     idkuliah?: number
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
   }
@@ -19136,6 +19167,7 @@ export namespace Prisma {
   export type KuliahUpdateWithoutGroupsInput = {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
   }
@@ -19144,6 +19176,7 @@ export namespace Prisma {
     idkuliah?: IntFieldUpdateOperationsInput | number
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
   }
@@ -19301,6 +19334,7 @@ export namespace Prisma {
   export type KuliahCreateWithoutNilaiInput = {
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     groups?: GroupCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionCreateNestedManyWithoutKuliahInput
   }
@@ -19309,6 +19343,7 @@ export namespace Prisma {
     idkuliah?: number
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutKuliahInput
   }
@@ -19351,6 +19386,7 @@ export namespace Prisma {
   export type KuliahUpdateWithoutNilaiInput = {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     groups?: GroupUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUpdateManyWithoutKuliahNestedInput
   }
@@ -19359,6 +19395,7 @@ export namespace Prisma {
     idkuliah?: IntFieldUpdateOperationsInput | number
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutKuliahNestedInput
   }
@@ -19434,6 +19471,7 @@ export namespace Prisma {
   export type KuliahCreateWithoutSubmissionsInput = {
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     nilai?: NilaiCreateNestedManyWithoutKuliahInput
     groups?: GroupCreateNestedManyWithoutKuliahInput
   }
@@ -19442,6 +19480,7 @@ export namespace Prisma {
     idkuliah?: number
     matkul?: string | null
     tahun?: string | null
+    kunci_jawaban?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutKuliahInput
     groups?: GroupUncheckedCreateNestedManyWithoutKuliahInput
   }
@@ -19465,6 +19504,7 @@ export namespace Prisma {
   export type KuliahUpdateWithoutSubmissionsInput = {
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutKuliahNestedInput
     groups?: GroupUpdateManyWithoutKuliahNestedInput
   }
@@ -19473,6 +19513,7 @@ export namespace Prisma {
     idkuliah?: IntFieldUpdateOperationsInput | number
     matkul?: NullableStringFieldUpdateOperationsInput | string | null
     tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    kunci_jawaban?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutKuliahNestedInput
     groups?: GroupUncheckedUpdateManyWithoutKuliahNestedInput
   }

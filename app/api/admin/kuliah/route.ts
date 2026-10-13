@@ -94,6 +94,7 @@ export async function GET() {
         idkuliah: c.idkuliah,
         matkul: c.matkul ?? "Untitled",
         tahun: c.tahun ?? "—",
+        kunci_jawaban: c.kunci_jawaban ?? null,
         criteriaList,
         totalBobot,
         totalCriteria: criteriaList.length,
@@ -121,7 +122,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { matkul, tahun, kriteriaList, students } = body
+    const { matkul, tahun, kriteriaList, students, kunci_jawaban } = body
 
     // 1. Validate Course metadata
     if (!matkul || typeof matkul !== "string" || !matkul.trim()) {
@@ -198,6 +199,7 @@ export async function POST(req: NextRequest) {
       data: {
         matkul: matkul.trim(),
         tahun: tahun.trim(),
+        kunci_jawaban: typeof kunci_jawaban === "string" && kunci_jawaban.trim() ? kunci_jawaban.trim() : null,
       },
     })
 

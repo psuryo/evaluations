@@ -145,7 +145,8 @@ exports.Prisma.KriteriaScalarFieldEnum = {
 exports.Prisma.KuliahScalarFieldEnum = {
   idkuliah: 'idkuliah',
   matkul: 'matkul',
-  tahun: 'tahun'
+  tahun: 'tahun',
+  kunci_jawaban: 'kunci_jawaban'
 };
 
 exports.Prisma.NilaiScalarFieldEnum = {

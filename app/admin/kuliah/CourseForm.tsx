@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import MarkdownViewer from "@/app/src/components/MarkdownViewer"
 
 interface CriteriaItem {
   id?: number
@@ -22,6 +23,7 @@ interface CourseFormProps {
     idkuliah?: number
     matkul: string
     tahun: string
+    kunci_jawaban?: string | null
     criteriaList: CriteriaItem[]
     students?: string[]
   }
@@ -70,6 +72,8 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
 
   const [matkul, setMatkul] = useState(initialData?.matkul ?? "")
   const [tahun, setTahun] = useState(initialData?.tahun ?? new Date().getFullYear().toString())
+  const [kunciJawaban, setKunciJawaban] = useState(initialData?.kunci_jawaban ?? "")
+  const [kunciJawabanTab, setKunciJawabanTab] = useState<"edit" | "preview">("edit")
   const [criteriaList, setCriteriaList] = useState<CriteriaItem[]>(
     initialData?.criteriaList && initialData.criteriaList.length > 0
       ? initialData.criteriaList
@@ -262,6 +266,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
         body: JSON.stringify({
           matkul: matkul.trim(),
           tahun: tahun.trim(),
+          kunci_jawaban: kunciJawaban.trim() || null,
           kriteriaList: criteriaList.map((c) => ({
             judulkriteria: c.judulkriteria.trim(),
             kriteria: c.kriteria.trim(),
@@ -301,6 +306,38 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
       s.nrp.toLowerCase().includes(studentSearch.toLowerCase()) ||
       (s.nama && s.nama.toLowerCase().includes(studentSearch.toLowerCase()))
   )
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const text = event.target?.result as string
+      if (typeof text === "string") {
+        setKunciJawaban(text)
+        setKunciJawabanTab("edit")
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ""
+  }
+
+  const handleDropFile = (e: React.DragEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const text = event.target?.result as string
+      if (typeof text === "string") {
+        setKunciJawaban(text)
+        setKunciJawabanTab("edit")
+      }
+    }
+    reader.readAsText(file)
+  }
 
   return (
     <>
@@ -1056,6 +1093,167 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
             )}
           </div>
         )}
+
+        {/* SECTION: KUNCI JAWABAN UJIAN (FORMAT MARKDOWN) */}
+        <div className="cf-card">
+          <div className="cf-card-header" style={{ alignItems: "flex-start" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "4px" }}>
+                <h2 className="cf-card-title">🔑 Kunci Jawaban Ujian (Format Markdown)</h2>
+                <span
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "#92341e",
+                    background: "#fcf1ee",
+                    border: "0.5px solid #f2c7bc",
+                    padding: "2px 7px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  Hemat Ruang (.md)
+                </span>
+              </div>
+              <p className="cf-card-subtitle">
+                Simpan kunci jawaban dalam format Markdown (.md) untuk menghemat tempat pada database. Mahasiswa dan dosen dapat melihat kunci jawaban ini dengan mengklik tombol &ldquo;Kunci Jawaban&rdquo;.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", gap: "6px", flexShrink: 0, flexWrap: "wrap", alignItems: "center" }}>
+              <label
+                htmlFor="upload-md-file"
+                className="cf-preset-btn"
+                style={{
+                  cursor: "pointer",
+                  background: "#f4f3ef",
+                  color: "#111",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  fontWeight: 500,
+                }}
+                title="Unggah file .md atau .txt langsung dari komputer Anda"
+              >
+                <span>📁</span>
+                <span>Upload File .md</span>
+                <input
+                  id="upload-md-file"
+                  type="file"
+                  accept=".md,.markdown,.txt"
+                  style={{ display: "none" }}
+                  onChange={handleFileUpload}
+                />
+              </label>
+
+              <button
+                type="button"
+                className="cf-preset-btn"
+                style={{
+                  background: kunciJawabanTab === "edit" ? "#111" : "#f4f3ef",
+                  color: kunciJawabanTab === "edit" ? "#fff" : "#444",
+                }}
+                onClick={() => setKunciJawabanTab("edit")}
+              >
+                ✏️ Editor .md
+              </button>
+              <button
+                type="button"
+                className="cf-preset-btn"
+                style={{
+                  background: kunciJawabanTab === "preview" ? "#111" : "#f4f3ef",
+                  color: kunciJawabanTab === "preview" ? "#fff" : "#444",
+                }}
+                onClick={() => setKunciJawabanTab("preview")}
+              >
+                👁️ Pratinjau Tampilan
+              </button>
+              {!kunciJawaban && (
+                <button
+                  type="button"
+                  className="cf-btn-balance"
+                  onClick={() => {
+                    setKunciJawaban(
+                      `# Kunci Jawaban Ujian: ${matkul || "Mata Kuliah"}\n**Tahun Akademik:** ${tahun || "2025/2026"}\n\n## Bagian A: Pilihan Ganda / Konsep\n1. **A** - Penjelasan: ...\n2. **C** - Penjelasan: ...\n\n## Bagian B: Pembahasan Soal Esai & Rubrik\n### Soal 1\nPenjelasan langkah penyelesaian dan poin penilaian:\n- Analisis masalah: 20 poin\n- Formulasi rumus / implementasi: 30 poin\n\n\`\`\`typescript\n// Contoh solusi kode jika ada\nfunction hitungNilai() {\n  return 100;\n}\n\`\`\`\n\n| Komponen | Bobot | Kriteria |\n|---|---|---|\n| Ketepatan Jawaban | 60% | Sesuai dengan teori |\n| Penjelasan & Argumen | 40% | Rinci dan sistematis |\n`
+                    )
+                  }}
+                  title="Gunakan contoh format kunci jawaban markdown"
+                >
+                  ✨ Contoh Template
+                </button>
+              )}
+            </div>
+          </div>
+
+          {kunciJawabanTab === "edit" ? (
+            <div className="cf-form-group">
+              <label className="cf-label" htmlFor="kunciJawaban">
+                Isi Kunci Jawaban (Markdown .md)
+                <span style={{ fontWeight: 400, color: "#888", marginLeft: "6px" }}>
+                  — Dukungan format: # Judul, **tebal**, *miring*, `kode`, tabel | ... |, dan daftar nomor/poin
+                </span>
+              </label>
+              <textarea
+                id="kunciJawaban"
+                className="cf-input"
+                style={{
+                  minHeight: "240px",
+                  fontFamily: "'Consolas', 'Monaco', monospace",
+                  fontSize: "13px",
+                  lineHeight: "1.6",
+                  resize: "vertical",
+                  padding: "14px 16px",
+                  background: "#fcfbf9",
+                }}
+                placeholder="# Kunci Jawaban UAS...\n\nAnda dapat mengetik langsung, menempel (paste), atau drag-and-drop file .md ke area ini."
+                value={kunciJawaban}
+                onChange={(e) => setKunciJawaban(e.target.value)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleDropFile}
+              />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "6px", fontSize: "12px", color: "#888" }}>
+                <span>
+                  💡 <em>Bisa ketik langsung, klik &ldquo;Upload File .md&rdquo;, atau seret (drag-and-drop) file .md ke sini.</em>
+                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span>
+                    {kunciJawaban.trim() ? `${kunciJawaban.length} karakter • ${kunciJawaban.split("\n").length} baris` : "Belum ada kunci jawaban"}
+                  </span>
+                  {kunciJawaban.trim() && (
+                    <button
+                      type="button"
+                      style={{ background: "none", border: "none", color: "#c0392b", cursor: "pointer", fontSize: "12px" }}
+                      onClick={() => {
+                        if (confirm("Kosongkan kunci jawaban untuk mata kuliah ini?")) {
+                          setKunciJawaban("")
+                        }
+                      }}
+                    >
+                      Hapus / Kosongkan Kunci
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div
+              style={{
+                background: "#fdfdfc",
+                border: "0.5px solid rgba(0,0,0,0.1)",
+                borderRadius: "8px",
+                padding: "20px 24px",
+                minHeight: "180px",
+              }}
+            >
+              {kunciJawaban.trim() ? (
+                <MarkdownViewer content={kunciJawaban} />
+              ) : (
+                <p style={{ color: "#999", fontStyle: "italic", textAlign: "center", padding: "40px 0" }}>
+                  Belum ada isi kunci jawaban. Beralih ke tab <strong>Editor .md</strong> untuk menulis atau menempel Markdown.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* SUBMIT & CANCEL ACTIONS */}
         <div className="cf-actions">
