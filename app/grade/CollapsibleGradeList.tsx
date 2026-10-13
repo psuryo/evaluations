@@ -97,10 +97,17 @@ export default function CollapsibleGradeList({
               key={subject.idkuliah}
               className={`gr-subject-card ${isOpen ? "gr-card-open" : ""}`}
             >
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 className={`gr-subject-header ${isOpen ? "is-open" : ""}`}
                 onClick={() => toggleCourse(subject.idkuliah)}
+                onKeyDown={(e) => {
+                  if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+                    e.preventDefault()
+                    toggleCourse(subject.idkuliah)
+                  }
+                }}
                 aria-expanded={isOpen}
               >
                 <div className="gr-subject-info">
@@ -181,7 +188,7 @@ export default function CollapsibleGradeList({
                     </svg>
                   </div>
                 </div>
-              </button>
+              </div>
 
               {isOpen && (
                 <div className="gr-subject-content">

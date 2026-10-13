@@ -278,6 +278,7 @@ export default async function GradePage({
           text-align: left;
           font-family: inherit;
           transition: background 0.15s ease;
+          user-select: none;
         }
         .gr-subject-header:hover {
           background: #faf9f6;
