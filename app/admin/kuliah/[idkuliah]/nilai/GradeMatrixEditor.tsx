@@ -663,10 +663,131 @@ export default function GradeMatrixEditor({
           box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
+        /* Left Sidebar Kunci Jawaban Card */
+        .gm-sidebar-key-card {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          width: 100%;
+          padding: 10px 14px;
+          background: #fffbeb;
+          border: 1px solid #fde68a;
+          border-radius: 9px;
+          color: #92400e;
+          font-family: inherit;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          box-shadow: 0 1px 3px rgba(146, 64, 14, 0.06);
+          text-align: left;
+        }
+        .gm-sidebar-key-card:hover {
+          background: #fef3c7;
+          border-color: #f59e0b;
+          color: #78350f;
+          transform: translateY(-1px);
+          box-shadow: 0 3px 8px rgba(146, 64, 14, 0.12);
+        }
+        .gm-sidebar-key-left {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 0;
+        }
+        .gm-sidebar-key-icon {
+          font-size: 17px;
+          line-height: 1;
+          flex-shrink: 0;
+        }
+        .gm-sidebar-key-title {
+          font-size: 13px;
+          font-weight: 600;
+          color: #92400e;
+          line-height: 1.2;
+        }
+        .gm-sidebar-key-sub {
+          font-size: 11px;
+          color: #b45309;
+          margin-top: 2px;
+          font-weight: 400;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .gm-sidebar-key-badge {
+          font-size: 11px;
+          font-weight: 600;
+          background: #fff;
+          color: #92400e;
+          border: 0.5px solid #fde68a;
+          padding: 2px 7px;
+          border-radius: 5px;
+          flex-shrink: 0;
+        }
+
+        /* Floating Left-Side Kunci Jawaban Button (Visible anywhere without scrolling) */
+        .gm-floating-key-btn {
+          position: fixed;
+          left: 24px;
+          bottom: 24px;
+          z-index: 50;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 18px;
+          background: #fff;
+          color: #92400e;
+          border: 1.5px solid #fde68a;
+          border-radius: 9999px;
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 600;
+          box-shadow: 0 8px 24px -2px rgba(146, 64, 14, 0.16), 0 3px 8px -1px rgba(0, 0, 0, 0.08);
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          user-select: none;
+        }
+        .gm-floating-key-btn:hover {
+          background: #fef3c7;
+          border-color: #f59e0b;
+          color: #78350f;
+          transform: translateY(-2px);
+          box-shadow: 0 12px 28px -2px rgba(146, 64, 14, 0.24), 0 4px 10px -1px rgba(0, 0, 0, 0.1);
+        }
+        .gm-floating-key-btn:active {
+          transform: translateY(0);
+        }
+        .gm-floating-key-icon {
+          font-size: 16px;
+          line-height: 1;
+        }
+        .gm-floating-key-text {
+          letter-spacing: -0.01em;
+        }
+        .gm-floating-key-pill {
+          font-size: 10px;
+          text-transform: uppercase;
+          background: #fef3c7;
+          color: #92400e;
+          border: 0.5px solid #fde68a;
+          padding: 1px 6px;
+          border-radius: 999px;
+          font-weight: 700;
+        }
+
         @media (max-width: 900px) {
           .gm-single-layout { grid-template-columns: 1fr; }
           .gm-student-sidebar { position: static; }
           .gm-bottom-nav { flex-direction: column; gap: 10px; }
+        }
+
+        @media (max-width: 640px) {
+          .gm-floating-key-btn {
+            left: 16px;
+            bottom: 16px;
+            padding: 8px 14px;
+            font-size: 12px;
+          }
         }
       `}</style>
 
@@ -680,7 +801,7 @@ export default function GradeMatrixEditor({
 
         {/* Top Controls & View Mode Toggle */}
         <div className="gm-toolbar">
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
             {/* View Mode Toggle: Focus 1 Mahasiswa vs Tabel Rekap */}
             <div className="gm-view-toggle">
               <button
@@ -699,32 +820,31 @@ export default function GradeMatrixEditor({
               </button>
             </div>
 
+            <button
+              type="button"
+              className="gm-btn secondary"
+              style={{
+                background: "#fef3c7",
+                borderColor: "#fde68a",
+                color: "#92400e",
+                fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+              onClick={() => setShowAnswerKeyModal(true)}
+              title="Tampilkan Kunci Jawaban Ujian (.md)"
+            >
+              <span>🔑</span>
+              <span>Kunci Jawaban</span>
+            </button>
+
             <span style={{ fontSize: "12px", color: "#666" }}>
               Progress Penilaian: <strong>{totalGradedStudents}</strong> / {students.length} Mahasiswa Lengkap
             </span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {kunci_jawaban && (
-              <button
-                type="button"
-                className="gm-btn secondary"
-                style={{
-                  background: "#fef3c7",
-                  borderColor: "#fde68a",
-                  color: "#92400e",
-                  fontWeight: 600,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                }}
-                onClick={() => setShowAnswerKeyModal(true)}
-                title="Tampilkan Kunci Jawaban Ujian (.md)"
-              >
-                <span>🔑</span>
-                <span>Kunci Jawaban</span>
-              </button>
-            )}
             <button
               type="button"
               className="gm-btn secondary"
@@ -774,6 +894,25 @@ export default function GradeMatrixEditor({
           <div className="gm-single-layout">
             {/* Left Sidebar: Student Navigation & Jump List */}
             <aside className="gm-student-sidebar">
+              {/* Kunci Jawaban Button on the Left Side */}
+              <button
+                type="button"
+                className="gm-sidebar-key-card"
+                onClick={() => setShowAnswerKeyModal(true)}
+                title="Buka Kunci Jawaban Ujian (.md)"
+              >
+                <div className="gm-sidebar-key-left">
+                  <span className="gm-sidebar-key-icon">🔑</span>
+                  <div>
+                    <div className="gm-sidebar-key-title">Kunci Jawaban</div>
+                    <div className="gm-sidebar-key-sub">
+                      {kunci_jawaban ? "Rubrik & Jawaban Ujian" : "Belum diunggah"}
+                    </div>
+                  </div>
+                </div>
+                <span className="gm-sidebar-key-badge">Buka ↗</span>
+              </button>
+
               <div>
                 <div style={{ fontSize: "13px", fontWeight: 600, color: "#111", marginBottom: "4px" }}>
                   Daftar Mahasiswa ({students.length})
@@ -1005,14 +1144,35 @@ export default function GradeMatrixEditor({
 
               {/* Bottom Sticky Student Navigation Bar */}
               <div className="gm-bottom-nav">
-                <button
-                  type="button"
-                  className="gm-btn secondary"
-                  disabled={currentStudentIndex === 0}
-                  onClick={() => setCurrentStudentIndex(currentStudentIndex - 1)}
-                >
-                  ← Mahasiswa Sebelumnya
-                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <button
+                    type="button"
+                    className="gm-btn secondary"
+                    disabled={currentStudentIndex === 0}
+                    onClick={() => setCurrentStudentIndex(currentStudentIndex - 1)}
+                  >
+                    ← Mahasiswa Sebelumnya
+                  </button>
+
+                  <button
+                    type="button"
+                    className="gm-btn secondary"
+                    style={{
+                      background: "#fffbeb",
+                      borderColor: "#fde68a",
+                      color: "#92400e",
+                      fontWeight: 600,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                    onClick={() => setShowAnswerKeyModal(true)}
+                    title="Buka Kunci Jawaban Ujian (.md)"
+                  >
+                    <span>🔑</span>
+                    <span>Kunci Jawaban</span>
+                  </button>
+                </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <button
@@ -1299,6 +1459,19 @@ export default function GradeMatrixEditor({
           </div>
         )}
 
+        {/* Floating Kunci Jawaban Button on the Left Side (Always Accessible Wherever You Scroll) */}
+        <button
+          type="button"
+          className="gm-floating-key-btn"
+          onClick={() => setShowAnswerKeyModal(true)}
+          title="Buka Kunci Jawaban Ujian (.md) - Akses cepat di sisi kiri tanpa perlu scroll ke atas"
+          aria-label="Buka Kunci Jawaban"
+        >
+          <span className="gm-floating-key-icon">🔑</span>
+          <span className="gm-floating-key-text">Kunci Jawaban</span>
+          <span className="gm-floating-key-pill">.md</span>
+        </button>
+
         {/* Modal Answer Key */}
         <AnswerKeyModal
           isOpen={showAnswerKeyModal}
@@ -1306,6 +1479,7 @@ export default function GradeMatrixEditor({
           matkul={matkul}
           tahun={tahun}
           content={kunci_jawaban ?? null}
+          idkuliah={idkuliah}
         />
       </div>
     </>
