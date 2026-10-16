@@ -1,349 +1,52 @@
 "use client"
 
 import React, { useState } from "react"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
 
 interface MarkdownViewerProps {
   content: string
   className?: string
 }
 
-// Helper to parse inline markdown (bold, italic, code, links, strikethrough)
-function parseInlineMarkdown(text: string): React.ReactNode[] {
-  // Regex to match inline tokens:
-  // 1. Code: `code`
-  // 2. Bold: **bold** or __bold__
-  // 3. Strikethrough: ~~del~~
-  // 4. Italic: *italic* or _italic_
-  // 5. Link: [text](url)
-  const regex = /(`[^`]+`|\*\*[^*]+\*\*|__[^_]+__|~~[^~]+~~|\*[^*]+\*|_[^_]+_|\[[^\]]+\]\([^)]+\))/g
+function CodeBlock({
+  lang,
+  code,
+  children,
+}: {
+  lang: string
+  code: string
+  children: React.ReactNode
+}) {
+  const [copied, setCopied] = useState(false)
 
-  const nodes: React.ReactNode[] = []
-  let lastIndex = 0
-  let match: RegExpExecArray | null
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
-  while ((match = regex.exec(text)) !== null) {
-    // Push preceding plain text
-    if (match.index > lastIndex) {
-      nodes.push(text.slice(lastIndex, match.index))
-    }
-
-    const token = match[0]
-    const key = `${match.index}-${token}`
-
-    if (token.startsWith("`") && token.endsWith("`")) {
-      nodes.push(
-        <code key={key} className="md-inline-code">
-          {token.slice(1, -1)}
-        </code>
-      )
-    } else if (
-      (token.startsWith("**") && token.endsWith("**")) ||
-      (token.startsWith("__") && token.endsWith("__"))
-    ) {
-      nodes.push(
-        <strong key={key} className="md-bold">
-          {parseInlineMarkdown(token.slice(2, -2))}
-        </strong>
-      )
-    } else if (token.startsWith("~~") && token.endsWith("~~")) {
-      nodes.push(
-        <del key={key} className="md-del">
-          {parseInlineMarkdown(token.slice(2, -2))}
-        </del>
-      )
-    } else if (
-      (token.startsWith("*") && token.endsWith("*")) ||
-      (token.startsWith("_") && token.endsWith("_"))
-    ) {
-      nodes.push(
-        <em key={key} className="md-italic">
-          {parseInlineMarkdown(token.slice(1, -1))}
-        </em>
-      )
-    } else if (token.startsWith("[") && token.includes("](") && token.endsWith(")")) {
-      const closingBracket = token.indexOf("](")
-      const linkText = token.slice(1, closingBracket)
-      const linkUrl = token.slice(closingBracket + 2, -1)
-      nodes.push(
-        <a
-          key={key}
-          href={linkUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="md-link"
+  return (
+    <div className="md-codeblock-wrapper">
+      <div className="md-codeblock-header">
+        <span className="md-codeblock-lang">{lang || "code"}</span>
+        <button
+          type="button"
+          className="md-codeblock-copy"
+          onClick={handleCopy}
+          title="Salin kode"
         >
-          {linkText}
-        </a>
-      )
-    } else {
-      nodes.push(token)
-    }
-
-    lastIndex = regex.lastIndex
-  }
-
-  if (lastIndex < text.length) {
-    nodes.push(text.slice(lastIndex))
-  }
-
-  return nodes
+          {copied ? "✓ Tersalin" : "Salin"}
+        </button>
+      </div>
+      <pre className="md-codeblock">{children}</pre>
+    </div>
+  )
 }
 
 export default function MarkdownViewer({ content, className = "" }: MarkdownViewerProps) {
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
-
-  const handleCopyCode = (codeText: string, idx: number) => {
-    navigator.clipboard.writeText(codeText)
-    setCopiedIndex(idx)
-    setTimeout(() => setCopiedIndex(null), 2000)
-  }
-
-  // Parse lines into blocks
-  const lines = content.replace(/\r\n/g, "\n").split("\n")
-  const blocks: React.ReactNode[] = []
-
-  let i = 0
-  let blockIndex = 0
-
-  while (i < lines.length) {
-    const line = lines[i]
-
-    // 1. Code block
-    if (line.trim().startsWith("```")) {
-      const lang = line.trim().slice(3).trim()
-      const codeLines: string[] = []
-      i++
-      while (i < lines.length && !lines[i].trim().startsWith("```")) {
-        codeLines.push(lines[i])
-        i++
-      }
-      i++ // Skip closing ```
-
-      const fullCode = codeLines.join("\n")
-      const currentIdx = blockIndex++
-
-      blocks.push(
-        <div key={`code-${currentIdx}`} className="md-codeblock-wrapper">
-          <div className="md-codeblock-header">
-            <span className="md-codeblock-lang">{lang || "code"}</span>
-            <button
-              type="button"
-              className="md-codeblock-copy"
-              onClick={() => handleCopyCode(fullCode, currentIdx)}
-              title="Salin kode"
-            >
-              {copiedIndex === currentIdx ? "✓ Tersalin" : "Salin"}
-            </button>
-          </div>
-          <pre className="md-codeblock">
-            <code>{fullCode}</code>
-          </pre>
-        </div>
-      )
-      continue
-    }
-
-    // 2. Headings
-    if (line.startsWith("#")) {
-      const match = line.match(/^(#{1,6})\s+(.*)$/)
-      if (match) {
-        const level = match[1].length
-        const headingText = match[2]
-        const inline = parseInlineMarkdown(headingText)
-        const key = `heading-${blockIndex++}`
-
-        switch (level) {
-          case 1:
-            blocks.push(<h1 key={key} className="md-h1">{inline}</h1>)
-            break
-          case 2:
-            blocks.push(<h2 key={key} className="md-h2">{inline}</h2>)
-            break
-          case 3:
-            blocks.push(<h3 key={key} className="md-h3">{inline}</h3>)
-            break
-          case 4:
-            blocks.push(<h4 key={key} className="md-h4">{inline}</h4>)
-            break
-          case 5:
-            blocks.push(<h5 key={key} className="md-h5">{inline}</h5>)
-            break
-          default:
-            blocks.push(<h6 key={key} className="md-h6">{inline}</h6>)
-            break
-        }
-        i++
-        continue
-      }
-    }
-
-    // 3. Horizontal Rule
-    if (/^(\*\*\*|---|___)$/.test(line.trim())) {
-      blocks.push(<hr key={`hr-${blockIndex++}`} className="md-hr" />)
-      i++
-      continue
-    }
-
-    // 4. Blockquote
-    if (line.startsWith(">")) {
-      const quoteLines: string[] = []
-      while (i < lines.length && lines[i].startsWith(">")) {
-        quoteLines.push(lines[i].replace(/^>\s?/, ""))
-        i++
-      }
-      blocks.push(
-        <blockquote key={`quote-${blockIndex++}`} className="md-blockquote">
-          {quoteLines.map((ql, qIdx) => (
-            <p key={qIdx}>{parseInlineMarkdown(ql)}</p>
-          ))}
-        </blockquote>
-      )
-      continue
-    }
-
-    // 5. Table
-    if (line.includes("|") && line.trim().startsWith("|") && line.trim().endsWith("|")) {
-      const tableLines: string[] = []
-      while (
-        i < lines.length &&
-        lines[i].includes("|") &&
-        lines[i].trim().startsWith("|") &&
-        lines[i].trim().endsWith("|")
-      ) {
-        tableLines.push(lines[i].trim())
-        i++
-      }
-
-      if (tableLines.length >= 2) {
-        const parseRow = (rowStr: string) =>
-          rowStr
-            .slice(1, -1)
-            .split("|")
-            .map((c) => c.trim())
-
-        const headerRow = parseRow(tableLines[0])
-        const isDivider = /^(\|\s*:?-+:?\s*)+\|$/.test(tableLines[1])
-        const dataRows = isDivider ? tableLines.slice(2) : tableLines.slice(1)
-
-        blocks.push(
-          <div key={`table-${blockIndex++}`} className="md-table-wrapper">
-            <table className="md-table">
-              <thead>
-                <tr>
-                  {headerRow.map((col, cIdx) => (
-                    <th key={cIdx}>{parseInlineMarkdown(col)}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {dataRows.map((rowStr, rIdx) => {
-                  const cells = parseRow(rowStr)
-                  return (
-                    <tr key={rIdx}>
-                      {cells.map((cell, cIdx) => (
-                        <td key={cIdx}>{parseInlineMarkdown(cell)}</td>
-                      ))}
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        )
-        continue
-      }
-    }
-
-    // 6. Unordered List or Checklist
-    if (/^(\s*)[-*+]\s+/.test(line)) {
-      const listItems: { text: string; checked?: boolean }[] = []
-      while (i < lines.length && /^(\s*)[-*+]\s+/.test(lines[i])) {
-        const itemLine = lines[i].replace(/^(\s*)[-*+]\s+/, "")
-        const checkMatch = itemLine.match(/^\[([ xX])\]\s+(.*)$/)
-        if (checkMatch) {
-          listItems.push({
-            checked: checkMatch[1].toLowerCase() === "x",
-            text: checkMatch[2],
-          })
-        } else {
-          listItems.push({ text: itemLine })
-        }
-        i++
-      }
-
-      blocks.push(
-        <ul key={`ul-${blockIndex++}`} className="md-ul">
-          {listItems.map((item, itemIdx) => (
-            <li key={itemIdx} className={item.checked !== undefined ? "md-task-item" : ""}>
-              {item.checked !== undefined && (
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  readOnly
-                  className="md-checkbox"
-                />
-              )}
-              <span>{parseInlineMarkdown(item.text)}</span>
-            </li>
-          ))}
-        </ul>
-      )
-      continue
-    }
-
-    // 7. Ordered List
-    if (/^\s*\d+\.\s+/.test(line)) {
-      const listItems: string[] = []
-      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
-        listItems.push(lines[i].replace(/^\s*\d+\.\s+/, ""))
-        i++
-      }
-
-      blocks.push(
-        <ol key={`ol-${blockIndex++}`} className="md-ol">
-          {listItems.map((itemText, itemIdx) => (
-            <li key={itemIdx}>{parseInlineMarkdown(itemText)}</li>
-          ))}
-        </ol>
-      )
-      continue
-    }
-
-    // 8. Empty lines
-    if (!line.trim()) {
-      i++
-      continue
-    }
-
-    // 9. Paragraph
-    const paraLines: string[] = []
-    while (
-      i < lines.length &&
-      lines[i].trim() &&
-      !lines[i].trim().startsWith("```") &&
-      !lines[i].startsWith("#") &&
-      !lines[i].startsWith(">") &&
-      !/^(\*\*\*|---|___)$/.test(lines[i].trim()) &&
-      !/^(\s*)[-*+]\s+/.test(lines[i]) &&
-      !/^\s*\d+\.\s+/.test(lines[i]) &&
-      !(lines[i].includes("|") && lines[i].trim().startsWith("|") && lines[i].trim().endsWith("|"))
-    ) {
-      paraLines.push(lines[i])
-      i++
-    }
-
-    blocks.push(
-      <p key={`p-${blockIndex++}`} className="md-p">
-        {paraLines.map((pl, plIdx) => (
-          <React.Fragment key={plIdx}>
-            {parseInlineMarkdown(pl)}
-            {plIdx < paraLines.length - 1 && <br />}
-          </React.Fragment>
-        ))}
-      </p>
-    )
-  }
-
   return (
     <>
       <style>{`
@@ -384,17 +87,6 @@ export default function MarkdownViewer({ content, className = "" }: MarkdownView
         .md-p {
           margin-bottom: 12px;
           color: #333;
-        }
-        .md-bold {
-          font-weight: 600;
-          color: #111;
-        }
-        .md-italic {
-          font-style: italic;
-        }
-        .md-del {
-          text-decoration: line-through;
-          color: #888;
         }
         .md-inline-code {
           font-family: 'Consolas', 'Monaco', monospace;
@@ -492,6 +184,7 @@ export default function MarkdownViewer({ content, className = "" }: MarkdownView
           width: 14px;
           height: 14px;
           accent-color: #111;
+          margin: 0;
         }
         .md-table-wrapper {
           overflow-x: auto;
@@ -523,9 +216,91 @@ export default function MarkdownViewer({ content, className = "" }: MarkdownView
         .md-table tr:hover td {
           background: #fdfdfc;
         }
+        /* KaTeX formula rendering */
+        .katex-display {
+          margin: 14px 0 !important;
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          padding: 6px 0 !important;
+        }
+        .katex {
+          font-size: 1.08em;
+        }
       `}</style>
+
       <div className={`md-container ${className}`}>
-        {blocks.length > 0 ? blocks : <p style={{ color: "#888", fontStyle: "italic" }}>Konten kosong.</p>}
+        {content && content.trim() ? (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+            components={{
+              h1: ({ children, ...props }) => <h1 className="md-h1" {...props}>{children}</h1>,
+              h2: ({ children, ...props }) => <h2 className="md-h2" {...props}>{children}</h2>,
+              h3: ({ children, ...props }) => <h3 className="md-h3" {...props}>{children}</h3>,
+              h4: ({ children, ...props }) => <h4 className="md-h4" {...props}>{children}</h4>,
+              h5: ({ children, ...props }) => <h5 className="md-h5" {...props}>{children}</h5>,
+              h6: ({ children, ...props }) => <h6 className="md-h6" {...props}>{children}</h6>,
+              p: ({ children, ...props }) => <p className="md-p" {...props}>{children}</p>,
+              blockquote: ({ children, ...props }) => <blockquote className="md-blockquote" {...props}>{children}</blockquote>,
+              hr: ({ ...props }) => <hr className="md-hr" {...props} />,
+              ul: ({ children, ...props }) => <ul className="md-ul" {...props}>{children}</ul>,
+              ol: ({ children, ...props }) => <ol className="md-ol" {...props}>{children}</ol>,
+              a: ({ href, children, ...props }) => (
+                <a href={href} target="_blank" rel="noopener noreferrer" className="md-link" {...props}>
+                  {children}
+                </a>
+              ),
+              table: ({ children, ...props }) => (
+                <div className="md-table-wrapper">
+                  <table className="md-table" {...props}>
+                    {children}
+                  </table>
+                </div>
+              ),
+              li: ({ children, className: liClass, ...props }) => {
+                const isTaskItem = liClass?.includes("task-list-item")
+                return (
+                  <li className={isTaskItem ? "md-task-item" : undefined} {...props}>
+                    {children}
+                  </li>
+                )
+              },
+              input: ({ type, ...props }) => {
+                if (type === "checkbox") {
+                  return <input type="checkbox" className="md-checkbox" disabled readOnly {...props} />
+                }
+                return <input type={type} {...props} />
+              },
+              code: ({ className: codeClass, children, ...props }) => {
+                const match = /language-(\w+)/.exec(codeClass || "")
+                const isBlock = match || String(children).includes("\n")
+
+                if (!isBlock) {
+                  return (
+                    <code className="md-inline-code" {...props}>
+                      {children}
+                    </code>
+                  )
+                }
+
+                const lang = match ? match[1] : "code"
+                const codeString = String(children).replace(/\n$/, "")
+
+                return (
+                  <CodeBlock lang={lang} code={codeString}>
+                    <code className={codeClass} {...props}>
+                      {children}
+                    </code>
+                  </CodeBlock>
+                )
+              },
+            }}
+          >
+            {content}
+          </ReactMarkdown>
+        ) : (
+          <p style={{ color: "#888", fontStyle: "italic" }}>Konten kosong.</p>
+        )}
       </div>
     </>
   )
