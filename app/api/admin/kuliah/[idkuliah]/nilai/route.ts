@@ -150,21 +150,25 @@ export async function POST(
       return NextResponse.json({ error: "Payload updates harus berupa array" }, { status: 400 })
     }
 
-    // Execute bulk update of grades and custom criteria comments
-    await Promise.all(
-      updates.map((u) => {
-        const updateData: { grade: number | null; kriteria?: string } = {
-          grade: u.grade !== null && u.grade !== "" && !isNaN(Number(u.grade)) ? Number(u.grade) : null,
-        }
-        if (u.kriteria !== undefined) {
-          updateData.kriteria = u.kriteria !== null ? String(u.kriteria).trim() : ""
-        }
-        return prisma.nilai.update({
-          where: { idnilai: u.idnilai },
-          data: updateData,
+    // Execute bulk update in chunks within transactions to prevent pool exhaustion and timeouts
+    const CHUNK_SIZE = 50
+    for (let i = 0; i < updates.length; i += CHUNK_SIZE) {
+      const chunk = updates.slice(i, i + CHUNK_SIZE)
+      await prisma.$transaction(
+        chunk.map((u) => {
+          const updateData: { grade: number | null; kriteria?: string } = {
+            grade: u.grade !== null && u.grade !== "" && !isNaN(Number(u.grade)) ? Number(u.grade) : null,
+          }
+          if (u.kriteria !== undefined) {
+            updateData.kriteria = u.kriteria !== null ? String(u.kriteria).trim() : ""
+          }
+          return prisma.nilai.update({
+            where: { idnilai: u.idnilai },
+            data: updateData,
+          })
         })
-      })
-    )
+      )
+    }
 
     return NextResponse.json({ message: "Nilai dan komentar berhasil disimpan", count: updates.length })
   } catch (error) {

@@ -200,45 +200,65 @@ export async function PUT(
       },
     })
 
-    // Get current enrolled students
+    // Get current enrolled students and existing grades/custom comments
     const currentNilai = await prisma.nilai.findMany({
       where: { idkuliah },
-      select: { nrp: true },
-      distinct: ["nrp"],
-    })
-    const existingNrps = currentNilai.map((n) => n.nrp).filter(Boolean) as string[]
-
-    // Delete existing nilai entries and recreate with new criteria
-    await prisma.nilai.deleteMany({
-      where: { idkuliah },
+      select: {
+        nrp: true,
+        judulkriteria: true,
+        grade: true,
+        kriteria: true,
+      },
     })
 
-    if (existingNrps.length > 0) {
-      const newNilaiData = []
-      for (const nrp of existingNrps) {
-        for (const crit of cleanKriteriaList) {
-          newNilaiData.push({
-            idkuliah,
-            nrp,
-            judulkriteria: crit.judulkriteria,
-            kriteria: crit.kriteria,
-            bobot: crit.bobot,
-            grade: null,
-          })
-        }
-      }
-      await prisma.nilai.createMany({ data: newNilaiData })
-    } else {
-      const templateNilai = cleanKriteriaList.map((crit) => ({
-        idkuliah,
-        nrp: null,
-        judulkriteria: crit.judulkriteria,
-        kriteria: crit.kriteria,
-        bobot: crit.bobot,
-        grade: null,
-      }))
-      await prisma.nilai.createMany({ data: templateNilai })
+    // Map existing grade & comment per student per judulkriteria to preserve existing progress:
+    const existingGradeMap = new Map<string, { grade: number | null; kriteria: string | null }>()
+    const studentNrpsSet = new Set<string>()
+    for (const n of currentNilai) {
+      if (n.nrp) studentNrpsSet.add(n.nrp)
+      const key = `${n.nrp ?? ""}__${n.judulkriteria ?? ""}`
+      existingGradeMap.set(key, {
+        grade: n.grade !== null ? Number(n.grade) : null,
+        kriteria: n.kriteria ?? null,
+      })
     }
+    const existingNrps = Array.from(studentNrpsSet)
+
+    // Recreate criteria while strictly PRESERVING all existing student grades and custom comments
+    await prisma.$transaction(async (tx) => {
+      await tx.nilai.deleteMany({
+        where: { idkuliah },
+      })
+
+      if (existingNrps.length > 0) {
+        const newNilaiData = []
+        for (const nrp of existingNrps) {
+          for (const crit of cleanKriteriaList) {
+            const key = `${nrp}__${crit.judulkriteria}`
+            const prev = existingGradeMap.get(key)
+            newNilaiData.push({
+              idkuliah,
+              nrp,
+              judulkriteria: crit.judulkriteria,
+              kriteria: prev?.kriteria || crit.kriteria,
+              bobot: crit.bobot,
+              grade: prev?.grade ?? null, // PRESERVES EXISTING GRADES!
+            })
+          }
+        }
+        await tx.nilai.createMany({ data: newNilaiData })
+      } else {
+        const templateNilai = cleanKriteriaList.map((crit) => ({
+          idkuliah,
+          nrp: null,
+          judulkriteria: crit.judulkriteria,
+          kriteria: crit.kriteria,
+          bobot: crit.bobot,
+          grade: null,
+        }))
+        await tx.nilai.createMany({ data: templateNilai })
+      }
+    })
 
     return NextResponse.json({
       message: "Kuliah berhasil diperbarui",

@@ -153,8 +153,51 @@ export default function GradeMatrixEditor({
     return count
   }
 
-  // Save all grades and comments
-  const handleSaveAll = async (showToast = true) => {
+  // Save grades and comments for a specific student (fast, only current student's criteria)
+  const handleSaveStudent = async (student: StudentRow | null, showToast = true): Promise<boolean> => {
+    if (!student) return true
+    setSaving(true)
+    if (showToast) setToastMsg(null)
+
+    const updates: Array<{ idnilai: number; grade: number | null; kriteria?: string }> = []
+    for (const crit of criteriaList) {
+      const item = student.grades[crit.judulkriteria]
+      if (!item) continue
+      const val = gradesMap[item.idnilai]
+      updates.push({
+        idnilai: item.idnilai,
+        grade: val === "" || val === undefined || val === null ? null : Number(val),
+        kriteria: commentsMap[item.idnilai] !== undefined ? commentsMap[item.idnilai] : undefined,
+      })
+    }
+
+    try {
+      const res = await fetch(`/api/admin/kuliah/${idkuliah}/nilai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ updates }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Gagal menyimpan nilai")
+      }
+
+      if (showToast) {
+        setToastMsg({ type: "success", text: `Nilai & catatan komentar untuk ${student.nama} berhasil disimpan!` })
+      }
+      return true
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Terjadi kesalahan saat menyimpan."
+      setToastMsg({ type: "error", text: msg })
+      return false
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  // Save all grades and comments across all students
+  const handleSaveAll = async (showToast = true): Promise<boolean> => {
     setSaving(true)
     if (showToast) setToastMsg(null)
 
@@ -185,21 +228,45 @@ export default function GradeMatrixEditor({
       return true
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Terjadi kesalahan saat menyimpan."
-      if (showToast) setToastMsg({ type: "error", text: msg })
+      setToastMsg({ type: "error", text: msg })
       return false
     } finally {
       setSaving(false)
     }
   }
 
+  // Switch student from sidebar with auto-save of current student
+  const handleSelectStudent = async (newIndex: number) => {
+    if (newIndex === currentStudentIndex) return
+    if (currentStudent) {
+      await handleSaveStudent(currentStudent, false)
+    }
+    setCurrentStudentIndex(newIndex)
+  }
+
+  // Previous student with auto-save
+  const handlePrevStudent = async () => {
+    if (currentStudentIndex > 0) {
+      if (currentStudent) {
+        await handleSaveStudent(currentStudent, false)
+      }
+      setCurrentStudentIndex(currentStudentIndex - 1)
+    }
+  }
+
   // Save & proceed to next student
   const handleSaveAndNext = async () => {
-    await handleSaveAll(false)
+    if (!currentStudent) return
+    const success = await handleSaveStudent(currentStudent, false)
+    if (!success) {
+      setToastMsg({ type: "error", text: `Gagal menyimpan nilai untuk ${currentStudent.nama}. Silakan periksa koneksi.` })
+      return
+    }
     if (currentStudentIndex < students.length - 1) {
       setCurrentStudentIndex(currentStudentIndex + 1)
-      setToastMsg({ type: "success", text: `Nilai & komentar disimpan! Melanjutkan ke mahasiswa berikutnya.` })
+      setToastMsg({ type: "success", text: `Nilai & komentar untuk ${currentStudent.nama} berhasil disimpan! Melanjutkan ke mahasiswa berikutnya.` })
     } else {
-      setToastMsg({ type: "success", text: `Nilai & komentar disimpan! Anda telah berada di mahasiswa terakhir.` })
+      setToastMsg({ type: "success", text: `Nilai & komentar untuk ${currentStudent.nama} berhasil disimpan! Anda telah berada di mahasiswa terakhir.` })
     }
   }
 
@@ -942,7 +1009,7 @@ export default function GradeMatrixEditor({
                       key={st.nrp}
                       type="button"
                       className={`gm-student-item ${isActive ? "active" : ""}`}
-                      onClick={() => setCurrentStudentIndex(originalIndex)}
+                      onClick={() => handleSelectStudent(originalIndex)}
                     >
                       <div>
                         <div className="gm-item-name">{st.nama}</div>
@@ -1148,8 +1215,8 @@ export default function GradeMatrixEditor({
                   <button
                     type="button"
                     className="gm-btn secondary"
-                    disabled={currentStudentIndex === 0}
-                    onClick={() => setCurrentStudentIndex(currentStudentIndex - 1)}
+                    disabled={currentStudentIndex === 0 || saving}
+                    onClick={handlePrevStudent}
                   >
                     ← Mahasiswa Sebelumnya
                   </button>
@@ -1179,9 +1246,9 @@ export default function GradeMatrixEditor({
                     type="button"
                     className="gm-btn secondary"
                     disabled={saving}
-                    onClick={() => handleSaveAll(true)}
+                    onClick={() => handleSaveStudent(currentStudent, true)}
                   >
-                    💾 Simpan Saat Ini
+                    {saving ? "Menyimpan..." : "💾 Simpan Saat Ini"}
                   </button>
 
                   <button
@@ -1190,7 +1257,9 @@ export default function GradeMatrixEditor({
                     disabled={saving}
                     onClick={handleSaveAndNext}
                   >
-                    {currentStudentIndex === students.length - 1
+                    {saving
+                      ? "Menyimpan..."
+                      : currentStudentIndex === students.length - 1
                       ? "💾 Simpan Nilai (Mahasiswa Terakhir)"
                       : "Simpan & Mahasiswa Berikutnya →"}
                   </button>
