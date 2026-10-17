@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
+import CourseGradeAnalysis from "./CourseGradeAnalysis"
 
 interface Criteria {
   judulkriteria: string
@@ -71,11 +72,15 @@ export default function GradeMatrixEditor({
   })
 
   const students = initialStudents
-  const [viewMode, setViewMode] = useState<"single" | "table">("single")
+  const [viewMode, setViewMode] = useState<"single" | "table" | "analyze">("single")
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [saving, setSaving] = useState(false)
   const [toastMsg, setToastMsg] = useState<{ type: "success" | "error"; text: string } | null>(null)
+
+  // Sorting state for overview spreadsheet table
+  const [tableSortCol, setTableSortCol] = useState<string>("default")
+  const [tableSortDir, setTableSortDir] = useState<"asc" | "desc">("desc")
 
   // Modal for quick editing comment in table view
   const [tableCommentModal, setTableCommentModal] = useState<{
@@ -151,6 +156,65 @@ export default function GradeMatrixEditor({
       }
     }
     return count
+  }
+
+  // Sorted students for spreadsheet table view
+  const sortedTableStudents = useMemo(() => {
+    const list = [...filteredStudents]
+    if (tableSortCol === "default") return list
+
+    list.sort((a, b) => {
+      if (tableSortCol === "nrp") {
+        const cmp = a.nrp.localeCompare(b.nrp, undefined, { numeric: true })
+        return tableSortDir === "asc" ? cmp : -cmp
+      }
+      if (tableSortCol === "nama") {
+        const cmp = a.nama.localeCompare(b.nama)
+        return tableSortDir === "asc" ? cmp : -cmp
+      }
+      if (tableSortCol === "finalGrade") {
+        const aVal = calculateFinalGrade(a)
+        const bVal = calculateFinalGrade(b)
+        if (aVal === null && bVal === null) return 0
+        if (aVal === null) return 1
+        if (bVal === null) return -1
+        return tableSortDir === "asc" ? aVal - bVal : bVal - aVal
+      }
+
+      // Sort by specific criteria column
+      const aItem = a.grades[tableSortCol]
+      const bItem = b.grades[tableSortCol]
+      const aRaw = aItem ? gradesMap[aItem.idnilai] : null
+      const bRaw = bItem ? gradesMap[bItem.idnilai] : null
+      const aVal =
+        aRaw !== "" && aRaw !== undefined && aRaw !== null && !isNaN(Number(aRaw))
+          ? Number(aRaw)
+          : null
+      const bVal =
+        bRaw !== "" && bRaw !== undefined && bRaw !== null && !isNaN(Number(bRaw))
+          ? Number(bRaw)
+          : null
+      if (aVal === null && bVal === null) return 0
+      if (aVal === null) return 1
+      if (bVal === null) return -1
+      return tableSortDir === "asc" ? aVal - bVal : bVal - aVal
+    })
+
+    return list
+  }, [filteredStudents, tableSortCol, tableSortDir, gradesMap])
+
+  const handleTableSort = (colKey: string) => {
+    if (tableSortCol === colKey) {
+      if (tableSortDir === "desc") {
+        setTableSortDir("asc")
+      } else {
+        setTableSortCol("default")
+        setTableSortDir("desc")
+      }
+    } else {
+      setTableSortCol(colKey)
+      setTableSortDir(colKey === "nrp" || colKey === "nama" ? "asc" : "desc")
+    }
   }
 
   // Save grades and comments for a specific student (fast, only current student's criteria)
@@ -642,6 +706,25 @@ export default function GradeMatrixEditor({
           border-bottom: 1px solid rgba(0,0,0,0.08);
           white-space: nowrap;
         }
+        .gm-th.sortable {
+          cursor: pointer;
+          user-select: none;
+          transition: background 0.15s, color 0.15s;
+        }
+        .gm-th.sortable:hover {
+          background: #edeae2;
+          color: #111;
+        }
+        .gm-th.active-sort {
+          background: #e8e4da;
+          color: #111;
+        }
+        .gm-th-sort-icon {
+          display: inline-block;
+          margin-left: 4px;
+          font-size: 10px;
+          color: #888;
+        }
         .gm-td { padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.04); vertical-align: middle; }
         .gm-tr:hover { background: #fafaf8; }
         .gm-tr:last-child .gm-td { border-bottom: none; }
@@ -869,14 +952,14 @@ export default function GradeMatrixEditor({
         {/* Top Controls & View Mode Toggle */}
         <div className="gm-toolbar">
           <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
-            {/* View Mode Toggle: Focus 1 Mahasiswa vs Tabel Rekap */}
+            {/* View Mode Toggle: Focus 1 Mahasiswa vs Tabel Rekap vs Analisis */}
             <div className="gm-view-toggle">
               <button
                 type="button"
                 className={`gm-toggle-btn ${viewMode === "single" ? "active" : ""}`}
                 onClick={() => setViewMode("single")}
               >
-                👤 Fokus 1 Mahasiswa (Kriteria &amp; Komentar Lengkap)
+                👤 Fokus 1 Mahasiswa
               </button>
               <button
                 type="button"
@@ -884,6 +967,13 @@ export default function GradeMatrixEditor({
                 onClick={() => setViewMode("table")}
               >
                 📊 Tabel Matriks (Semua)
+              </button>
+              <button
+                type="button"
+                className={`gm-toggle-btn ${viewMode === "analyze" ? "active" : ""}`}
+                onClick={() => setViewMode("analyze")}
+              >
+                📈 Analisis Nilai &amp; Kesulitan
               </button>
             </div>
 
@@ -954,6 +1044,25 @@ export default function GradeMatrixEditor({
               <span>+</span> Tambah Mahasiswa Sekarang
             </button>
           </div>
+        ) : viewMode === "analyze" ? (
+          /* ========================================================== */
+          /* MODE 3: COURSE GRADE & ASPECT DIFFICULTY ANALYSIS MODULE   */
+          /* ========================================================== */
+          <CourseGradeAnalysis
+            idkuliah={idkuliah}
+            matkul={matkul}
+            tahun={tahun}
+            criteriaList={criteriaList}
+            students={students}
+            gradesMap={gradesMap}
+            commentsMap={commentsMap}
+            onSelectStudent={(originalIdx) => {
+              setCurrentStudentIndex(originalIdx)
+              setViewMode("single")
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }}
+            onSwitchToTable={() => setViewMode("table")}
+          />
         ) : viewMode === "single" && currentStudent ? (
           /* ========================================================== */
           /* MODE 1: SINGLE STUDENT FOCUS WITH FULL CRITERIA & COMMENT VIEW */
@@ -1272,22 +1381,123 @@ export default function GradeMatrixEditor({
           /* MODE 2: OVERVIEW SPREADSHEET TABLE (ALL STUDENTS)          */
           /* ========================================================== */
           <div className="gm-table-wrap">
+            {tableSortCol !== "default" && (
+              <div
+                style={{
+                  padding: "8px 16px",
+                  background: "#fdf8ee",
+                  borderBottom: "1px solid #fde68a",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  fontSize: "12px",
+                  color: "#92400e",
+                }}
+              >
+                <span>
+                  Diurutkan berdasarkan:{" "}
+                  <strong>
+                    {tableSortCol === "finalGrade"
+                      ? "Nilai Akhir"
+                      : tableSortCol === "nrp"
+                      ? "NRP"
+                      : tableSortCol === "nama"
+                      ? "Nama Mahasiswa"
+                      : tableSortCol}
+                  </strong>{" "}
+                  ({tableSortDir === "desc" ? "Tertinggi / Z-A" : "Terendah / A-Z"})
+                </span>
+                <button
+                  type="button"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#b45309",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => {
+                    setTableSortCol("default")
+                    setTableSortDir("desc")
+                  }}
+                >
+                  Reset Urutan Asli
+                </button>
+              </div>
+            )}
             <table className="gm-table">
               <thead>
                 <tr>
-                  <th className="gm-th" style={{ width: "40px" }}>#</th>
-                  <th className="gm-th" style={{ minWidth: "130px" }}>NRP</th>
-                  <th className="gm-th" style={{ minWidth: "200px" }}>Nama Mahasiswa</th>
+                  <th
+                    className={`gm-th sortable ${tableSortCol === "default" ? "active-sort" : ""}`}
+                    style={{ width: "40px" }}
+                    onClick={() => handleTableSort("default")}
+                    title="Klik untuk urutan asli default"
+                  >
+                    #
+                  </th>
+                  <th
+                    className={`gm-th sortable ${tableSortCol === "nrp" ? "active-sort" : ""}`}
+                    style={{ minWidth: "130px" }}
+                    onClick={() => handleTableSort("nrp")}
+                    title="Klik untuk mengurutkan berdasarkan NRP"
+                  >
+                    NRP{" "}
+                    <span className="gm-th-sort-icon">
+                      {tableSortCol === "nrp" ? (tableSortDir === "asc" ? "▲" : "▼") : "⇅"}
+                    </span>
+                  </th>
+                  <th
+                    className={`gm-th sortable ${tableSortCol === "nama" ? "active-sort" : ""}`}
+                    style={{ minWidth: "200px" }}
+                    onClick={() => handleTableSort("nama")}
+                    title="Klik untuk mengurutkan berdasarkan Nama"
+                  >
+                    Nama Mahasiswa{" "}
+                    <span className="gm-th-sort-icon">
+                      {tableSortCol === "nama" ? (tableSortDir === "asc" ? "▲" : "▼") : "⇅"}
+                    </span>
+                  </th>
                   {criteriaList.map((crit, idx) => (
-                    <th key={idx} className="gm-th" style={{ textAlign: "center", minWidth: "120px" }}>
-                      <div>{crit.judulkriteria}</div>
+                    <th
+                      key={idx}
+                      className={`gm-th sortable ${tableSortCol === crit.judulkriteria ? "active-sort" : ""}`}
+                      style={{ textAlign: "center", minWidth: "120px" }}
+                      onClick={() => handleTableSort(crit.judulkriteria)}
+                      title={`Klik untuk mengurutkan berdasarkan nilai ${crit.judulkriteria}`}
+                    >
+                      <div>
+                        {crit.judulkriteria}{" "}
+                        <span className="gm-th-sort-icon">
+                          {tableSortCol === crit.judulkriteria
+                            ? tableSortDir === "asc"
+                              ? "▲"
+                              : "▼"
+                            : "⇅"}
+                        </span>
+                      </div>
                       <div style={{ fontSize: "10px", color: "#888", fontWeight: 500 }}>
                         Max: {crit.bobot} poin
                       </div>
                     </th>
                   ))}
-                  <th className="gm-th" style={{ textAlign: "center", minWidth: "130px" }}>
-                    <div>Nilai Akhir</div>
+                  <th
+                    className={`gm-th sortable ${tableSortCol === "finalGrade" ? "active-sort" : ""}`}
+                    style={{ textAlign: "center", minWidth: "130px" }}
+                    onClick={() => handleTableSort("finalGrade")}
+                    title="Klik untuk mengurutkan berdasarkan Nilai Akhir"
+                  >
+                    <div>
+                      Nilai Akhir{" "}
+                      <span className="gm-th-sort-icon">
+                        {tableSortCol === "finalGrade"
+                          ? tableSortDir === "asc"
+                            ? "▲"
+                            : "▼"
+                          : "⇅"}
+                      </span>
+                    </div>
                     <div style={{ fontSize: "10px", color: "#888", fontWeight: 500 }}>
                       (Jumlah / 100)
                     </div>
@@ -1296,7 +1506,7 @@ export default function GradeMatrixEditor({
                 </tr>
               </thead>
               <tbody>
-                {filteredStudents.map((st, sIdx) => {
+                {sortedTableStudents.map((st, sIdx) => {
                   const finalGrade = calculateFinalGrade(st)
                   const gradeBadgeClass =
                     finalGrade === null
