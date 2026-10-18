@@ -150,30 +150,49 @@ export async function POST(
       return NextResponse.json({ error: "Payload updates harus berupa array" }, { status: 400 })
     }
 
-    // Execute bulk update in chunks within transactions to prevent pool exhaustion and timeouts
-    const CHUNK_SIZE = 50
-    for (let i = 0; i < updates.length; i += CHUNK_SIZE) {
-      const chunk = updates.slice(i, i + CHUNK_SIZE)
-      await prisma.$transaction(
-        chunk.map((u) => {
-          const updateData: { grade: number | null; kriteria?: string } = {
-            grade: u.grade !== null && u.grade !== "" && !isNaN(Number(u.grade)) ? Number(u.grade) : null,
-          }
-          if (u.kriteria !== undefined) {
-            updateData.kriteria = u.kriteria !== null ? String(u.kriteria).trim() : ""
-          }
-          return prisma.nilai.update({
-            where: { idnilai: u.idnilai },
-            data: updateData,
-          })
-        })
-      )
+    // Execute high-performance bulk update using parameterized SQL
+    // Avoids Prisma transaction timeout (P2028, default 5000ms) and PgBouncer round-trip overhead
+    if (updates.length > 0) {
+      const BATCH_SIZE = 200
+      for (let i = 0; i < updates.length; i += BATCH_SIZE) {
+        const batch = updates.slice(i, i + BATCH_SIZE)
+        const valueClauses: string[] = []
+        const params: any[] = []
+        let pIdx = 1
+
+        for (const u of batch) {
+          const hasGrade = u.grade !== undefined
+          const gradeVal =
+            hasGrade && u.grade !== null && u.grade !== "" && !isNaN(Number(u.grade))
+              ? Number(u.grade)
+              : null
+          const hasKriteria = u.kriteria !== undefined
+          const kriteriaVal = hasKriteria && u.kriteria !== null ? String(u.kriteria).trim() : ""
+
+          valueClauses.push(
+            `($${pIdx}::int, $${pIdx + 1}::boolean, $${pIdx + 2}::numeric, $${pIdx + 3}::boolean, $${pIdx + 4}::text)`
+          )
+          params.push(u.idnilai, hasGrade, gradeVal, hasKriteria, kriteriaVal)
+          pIdx += 5
+        }
+
+        const sql = `
+          UPDATE nilai AS n
+          SET 
+            grade = CASE WHEN v.has_grade THEN v.grade ELSE n.grade END,
+            kriteria = CASE WHEN v.has_kriteria THEN v.kriteria ELSE n.kriteria END
+          FROM (VALUES ${valueClauses.join(", ")}) AS v(idnilai, has_grade, grade, has_kriteria, kriteria)
+          WHERE n.idnilai = v.idnilai
+        `
+        await prisma.$executeRawUnsafe(sql, ...params)
+      }
     }
 
     return NextResponse.json({ message: "Nilai dan komentar berhasil disimpan", count: updates.length })
   } catch (error) {
     console.error("Error saving grades:", error)
-    return NextResponse.json({ error: "Gagal menyimpan nilai mahasiswa" }, { status: 500 })
+    const errorDetails = error instanceof Error ? error.message : "Gagal menyimpan nilai mahasiswa"
+    return NextResponse.json({ error: "Gagal menyimpan nilai mahasiswa", details: errorDetails }, { status: 500 })
   }
 }
 

@@ -5,12 +5,23 @@ import pg from "pg"
 
 const connectionString = process.env.DATABASE_URL!
 
-const pool = new pg.Pool({
-  connectionString,
-})
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
+  pool: pg.Pool | undefined
+}
+
+const pool =
+  globalForPrisma.pool ??
+  new pg.Pool({
+    connectionString,
+    max: process.env.NODE_ENV === "production" ? 5 : 10,
+  })
 
 const adapter = new PrismaPg(pool)
 
-export const prisma = new PrismaClient({
-  adapter,
-})
+export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma
+  globalForPrisma.pool = pool
+}
