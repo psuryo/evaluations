@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useRef } from "react"
 import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
 import CourseGradeAnalysis from "./CourseGradeAnalysis"
 
@@ -70,6 +70,10 @@ export default function GradeMatrixEditor({
     }
     return map
   })
+
+  // Last-saved values, used to send only rows that were actually edited
+  const savedGradesRef = useRef<Record<number, string | number>>({ ...gradesMap })
+  const savedCommentsRef = useRef<Record<number, string>>({ ...commentsMap })
 
   const students = initialStudents
   const [viewMode, setViewMode] = useState<"single" | "table" | "analyze">("single")
@@ -217,22 +221,48 @@ export default function GradeMatrixEditor({
     }
   }
 
-  // Save grades and comments for a specific student (fast, only current student's criteria)
+  // Build updates containing only edited rows (grade and/or comment changed since last save)
+  const buildChangedUpdates = (ids: number[]) => {
+    const updates: Array<{ idnilai: number; grade?: number | null; kriteria?: string }> = []
+    for (const idnilai of ids) {
+      const cur = gradesMap[idnilai]
+      const gradeChanged = String(cur ?? "") !== String(savedGradesRef.current[idnilai] ?? "")
+      const comment = commentsMap[idnilai]
+      const commentChanged =
+        comment !== undefined && comment !== (savedCommentsRef.current[idnilai] ?? "")
+      if (!gradeChanged && !commentChanged) continue
+      const u: { idnilai: number; grade?: number | null; kriteria?: string } = { idnilai }
+      if (gradeChanged) u.grade = cur === "" || cur === undefined || cur === null ? null : Number(cur)
+      if (commentChanged) u.kriteria = comment
+      updates.push(u)
+    }
+    return updates
+  }
+
+  const markSaved = (ids: number[]) => {
+    for (const idnilai of ids) {
+      savedGradesRef.current[idnilai] = gradesMap[idnilai]
+      if (commentsMap[idnilai] !== undefined) savedCommentsRef.current[idnilai] = commentsMap[idnilai]
+    }
+  }
+
+  // Save grades and comments for a specific student (only rows that changed)
   const handleSaveStudent = async (student: StudentRow | null, showToast = true): Promise<boolean> => {
     if (!student) return true
     setSaving(true)
     if (showToast) setToastMsg(null)
 
-    const updates: Array<{ idnilai: number; grade: number | null; kriteria?: string }> = []
+    const ids: number[] = []
     for (const crit of criteriaList) {
       const item = student.grades[crit.judulkriteria]
-      if (!item) continue
-      const val = gradesMap[item.idnilai]
-      updates.push({
-        idnilai: item.idnilai,
-        grade: val === "" || val === undefined || val === null ? null : Number(val),
-        kriteria: commentsMap[item.idnilai] !== undefined ? commentsMap[item.idnilai] : undefined,
-      })
+      if (item) ids.push(item.idnilai)
+    }
+    const updates = buildChangedUpdates(ids)
+
+    if (updates.length === 0) {
+      if (showToast) setToastMsg({ type: "success", text: `Tidak ada perubahan untuk ${student.nama}.` })
+      setSaving(false)
+      return true
     }
 
     try {
@@ -247,6 +277,7 @@ export default function GradeMatrixEditor({
         throw new Error(data.error || "Gagal menyimpan nilai")
       }
 
+      markSaved(updates.map((u) => u.idnilai))
       if (showToast) {
         setToastMsg({ type: "success", text: `Nilai & catatan komentar untuk ${student.nama} berhasil disimpan!` })
       }
@@ -265,14 +296,13 @@ export default function GradeMatrixEditor({
     setSaving(true)
     if (showToast) setToastMsg(null)
 
-    const updates = Object.entries(gradesMap).map(([idnilaiStr, gradeVal]) => {
-      const idnilai = parseInt(idnilaiStr, 10)
-      return {
-        idnilai,
-        grade: gradeVal === "" ? null : Number(gradeVal),
-        kriteria: commentsMap[idnilai] !== undefined ? commentsMap[idnilai] : undefined,
-      }
-    })
+    const updates = buildChangedUpdates(Object.keys(gradesMap).map((k) => parseInt(k, 10)))
+
+    if (updates.length === 0) {
+      if (showToast) setToastMsg({ type: "success", text: "Tidak ada perubahan untuk disimpan." })
+      setSaving(false)
+      return true
+    }
 
     try {
       const res = await fetch(`/api/admin/kuliah/${idkuliah}/nilai`, {
@@ -286,8 +316,9 @@ export default function GradeMatrixEditor({
         throw new Error(data.error || "Gagal menyimpan nilai")
       }
 
+      markSaved(updates.map((u) => u.idnilai))
       if (showToast) {
-        setToastMsg({ type: "success", text: "Seluruh nilai dan catatan komentar berhasil disimpan ke database!" })
+        setToastMsg({ type: "success", text: `${updates.length} perubahan nilai/komentar berhasil disimpan ke database!` })
       }
       return true
     } catch (err: unknown) {
