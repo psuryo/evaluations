@@ -239,6 +239,9 @@ export default async function AdminPage() {
             <Link href="/admin/kuliah" className="ad-nav-link">
               Kelola Kuliah
             </Link>
+            <Link href="/admin/kelompok" className="ad-nav-link">
+              Penilaian Kelompok
+            </Link>
           </nav>
           <div className="ad-user">
             <span className="ad-email">{session.user.email}</span>
@@ -296,6 +299,17 @@ export default async function AdminPage() {
                 </Link>
               </div>
             </div>
+          </div>
+
+          {/* Penilaian Kelompok */}
+          <div style={{ padding: "20px", background: "#fff", borderRadius: "12px", border: "0.5px solid rgba(0,0,0,0.08)", marginBottom: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+            <div>
+              <div style={{ fontSize: "15px", fontWeight: "600", color: "#111", marginBottom: "4px" }}>Penilaian Kelompok</div>
+              <div style={{ fontSize: "13px", color: "#888", fontWeight: "300" }}>Kelompok, kriteria kelompok &amp; individu, nilai total per mahasiswa</div>
+            </div>
+            <Link href="/admin/kelompok" style={{ fontSize: "12px", color: "#fff", background: "#111", border: "none", borderRadius: "6px", padding: "7px 14px", textDecoration: "none", fontWeight: "500", whiteSpace: "nowrap" }}>
+              Buka →
+            </Link>
           </div>
 
           <div className="stat-grid">

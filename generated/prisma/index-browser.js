@@ -223,6 +223,52 @@ exports.Prisma.CourseGradeWeightsScalarFieldEnum = {
   final_exam_weight: 'final_exam_weight'
 };
 
+exports.Prisma.KelompokPenilaianScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  keterangan: 'keterangan',
+  tahun: 'tahun',
+  created_at: 'created_at'
+};
+
+exports.Prisma.KelompokTimScalarFieldEnum = {
+  id: 'id',
+  penilaianId: 'penilaianId',
+  nama: 'nama'
+};
+
+exports.Prisma.KelompokAnggotaScalarFieldEnum = {
+  id: 'id',
+  timId: 'timId',
+  penilaianId: 'penilaianId',
+  nrp: 'nrp'
+};
+
+exports.Prisma.KelompokKriteriaScalarFieldEnum = {
+  id: 'id',
+  penilaianId: 'penilaianId',
+  nama: 'nama',
+  tipe: 'tipe',
+  bobot: 'bobot',
+  urutan: 'urutan'
+};
+
+exports.Prisma.KelompokNilaiTimScalarFieldEnum = {
+  id: 'id',
+  kriteriaId: 'kriteriaId',
+  timId: 'timId',
+  nilai: 'nilai',
+  keterangan: 'keterangan'
+};
+
+exports.Prisma.KelompokNilaiIndividuScalarFieldEnum = {
+  id: 'id',
+  kriteriaId: 'kriteriaId',
+  nrp: 'nrp',
+  nilai: 'nilai',
+  keterangan: 'keterangan'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -252,7 +298,13 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   StudentFinalGrade: 'StudentFinalGrade',
-  CourseGradeWeights: 'CourseGradeWeights'
+  CourseGradeWeights: 'CourseGradeWeights',
+  KelompokPenilaian: 'KelompokPenilaian',
+  KelompokTim: 'KelompokTim',
+  KelompokAnggota: 'KelompokAnggota',
+  KelompokKriteria: 'KelompokKriteria',
+  KelompokNilaiTim: 'KelompokNilaiTim',
+  KelompokNilaiIndividu: 'KelompokNilaiIndividu'
 };
 
 /**

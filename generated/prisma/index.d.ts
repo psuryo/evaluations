@@ -78,6 +78,36 @@ export type StudentFinalGrade = $Result.DefaultSelection<Prisma.$StudentFinalGra
  * 
  */
 export type CourseGradeWeights = $Result.DefaultSelection<Prisma.$CourseGradeWeightsPayload>
+/**
+ * Model KelompokPenilaian
+ * 
+ */
+export type KelompokPenilaian = $Result.DefaultSelection<Prisma.$KelompokPenilaianPayload>
+/**
+ * Model KelompokTim
+ * 
+ */
+export type KelompokTim = $Result.DefaultSelection<Prisma.$KelompokTimPayload>
+/**
+ * Model KelompokAnggota
+ * 
+ */
+export type KelompokAnggota = $Result.DefaultSelection<Prisma.$KelompokAnggotaPayload>
+/**
+ * Model KelompokKriteria
+ * 
+ */
+export type KelompokKriteria = $Result.DefaultSelection<Prisma.$KelompokKriteriaPayload>
+/**
+ * Model KelompokNilaiTim
+ * 
+ */
+export type KelompokNilaiTim = $Result.DefaultSelection<Prisma.$KelompokNilaiTimPayload>
+/**
+ * Model KelompokNilaiIndividu
+ * 
+ */
+export type KelompokNilaiIndividu = $Result.DefaultSelection<Prisma.$KelompokNilaiIndividuPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -329,6 +359,66 @@ export class PrismaClient<
     * ```
     */
   get courseGradeWeights(): Prisma.CourseGradeWeightsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kelompokPenilaian`: Exposes CRUD operations for the **KelompokPenilaian** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KelompokPenilaians
+    * const kelompokPenilaians = await prisma.kelompokPenilaian.findMany()
+    * ```
+    */
+  get kelompokPenilaian(): Prisma.KelompokPenilaianDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kelompokTim`: Exposes CRUD operations for the **KelompokTim** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KelompokTims
+    * const kelompokTims = await prisma.kelompokTim.findMany()
+    * ```
+    */
+  get kelompokTim(): Prisma.KelompokTimDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kelompokAnggota`: Exposes CRUD operations for the **KelompokAnggota** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KelompokAnggotas
+    * const kelompokAnggotas = await prisma.kelompokAnggota.findMany()
+    * ```
+    */
+  get kelompokAnggota(): Prisma.KelompokAnggotaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kelompokKriteria`: Exposes CRUD operations for the **KelompokKriteria** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KelompokKriterias
+    * const kelompokKriterias = await prisma.kelompokKriteria.findMany()
+    * ```
+    */
+  get kelompokKriteria(): Prisma.KelompokKriteriaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kelompokNilaiTim`: Exposes CRUD operations for the **KelompokNilaiTim** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KelompokNilaiTims
+    * const kelompokNilaiTims = await prisma.kelompokNilaiTim.findMany()
+    * ```
+    */
+  get kelompokNilaiTim(): Prisma.KelompokNilaiTimDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kelompokNilaiIndividu`: Exposes CRUD operations for the **KelompokNilaiIndividu** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KelompokNilaiIndividus
+    * const kelompokNilaiIndividus = await prisma.kelompokNilaiIndividu.findMany()
+    * ```
+    */
+  get kelompokNilaiIndividu(): Prisma.KelompokNilaiIndividuDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -775,7 +865,13 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     StudentFinalGrade: 'StudentFinalGrade',
-    CourseGradeWeights: 'CourseGradeWeights'
+    CourseGradeWeights: 'CourseGradeWeights',
+    KelompokPenilaian: 'KelompokPenilaian',
+    KelompokTim: 'KelompokTim',
+    KelompokAnggota: 'KelompokAnggota',
+    KelompokKriteria: 'KelompokKriteria',
+    KelompokNilaiTim: 'KelompokNilaiTim',
+    KelompokNilaiIndividu: 'KelompokNilaiIndividu'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -791,7 +887,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "evaluations" | "group" | "kriteria" | "kuliah" | "nilai" | "userNilai" | "submission" | "verificationToken" | "user" | "account" | "session" | "studentFinalGrade" | "courseGradeWeights"
+      modelProps: "evaluations" | "group" | "kriteria" | "kuliah" | "nilai" | "userNilai" | "submission" | "verificationToken" | "user" | "account" | "session" | "studentFinalGrade" | "courseGradeWeights" | "kelompokPenilaian" | "kelompokTim" | "kelompokAnggota" | "kelompokKriteria" | "kelompokNilaiTim" | "kelompokNilaiIndividu"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1757,6 +1853,450 @@ export namespace Prisma {
           }
         }
       }
+      KelompokPenilaian: {
+        payload: Prisma.$KelompokPenilaianPayload<ExtArgs>
+        fields: Prisma.KelompokPenilaianFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KelompokPenilaianFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KelompokPenilaianFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>
+          }
+          findFirst: {
+            args: Prisma.KelompokPenilaianFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KelompokPenilaianFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>
+          }
+          findMany: {
+            args: Prisma.KelompokPenilaianFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>[]
+          }
+          create: {
+            args: Prisma.KelompokPenilaianCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>
+          }
+          createMany: {
+            args: Prisma.KelompokPenilaianCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KelompokPenilaianCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>[]
+          }
+          delete: {
+            args: Prisma.KelompokPenilaianDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>
+          }
+          update: {
+            args: Prisma.KelompokPenilaianUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>
+          }
+          deleteMany: {
+            args: Prisma.KelompokPenilaianDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KelompokPenilaianUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KelompokPenilaianUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>[]
+          }
+          upsert: {
+            args: Prisma.KelompokPenilaianUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokPenilaianPayload>
+          }
+          aggregate: {
+            args: Prisma.KelompokPenilaianAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKelompokPenilaian>
+          }
+          groupBy: {
+            args: Prisma.KelompokPenilaianGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KelompokPenilaianGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KelompokPenilaianCountArgs<ExtArgs>
+            result: $Utils.Optional<KelompokPenilaianCountAggregateOutputType> | number
+          }
+        }
+      }
+      KelompokTim: {
+        payload: Prisma.$KelompokTimPayload<ExtArgs>
+        fields: Prisma.KelompokTimFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KelompokTimFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KelompokTimFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>
+          }
+          findFirst: {
+            args: Prisma.KelompokTimFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KelompokTimFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>
+          }
+          findMany: {
+            args: Prisma.KelompokTimFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>[]
+          }
+          create: {
+            args: Prisma.KelompokTimCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>
+          }
+          createMany: {
+            args: Prisma.KelompokTimCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KelompokTimCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>[]
+          }
+          delete: {
+            args: Prisma.KelompokTimDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>
+          }
+          update: {
+            args: Prisma.KelompokTimUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>
+          }
+          deleteMany: {
+            args: Prisma.KelompokTimDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KelompokTimUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KelompokTimUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>[]
+          }
+          upsert: {
+            args: Prisma.KelompokTimUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokTimPayload>
+          }
+          aggregate: {
+            args: Prisma.KelompokTimAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKelompokTim>
+          }
+          groupBy: {
+            args: Prisma.KelompokTimGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KelompokTimGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KelompokTimCountArgs<ExtArgs>
+            result: $Utils.Optional<KelompokTimCountAggregateOutputType> | number
+          }
+        }
+      }
+      KelompokAnggota: {
+        payload: Prisma.$KelompokAnggotaPayload<ExtArgs>
+        fields: Prisma.KelompokAnggotaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KelompokAnggotaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KelompokAnggotaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>
+          }
+          findFirst: {
+            args: Prisma.KelompokAnggotaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KelompokAnggotaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>
+          }
+          findMany: {
+            args: Prisma.KelompokAnggotaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>[]
+          }
+          create: {
+            args: Prisma.KelompokAnggotaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>
+          }
+          createMany: {
+            args: Prisma.KelompokAnggotaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KelompokAnggotaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>[]
+          }
+          delete: {
+            args: Prisma.KelompokAnggotaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>
+          }
+          update: {
+            args: Prisma.KelompokAnggotaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>
+          }
+          deleteMany: {
+            args: Prisma.KelompokAnggotaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KelompokAnggotaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KelompokAnggotaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>[]
+          }
+          upsert: {
+            args: Prisma.KelompokAnggotaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokAnggotaPayload>
+          }
+          aggregate: {
+            args: Prisma.KelompokAnggotaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKelompokAnggota>
+          }
+          groupBy: {
+            args: Prisma.KelompokAnggotaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KelompokAnggotaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KelompokAnggotaCountArgs<ExtArgs>
+            result: $Utils.Optional<KelompokAnggotaCountAggregateOutputType> | number
+          }
+        }
+      }
+      KelompokKriteria: {
+        payload: Prisma.$KelompokKriteriaPayload<ExtArgs>
+        fields: Prisma.KelompokKriteriaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KelompokKriteriaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KelompokKriteriaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>
+          }
+          findFirst: {
+            args: Prisma.KelompokKriteriaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KelompokKriteriaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>
+          }
+          findMany: {
+            args: Prisma.KelompokKriteriaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>[]
+          }
+          create: {
+            args: Prisma.KelompokKriteriaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>
+          }
+          createMany: {
+            args: Prisma.KelompokKriteriaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KelompokKriteriaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>[]
+          }
+          delete: {
+            args: Prisma.KelompokKriteriaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>
+          }
+          update: {
+            args: Prisma.KelompokKriteriaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>
+          }
+          deleteMany: {
+            args: Prisma.KelompokKriteriaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KelompokKriteriaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KelompokKriteriaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>[]
+          }
+          upsert: {
+            args: Prisma.KelompokKriteriaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokKriteriaPayload>
+          }
+          aggregate: {
+            args: Prisma.KelompokKriteriaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKelompokKriteria>
+          }
+          groupBy: {
+            args: Prisma.KelompokKriteriaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KelompokKriteriaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KelompokKriteriaCountArgs<ExtArgs>
+            result: $Utils.Optional<KelompokKriteriaCountAggregateOutputType> | number
+          }
+        }
+      }
+      KelompokNilaiTim: {
+        payload: Prisma.$KelompokNilaiTimPayload<ExtArgs>
+        fields: Prisma.KelompokNilaiTimFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KelompokNilaiTimFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KelompokNilaiTimFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>
+          }
+          findFirst: {
+            args: Prisma.KelompokNilaiTimFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KelompokNilaiTimFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>
+          }
+          findMany: {
+            args: Prisma.KelompokNilaiTimFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>[]
+          }
+          create: {
+            args: Prisma.KelompokNilaiTimCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>
+          }
+          createMany: {
+            args: Prisma.KelompokNilaiTimCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KelompokNilaiTimCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>[]
+          }
+          delete: {
+            args: Prisma.KelompokNilaiTimDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>
+          }
+          update: {
+            args: Prisma.KelompokNilaiTimUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>
+          }
+          deleteMany: {
+            args: Prisma.KelompokNilaiTimDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KelompokNilaiTimUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KelompokNilaiTimUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>[]
+          }
+          upsert: {
+            args: Prisma.KelompokNilaiTimUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiTimPayload>
+          }
+          aggregate: {
+            args: Prisma.KelompokNilaiTimAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKelompokNilaiTim>
+          }
+          groupBy: {
+            args: Prisma.KelompokNilaiTimGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KelompokNilaiTimGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KelompokNilaiTimCountArgs<ExtArgs>
+            result: $Utils.Optional<KelompokNilaiTimCountAggregateOutputType> | number
+          }
+        }
+      }
+      KelompokNilaiIndividu: {
+        payload: Prisma.$KelompokNilaiIndividuPayload<ExtArgs>
+        fields: Prisma.KelompokNilaiIndividuFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KelompokNilaiIndividuFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KelompokNilaiIndividuFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>
+          }
+          findFirst: {
+            args: Prisma.KelompokNilaiIndividuFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KelompokNilaiIndividuFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>
+          }
+          findMany: {
+            args: Prisma.KelompokNilaiIndividuFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>[]
+          }
+          create: {
+            args: Prisma.KelompokNilaiIndividuCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>
+          }
+          createMany: {
+            args: Prisma.KelompokNilaiIndividuCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KelompokNilaiIndividuCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>[]
+          }
+          delete: {
+            args: Prisma.KelompokNilaiIndividuDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>
+          }
+          update: {
+            args: Prisma.KelompokNilaiIndividuUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>
+          }
+          deleteMany: {
+            args: Prisma.KelompokNilaiIndividuDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KelompokNilaiIndividuUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KelompokNilaiIndividuUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>[]
+          }
+          upsert: {
+            args: Prisma.KelompokNilaiIndividuUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KelompokNilaiIndividuPayload>
+          }
+          aggregate: {
+            args: Prisma.KelompokNilaiIndividuAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKelompokNilaiIndividu>
+          }
+          groupBy: {
+            args: Prisma.KelompokNilaiIndividuGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KelompokNilaiIndividuGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KelompokNilaiIndividuCountArgs<ExtArgs>
+            result: $Utils.Optional<KelompokNilaiIndividuCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1878,6 +2418,12 @@ export namespace Prisma {
     session?: SessionOmit
     studentFinalGrade?: StudentFinalGradeOmit
     courseGradeWeights?: CourseGradeWeightsOmit
+    kelompokPenilaian?: KelompokPenilaianOmit
+    kelompokTim?: KelompokTimOmit
+    kelompokAnggota?: KelompokAnggotaOmit
+    kelompokKriteria?: KelompokKriteriaOmit
+    kelompokNilaiTim?: KelompokNilaiTimOmit
+    kelompokNilaiIndividu?: KelompokNilaiIndividuOmit
   }
 
   /* Types for Logging */
@@ -2008,10 +2554,12 @@ export namespace Prisma {
 
   export type UserNilaiCountOutputType = {
     nilai: number
+    kelompokAnggota: number
   }
 
   export type UserNilaiCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     nilai?: boolean | UserNilaiCountOutputTypeCountNilaiArgs
+    kelompokAnggota?: boolean | UserNilaiCountOutputTypeCountKelompokAnggotaArgs
   }
 
   // Custom InputTypes
@@ -2030,6 +2578,13 @@ export namespace Prisma {
    */
   export type UserNilaiCountOutputTypeCountNilaiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NilaiWhereInput
+  }
+
+  /**
+   * UserNilaiCountOutputType without action
+   */
+  export type UserNilaiCountOutputTypeCountKelompokAnggotaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokAnggotaWhereInput
   }
 
 
@@ -2070,6 +2625,126 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+
+  /**
+   * Count Type KelompokPenilaianCountOutputType
+   */
+
+  export type KelompokPenilaianCountOutputType = {
+    tim: number
+    kriteria: number
+  }
+
+  export type KelompokPenilaianCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tim?: boolean | KelompokPenilaianCountOutputTypeCountTimArgs
+    kriteria?: boolean | KelompokPenilaianCountOutputTypeCountKriteriaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * KelompokPenilaianCountOutputType without action
+   */
+  export type KelompokPenilaianCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaianCountOutputType
+     */
+    select?: KelompokPenilaianCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * KelompokPenilaianCountOutputType without action
+   */
+  export type KelompokPenilaianCountOutputTypeCountTimArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokTimWhereInput
+  }
+
+  /**
+   * KelompokPenilaianCountOutputType without action
+   */
+  export type KelompokPenilaianCountOutputTypeCountKriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokKriteriaWhereInput
+  }
+
+
+  /**
+   * Count Type KelompokTimCountOutputType
+   */
+
+  export type KelompokTimCountOutputType = {
+    anggota: number
+    nilai: number
+  }
+
+  export type KelompokTimCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    anggota?: boolean | KelompokTimCountOutputTypeCountAnggotaArgs
+    nilai?: boolean | KelompokTimCountOutputTypeCountNilaiArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * KelompokTimCountOutputType without action
+   */
+  export type KelompokTimCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTimCountOutputType
+     */
+    select?: KelompokTimCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * KelompokTimCountOutputType without action
+   */
+  export type KelompokTimCountOutputTypeCountAnggotaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokAnggotaWhereInput
+  }
+
+  /**
+   * KelompokTimCountOutputType without action
+   */
+  export type KelompokTimCountOutputTypeCountNilaiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokNilaiTimWhereInput
+  }
+
+
+  /**
+   * Count Type KelompokKriteriaCountOutputType
+   */
+
+  export type KelompokKriteriaCountOutputType = {
+    nilaiTim: number
+    nilaiIndividu: number
+  }
+
+  export type KelompokKriteriaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    nilaiTim?: boolean | KelompokKriteriaCountOutputTypeCountNilaiTimArgs
+    nilaiIndividu?: boolean | KelompokKriteriaCountOutputTypeCountNilaiIndividuArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * KelompokKriteriaCountOutputType without action
+   */
+  export type KelompokKriteriaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteriaCountOutputType
+     */
+    select?: KelompokKriteriaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * KelompokKriteriaCountOutputType without action
+   */
+  export type KelompokKriteriaCountOutputTypeCountNilaiTimArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokNilaiTimWhereInput
+  }
+
+  /**
+   * KelompokKriteriaCountOutputType without action
+   */
+  export type KelompokKriteriaCountOutputTypeCountNilaiIndividuArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokNilaiIndividuWhereInput
   }
 
 
@@ -7745,6 +8420,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     nilai?: boolean | UserNilai$nilaiArgs<ExtArgs>
+    kelompokAnggota?: boolean | UserNilai$kelompokAnggotaArgs<ExtArgs>
     _count?: boolean | UserNilaiCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userNilai"]>
 
@@ -7772,6 +8448,7 @@ export namespace Prisma {
   export type UserNilaiOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"nrp" | "nama" | "email" | "password", ExtArgs["result"]["userNilai"]>
   export type UserNilaiInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     nilai?: boolean | UserNilai$nilaiArgs<ExtArgs>
+    kelompokAnggota?: boolean | UserNilai$kelompokAnggotaArgs<ExtArgs>
     _count?: boolean | UserNilaiCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserNilaiIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7781,6 +8458,7 @@ export namespace Prisma {
     name: "UserNilai"
     objects: {
       nilai: Prisma.$NilaiPayload<ExtArgs>[]
+      kelompokAnggota: Prisma.$KelompokAnggotaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       nrp: string
@@ -8182,6 +8860,7 @@ export namespace Prisma {
   export interface Prisma__UserNilaiClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     nilai<T extends UserNilai$nilaiArgs<ExtArgs> = {}>(args?: Subset<T, UserNilai$nilaiArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NilaiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    kelompokAnggota<T extends UserNilai$kelompokAnggotaArgs<ExtArgs> = {}>(args?: Subset<T, UserNilai$kelompokAnggotaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8629,6 +9308,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NilaiScalarFieldEnum | NilaiScalarFieldEnum[]
+  }
+
+  /**
+   * UserNilai.kelompokAnggota
+   */
+  export type UserNilai$kelompokAnggotaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    where?: KelompokAnggotaWhereInput
+    orderBy?: KelompokAnggotaOrderByWithRelationInput | KelompokAnggotaOrderByWithRelationInput[]
+    cursor?: KelompokAnggotaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokAnggotaScalarFieldEnum | KelompokAnggotaScalarFieldEnum[]
   }
 
   /**
@@ -16125,6 +16828,6778 @@ export namespace Prisma {
 
 
   /**
+   * Model KelompokPenilaian
+   */
+
+  export type AggregateKelompokPenilaian = {
+    _count: KelompokPenilaianCountAggregateOutputType | null
+    _avg: KelompokPenilaianAvgAggregateOutputType | null
+    _sum: KelompokPenilaianSumAggregateOutputType | null
+    _min: KelompokPenilaianMinAggregateOutputType | null
+    _max: KelompokPenilaianMaxAggregateOutputType | null
+  }
+
+  export type KelompokPenilaianAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type KelompokPenilaianSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type KelompokPenilaianMinAggregateOutputType = {
+    id: number | null
+    nama: string | null
+    keterangan: string | null
+    tahun: string | null
+    created_at: Date | null
+  }
+
+  export type KelompokPenilaianMaxAggregateOutputType = {
+    id: number | null
+    nama: string | null
+    keterangan: string | null
+    tahun: string | null
+    created_at: Date | null
+  }
+
+  export type KelompokPenilaianCountAggregateOutputType = {
+    id: number
+    nama: number
+    keterangan: number
+    tahun: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type KelompokPenilaianAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type KelompokPenilaianSumAggregateInputType = {
+    id?: true
+  }
+
+  export type KelompokPenilaianMinAggregateInputType = {
+    id?: true
+    nama?: true
+    keterangan?: true
+    tahun?: true
+    created_at?: true
+  }
+
+  export type KelompokPenilaianMaxAggregateInputType = {
+    id?: true
+    nama?: true
+    keterangan?: true
+    tahun?: true
+    created_at?: true
+  }
+
+  export type KelompokPenilaianCountAggregateInputType = {
+    id?: true
+    nama?: true
+    keterangan?: true
+    tahun?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type KelompokPenilaianAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokPenilaian to aggregate.
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokPenilaians to fetch.
+     */
+    orderBy?: KelompokPenilaianOrderByWithRelationInput | KelompokPenilaianOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KelompokPenilaianWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokPenilaians from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokPenilaians.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KelompokPenilaians
+    **/
+    _count?: true | KelompokPenilaianCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KelompokPenilaianAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KelompokPenilaianSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KelompokPenilaianMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KelompokPenilaianMaxAggregateInputType
+  }
+
+  export type GetKelompokPenilaianAggregateType<T extends KelompokPenilaianAggregateArgs> = {
+        [P in keyof T & keyof AggregateKelompokPenilaian]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKelompokPenilaian[P]>
+      : GetScalarType<T[P], AggregateKelompokPenilaian[P]>
+  }
+
+
+
+
+  export type KelompokPenilaianGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokPenilaianWhereInput
+    orderBy?: KelompokPenilaianOrderByWithAggregationInput | KelompokPenilaianOrderByWithAggregationInput[]
+    by: KelompokPenilaianScalarFieldEnum[] | KelompokPenilaianScalarFieldEnum
+    having?: KelompokPenilaianScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KelompokPenilaianCountAggregateInputType | true
+    _avg?: KelompokPenilaianAvgAggregateInputType
+    _sum?: KelompokPenilaianSumAggregateInputType
+    _min?: KelompokPenilaianMinAggregateInputType
+    _max?: KelompokPenilaianMaxAggregateInputType
+  }
+
+  export type KelompokPenilaianGroupByOutputType = {
+    id: number
+    nama: string
+    keterangan: string | null
+    tahun: string | null
+    created_at: Date
+    _count: KelompokPenilaianCountAggregateOutputType | null
+    _avg: KelompokPenilaianAvgAggregateOutputType | null
+    _sum: KelompokPenilaianSumAggregateOutputType | null
+    _min: KelompokPenilaianMinAggregateOutputType | null
+    _max: KelompokPenilaianMaxAggregateOutputType | null
+  }
+
+  type GetKelompokPenilaianGroupByPayload<T extends KelompokPenilaianGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KelompokPenilaianGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KelompokPenilaianGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KelompokPenilaianGroupByOutputType[P]>
+            : GetScalarType<T[P], KelompokPenilaianGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KelompokPenilaianSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama?: boolean
+    keterangan?: boolean
+    tahun?: boolean
+    created_at?: boolean
+    tim?: boolean | KelompokPenilaian$timArgs<ExtArgs>
+    kriteria?: boolean | KelompokPenilaian$kriteriaArgs<ExtArgs>
+    _count?: boolean | KelompokPenilaianCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokPenilaian"]>
+
+  export type KelompokPenilaianSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama?: boolean
+    keterangan?: boolean
+    tahun?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["kelompokPenilaian"]>
+
+  export type KelompokPenilaianSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama?: boolean
+    keterangan?: boolean
+    tahun?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["kelompokPenilaian"]>
+
+  export type KelompokPenilaianSelectScalar = {
+    id?: boolean
+    nama?: boolean
+    keterangan?: boolean
+    tahun?: boolean
+    created_at?: boolean
+  }
+
+  export type KelompokPenilaianOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "keterangan" | "tahun" | "created_at", ExtArgs["result"]["kelompokPenilaian"]>
+  export type KelompokPenilaianInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tim?: boolean | KelompokPenilaian$timArgs<ExtArgs>
+    kriteria?: boolean | KelompokPenilaian$kriteriaArgs<ExtArgs>
+    _count?: boolean | KelompokPenilaianCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type KelompokPenilaianIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type KelompokPenilaianIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $KelompokPenilaianPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KelompokPenilaian"
+    objects: {
+      tim: Prisma.$KelompokTimPayload<ExtArgs>[]
+      kriteria: Prisma.$KelompokKriteriaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nama: string
+      keterangan: string | null
+      tahun: string | null
+      created_at: Date
+    }, ExtArgs["result"]["kelompokPenilaian"]>
+    composites: {}
+  }
+
+  type KelompokPenilaianGetPayload<S extends boolean | null | undefined | KelompokPenilaianDefaultArgs> = $Result.GetResult<Prisma.$KelompokPenilaianPayload, S>
+
+  type KelompokPenilaianCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KelompokPenilaianFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KelompokPenilaianCountAggregateInputType | true
+    }
+
+  export interface KelompokPenilaianDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KelompokPenilaian'], meta: { name: 'KelompokPenilaian' } }
+    /**
+     * Find zero or one KelompokPenilaian that matches the filter.
+     * @param {KelompokPenilaianFindUniqueArgs} args - Arguments to find a KelompokPenilaian
+     * @example
+     * // Get one KelompokPenilaian
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KelompokPenilaianFindUniqueArgs>(args: SelectSubset<T, KelompokPenilaianFindUniqueArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KelompokPenilaian that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KelompokPenilaianFindUniqueOrThrowArgs} args - Arguments to find a KelompokPenilaian
+     * @example
+     * // Get one KelompokPenilaian
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KelompokPenilaianFindUniqueOrThrowArgs>(args: SelectSubset<T, KelompokPenilaianFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokPenilaian that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianFindFirstArgs} args - Arguments to find a KelompokPenilaian
+     * @example
+     * // Get one KelompokPenilaian
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KelompokPenilaianFindFirstArgs>(args?: SelectSubset<T, KelompokPenilaianFindFirstArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokPenilaian that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianFindFirstOrThrowArgs} args - Arguments to find a KelompokPenilaian
+     * @example
+     * // Get one KelompokPenilaian
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KelompokPenilaianFindFirstOrThrowArgs>(args?: SelectSubset<T, KelompokPenilaianFindFirstOrThrowArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KelompokPenilaians that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KelompokPenilaians
+     * const kelompokPenilaians = await prisma.kelompokPenilaian.findMany()
+     * 
+     * // Get first 10 KelompokPenilaians
+     * const kelompokPenilaians = await prisma.kelompokPenilaian.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kelompokPenilaianWithIdOnly = await prisma.kelompokPenilaian.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KelompokPenilaianFindManyArgs>(args?: SelectSubset<T, KelompokPenilaianFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KelompokPenilaian.
+     * @param {KelompokPenilaianCreateArgs} args - Arguments to create a KelompokPenilaian.
+     * @example
+     * // Create one KelompokPenilaian
+     * const KelompokPenilaian = await prisma.kelompokPenilaian.create({
+     *   data: {
+     *     // ... data to create a KelompokPenilaian
+     *   }
+     * })
+     * 
+     */
+    create<T extends KelompokPenilaianCreateArgs>(args: SelectSubset<T, KelompokPenilaianCreateArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KelompokPenilaians.
+     * @param {KelompokPenilaianCreateManyArgs} args - Arguments to create many KelompokPenilaians.
+     * @example
+     * // Create many KelompokPenilaians
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KelompokPenilaianCreateManyArgs>(args?: SelectSubset<T, KelompokPenilaianCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KelompokPenilaians and returns the data saved in the database.
+     * @param {KelompokPenilaianCreateManyAndReturnArgs} args - Arguments to create many KelompokPenilaians.
+     * @example
+     * // Create many KelompokPenilaians
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KelompokPenilaians and only return the `id`
+     * const kelompokPenilaianWithIdOnly = await prisma.kelompokPenilaian.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KelompokPenilaianCreateManyAndReturnArgs>(args?: SelectSubset<T, KelompokPenilaianCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KelompokPenilaian.
+     * @param {KelompokPenilaianDeleteArgs} args - Arguments to delete one KelompokPenilaian.
+     * @example
+     * // Delete one KelompokPenilaian
+     * const KelompokPenilaian = await prisma.kelompokPenilaian.delete({
+     *   where: {
+     *     // ... filter to delete one KelompokPenilaian
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KelompokPenilaianDeleteArgs>(args: SelectSubset<T, KelompokPenilaianDeleteArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KelompokPenilaian.
+     * @param {KelompokPenilaianUpdateArgs} args - Arguments to update one KelompokPenilaian.
+     * @example
+     * // Update one KelompokPenilaian
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KelompokPenilaianUpdateArgs>(args: SelectSubset<T, KelompokPenilaianUpdateArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KelompokPenilaians.
+     * @param {KelompokPenilaianDeleteManyArgs} args - Arguments to filter KelompokPenilaians to delete.
+     * @example
+     * // Delete a few KelompokPenilaians
+     * const { count } = await prisma.kelompokPenilaian.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KelompokPenilaianDeleteManyArgs>(args?: SelectSubset<T, KelompokPenilaianDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokPenilaians.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KelompokPenilaians
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KelompokPenilaianUpdateManyArgs>(args: SelectSubset<T, KelompokPenilaianUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokPenilaians and returns the data updated in the database.
+     * @param {KelompokPenilaianUpdateManyAndReturnArgs} args - Arguments to update many KelompokPenilaians.
+     * @example
+     * // Update many KelompokPenilaians
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KelompokPenilaians and only return the `id`
+     * const kelompokPenilaianWithIdOnly = await prisma.kelompokPenilaian.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KelompokPenilaianUpdateManyAndReturnArgs>(args: SelectSubset<T, KelompokPenilaianUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KelompokPenilaian.
+     * @param {KelompokPenilaianUpsertArgs} args - Arguments to update or create a KelompokPenilaian.
+     * @example
+     * // Update or create a KelompokPenilaian
+     * const kelompokPenilaian = await prisma.kelompokPenilaian.upsert({
+     *   create: {
+     *     // ... data to create a KelompokPenilaian
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KelompokPenilaian we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KelompokPenilaianUpsertArgs>(args: SelectSubset<T, KelompokPenilaianUpsertArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KelompokPenilaians.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianCountArgs} args - Arguments to filter KelompokPenilaians to count.
+     * @example
+     * // Count the number of KelompokPenilaians
+     * const count = await prisma.kelompokPenilaian.count({
+     *   where: {
+     *     // ... the filter for the KelompokPenilaians we want to count
+     *   }
+     * })
+    **/
+    count<T extends KelompokPenilaianCountArgs>(
+      args?: Subset<T, KelompokPenilaianCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KelompokPenilaianCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KelompokPenilaian.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KelompokPenilaianAggregateArgs>(args: Subset<T, KelompokPenilaianAggregateArgs>): Prisma.PrismaPromise<GetKelompokPenilaianAggregateType<T>>
+
+    /**
+     * Group by KelompokPenilaian.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokPenilaianGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KelompokPenilaianGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KelompokPenilaianGroupByArgs['orderBy'] }
+        : { orderBy?: KelompokPenilaianGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KelompokPenilaianGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKelompokPenilaianGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KelompokPenilaian model
+   */
+  readonly fields: KelompokPenilaianFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KelompokPenilaian.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KelompokPenilaianClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tim<T extends KelompokPenilaian$timArgs<ExtArgs> = {}>(args?: Subset<T, KelompokPenilaian$timArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    kriteria<T extends KelompokPenilaian$kriteriaArgs<ExtArgs> = {}>(args?: Subset<T, KelompokPenilaian$kriteriaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KelompokPenilaian model
+   */
+  interface KelompokPenilaianFieldRefs {
+    readonly id: FieldRef<"KelompokPenilaian", 'Int'>
+    readonly nama: FieldRef<"KelompokPenilaian", 'String'>
+    readonly keterangan: FieldRef<"KelompokPenilaian", 'String'>
+    readonly tahun: FieldRef<"KelompokPenilaian", 'String'>
+    readonly created_at: FieldRef<"KelompokPenilaian", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KelompokPenilaian findUnique
+   */
+  export type KelompokPenilaianFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokPenilaian to fetch.
+     */
+    where: KelompokPenilaianWhereUniqueInput
+  }
+
+  /**
+   * KelompokPenilaian findUniqueOrThrow
+   */
+  export type KelompokPenilaianFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokPenilaian to fetch.
+     */
+    where: KelompokPenilaianWhereUniqueInput
+  }
+
+  /**
+   * KelompokPenilaian findFirst
+   */
+  export type KelompokPenilaianFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokPenilaian to fetch.
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokPenilaians to fetch.
+     */
+    orderBy?: KelompokPenilaianOrderByWithRelationInput | KelompokPenilaianOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokPenilaians.
+     */
+    cursor?: KelompokPenilaianWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokPenilaians from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokPenilaians.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokPenilaians.
+     */
+    distinct?: KelompokPenilaianScalarFieldEnum | KelompokPenilaianScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokPenilaian findFirstOrThrow
+   */
+  export type KelompokPenilaianFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokPenilaian to fetch.
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokPenilaians to fetch.
+     */
+    orderBy?: KelompokPenilaianOrderByWithRelationInput | KelompokPenilaianOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokPenilaians.
+     */
+    cursor?: KelompokPenilaianWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokPenilaians from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokPenilaians.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokPenilaians.
+     */
+    distinct?: KelompokPenilaianScalarFieldEnum | KelompokPenilaianScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokPenilaian findMany
+   */
+  export type KelompokPenilaianFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokPenilaians to fetch.
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokPenilaians to fetch.
+     */
+    orderBy?: KelompokPenilaianOrderByWithRelationInput | KelompokPenilaianOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KelompokPenilaians.
+     */
+    cursor?: KelompokPenilaianWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokPenilaians from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokPenilaians.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokPenilaians.
+     */
+    distinct?: KelompokPenilaianScalarFieldEnum | KelompokPenilaianScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokPenilaian create
+   */
+  export type KelompokPenilaianCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KelompokPenilaian.
+     */
+    data: XOR<KelompokPenilaianCreateInput, KelompokPenilaianUncheckedCreateInput>
+  }
+
+  /**
+   * KelompokPenilaian createMany
+   */
+  export type KelompokPenilaianCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KelompokPenilaians.
+     */
+    data: KelompokPenilaianCreateManyInput | KelompokPenilaianCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokPenilaian createManyAndReturn
+   */
+  export type KelompokPenilaianCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * The data used to create many KelompokPenilaians.
+     */
+    data: KelompokPenilaianCreateManyInput | KelompokPenilaianCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokPenilaian update
+   */
+  export type KelompokPenilaianUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KelompokPenilaian.
+     */
+    data: XOR<KelompokPenilaianUpdateInput, KelompokPenilaianUncheckedUpdateInput>
+    /**
+     * Choose, which KelompokPenilaian to update.
+     */
+    where: KelompokPenilaianWhereUniqueInput
+  }
+
+  /**
+   * KelompokPenilaian updateMany
+   */
+  export type KelompokPenilaianUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KelompokPenilaians.
+     */
+    data: XOR<KelompokPenilaianUpdateManyMutationInput, KelompokPenilaianUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokPenilaians to update
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * Limit how many KelompokPenilaians to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokPenilaian updateManyAndReturn
+   */
+  export type KelompokPenilaianUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * The data used to update KelompokPenilaians.
+     */
+    data: XOR<KelompokPenilaianUpdateManyMutationInput, KelompokPenilaianUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokPenilaians to update
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * Limit how many KelompokPenilaians to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokPenilaian upsert
+   */
+  export type KelompokPenilaianUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KelompokPenilaian to update in case it exists.
+     */
+    where: KelompokPenilaianWhereUniqueInput
+    /**
+     * In case the KelompokPenilaian found by the `where` argument doesn't exist, create a new KelompokPenilaian with this data.
+     */
+    create: XOR<KelompokPenilaianCreateInput, KelompokPenilaianUncheckedCreateInput>
+    /**
+     * In case the KelompokPenilaian was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KelompokPenilaianUpdateInput, KelompokPenilaianUncheckedUpdateInput>
+  }
+
+  /**
+   * KelompokPenilaian delete
+   */
+  export type KelompokPenilaianDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+    /**
+     * Filter which KelompokPenilaian to delete.
+     */
+    where: KelompokPenilaianWhereUniqueInput
+  }
+
+  /**
+   * KelompokPenilaian deleteMany
+   */
+  export type KelompokPenilaianDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokPenilaians to delete
+     */
+    where?: KelompokPenilaianWhereInput
+    /**
+     * Limit how many KelompokPenilaians to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokPenilaian.tim
+   */
+  export type KelompokPenilaian$timArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    where?: KelompokTimWhereInput
+    orderBy?: KelompokTimOrderByWithRelationInput | KelompokTimOrderByWithRelationInput[]
+    cursor?: KelompokTimWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokTimScalarFieldEnum | KelompokTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokPenilaian.kriteria
+   */
+  export type KelompokPenilaian$kriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    where?: KelompokKriteriaWhereInput
+    orderBy?: KelompokKriteriaOrderByWithRelationInput | KelompokKriteriaOrderByWithRelationInput[]
+    cursor?: KelompokKriteriaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokKriteriaScalarFieldEnum | KelompokKriteriaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokPenilaian without action
+   */
+  export type KelompokPenilaianDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokPenilaian
+     */
+    select?: KelompokPenilaianSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokPenilaian
+     */
+    omit?: KelompokPenilaianOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokPenilaianInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KelompokTim
+   */
+
+  export type AggregateKelompokTim = {
+    _count: KelompokTimCountAggregateOutputType | null
+    _avg: KelompokTimAvgAggregateOutputType | null
+    _sum: KelompokTimSumAggregateOutputType | null
+    _min: KelompokTimMinAggregateOutputType | null
+    _max: KelompokTimMaxAggregateOutputType | null
+  }
+
+  export type KelompokTimAvgAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+  }
+
+  export type KelompokTimSumAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+  }
+
+  export type KelompokTimMinAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+    nama: string | null
+  }
+
+  export type KelompokTimMaxAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+    nama: string | null
+  }
+
+  export type KelompokTimCountAggregateOutputType = {
+    id: number
+    penilaianId: number
+    nama: number
+    _all: number
+  }
+
+
+  export type KelompokTimAvgAggregateInputType = {
+    id?: true
+    penilaianId?: true
+  }
+
+  export type KelompokTimSumAggregateInputType = {
+    id?: true
+    penilaianId?: true
+  }
+
+  export type KelompokTimMinAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    nama?: true
+  }
+
+  export type KelompokTimMaxAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    nama?: true
+  }
+
+  export type KelompokTimCountAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    nama?: true
+    _all?: true
+  }
+
+  export type KelompokTimAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokTim to aggregate.
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokTims to fetch.
+     */
+    orderBy?: KelompokTimOrderByWithRelationInput | KelompokTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KelompokTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KelompokTims
+    **/
+    _count?: true | KelompokTimCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KelompokTimAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KelompokTimSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KelompokTimMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KelompokTimMaxAggregateInputType
+  }
+
+  export type GetKelompokTimAggregateType<T extends KelompokTimAggregateArgs> = {
+        [P in keyof T & keyof AggregateKelompokTim]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKelompokTim[P]>
+      : GetScalarType<T[P], AggregateKelompokTim[P]>
+  }
+
+
+
+
+  export type KelompokTimGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokTimWhereInput
+    orderBy?: KelompokTimOrderByWithAggregationInput | KelompokTimOrderByWithAggregationInput[]
+    by: KelompokTimScalarFieldEnum[] | KelompokTimScalarFieldEnum
+    having?: KelompokTimScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KelompokTimCountAggregateInputType | true
+    _avg?: KelompokTimAvgAggregateInputType
+    _sum?: KelompokTimSumAggregateInputType
+    _min?: KelompokTimMinAggregateInputType
+    _max?: KelompokTimMaxAggregateInputType
+  }
+
+  export type KelompokTimGroupByOutputType = {
+    id: number
+    penilaianId: number
+    nama: string
+    _count: KelompokTimCountAggregateOutputType | null
+    _avg: KelompokTimAvgAggregateOutputType | null
+    _sum: KelompokTimSumAggregateOutputType | null
+    _min: KelompokTimMinAggregateOutputType | null
+    _max: KelompokTimMaxAggregateOutputType | null
+  }
+
+  type GetKelompokTimGroupByPayload<T extends KelompokTimGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KelompokTimGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KelompokTimGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KelompokTimGroupByOutputType[P]>
+            : GetScalarType<T[P], KelompokTimGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KelompokTimSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+    anggota?: boolean | KelompokTim$anggotaArgs<ExtArgs>
+    nilai?: boolean | KelompokTim$nilaiArgs<ExtArgs>
+    _count?: boolean | KelompokTimCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokTim"]>
+
+  export type KelompokTimSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokTim"]>
+
+  export type KelompokTimSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokTim"]>
+
+  export type KelompokTimSelectScalar = {
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+  }
+
+  export type KelompokTimOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "penilaianId" | "nama", ExtArgs["result"]["kelompokTim"]>
+  export type KelompokTimInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+    anggota?: boolean | KelompokTim$anggotaArgs<ExtArgs>
+    nilai?: boolean | KelompokTim$nilaiArgs<ExtArgs>
+    _count?: boolean | KelompokTimCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type KelompokTimIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }
+  export type KelompokTimIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }
+
+  export type $KelompokTimPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KelompokTim"
+    objects: {
+      penilaian: Prisma.$KelompokPenilaianPayload<ExtArgs>
+      anggota: Prisma.$KelompokAnggotaPayload<ExtArgs>[]
+      nilai: Prisma.$KelompokNilaiTimPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      penilaianId: number
+      nama: string
+    }, ExtArgs["result"]["kelompokTim"]>
+    composites: {}
+  }
+
+  type KelompokTimGetPayload<S extends boolean | null | undefined | KelompokTimDefaultArgs> = $Result.GetResult<Prisma.$KelompokTimPayload, S>
+
+  type KelompokTimCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KelompokTimFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KelompokTimCountAggregateInputType | true
+    }
+
+  export interface KelompokTimDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KelompokTim'], meta: { name: 'KelompokTim' } }
+    /**
+     * Find zero or one KelompokTim that matches the filter.
+     * @param {KelompokTimFindUniqueArgs} args - Arguments to find a KelompokTim
+     * @example
+     * // Get one KelompokTim
+     * const kelompokTim = await prisma.kelompokTim.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KelompokTimFindUniqueArgs>(args: SelectSubset<T, KelompokTimFindUniqueArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KelompokTim that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KelompokTimFindUniqueOrThrowArgs} args - Arguments to find a KelompokTim
+     * @example
+     * // Get one KelompokTim
+     * const kelompokTim = await prisma.kelompokTim.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KelompokTimFindUniqueOrThrowArgs>(args: SelectSubset<T, KelompokTimFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokTim that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimFindFirstArgs} args - Arguments to find a KelompokTim
+     * @example
+     * // Get one KelompokTim
+     * const kelompokTim = await prisma.kelompokTim.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KelompokTimFindFirstArgs>(args?: SelectSubset<T, KelompokTimFindFirstArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokTim that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimFindFirstOrThrowArgs} args - Arguments to find a KelompokTim
+     * @example
+     * // Get one KelompokTim
+     * const kelompokTim = await prisma.kelompokTim.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KelompokTimFindFirstOrThrowArgs>(args?: SelectSubset<T, KelompokTimFindFirstOrThrowArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KelompokTims that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KelompokTims
+     * const kelompokTims = await prisma.kelompokTim.findMany()
+     * 
+     * // Get first 10 KelompokTims
+     * const kelompokTims = await prisma.kelompokTim.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kelompokTimWithIdOnly = await prisma.kelompokTim.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KelompokTimFindManyArgs>(args?: SelectSubset<T, KelompokTimFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KelompokTim.
+     * @param {KelompokTimCreateArgs} args - Arguments to create a KelompokTim.
+     * @example
+     * // Create one KelompokTim
+     * const KelompokTim = await prisma.kelompokTim.create({
+     *   data: {
+     *     // ... data to create a KelompokTim
+     *   }
+     * })
+     * 
+     */
+    create<T extends KelompokTimCreateArgs>(args: SelectSubset<T, KelompokTimCreateArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KelompokTims.
+     * @param {KelompokTimCreateManyArgs} args - Arguments to create many KelompokTims.
+     * @example
+     * // Create many KelompokTims
+     * const kelompokTim = await prisma.kelompokTim.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KelompokTimCreateManyArgs>(args?: SelectSubset<T, KelompokTimCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KelompokTims and returns the data saved in the database.
+     * @param {KelompokTimCreateManyAndReturnArgs} args - Arguments to create many KelompokTims.
+     * @example
+     * // Create many KelompokTims
+     * const kelompokTim = await prisma.kelompokTim.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KelompokTims and only return the `id`
+     * const kelompokTimWithIdOnly = await prisma.kelompokTim.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KelompokTimCreateManyAndReturnArgs>(args?: SelectSubset<T, KelompokTimCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KelompokTim.
+     * @param {KelompokTimDeleteArgs} args - Arguments to delete one KelompokTim.
+     * @example
+     * // Delete one KelompokTim
+     * const KelompokTim = await prisma.kelompokTim.delete({
+     *   where: {
+     *     // ... filter to delete one KelompokTim
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KelompokTimDeleteArgs>(args: SelectSubset<T, KelompokTimDeleteArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KelompokTim.
+     * @param {KelompokTimUpdateArgs} args - Arguments to update one KelompokTim.
+     * @example
+     * // Update one KelompokTim
+     * const kelompokTim = await prisma.kelompokTim.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KelompokTimUpdateArgs>(args: SelectSubset<T, KelompokTimUpdateArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KelompokTims.
+     * @param {KelompokTimDeleteManyArgs} args - Arguments to filter KelompokTims to delete.
+     * @example
+     * // Delete a few KelompokTims
+     * const { count } = await prisma.kelompokTim.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KelompokTimDeleteManyArgs>(args?: SelectSubset<T, KelompokTimDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokTims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KelompokTims
+     * const kelompokTim = await prisma.kelompokTim.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KelompokTimUpdateManyArgs>(args: SelectSubset<T, KelompokTimUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokTims and returns the data updated in the database.
+     * @param {KelompokTimUpdateManyAndReturnArgs} args - Arguments to update many KelompokTims.
+     * @example
+     * // Update many KelompokTims
+     * const kelompokTim = await prisma.kelompokTim.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KelompokTims and only return the `id`
+     * const kelompokTimWithIdOnly = await prisma.kelompokTim.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KelompokTimUpdateManyAndReturnArgs>(args: SelectSubset<T, KelompokTimUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KelompokTim.
+     * @param {KelompokTimUpsertArgs} args - Arguments to update or create a KelompokTim.
+     * @example
+     * // Update or create a KelompokTim
+     * const kelompokTim = await prisma.kelompokTim.upsert({
+     *   create: {
+     *     // ... data to create a KelompokTim
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KelompokTim we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KelompokTimUpsertArgs>(args: SelectSubset<T, KelompokTimUpsertArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KelompokTims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimCountArgs} args - Arguments to filter KelompokTims to count.
+     * @example
+     * // Count the number of KelompokTims
+     * const count = await prisma.kelompokTim.count({
+     *   where: {
+     *     // ... the filter for the KelompokTims we want to count
+     *   }
+     * })
+    **/
+    count<T extends KelompokTimCountArgs>(
+      args?: Subset<T, KelompokTimCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KelompokTimCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KelompokTim.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KelompokTimAggregateArgs>(args: Subset<T, KelompokTimAggregateArgs>): Prisma.PrismaPromise<GetKelompokTimAggregateType<T>>
+
+    /**
+     * Group by KelompokTim.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokTimGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KelompokTimGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KelompokTimGroupByArgs['orderBy'] }
+        : { orderBy?: KelompokTimGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KelompokTimGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKelompokTimGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KelompokTim model
+   */
+  readonly fields: KelompokTimFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KelompokTim.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KelompokTimClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    penilaian<T extends KelompokPenilaianDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelompokPenilaianDefaultArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    anggota<T extends KelompokTim$anggotaArgs<ExtArgs> = {}>(args?: Subset<T, KelompokTim$anggotaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    nilai<T extends KelompokTim$nilaiArgs<ExtArgs> = {}>(args?: Subset<T, KelompokTim$nilaiArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KelompokTim model
+   */
+  interface KelompokTimFieldRefs {
+    readonly id: FieldRef<"KelompokTim", 'Int'>
+    readonly penilaianId: FieldRef<"KelompokTim", 'Int'>
+    readonly nama: FieldRef<"KelompokTim", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KelompokTim findUnique
+   */
+  export type KelompokTimFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokTim to fetch.
+     */
+    where: KelompokTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokTim findUniqueOrThrow
+   */
+  export type KelompokTimFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokTim to fetch.
+     */
+    where: KelompokTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokTim findFirst
+   */
+  export type KelompokTimFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokTim to fetch.
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokTims to fetch.
+     */
+    orderBy?: KelompokTimOrderByWithRelationInput | KelompokTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokTims.
+     */
+    cursor?: KelompokTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokTims.
+     */
+    distinct?: KelompokTimScalarFieldEnum | KelompokTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokTim findFirstOrThrow
+   */
+  export type KelompokTimFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokTim to fetch.
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokTims to fetch.
+     */
+    orderBy?: KelompokTimOrderByWithRelationInput | KelompokTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokTims.
+     */
+    cursor?: KelompokTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokTims.
+     */
+    distinct?: KelompokTimScalarFieldEnum | KelompokTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokTim findMany
+   */
+  export type KelompokTimFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokTims to fetch.
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokTims to fetch.
+     */
+    orderBy?: KelompokTimOrderByWithRelationInput | KelompokTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KelompokTims.
+     */
+    cursor?: KelompokTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokTims.
+     */
+    distinct?: KelompokTimScalarFieldEnum | KelompokTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokTim create
+   */
+  export type KelompokTimCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KelompokTim.
+     */
+    data: XOR<KelompokTimCreateInput, KelompokTimUncheckedCreateInput>
+  }
+
+  /**
+   * KelompokTim createMany
+   */
+  export type KelompokTimCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KelompokTims.
+     */
+    data: KelompokTimCreateManyInput | KelompokTimCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokTim createManyAndReturn
+   */
+  export type KelompokTimCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * The data used to create many KelompokTims.
+     */
+    data: KelompokTimCreateManyInput | KelompokTimCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokTim update
+   */
+  export type KelompokTimUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KelompokTim.
+     */
+    data: XOR<KelompokTimUpdateInput, KelompokTimUncheckedUpdateInput>
+    /**
+     * Choose, which KelompokTim to update.
+     */
+    where: KelompokTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokTim updateMany
+   */
+  export type KelompokTimUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KelompokTims.
+     */
+    data: XOR<KelompokTimUpdateManyMutationInput, KelompokTimUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokTims to update
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * Limit how many KelompokTims to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokTim updateManyAndReturn
+   */
+  export type KelompokTimUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * The data used to update KelompokTims.
+     */
+    data: XOR<KelompokTimUpdateManyMutationInput, KelompokTimUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokTims to update
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * Limit how many KelompokTims to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokTim upsert
+   */
+  export type KelompokTimUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KelompokTim to update in case it exists.
+     */
+    where: KelompokTimWhereUniqueInput
+    /**
+     * In case the KelompokTim found by the `where` argument doesn't exist, create a new KelompokTim with this data.
+     */
+    create: XOR<KelompokTimCreateInput, KelompokTimUncheckedCreateInput>
+    /**
+     * In case the KelompokTim was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KelompokTimUpdateInput, KelompokTimUncheckedUpdateInput>
+  }
+
+  /**
+   * KelompokTim delete
+   */
+  export type KelompokTimDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+    /**
+     * Filter which KelompokTim to delete.
+     */
+    where: KelompokTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokTim deleteMany
+   */
+  export type KelompokTimDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokTims to delete
+     */
+    where?: KelompokTimWhereInput
+    /**
+     * Limit how many KelompokTims to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokTim.anggota
+   */
+  export type KelompokTim$anggotaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    where?: KelompokAnggotaWhereInput
+    orderBy?: KelompokAnggotaOrderByWithRelationInput | KelompokAnggotaOrderByWithRelationInput[]
+    cursor?: KelompokAnggotaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokAnggotaScalarFieldEnum | KelompokAnggotaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokTim.nilai
+   */
+  export type KelompokTim$nilaiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    where?: KelompokNilaiTimWhereInput
+    orderBy?: KelompokNilaiTimOrderByWithRelationInput | KelompokNilaiTimOrderByWithRelationInput[]
+    cursor?: KelompokNilaiTimWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokNilaiTimScalarFieldEnum | KelompokNilaiTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokTim without action
+   */
+  export type KelompokTimDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokTim
+     */
+    select?: KelompokTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokTim
+     */
+    omit?: KelompokTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokTimInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KelompokAnggota
+   */
+
+  export type AggregateKelompokAnggota = {
+    _count: KelompokAnggotaCountAggregateOutputType | null
+    _avg: KelompokAnggotaAvgAggregateOutputType | null
+    _sum: KelompokAnggotaSumAggregateOutputType | null
+    _min: KelompokAnggotaMinAggregateOutputType | null
+    _max: KelompokAnggotaMaxAggregateOutputType | null
+  }
+
+  export type KelompokAnggotaAvgAggregateOutputType = {
+    id: number | null
+    timId: number | null
+    penilaianId: number | null
+  }
+
+  export type KelompokAnggotaSumAggregateOutputType = {
+    id: number | null
+    timId: number | null
+    penilaianId: number | null
+  }
+
+  export type KelompokAnggotaMinAggregateOutputType = {
+    id: number | null
+    timId: number | null
+    penilaianId: number | null
+    nrp: string | null
+  }
+
+  export type KelompokAnggotaMaxAggregateOutputType = {
+    id: number | null
+    timId: number | null
+    penilaianId: number | null
+    nrp: string | null
+  }
+
+  export type KelompokAnggotaCountAggregateOutputType = {
+    id: number
+    timId: number
+    penilaianId: number
+    nrp: number
+    _all: number
+  }
+
+
+  export type KelompokAnggotaAvgAggregateInputType = {
+    id?: true
+    timId?: true
+    penilaianId?: true
+  }
+
+  export type KelompokAnggotaSumAggregateInputType = {
+    id?: true
+    timId?: true
+    penilaianId?: true
+  }
+
+  export type KelompokAnggotaMinAggregateInputType = {
+    id?: true
+    timId?: true
+    penilaianId?: true
+    nrp?: true
+  }
+
+  export type KelompokAnggotaMaxAggregateInputType = {
+    id?: true
+    timId?: true
+    penilaianId?: true
+    nrp?: true
+  }
+
+  export type KelompokAnggotaCountAggregateInputType = {
+    id?: true
+    timId?: true
+    penilaianId?: true
+    nrp?: true
+    _all?: true
+  }
+
+  export type KelompokAnggotaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokAnggota to aggregate.
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokAnggotas to fetch.
+     */
+    orderBy?: KelompokAnggotaOrderByWithRelationInput | KelompokAnggotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KelompokAnggotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokAnggotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokAnggotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KelompokAnggotas
+    **/
+    _count?: true | KelompokAnggotaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KelompokAnggotaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KelompokAnggotaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KelompokAnggotaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KelompokAnggotaMaxAggregateInputType
+  }
+
+  export type GetKelompokAnggotaAggregateType<T extends KelompokAnggotaAggregateArgs> = {
+        [P in keyof T & keyof AggregateKelompokAnggota]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKelompokAnggota[P]>
+      : GetScalarType<T[P], AggregateKelompokAnggota[P]>
+  }
+
+
+
+
+  export type KelompokAnggotaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokAnggotaWhereInput
+    orderBy?: KelompokAnggotaOrderByWithAggregationInput | KelompokAnggotaOrderByWithAggregationInput[]
+    by: KelompokAnggotaScalarFieldEnum[] | KelompokAnggotaScalarFieldEnum
+    having?: KelompokAnggotaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KelompokAnggotaCountAggregateInputType | true
+    _avg?: KelompokAnggotaAvgAggregateInputType
+    _sum?: KelompokAnggotaSumAggregateInputType
+    _min?: KelompokAnggotaMinAggregateInputType
+    _max?: KelompokAnggotaMaxAggregateInputType
+  }
+
+  export type KelompokAnggotaGroupByOutputType = {
+    id: number
+    timId: number
+    penilaianId: number
+    nrp: string
+    _count: KelompokAnggotaCountAggregateOutputType | null
+    _avg: KelompokAnggotaAvgAggregateOutputType | null
+    _sum: KelompokAnggotaSumAggregateOutputType | null
+    _min: KelompokAnggotaMinAggregateOutputType | null
+    _max: KelompokAnggotaMaxAggregateOutputType | null
+  }
+
+  type GetKelompokAnggotaGroupByPayload<T extends KelompokAnggotaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KelompokAnggotaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KelompokAnggotaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KelompokAnggotaGroupByOutputType[P]>
+            : GetScalarType<T[P], KelompokAnggotaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KelompokAnggotaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timId?: boolean
+    penilaianId?: boolean
+    nrp?: boolean
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+    usernilai?: boolean | UserNilaiDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokAnggota"]>
+
+  export type KelompokAnggotaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timId?: boolean
+    penilaianId?: boolean
+    nrp?: boolean
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+    usernilai?: boolean | UserNilaiDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokAnggota"]>
+
+  export type KelompokAnggotaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timId?: boolean
+    penilaianId?: boolean
+    nrp?: boolean
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+    usernilai?: boolean | UserNilaiDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokAnggota"]>
+
+  export type KelompokAnggotaSelectScalar = {
+    id?: boolean
+    timId?: boolean
+    penilaianId?: boolean
+    nrp?: boolean
+  }
+
+  export type KelompokAnggotaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "timId" | "penilaianId" | "nrp", ExtArgs["result"]["kelompokAnggota"]>
+  export type KelompokAnggotaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+    usernilai?: boolean | UserNilaiDefaultArgs<ExtArgs>
+  }
+  export type KelompokAnggotaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+    usernilai?: boolean | UserNilaiDefaultArgs<ExtArgs>
+  }
+  export type KelompokAnggotaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+    usernilai?: boolean | UserNilaiDefaultArgs<ExtArgs>
+  }
+
+  export type $KelompokAnggotaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KelompokAnggota"
+    objects: {
+      tim: Prisma.$KelompokTimPayload<ExtArgs>
+      usernilai: Prisma.$UserNilaiPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      timId: number
+      penilaianId: number
+      nrp: string
+    }, ExtArgs["result"]["kelompokAnggota"]>
+    composites: {}
+  }
+
+  type KelompokAnggotaGetPayload<S extends boolean | null | undefined | KelompokAnggotaDefaultArgs> = $Result.GetResult<Prisma.$KelompokAnggotaPayload, S>
+
+  type KelompokAnggotaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KelompokAnggotaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KelompokAnggotaCountAggregateInputType | true
+    }
+
+  export interface KelompokAnggotaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KelompokAnggota'], meta: { name: 'KelompokAnggota' } }
+    /**
+     * Find zero or one KelompokAnggota that matches the filter.
+     * @param {KelompokAnggotaFindUniqueArgs} args - Arguments to find a KelompokAnggota
+     * @example
+     * // Get one KelompokAnggota
+     * const kelompokAnggota = await prisma.kelompokAnggota.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KelompokAnggotaFindUniqueArgs>(args: SelectSubset<T, KelompokAnggotaFindUniqueArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KelompokAnggota that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KelompokAnggotaFindUniqueOrThrowArgs} args - Arguments to find a KelompokAnggota
+     * @example
+     * // Get one KelompokAnggota
+     * const kelompokAnggota = await prisma.kelompokAnggota.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KelompokAnggotaFindUniqueOrThrowArgs>(args: SelectSubset<T, KelompokAnggotaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokAnggota that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaFindFirstArgs} args - Arguments to find a KelompokAnggota
+     * @example
+     * // Get one KelompokAnggota
+     * const kelompokAnggota = await prisma.kelompokAnggota.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KelompokAnggotaFindFirstArgs>(args?: SelectSubset<T, KelompokAnggotaFindFirstArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokAnggota that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaFindFirstOrThrowArgs} args - Arguments to find a KelompokAnggota
+     * @example
+     * // Get one KelompokAnggota
+     * const kelompokAnggota = await prisma.kelompokAnggota.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KelompokAnggotaFindFirstOrThrowArgs>(args?: SelectSubset<T, KelompokAnggotaFindFirstOrThrowArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KelompokAnggotas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KelompokAnggotas
+     * const kelompokAnggotas = await prisma.kelompokAnggota.findMany()
+     * 
+     * // Get first 10 KelompokAnggotas
+     * const kelompokAnggotas = await prisma.kelompokAnggota.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kelompokAnggotaWithIdOnly = await prisma.kelompokAnggota.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KelompokAnggotaFindManyArgs>(args?: SelectSubset<T, KelompokAnggotaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KelompokAnggota.
+     * @param {KelompokAnggotaCreateArgs} args - Arguments to create a KelompokAnggota.
+     * @example
+     * // Create one KelompokAnggota
+     * const KelompokAnggota = await prisma.kelompokAnggota.create({
+     *   data: {
+     *     // ... data to create a KelompokAnggota
+     *   }
+     * })
+     * 
+     */
+    create<T extends KelompokAnggotaCreateArgs>(args: SelectSubset<T, KelompokAnggotaCreateArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KelompokAnggotas.
+     * @param {KelompokAnggotaCreateManyArgs} args - Arguments to create many KelompokAnggotas.
+     * @example
+     * // Create many KelompokAnggotas
+     * const kelompokAnggota = await prisma.kelompokAnggota.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KelompokAnggotaCreateManyArgs>(args?: SelectSubset<T, KelompokAnggotaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KelompokAnggotas and returns the data saved in the database.
+     * @param {KelompokAnggotaCreateManyAndReturnArgs} args - Arguments to create many KelompokAnggotas.
+     * @example
+     * // Create many KelompokAnggotas
+     * const kelompokAnggota = await prisma.kelompokAnggota.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KelompokAnggotas and only return the `id`
+     * const kelompokAnggotaWithIdOnly = await prisma.kelompokAnggota.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KelompokAnggotaCreateManyAndReturnArgs>(args?: SelectSubset<T, KelompokAnggotaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KelompokAnggota.
+     * @param {KelompokAnggotaDeleteArgs} args - Arguments to delete one KelompokAnggota.
+     * @example
+     * // Delete one KelompokAnggota
+     * const KelompokAnggota = await prisma.kelompokAnggota.delete({
+     *   where: {
+     *     // ... filter to delete one KelompokAnggota
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KelompokAnggotaDeleteArgs>(args: SelectSubset<T, KelompokAnggotaDeleteArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KelompokAnggota.
+     * @param {KelompokAnggotaUpdateArgs} args - Arguments to update one KelompokAnggota.
+     * @example
+     * // Update one KelompokAnggota
+     * const kelompokAnggota = await prisma.kelompokAnggota.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KelompokAnggotaUpdateArgs>(args: SelectSubset<T, KelompokAnggotaUpdateArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KelompokAnggotas.
+     * @param {KelompokAnggotaDeleteManyArgs} args - Arguments to filter KelompokAnggotas to delete.
+     * @example
+     * // Delete a few KelompokAnggotas
+     * const { count } = await prisma.kelompokAnggota.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KelompokAnggotaDeleteManyArgs>(args?: SelectSubset<T, KelompokAnggotaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokAnggotas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KelompokAnggotas
+     * const kelompokAnggota = await prisma.kelompokAnggota.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KelompokAnggotaUpdateManyArgs>(args: SelectSubset<T, KelompokAnggotaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokAnggotas and returns the data updated in the database.
+     * @param {KelompokAnggotaUpdateManyAndReturnArgs} args - Arguments to update many KelompokAnggotas.
+     * @example
+     * // Update many KelompokAnggotas
+     * const kelompokAnggota = await prisma.kelompokAnggota.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KelompokAnggotas and only return the `id`
+     * const kelompokAnggotaWithIdOnly = await prisma.kelompokAnggota.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KelompokAnggotaUpdateManyAndReturnArgs>(args: SelectSubset<T, KelompokAnggotaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KelompokAnggota.
+     * @param {KelompokAnggotaUpsertArgs} args - Arguments to update or create a KelompokAnggota.
+     * @example
+     * // Update or create a KelompokAnggota
+     * const kelompokAnggota = await prisma.kelompokAnggota.upsert({
+     *   create: {
+     *     // ... data to create a KelompokAnggota
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KelompokAnggota we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KelompokAnggotaUpsertArgs>(args: SelectSubset<T, KelompokAnggotaUpsertArgs<ExtArgs>>): Prisma__KelompokAnggotaClient<$Result.GetResult<Prisma.$KelompokAnggotaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KelompokAnggotas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaCountArgs} args - Arguments to filter KelompokAnggotas to count.
+     * @example
+     * // Count the number of KelompokAnggotas
+     * const count = await prisma.kelompokAnggota.count({
+     *   where: {
+     *     // ... the filter for the KelompokAnggotas we want to count
+     *   }
+     * })
+    **/
+    count<T extends KelompokAnggotaCountArgs>(
+      args?: Subset<T, KelompokAnggotaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KelompokAnggotaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KelompokAnggota.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KelompokAnggotaAggregateArgs>(args: Subset<T, KelompokAnggotaAggregateArgs>): Prisma.PrismaPromise<GetKelompokAnggotaAggregateType<T>>
+
+    /**
+     * Group by KelompokAnggota.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokAnggotaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KelompokAnggotaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KelompokAnggotaGroupByArgs['orderBy'] }
+        : { orderBy?: KelompokAnggotaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KelompokAnggotaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKelompokAnggotaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KelompokAnggota model
+   */
+  readonly fields: KelompokAnggotaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KelompokAnggota.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KelompokAnggotaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tim<T extends KelompokTimDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelompokTimDefaultArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usernilai<T extends UserNilaiDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserNilaiDefaultArgs<ExtArgs>>): Prisma__UserNilaiClient<$Result.GetResult<Prisma.$UserNilaiPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KelompokAnggota model
+   */
+  interface KelompokAnggotaFieldRefs {
+    readonly id: FieldRef<"KelompokAnggota", 'Int'>
+    readonly timId: FieldRef<"KelompokAnggota", 'Int'>
+    readonly penilaianId: FieldRef<"KelompokAnggota", 'Int'>
+    readonly nrp: FieldRef<"KelompokAnggota", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KelompokAnggota findUnique
+   */
+  export type KelompokAnggotaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokAnggota to fetch.
+     */
+    where: KelompokAnggotaWhereUniqueInput
+  }
+
+  /**
+   * KelompokAnggota findUniqueOrThrow
+   */
+  export type KelompokAnggotaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokAnggota to fetch.
+     */
+    where: KelompokAnggotaWhereUniqueInput
+  }
+
+  /**
+   * KelompokAnggota findFirst
+   */
+  export type KelompokAnggotaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokAnggota to fetch.
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokAnggotas to fetch.
+     */
+    orderBy?: KelompokAnggotaOrderByWithRelationInput | KelompokAnggotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokAnggotas.
+     */
+    cursor?: KelompokAnggotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokAnggotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokAnggotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokAnggotas.
+     */
+    distinct?: KelompokAnggotaScalarFieldEnum | KelompokAnggotaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokAnggota findFirstOrThrow
+   */
+  export type KelompokAnggotaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokAnggota to fetch.
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokAnggotas to fetch.
+     */
+    orderBy?: KelompokAnggotaOrderByWithRelationInput | KelompokAnggotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokAnggotas.
+     */
+    cursor?: KelompokAnggotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokAnggotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokAnggotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokAnggotas.
+     */
+    distinct?: KelompokAnggotaScalarFieldEnum | KelompokAnggotaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokAnggota findMany
+   */
+  export type KelompokAnggotaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokAnggotas to fetch.
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokAnggotas to fetch.
+     */
+    orderBy?: KelompokAnggotaOrderByWithRelationInput | KelompokAnggotaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KelompokAnggotas.
+     */
+    cursor?: KelompokAnggotaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokAnggotas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokAnggotas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokAnggotas.
+     */
+    distinct?: KelompokAnggotaScalarFieldEnum | KelompokAnggotaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokAnggota create
+   */
+  export type KelompokAnggotaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KelompokAnggota.
+     */
+    data: XOR<KelompokAnggotaCreateInput, KelompokAnggotaUncheckedCreateInput>
+  }
+
+  /**
+   * KelompokAnggota createMany
+   */
+  export type KelompokAnggotaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KelompokAnggotas.
+     */
+    data: KelompokAnggotaCreateManyInput | KelompokAnggotaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokAnggota createManyAndReturn
+   */
+  export type KelompokAnggotaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * The data used to create many KelompokAnggotas.
+     */
+    data: KelompokAnggotaCreateManyInput | KelompokAnggotaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokAnggota update
+   */
+  export type KelompokAnggotaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KelompokAnggota.
+     */
+    data: XOR<KelompokAnggotaUpdateInput, KelompokAnggotaUncheckedUpdateInput>
+    /**
+     * Choose, which KelompokAnggota to update.
+     */
+    where: KelompokAnggotaWhereUniqueInput
+  }
+
+  /**
+   * KelompokAnggota updateMany
+   */
+  export type KelompokAnggotaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KelompokAnggotas.
+     */
+    data: XOR<KelompokAnggotaUpdateManyMutationInput, KelompokAnggotaUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokAnggotas to update
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * Limit how many KelompokAnggotas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokAnggota updateManyAndReturn
+   */
+  export type KelompokAnggotaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * The data used to update KelompokAnggotas.
+     */
+    data: XOR<KelompokAnggotaUpdateManyMutationInput, KelompokAnggotaUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokAnggotas to update
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * Limit how many KelompokAnggotas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokAnggota upsert
+   */
+  export type KelompokAnggotaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KelompokAnggota to update in case it exists.
+     */
+    where: KelompokAnggotaWhereUniqueInput
+    /**
+     * In case the KelompokAnggota found by the `where` argument doesn't exist, create a new KelompokAnggota with this data.
+     */
+    create: XOR<KelompokAnggotaCreateInput, KelompokAnggotaUncheckedCreateInput>
+    /**
+     * In case the KelompokAnggota was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KelompokAnggotaUpdateInput, KelompokAnggotaUncheckedUpdateInput>
+  }
+
+  /**
+   * KelompokAnggota delete
+   */
+  export type KelompokAnggotaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+    /**
+     * Filter which KelompokAnggota to delete.
+     */
+    where: KelompokAnggotaWhereUniqueInput
+  }
+
+  /**
+   * KelompokAnggota deleteMany
+   */
+  export type KelompokAnggotaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokAnggotas to delete
+     */
+    where?: KelompokAnggotaWhereInput
+    /**
+     * Limit how many KelompokAnggotas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokAnggota without action
+   */
+  export type KelompokAnggotaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokAnggota
+     */
+    select?: KelompokAnggotaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokAnggota
+     */
+    omit?: KelompokAnggotaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokAnggotaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KelompokKriteria
+   */
+
+  export type AggregateKelompokKriteria = {
+    _count: KelompokKriteriaCountAggregateOutputType | null
+    _avg: KelompokKriteriaAvgAggregateOutputType | null
+    _sum: KelompokKriteriaSumAggregateOutputType | null
+    _min: KelompokKriteriaMinAggregateOutputType | null
+    _max: KelompokKriteriaMaxAggregateOutputType | null
+  }
+
+  export type KelompokKriteriaAvgAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+    bobot: number | null
+    urutan: number | null
+  }
+
+  export type KelompokKriteriaSumAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+    bobot: number | null
+    urutan: number | null
+  }
+
+  export type KelompokKriteriaMinAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+    nama: string | null
+    tipe: string | null
+    bobot: number | null
+    urutan: number | null
+  }
+
+  export type KelompokKriteriaMaxAggregateOutputType = {
+    id: number | null
+    penilaianId: number | null
+    nama: string | null
+    tipe: string | null
+    bobot: number | null
+    urutan: number | null
+  }
+
+  export type KelompokKriteriaCountAggregateOutputType = {
+    id: number
+    penilaianId: number
+    nama: number
+    tipe: number
+    bobot: number
+    urutan: number
+    _all: number
+  }
+
+
+  export type KelompokKriteriaAvgAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    bobot?: true
+    urutan?: true
+  }
+
+  export type KelompokKriteriaSumAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    bobot?: true
+    urutan?: true
+  }
+
+  export type KelompokKriteriaMinAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    nama?: true
+    tipe?: true
+    bobot?: true
+    urutan?: true
+  }
+
+  export type KelompokKriteriaMaxAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    nama?: true
+    tipe?: true
+    bobot?: true
+    urutan?: true
+  }
+
+  export type KelompokKriteriaCountAggregateInputType = {
+    id?: true
+    penilaianId?: true
+    nama?: true
+    tipe?: true
+    bobot?: true
+    urutan?: true
+    _all?: true
+  }
+
+  export type KelompokKriteriaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokKriteria to aggregate.
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokKriterias to fetch.
+     */
+    orderBy?: KelompokKriteriaOrderByWithRelationInput | KelompokKriteriaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KelompokKriteriaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokKriterias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokKriterias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KelompokKriterias
+    **/
+    _count?: true | KelompokKriteriaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KelompokKriteriaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KelompokKriteriaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KelompokKriteriaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KelompokKriteriaMaxAggregateInputType
+  }
+
+  export type GetKelompokKriteriaAggregateType<T extends KelompokKriteriaAggregateArgs> = {
+        [P in keyof T & keyof AggregateKelompokKriteria]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKelompokKriteria[P]>
+      : GetScalarType<T[P], AggregateKelompokKriteria[P]>
+  }
+
+
+
+
+  export type KelompokKriteriaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokKriteriaWhereInput
+    orderBy?: KelompokKriteriaOrderByWithAggregationInput | KelompokKriteriaOrderByWithAggregationInput[]
+    by: KelompokKriteriaScalarFieldEnum[] | KelompokKriteriaScalarFieldEnum
+    having?: KelompokKriteriaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KelompokKriteriaCountAggregateInputType | true
+    _avg?: KelompokKriteriaAvgAggregateInputType
+    _sum?: KelompokKriteriaSumAggregateInputType
+    _min?: KelompokKriteriaMinAggregateInputType
+    _max?: KelompokKriteriaMaxAggregateInputType
+  }
+
+  export type KelompokKriteriaGroupByOutputType = {
+    id: number
+    penilaianId: number
+    nama: string
+    tipe: string
+    bobot: number
+    urutan: number
+    _count: KelompokKriteriaCountAggregateOutputType | null
+    _avg: KelompokKriteriaAvgAggregateOutputType | null
+    _sum: KelompokKriteriaSumAggregateOutputType | null
+    _min: KelompokKriteriaMinAggregateOutputType | null
+    _max: KelompokKriteriaMaxAggregateOutputType | null
+  }
+
+  type GetKelompokKriteriaGroupByPayload<T extends KelompokKriteriaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KelompokKriteriaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KelompokKriteriaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KelompokKriteriaGroupByOutputType[P]>
+            : GetScalarType<T[P], KelompokKriteriaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KelompokKriteriaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    tipe?: boolean
+    bobot?: boolean
+    urutan?: boolean
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+    nilaiTim?: boolean | KelompokKriteria$nilaiTimArgs<ExtArgs>
+    nilaiIndividu?: boolean | KelompokKriteria$nilaiIndividuArgs<ExtArgs>
+    _count?: boolean | KelompokKriteriaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokKriteria"]>
+
+  export type KelompokKriteriaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    tipe?: boolean
+    bobot?: boolean
+    urutan?: boolean
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokKriteria"]>
+
+  export type KelompokKriteriaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    tipe?: boolean
+    bobot?: boolean
+    urutan?: boolean
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokKriteria"]>
+
+  export type KelompokKriteriaSelectScalar = {
+    id?: boolean
+    penilaianId?: boolean
+    nama?: boolean
+    tipe?: boolean
+    bobot?: boolean
+    urutan?: boolean
+  }
+
+  export type KelompokKriteriaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "penilaianId" | "nama" | "tipe" | "bobot" | "urutan", ExtArgs["result"]["kelompokKriteria"]>
+  export type KelompokKriteriaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+    nilaiTim?: boolean | KelompokKriteria$nilaiTimArgs<ExtArgs>
+    nilaiIndividu?: boolean | KelompokKriteria$nilaiIndividuArgs<ExtArgs>
+    _count?: boolean | KelompokKriteriaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type KelompokKriteriaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }
+  export type KelompokKriteriaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    penilaian?: boolean | KelompokPenilaianDefaultArgs<ExtArgs>
+  }
+
+  export type $KelompokKriteriaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KelompokKriteria"
+    objects: {
+      penilaian: Prisma.$KelompokPenilaianPayload<ExtArgs>
+      nilaiTim: Prisma.$KelompokNilaiTimPayload<ExtArgs>[]
+      nilaiIndividu: Prisma.$KelompokNilaiIndividuPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      penilaianId: number
+      nama: string
+      tipe: string
+      bobot: number
+      urutan: number
+    }, ExtArgs["result"]["kelompokKriteria"]>
+    composites: {}
+  }
+
+  type KelompokKriteriaGetPayload<S extends boolean | null | undefined | KelompokKriteriaDefaultArgs> = $Result.GetResult<Prisma.$KelompokKriteriaPayload, S>
+
+  type KelompokKriteriaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KelompokKriteriaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KelompokKriteriaCountAggregateInputType | true
+    }
+
+  export interface KelompokKriteriaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KelompokKriteria'], meta: { name: 'KelompokKriteria' } }
+    /**
+     * Find zero or one KelompokKriteria that matches the filter.
+     * @param {KelompokKriteriaFindUniqueArgs} args - Arguments to find a KelompokKriteria
+     * @example
+     * // Get one KelompokKriteria
+     * const kelompokKriteria = await prisma.kelompokKriteria.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KelompokKriteriaFindUniqueArgs>(args: SelectSubset<T, KelompokKriteriaFindUniqueArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KelompokKriteria that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KelompokKriteriaFindUniqueOrThrowArgs} args - Arguments to find a KelompokKriteria
+     * @example
+     * // Get one KelompokKriteria
+     * const kelompokKriteria = await prisma.kelompokKriteria.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KelompokKriteriaFindUniqueOrThrowArgs>(args: SelectSubset<T, KelompokKriteriaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokKriteria that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaFindFirstArgs} args - Arguments to find a KelompokKriteria
+     * @example
+     * // Get one KelompokKriteria
+     * const kelompokKriteria = await prisma.kelompokKriteria.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KelompokKriteriaFindFirstArgs>(args?: SelectSubset<T, KelompokKriteriaFindFirstArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokKriteria that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaFindFirstOrThrowArgs} args - Arguments to find a KelompokKriteria
+     * @example
+     * // Get one KelompokKriteria
+     * const kelompokKriteria = await prisma.kelompokKriteria.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KelompokKriteriaFindFirstOrThrowArgs>(args?: SelectSubset<T, KelompokKriteriaFindFirstOrThrowArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KelompokKriterias that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KelompokKriterias
+     * const kelompokKriterias = await prisma.kelompokKriteria.findMany()
+     * 
+     * // Get first 10 KelompokKriterias
+     * const kelompokKriterias = await prisma.kelompokKriteria.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kelompokKriteriaWithIdOnly = await prisma.kelompokKriteria.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KelompokKriteriaFindManyArgs>(args?: SelectSubset<T, KelompokKriteriaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KelompokKriteria.
+     * @param {KelompokKriteriaCreateArgs} args - Arguments to create a KelompokKriteria.
+     * @example
+     * // Create one KelompokKriteria
+     * const KelompokKriteria = await prisma.kelompokKriteria.create({
+     *   data: {
+     *     // ... data to create a KelompokKriteria
+     *   }
+     * })
+     * 
+     */
+    create<T extends KelompokKriteriaCreateArgs>(args: SelectSubset<T, KelompokKriteriaCreateArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KelompokKriterias.
+     * @param {KelompokKriteriaCreateManyArgs} args - Arguments to create many KelompokKriterias.
+     * @example
+     * // Create many KelompokKriterias
+     * const kelompokKriteria = await prisma.kelompokKriteria.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KelompokKriteriaCreateManyArgs>(args?: SelectSubset<T, KelompokKriteriaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KelompokKriterias and returns the data saved in the database.
+     * @param {KelompokKriteriaCreateManyAndReturnArgs} args - Arguments to create many KelompokKriterias.
+     * @example
+     * // Create many KelompokKriterias
+     * const kelompokKriteria = await prisma.kelompokKriteria.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KelompokKriterias and only return the `id`
+     * const kelompokKriteriaWithIdOnly = await prisma.kelompokKriteria.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KelompokKriteriaCreateManyAndReturnArgs>(args?: SelectSubset<T, KelompokKriteriaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KelompokKriteria.
+     * @param {KelompokKriteriaDeleteArgs} args - Arguments to delete one KelompokKriteria.
+     * @example
+     * // Delete one KelompokKriteria
+     * const KelompokKriteria = await prisma.kelompokKriteria.delete({
+     *   where: {
+     *     // ... filter to delete one KelompokKriteria
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KelompokKriteriaDeleteArgs>(args: SelectSubset<T, KelompokKriteriaDeleteArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KelompokKriteria.
+     * @param {KelompokKriteriaUpdateArgs} args - Arguments to update one KelompokKriteria.
+     * @example
+     * // Update one KelompokKriteria
+     * const kelompokKriteria = await prisma.kelompokKriteria.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KelompokKriteriaUpdateArgs>(args: SelectSubset<T, KelompokKriteriaUpdateArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KelompokKriterias.
+     * @param {KelompokKriteriaDeleteManyArgs} args - Arguments to filter KelompokKriterias to delete.
+     * @example
+     * // Delete a few KelompokKriterias
+     * const { count } = await prisma.kelompokKriteria.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KelompokKriteriaDeleteManyArgs>(args?: SelectSubset<T, KelompokKriteriaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokKriterias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KelompokKriterias
+     * const kelompokKriteria = await prisma.kelompokKriteria.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KelompokKriteriaUpdateManyArgs>(args: SelectSubset<T, KelompokKriteriaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokKriterias and returns the data updated in the database.
+     * @param {KelompokKriteriaUpdateManyAndReturnArgs} args - Arguments to update many KelompokKriterias.
+     * @example
+     * // Update many KelompokKriterias
+     * const kelompokKriteria = await prisma.kelompokKriteria.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KelompokKriterias and only return the `id`
+     * const kelompokKriteriaWithIdOnly = await prisma.kelompokKriteria.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KelompokKriteriaUpdateManyAndReturnArgs>(args: SelectSubset<T, KelompokKriteriaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KelompokKriteria.
+     * @param {KelompokKriteriaUpsertArgs} args - Arguments to update or create a KelompokKriteria.
+     * @example
+     * // Update or create a KelompokKriteria
+     * const kelompokKriteria = await prisma.kelompokKriteria.upsert({
+     *   create: {
+     *     // ... data to create a KelompokKriteria
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KelompokKriteria we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KelompokKriteriaUpsertArgs>(args: SelectSubset<T, KelompokKriteriaUpsertArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KelompokKriterias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaCountArgs} args - Arguments to filter KelompokKriterias to count.
+     * @example
+     * // Count the number of KelompokKriterias
+     * const count = await prisma.kelompokKriteria.count({
+     *   where: {
+     *     // ... the filter for the KelompokKriterias we want to count
+     *   }
+     * })
+    **/
+    count<T extends KelompokKriteriaCountArgs>(
+      args?: Subset<T, KelompokKriteriaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KelompokKriteriaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KelompokKriteria.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KelompokKriteriaAggregateArgs>(args: Subset<T, KelompokKriteriaAggregateArgs>): Prisma.PrismaPromise<GetKelompokKriteriaAggregateType<T>>
+
+    /**
+     * Group by KelompokKriteria.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokKriteriaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KelompokKriteriaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KelompokKriteriaGroupByArgs['orderBy'] }
+        : { orderBy?: KelompokKriteriaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KelompokKriteriaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKelompokKriteriaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KelompokKriteria model
+   */
+  readonly fields: KelompokKriteriaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KelompokKriteria.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KelompokKriteriaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    penilaian<T extends KelompokPenilaianDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelompokPenilaianDefaultArgs<ExtArgs>>): Prisma__KelompokPenilaianClient<$Result.GetResult<Prisma.$KelompokPenilaianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    nilaiTim<T extends KelompokKriteria$nilaiTimArgs<ExtArgs> = {}>(args?: Subset<T, KelompokKriteria$nilaiTimArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    nilaiIndividu<T extends KelompokKriteria$nilaiIndividuArgs<ExtArgs> = {}>(args?: Subset<T, KelompokKriteria$nilaiIndividuArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KelompokKriteria model
+   */
+  interface KelompokKriteriaFieldRefs {
+    readonly id: FieldRef<"KelompokKriteria", 'Int'>
+    readonly penilaianId: FieldRef<"KelompokKriteria", 'Int'>
+    readonly nama: FieldRef<"KelompokKriteria", 'String'>
+    readonly tipe: FieldRef<"KelompokKriteria", 'String'>
+    readonly bobot: FieldRef<"KelompokKriteria", 'Float'>
+    readonly urutan: FieldRef<"KelompokKriteria", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KelompokKriteria findUnique
+   */
+  export type KelompokKriteriaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokKriteria to fetch.
+     */
+    where: KelompokKriteriaWhereUniqueInput
+  }
+
+  /**
+   * KelompokKriteria findUniqueOrThrow
+   */
+  export type KelompokKriteriaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokKriteria to fetch.
+     */
+    where: KelompokKriteriaWhereUniqueInput
+  }
+
+  /**
+   * KelompokKriteria findFirst
+   */
+  export type KelompokKriteriaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokKriteria to fetch.
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokKriterias to fetch.
+     */
+    orderBy?: KelompokKriteriaOrderByWithRelationInput | KelompokKriteriaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokKriterias.
+     */
+    cursor?: KelompokKriteriaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokKriterias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokKriterias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokKriterias.
+     */
+    distinct?: KelompokKriteriaScalarFieldEnum | KelompokKriteriaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokKriteria findFirstOrThrow
+   */
+  export type KelompokKriteriaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokKriteria to fetch.
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokKriterias to fetch.
+     */
+    orderBy?: KelompokKriteriaOrderByWithRelationInput | KelompokKriteriaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokKriterias.
+     */
+    cursor?: KelompokKriteriaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokKriterias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokKriterias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokKriterias.
+     */
+    distinct?: KelompokKriteriaScalarFieldEnum | KelompokKriteriaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokKriteria findMany
+   */
+  export type KelompokKriteriaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokKriterias to fetch.
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokKriterias to fetch.
+     */
+    orderBy?: KelompokKriteriaOrderByWithRelationInput | KelompokKriteriaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KelompokKriterias.
+     */
+    cursor?: KelompokKriteriaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokKriterias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokKriterias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokKriterias.
+     */
+    distinct?: KelompokKriteriaScalarFieldEnum | KelompokKriteriaScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokKriteria create
+   */
+  export type KelompokKriteriaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KelompokKriteria.
+     */
+    data: XOR<KelompokKriteriaCreateInput, KelompokKriteriaUncheckedCreateInput>
+  }
+
+  /**
+   * KelompokKriteria createMany
+   */
+  export type KelompokKriteriaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KelompokKriterias.
+     */
+    data: KelompokKriteriaCreateManyInput | KelompokKriteriaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokKriteria createManyAndReturn
+   */
+  export type KelompokKriteriaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * The data used to create many KelompokKriterias.
+     */
+    data: KelompokKriteriaCreateManyInput | KelompokKriteriaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokKriteria update
+   */
+  export type KelompokKriteriaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KelompokKriteria.
+     */
+    data: XOR<KelompokKriteriaUpdateInput, KelompokKriteriaUncheckedUpdateInput>
+    /**
+     * Choose, which KelompokKriteria to update.
+     */
+    where: KelompokKriteriaWhereUniqueInput
+  }
+
+  /**
+   * KelompokKriteria updateMany
+   */
+  export type KelompokKriteriaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KelompokKriterias.
+     */
+    data: XOR<KelompokKriteriaUpdateManyMutationInput, KelompokKriteriaUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokKriterias to update
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * Limit how many KelompokKriterias to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokKriteria updateManyAndReturn
+   */
+  export type KelompokKriteriaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * The data used to update KelompokKriterias.
+     */
+    data: XOR<KelompokKriteriaUpdateManyMutationInput, KelompokKriteriaUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokKriterias to update
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * Limit how many KelompokKriterias to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokKriteria upsert
+   */
+  export type KelompokKriteriaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KelompokKriteria to update in case it exists.
+     */
+    where: KelompokKriteriaWhereUniqueInput
+    /**
+     * In case the KelompokKriteria found by the `where` argument doesn't exist, create a new KelompokKriteria with this data.
+     */
+    create: XOR<KelompokKriteriaCreateInput, KelompokKriteriaUncheckedCreateInput>
+    /**
+     * In case the KelompokKriteria was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KelompokKriteriaUpdateInput, KelompokKriteriaUncheckedUpdateInput>
+  }
+
+  /**
+   * KelompokKriteria delete
+   */
+  export type KelompokKriteriaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+    /**
+     * Filter which KelompokKriteria to delete.
+     */
+    where: KelompokKriteriaWhereUniqueInput
+  }
+
+  /**
+   * KelompokKriteria deleteMany
+   */
+  export type KelompokKriteriaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokKriterias to delete
+     */
+    where?: KelompokKriteriaWhereInput
+    /**
+     * Limit how many KelompokKriterias to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokKriteria.nilaiTim
+   */
+  export type KelompokKriteria$nilaiTimArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    where?: KelompokNilaiTimWhereInput
+    orderBy?: KelompokNilaiTimOrderByWithRelationInput | KelompokNilaiTimOrderByWithRelationInput[]
+    cursor?: KelompokNilaiTimWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokNilaiTimScalarFieldEnum | KelompokNilaiTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokKriteria.nilaiIndividu
+   */
+  export type KelompokKriteria$nilaiIndividuArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    where?: KelompokNilaiIndividuWhereInput
+    orderBy?: KelompokNilaiIndividuOrderByWithRelationInput | KelompokNilaiIndividuOrderByWithRelationInput[]
+    cursor?: KelompokNilaiIndividuWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KelompokNilaiIndividuScalarFieldEnum | KelompokNilaiIndividuScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokKriteria without action
+   */
+  export type KelompokKriteriaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokKriteria
+     */
+    select?: KelompokKriteriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokKriteria
+     */
+    omit?: KelompokKriteriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokKriteriaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KelompokNilaiTim
+   */
+
+  export type AggregateKelompokNilaiTim = {
+    _count: KelompokNilaiTimCountAggregateOutputType | null
+    _avg: KelompokNilaiTimAvgAggregateOutputType | null
+    _sum: KelompokNilaiTimSumAggregateOutputType | null
+    _min: KelompokNilaiTimMinAggregateOutputType | null
+    _max: KelompokNilaiTimMaxAggregateOutputType | null
+  }
+
+  export type KelompokNilaiTimAvgAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    timId: number | null
+    nilai: number | null
+  }
+
+  export type KelompokNilaiTimSumAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    timId: number | null
+    nilai: number | null
+  }
+
+  export type KelompokNilaiTimMinAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    timId: number | null
+    nilai: number | null
+    keterangan: string | null
+  }
+
+  export type KelompokNilaiTimMaxAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    timId: number | null
+    nilai: number | null
+    keterangan: string | null
+  }
+
+  export type KelompokNilaiTimCountAggregateOutputType = {
+    id: number
+    kriteriaId: number
+    timId: number
+    nilai: number
+    keterangan: number
+    _all: number
+  }
+
+
+  export type KelompokNilaiTimAvgAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    timId?: true
+    nilai?: true
+  }
+
+  export type KelompokNilaiTimSumAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    timId?: true
+    nilai?: true
+  }
+
+  export type KelompokNilaiTimMinAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    timId?: true
+    nilai?: true
+    keterangan?: true
+  }
+
+  export type KelompokNilaiTimMaxAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    timId?: true
+    nilai?: true
+    keterangan?: true
+  }
+
+  export type KelompokNilaiTimCountAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    timId?: true
+    nilai?: true
+    keterangan?: true
+    _all?: true
+  }
+
+  export type KelompokNilaiTimAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokNilaiTim to aggregate.
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiTims to fetch.
+     */
+    orderBy?: KelompokNilaiTimOrderByWithRelationInput | KelompokNilaiTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KelompokNilaiTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KelompokNilaiTims
+    **/
+    _count?: true | KelompokNilaiTimCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KelompokNilaiTimAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KelompokNilaiTimSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KelompokNilaiTimMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KelompokNilaiTimMaxAggregateInputType
+  }
+
+  export type GetKelompokNilaiTimAggregateType<T extends KelompokNilaiTimAggregateArgs> = {
+        [P in keyof T & keyof AggregateKelompokNilaiTim]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKelompokNilaiTim[P]>
+      : GetScalarType<T[P], AggregateKelompokNilaiTim[P]>
+  }
+
+
+
+
+  export type KelompokNilaiTimGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokNilaiTimWhereInput
+    orderBy?: KelompokNilaiTimOrderByWithAggregationInput | KelompokNilaiTimOrderByWithAggregationInput[]
+    by: KelompokNilaiTimScalarFieldEnum[] | KelompokNilaiTimScalarFieldEnum
+    having?: KelompokNilaiTimScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KelompokNilaiTimCountAggregateInputType | true
+    _avg?: KelompokNilaiTimAvgAggregateInputType
+    _sum?: KelompokNilaiTimSumAggregateInputType
+    _min?: KelompokNilaiTimMinAggregateInputType
+    _max?: KelompokNilaiTimMaxAggregateInputType
+  }
+
+  export type KelompokNilaiTimGroupByOutputType = {
+    id: number
+    kriteriaId: number
+    timId: number
+    nilai: number | null
+    keterangan: string | null
+    _count: KelompokNilaiTimCountAggregateOutputType | null
+    _avg: KelompokNilaiTimAvgAggregateOutputType | null
+    _sum: KelompokNilaiTimSumAggregateOutputType | null
+    _min: KelompokNilaiTimMinAggregateOutputType | null
+    _max: KelompokNilaiTimMaxAggregateOutputType | null
+  }
+
+  type GetKelompokNilaiTimGroupByPayload<T extends KelompokNilaiTimGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KelompokNilaiTimGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KelompokNilaiTimGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KelompokNilaiTimGroupByOutputType[P]>
+            : GetScalarType<T[P], KelompokNilaiTimGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KelompokNilaiTimSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kriteriaId?: boolean
+    timId?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokNilaiTim"]>
+
+  export type KelompokNilaiTimSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kriteriaId?: boolean
+    timId?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokNilaiTim"]>
+
+  export type KelompokNilaiTimSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kriteriaId?: boolean
+    timId?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokNilaiTim"]>
+
+  export type KelompokNilaiTimSelectScalar = {
+    id?: boolean
+    kriteriaId?: boolean
+    timId?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+  }
+
+  export type KelompokNilaiTimOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "kriteriaId" | "timId" | "nilai" | "keterangan", ExtArgs["result"]["kelompokNilaiTim"]>
+  export type KelompokNilaiTimInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+  }
+  export type KelompokNilaiTimIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+  }
+  export type KelompokNilaiTimIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+    tim?: boolean | KelompokTimDefaultArgs<ExtArgs>
+  }
+
+  export type $KelompokNilaiTimPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KelompokNilaiTim"
+    objects: {
+      kriteria: Prisma.$KelompokKriteriaPayload<ExtArgs>
+      tim: Prisma.$KelompokTimPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      kriteriaId: number
+      timId: number
+      nilai: number | null
+      keterangan: string | null
+    }, ExtArgs["result"]["kelompokNilaiTim"]>
+    composites: {}
+  }
+
+  type KelompokNilaiTimGetPayload<S extends boolean | null | undefined | KelompokNilaiTimDefaultArgs> = $Result.GetResult<Prisma.$KelompokNilaiTimPayload, S>
+
+  type KelompokNilaiTimCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KelompokNilaiTimFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KelompokNilaiTimCountAggregateInputType | true
+    }
+
+  export interface KelompokNilaiTimDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KelompokNilaiTim'], meta: { name: 'KelompokNilaiTim' } }
+    /**
+     * Find zero or one KelompokNilaiTim that matches the filter.
+     * @param {KelompokNilaiTimFindUniqueArgs} args - Arguments to find a KelompokNilaiTim
+     * @example
+     * // Get one KelompokNilaiTim
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KelompokNilaiTimFindUniqueArgs>(args: SelectSubset<T, KelompokNilaiTimFindUniqueArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KelompokNilaiTim that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KelompokNilaiTimFindUniqueOrThrowArgs} args - Arguments to find a KelompokNilaiTim
+     * @example
+     * // Get one KelompokNilaiTim
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KelompokNilaiTimFindUniqueOrThrowArgs>(args: SelectSubset<T, KelompokNilaiTimFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokNilaiTim that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimFindFirstArgs} args - Arguments to find a KelompokNilaiTim
+     * @example
+     * // Get one KelompokNilaiTim
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KelompokNilaiTimFindFirstArgs>(args?: SelectSubset<T, KelompokNilaiTimFindFirstArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokNilaiTim that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimFindFirstOrThrowArgs} args - Arguments to find a KelompokNilaiTim
+     * @example
+     * // Get one KelompokNilaiTim
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KelompokNilaiTimFindFirstOrThrowArgs>(args?: SelectSubset<T, KelompokNilaiTimFindFirstOrThrowArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KelompokNilaiTims that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KelompokNilaiTims
+     * const kelompokNilaiTims = await prisma.kelompokNilaiTim.findMany()
+     * 
+     * // Get first 10 KelompokNilaiTims
+     * const kelompokNilaiTims = await prisma.kelompokNilaiTim.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kelompokNilaiTimWithIdOnly = await prisma.kelompokNilaiTim.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KelompokNilaiTimFindManyArgs>(args?: SelectSubset<T, KelompokNilaiTimFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KelompokNilaiTim.
+     * @param {KelompokNilaiTimCreateArgs} args - Arguments to create a KelompokNilaiTim.
+     * @example
+     * // Create one KelompokNilaiTim
+     * const KelompokNilaiTim = await prisma.kelompokNilaiTim.create({
+     *   data: {
+     *     // ... data to create a KelompokNilaiTim
+     *   }
+     * })
+     * 
+     */
+    create<T extends KelompokNilaiTimCreateArgs>(args: SelectSubset<T, KelompokNilaiTimCreateArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KelompokNilaiTims.
+     * @param {KelompokNilaiTimCreateManyArgs} args - Arguments to create many KelompokNilaiTims.
+     * @example
+     * // Create many KelompokNilaiTims
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KelompokNilaiTimCreateManyArgs>(args?: SelectSubset<T, KelompokNilaiTimCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KelompokNilaiTims and returns the data saved in the database.
+     * @param {KelompokNilaiTimCreateManyAndReturnArgs} args - Arguments to create many KelompokNilaiTims.
+     * @example
+     * // Create many KelompokNilaiTims
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KelompokNilaiTims and only return the `id`
+     * const kelompokNilaiTimWithIdOnly = await prisma.kelompokNilaiTim.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KelompokNilaiTimCreateManyAndReturnArgs>(args?: SelectSubset<T, KelompokNilaiTimCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KelompokNilaiTim.
+     * @param {KelompokNilaiTimDeleteArgs} args - Arguments to delete one KelompokNilaiTim.
+     * @example
+     * // Delete one KelompokNilaiTim
+     * const KelompokNilaiTim = await prisma.kelompokNilaiTim.delete({
+     *   where: {
+     *     // ... filter to delete one KelompokNilaiTim
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KelompokNilaiTimDeleteArgs>(args: SelectSubset<T, KelompokNilaiTimDeleteArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KelompokNilaiTim.
+     * @param {KelompokNilaiTimUpdateArgs} args - Arguments to update one KelompokNilaiTim.
+     * @example
+     * // Update one KelompokNilaiTim
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KelompokNilaiTimUpdateArgs>(args: SelectSubset<T, KelompokNilaiTimUpdateArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KelompokNilaiTims.
+     * @param {KelompokNilaiTimDeleteManyArgs} args - Arguments to filter KelompokNilaiTims to delete.
+     * @example
+     * // Delete a few KelompokNilaiTims
+     * const { count } = await prisma.kelompokNilaiTim.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KelompokNilaiTimDeleteManyArgs>(args?: SelectSubset<T, KelompokNilaiTimDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokNilaiTims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KelompokNilaiTims
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KelompokNilaiTimUpdateManyArgs>(args: SelectSubset<T, KelompokNilaiTimUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokNilaiTims and returns the data updated in the database.
+     * @param {KelompokNilaiTimUpdateManyAndReturnArgs} args - Arguments to update many KelompokNilaiTims.
+     * @example
+     * // Update many KelompokNilaiTims
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KelompokNilaiTims and only return the `id`
+     * const kelompokNilaiTimWithIdOnly = await prisma.kelompokNilaiTim.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KelompokNilaiTimUpdateManyAndReturnArgs>(args: SelectSubset<T, KelompokNilaiTimUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KelompokNilaiTim.
+     * @param {KelompokNilaiTimUpsertArgs} args - Arguments to update or create a KelompokNilaiTim.
+     * @example
+     * // Update or create a KelompokNilaiTim
+     * const kelompokNilaiTim = await prisma.kelompokNilaiTim.upsert({
+     *   create: {
+     *     // ... data to create a KelompokNilaiTim
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KelompokNilaiTim we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KelompokNilaiTimUpsertArgs>(args: SelectSubset<T, KelompokNilaiTimUpsertArgs<ExtArgs>>): Prisma__KelompokNilaiTimClient<$Result.GetResult<Prisma.$KelompokNilaiTimPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KelompokNilaiTims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimCountArgs} args - Arguments to filter KelompokNilaiTims to count.
+     * @example
+     * // Count the number of KelompokNilaiTims
+     * const count = await prisma.kelompokNilaiTim.count({
+     *   where: {
+     *     // ... the filter for the KelompokNilaiTims we want to count
+     *   }
+     * })
+    **/
+    count<T extends KelompokNilaiTimCountArgs>(
+      args?: Subset<T, KelompokNilaiTimCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KelompokNilaiTimCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KelompokNilaiTim.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KelompokNilaiTimAggregateArgs>(args: Subset<T, KelompokNilaiTimAggregateArgs>): Prisma.PrismaPromise<GetKelompokNilaiTimAggregateType<T>>
+
+    /**
+     * Group by KelompokNilaiTim.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiTimGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KelompokNilaiTimGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KelompokNilaiTimGroupByArgs['orderBy'] }
+        : { orderBy?: KelompokNilaiTimGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KelompokNilaiTimGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKelompokNilaiTimGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KelompokNilaiTim model
+   */
+  readonly fields: KelompokNilaiTimFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KelompokNilaiTim.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KelompokNilaiTimClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    kriteria<T extends KelompokKriteriaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelompokKriteriaDefaultArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tim<T extends KelompokTimDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelompokTimDefaultArgs<ExtArgs>>): Prisma__KelompokTimClient<$Result.GetResult<Prisma.$KelompokTimPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KelompokNilaiTim model
+   */
+  interface KelompokNilaiTimFieldRefs {
+    readonly id: FieldRef<"KelompokNilaiTim", 'Int'>
+    readonly kriteriaId: FieldRef<"KelompokNilaiTim", 'Int'>
+    readonly timId: FieldRef<"KelompokNilaiTim", 'Int'>
+    readonly nilai: FieldRef<"KelompokNilaiTim", 'Float'>
+    readonly keterangan: FieldRef<"KelompokNilaiTim", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KelompokNilaiTim findUnique
+   */
+  export type KelompokNilaiTimFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiTim to fetch.
+     */
+    where: KelompokNilaiTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiTim findUniqueOrThrow
+   */
+  export type KelompokNilaiTimFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiTim to fetch.
+     */
+    where: KelompokNilaiTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiTim findFirst
+   */
+  export type KelompokNilaiTimFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiTim to fetch.
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiTims to fetch.
+     */
+    orderBy?: KelompokNilaiTimOrderByWithRelationInput | KelompokNilaiTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokNilaiTims.
+     */
+    cursor?: KelompokNilaiTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokNilaiTims.
+     */
+    distinct?: KelompokNilaiTimScalarFieldEnum | KelompokNilaiTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokNilaiTim findFirstOrThrow
+   */
+  export type KelompokNilaiTimFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiTim to fetch.
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiTims to fetch.
+     */
+    orderBy?: KelompokNilaiTimOrderByWithRelationInput | KelompokNilaiTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokNilaiTims.
+     */
+    cursor?: KelompokNilaiTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokNilaiTims.
+     */
+    distinct?: KelompokNilaiTimScalarFieldEnum | KelompokNilaiTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokNilaiTim findMany
+   */
+  export type KelompokNilaiTimFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiTims to fetch.
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiTims to fetch.
+     */
+    orderBy?: KelompokNilaiTimOrderByWithRelationInput | KelompokNilaiTimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KelompokNilaiTims.
+     */
+    cursor?: KelompokNilaiTimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiTims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiTims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokNilaiTims.
+     */
+    distinct?: KelompokNilaiTimScalarFieldEnum | KelompokNilaiTimScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokNilaiTim create
+   */
+  export type KelompokNilaiTimCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KelompokNilaiTim.
+     */
+    data: XOR<KelompokNilaiTimCreateInput, KelompokNilaiTimUncheckedCreateInput>
+  }
+
+  /**
+   * KelompokNilaiTim createMany
+   */
+  export type KelompokNilaiTimCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KelompokNilaiTims.
+     */
+    data: KelompokNilaiTimCreateManyInput | KelompokNilaiTimCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokNilaiTim createManyAndReturn
+   */
+  export type KelompokNilaiTimCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * The data used to create many KelompokNilaiTims.
+     */
+    data: KelompokNilaiTimCreateManyInput | KelompokNilaiTimCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokNilaiTim update
+   */
+  export type KelompokNilaiTimUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KelompokNilaiTim.
+     */
+    data: XOR<KelompokNilaiTimUpdateInput, KelompokNilaiTimUncheckedUpdateInput>
+    /**
+     * Choose, which KelompokNilaiTim to update.
+     */
+    where: KelompokNilaiTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiTim updateMany
+   */
+  export type KelompokNilaiTimUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KelompokNilaiTims.
+     */
+    data: XOR<KelompokNilaiTimUpdateManyMutationInput, KelompokNilaiTimUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokNilaiTims to update
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * Limit how many KelompokNilaiTims to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokNilaiTim updateManyAndReturn
+   */
+  export type KelompokNilaiTimUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * The data used to update KelompokNilaiTims.
+     */
+    data: XOR<KelompokNilaiTimUpdateManyMutationInput, KelompokNilaiTimUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokNilaiTims to update
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * Limit how many KelompokNilaiTims to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokNilaiTim upsert
+   */
+  export type KelompokNilaiTimUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KelompokNilaiTim to update in case it exists.
+     */
+    where: KelompokNilaiTimWhereUniqueInput
+    /**
+     * In case the KelompokNilaiTim found by the `where` argument doesn't exist, create a new KelompokNilaiTim with this data.
+     */
+    create: XOR<KelompokNilaiTimCreateInput, KelompokNilaiTimUncheckedCreateInput>
+    /**
+     * In case the KelompokNilaiTim was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KelompokNilaiTimUpdateInput, KelompokNilaiTimUncheckedUpdateInput>
+  }
+
+  /**
+   * KelompokNilaiTim delete
+   */
+  export type KelompokNilaiTimDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+    /**
+     * Filter which KelompokNilaiTim to delete.
+     */
+    where: KelompokNilaiTimWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiTim deleteMany
+   */
+  export type KelompokNilaiTimDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokNilaiTims to delete
+     */
+    where?: KelompokNilaiTimWhereInput
+    /**
+     * Limit how many KelompokNilaiTims to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokNilaiTim without action
+   */
+  export type KelompokNilaiTimDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiTim
+     */
+    select?: KelompokNilaiTimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiTim
+     */
+    omit?: KelompokNilaiTimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiTimInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KelompokNilaiIndividu
+   */
+
+  export type AggregateKelompokNilaiIndividu = {
+    _count: KelompokNilaiIndividuCountAggregateOutputType | null
+    _avg: KelompokNilaiIndividuAvgAggregateOutputType | null
+    _sum: KelompokNilaiIndividuSumAggregateOutputType | null
+    _min: KelompokNilaiIndividuMinAggregateOutputType | null
+    _max: KelompokNilaiIndividuMaxAggregateOutputType | null
+  }
+
+  export type KelompokNilaiIndividuAvgAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    nilai: number | null
+  }
+
+  export type KelompokNilaiIndividuSumAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    nilai: number | null
+  }
+
+  export type KelompokNilaiIndividuMinAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    nrp: string | null
+    nilai: number | null
+    keterangan: string | null
+  }
+
+  export type KelompokNilaiIndividuMaxAggregateOutputType = {
+    id: number | null
+    kriteriaId: number | null
+    nrp: string | null
+    nilai: number | null
+    keterangan: string | null
+  }
+
+  export type KelompokNilaiIndividuCountAggregateOutputType = {
+    id: number
+    kriteriaId: number
+    nrp: number
+    nilai: number
+    keterangan: number
+    _all: number
+  }
+
+
+  export type KelompokNilaiIndividuAvgAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    nilai?: true
+  }
+
+  export type KelompokNilaiIndividuSumAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    nilai?: true
+  }
+
+  export type KelompokNilaiIndividuMinAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    nrp?: true
+    nilai?: true
+    keterangan?: true
+  }
+
+  export type KelompokNilaiIndividuMaxAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    nrp?: true
+    nilai?: true
+    keterangan?: true
+  }
+
+  export type KelompokNilaiIndividuCountAggregateInputType = {
+    id?: true
+    kriteriaId?: true
+    nrp?: true
+    nilai?: true
+    keterangan?: true
+    _all?: true
+  }
+
+  export type KelompokNilaiIndividuAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokNilaiIndividu to aggregate.
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiIndividus to fetch.
+     */
+    orderBy?: KelompokNilaiIndividuOrderByWithRelationInput | KelompokNilaiIndividuOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KelompokNilaiIndividuWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiIndividus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiIndividus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KelompokNilaiIndividus
+    **/
+    _count?: true | KelompokNilaiIndividuCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KelompokNilaiIndividuAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KelompokNilaiIndividuSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KelompokNilaiIndividuMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KelompokNilaiIndividuMaxAggregateInputType
+  }
+
+  export type GetKelompokNilaiIndividuAggregateType<T extends KelompokNilaiIndividuAggregateArgs> = {
+        [P in keyof T & keyof AggregateKelompokNilaiIndividu]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKelompokNilaiIndividu[P]>
+      : GetScalarType<T[P], AggregateKelompokNilaiIndividu[P]>
+  }
+
+
+
+
+  export type KelompokNilaiIndividuGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KelompokNilaiIndividuWhereInput
+    orderBy?: KelompokNilaiIndividuOrderByWithAggregationInput | KelompokNilaiIndividuOrderByWithAggregationInput[]
+    by: KelompokNilaiIndividuScalarFieldEnum[] | KelompokNilaiIndividuScalarFieldEnum
+    having?: KelompokNilaiIndividuScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KelompokNilaiIndividuCountAggregateInputType | true
+    _avg?: KelompokNilaiIndividuAvgAggregateInputType
+    _sum?: KelompokNilaiIndividuSumAggregateInputType
+    _min?: KelompokNilaiIndividuMinAggregateInputType
+    _max?: KelompokNilaiIndividuMaxAggregateInputType
+  }
+
+  export type KelompokNilaiIndividuGroupByOutputType = {
+    id: number
+    kriteriaId: number
+    nrp: string
+    nilai: number | null
+    keterangan: string | null
+    _count: KelompokNilaiIndividuCountAggregateOutputType | null
+    _avg: KelompokNilaiIndividuAvgAggregateOutputType | null
+    _sum: KelompokNilaiIndividuSumAggregateOutputType | null
+    _min: KelompokNilaiIndividuMinAggregateOutputType | null
+    _max: KelompokNilaiIndividuMaxAggregateOutputType | null
+  }
+
+  type GetKelompokNilaiIndividuGroupByPayload<T extends KelompokNilaiIndividuGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KelompokNilaiIndividuGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KelompokNilaiIndividuGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KelompokNilaiIndividuGroupByOutputType[P]>
+            : GetScalarType<T[P], KelompokNilaiIndividuGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KelompokNilaiIndividuSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kriteriaId?: boolean
+    nrp?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokNilaiIndividu"]>
+
+  export type KelompokNilaiIndividuSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kriteriaId?: boolean
+    nrp?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokNilaiIndividu"]>
+
+  export type KelompokNilaiIndividuSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kriteriaId?: boolean
+    nrp?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["kelompokNilaiIndividu"]>
+
+  export type KelompokNilaiIndividuSelectScalar = {
+    id?: boolean
+    kriteriaId?: boolean
+    nrp?: boolean
+    nilai?: boolean
+    keterangan?: boolean
+  }
+
+  export type KelompokNilaiIndividuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "kriteriaId" | "nrp" | "nilai" | "keterangan", ExtArgs["result"]["kelompokNilaiIndividu"]>
+  export type KelompokNilaiIndividuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+  }
+  export type KelompokNilaiIndividuIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+  }
+  export type KelompokNilaiIndividuIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    kriteria?: boolean | KelompokKriteriaDefaultArgs<ExtArgs>
+  }
+
+  export type $KelompokNilaiIndividuPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KelompokNilaiIndividu"
+    objects: {
+      kriteria: Prisma.$KelompokKriteriaPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      kriteriaId: number
+      nrp: string
+      nilai: number | null
+      keterangan: string | null
+    }, ExtArgs["result"]["kelompokNilaiIndividu"]>
+    composites: {}
+  }
+
+  type KelompokNilaiIndividuGetPayload<S extends boolean | null | undefined | KelompokNilaiIndividuDefaultArgs> = $Result.GetResult<Prisma.$KelompokNilaiIndividuPayload, S>
+
+  type KelompokNilaiIndividuCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KelompokNilaiIndividuFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KelompokNilaiIndividuCountAggregateInputType | true
+    }
+
+  export interface KelompokNilaiIndividuDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KelompokNilaiIndividu'], meta: { name: 'KelompokNilaiIndividu' } }
+    /**
+     * Find zero or one KelompokNilaiIndividu that matches the filter.
+     * @param {KelompokNilaiIndividuFindUniqueArgs} args - Arguments to find a KelompokNilaiIndividu
+     * @example
+     * // Get one KelompokNilaiIndividu
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KelompokNilaiIndividuFindUniqueArgs>(args: SelectSubset<T, KelompokNilaiIndividuFindUniqueArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KelompokNilaiIndividu that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KelompokNilaiIndividuFindUniqueOrThrowArgs} args - Arguments to find a KelompokNilaiIndividu
+     * @example
+     * // Get one KelompokNilaiIndividu
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KelompokNilaiIndividuFindUniqueOrThrowArgs>(args: SelectSubset<T, KelompokNilaiIndividuFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokNilaiIndividu that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuFindFirstArgs} args - Arguments to find a KelompokNilaiIndividu
+     * @example
+     * // Get one KelompokNilaiIndividu
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KelompokNilaiIndividuFindFirstArgs>(args?: SelectSubset<T, KelompokNilaiIndividuFindFirstArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KelompokNilaiIndividu that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuFindFirstOrThrowArgs} args - Arguments to find a KelompokNilaiIndividu
+     * @example
+     * // Get one KelompokNilaiIndividu
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KelompokNilaiIndividuFindFirstOrThrowArgs>(args?: SelectSubset<T, KelompokNilaiIndividuFindFirstOrThrowArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KelompokNilaiIndividus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KelompokNilaiIndividus
+     * const kelompokNilaiIndividus = await prisma.kelompokNilaiIndividu.findMany()
+     * 
+     * // Get first 10 KelompokNilaiIndividus
+     * const kelompokNilaiIndividus = await prisma.kelompokNilaiIndividu.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kelompokNilaiIndividuWithIdOnly = await prisma.kelompokNilaiIndividu.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KelompokNilaiIndividuFindManyArgs>(args?: SelectSubset<T, KelompokNilaiIndividuFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KelompokNilaiIndividu.
+     * @param {KelompokNilaiIndividuCreateArgs} args - Arguments to create a KelompokNilaiIndividu.
+     * @example
+     * // Create one KelompokNilaiIndividu
+     * const KelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.create({
+     *   data: {
+     *     // ... data to create a KelompokNilaiIndividu
+     *   }
+     * })
+     * 
+     */
+    create<T extends KelompokNilaiIndividuCreateArgs>(args: SelectSubset<T, KelompokNilaiIndividuCreateArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KelompokNilaiIndividus.
+     * @param {KelompokNilaiIndividuCreateManyArgs} args - Arguments to create many KelompokNilaiIndividus.
+     * @example
+     * // Create many KelompokNilaiIndividus
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KelompokNilaiIndividuCreateManyArgs>(args?: SelectSubset<T, KelompokNilaiIndividuCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KelompokNilaiIndividus and returns the data saved in the database.
+     * @param {KelompokNilaiIndividuCreateManyAndReturnArgs} args - Arguments to create many KelompokNilaiIndividus.
+     * @example
+     * // Create many KelompokNilaiIndividus
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KelompokNilaiIndividus and only return the `id`
+     * const kelompokNilaiIndividuWithIdOnly = await prisma.kelompokNilaiIndividu.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KelompokNilaiIndividuCreateManyAndReturnArgs>(args?: SelectSubset<T, KelompokNilaiIndividuCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KelompokNilaiIndividu.
+     * @param {KelompokNilaiIndividuDeleteArgs} args - Arguments to delete one KelompokNilaiIndividu.
+     * @example
+     * // Delete one KelompokNilaiIndividu
+     * const KelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.delete({
+     *   where: {
+     *     // ... filter to delete one KelompokNilaiIndividu
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KelompokNilaiIndividuDeleteArgs>(args: SelectSubset<T, KelompokNilaiIndividuDeleteArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KelompokNilaiIndividu.
+     * @param {KelompokNilaiIndividuUpdateArgs} args - Arguments to update one KelompokNilaiIndividu.
+     * @example
+     * // Update one KelompokNilaiIndividu
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KelompokNilaiIndividuUpdateArgs>(args: SelectSubset<T, KelompokNilaiIndividuUpdateArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KelompokNilaiIndividus.
+     * @param {KelompokNilaiIndividuDeleteManyArgs} args - Arguments to filter KelompokNilaiIndividus to delete.
+     * @example
+     * // Delete a few KelompokNilaiIndividus
+     * const { count } = await prisma.kelompokNilaiIndividu.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KelompokNilaiIndividuDeleteManyArgs>(args?: SelectSubset<T, KelompokNilaiIndividuDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokNilaiIndividus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KelompokNilaiIndividus
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KelompokNilaiIndividuUpdateManyArgs>(args: SelectSubset<T, KelompokNilaiIndividuUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KelompokNilaiIndividus and returns the data updated in the database.
+     * @param {KelompokNilaiIndividuUpdateManyAndReturnArgs} args - Arguments to update many KelompokNilaiIndividus.
+     * @example
+     * // Update many KelompokNilaiIndividus
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KelompokNilaiIndividus and only return the `id`
+     * const kelompokNilaiIndividuWithIdOnly = await prisma.kelompokNilaiIndividu.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KelompokNilaiIndividuUpdateManyAndReturnArgs>(args: SelectSubset<T, KelompokNilaiIndividuUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KelompokNilaiIndividu.
+     * @param {KelompokNilaiIndividuUpsertArgs} args - Arguments to update or create a KelompokNilaiIndividu.
+     * @example
+     * // Update or create a KelompokNilaiIndividu
+     * const kelompokNilaiIndividu = await prisma.kelompokNilaiIndividu.upsert({
+     *   create: {
+     *     // ... data to create a KelompokNilaiIndividu
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KelompokNilaiIndividu we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KelompokNilaiIndividuUpsertArgs>(args: SelectSubset<T, KelompokNilaiIndividuUpsertArgs<ExtArgs>>): Prisma__KelompokNilaiIndividuClient<$Result.GetResult<Prisma.$KelompokNilaiIndividuPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KelompokNilaiIndividus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuCountArgs} args - Arguments to filter KelompokNilaiIndividus to count.
+     * @example
+     * // Count the number of KelompokNilaiIndividus
+     * const count = await prisma.kelompokNilaiIndividu.count({
+     *   where: {
+     *     // ... the filter for the KelompokNilaiIndividus we want to count
+     *   }
+     * })
+    **/
+    count<T extends KelompokNilaiIndividuCountArgs>(
+      args?: Subset<T, KelompokNilaiIndividuCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KelompokNilaiIndividuCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KelompokNilaiIndividu.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KelompokNilaiIndividuAggregateArgs>(args: Subset<T, KelompokNilaiIndividuAggregateArgs>): Prisma.PrismaPromise<GetKelompokNilaiIndividuAggregateType<T>>
+
+    /**
+     * Group by KelompokNilaiIndividu.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KelompokNilaiIndividuGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KelompokNilaiIndividuGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KelompokNilaiIndividuGroupByArgs['orderBy'] }
+        : { orderBy?: KelompokNilaiIndividuGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KelompokNilaiIndividuGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKelompokNilaiIndividuGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KelompokNilaiIndividu model
+   */
+  readonly fields: KelompokNilaiIndividuFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KelompokNilaiIndividu.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KelompokNilaiIndividuClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    kriteria<T extends KelompokKriteriaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelompokKriteriaDefaultArgs<ExtArgs>>): Prisma__KelompokKriteriaClient<$Result.GetResult<Prisma.$KelompokKriteriaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KelompokNilaiIndividu model
+   */
+  interface KelompokNilaiIndividuFieldRefs {
+    readonly id: FieldRef<"KelompokNilaiIndividu", 'Int'>
+    readonly kriteriaId: FieldRef<"KelompokNilaiIndividu", 'Int'>
+    readonly nrp: FieldRef<"KelompokNilaiIndividu", 'String'>
+    readonly nilai: FieldRef<"KelompokNilaiIndividu", 'Float'>
+    readonly keterangan: FieldRef<"KelompokNilaiIndividu", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KelompokNilaiIndividu findUnique
+   */
+  export type KelompokNilaiIndividuFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiIndividu to fetch.
+     */
+    where: KelompokNilaiIndividuWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiIndividu findUniqueOrThrow
+   */
+  export type KelompokNilaiIndividuFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiIndividu to fetch.
+     */
+    where: KelompokNilaiIndividuWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiIndividu findFirst
+   */
+  export type KelompokNilaiIndividuFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiIndividu to fetch.
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiIndividus to fetch.
+     */
+    orderBy?: KelompokNilaiIndividuOrderByWithRelationInput | KelompokNilaiIndividuOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokNilaiIndividus.
+     */
+    cursor?: KelompokNilaiIndividuWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiIndividus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiIndividus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokNilaiIndividus.
+     */
+    distinct?: KelompokNilaiIndividuScalarFieldEnum | KelompokNilaiIndividuScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokNilaiIndividu findFirstOrThrow
+   */
+  export type KelompokNilaiIndividuFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiIndividu to fetch.
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiIndividus to fetch.
+     */
+    orderBy?: KelompokNilaiIndividuOrderByWithRelationInput | KelompokNilaiIndividuOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KelompokNilaiIndividus.
+     */
+    cursor?: KelompokNilaiIndividuWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiIndividus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiIndividus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokNilaiIndividus.
+     */
+    distinct?: KelompokNilaiIndividuScalarFieldEnum | KelompokNilaiIndividuScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokNilaiIndividu findMany
+   */
+  export type KelompokNilaiIndividuFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * Filter, which KelompokNilaiIndividus to fetch.
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KelompokNilaiIndividus to fetch.
+     */
+    orderBy?: KelompokNilaiIndividuOrderByWithRelationInput | KelompokNilaiIndividuOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KelompokNilaiIndividus.
+     */
+    cursor?: KelompokNilaiIndividuWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KelompokNilaiIndividus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KelompokNilaiIndividus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KelompokNilaiIndividus.
+     */
+    distinct?: KelompokNilaiIndividuScalarFieldEnum | KelompokNilaiIndividuScalarFieldEnum[]
+  }
+
+  /**
+   * KelompokNilaiIndividu create
+   */
+  export type KelompokNilaiIndividuCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KelompokNilaiIndividu.
+     */
+    data: XOR<KelompokNilaiIndividuCreateInput, KelompokNilaiIndividuUncheckedCreateInput>
+  }
+
+  /**
+   * KelompokNilaiIndividu createMany
+   */
+  export type KelompokNilaiIndividuCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KelompokNilaiIndividus.
+     */
+    data: KelompokNilaiIndividuCreateManyInput | KelompokNilaiIndividuCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KelompokNilaiIndividu createManyAndReturn
+   */
+  export type KelompokNilaiIndividuCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * The data used to create many KelompokNilaiIndividus.
+     */
+    data: KelompokNilaiIndividuCreateManyInput | KelompokNilaiIndividuCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokNilaiIndividu update
+   */
+  export type KelompokNilaiIndividuUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KelompokNilaiIndividu.
+     */
+    data: XOR<KelompokNilaiIndividuUpdateInput, KelompokNilaiIndividuUncheckedUpdateInput>
+    /**
+     * Choose, which KelompokNilaiIndividu to update.
+     */
+    where: KelompokNilaiIndividuWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiIndividu updateMany
+   */
+  export type KelompokNilaiIndividuUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KelompokNilaiIndividus.
+     */
+    data: XOR<KelompokNilaiIndividuUpdateManyMutationInput, KelompokNilaiIndividuUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokNilaiIndividus to update
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * Limit how many KelompokNilaiIndividus to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokNilaiIndividu updateManyAndReturn
+   */
+  export type KelompokNilaiIndividuUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * The data used to update KelompokNilaiIndividus.
+     */
+    data: XOR<KelompokNilaiIndividuUpdateManyMutationInput, KelompokNilaiIndividuUncheckedUpdateManyInput>
+    /**
+     * Filter which KelompokNilaiIndividus to update
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * Limit how many KelompokNilaiIndividus to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KelompokNilaiIndividu upsert
+   */
+  export type KelompokNilaiIndividuUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KelompokNilaiIndividu to update in case it exists.
+     */
+    where: KelompokNilaiIndividuWhereUniqueInput
+    /**
+     * In case the KelompokNilaiIndividu found by the `where` argument doesn't exist, create a new KelompokNilaiIndividu with this data.
+     */
+    create: XOR<KelompokNilaiIndividuCreateInput, KelompokNilaiIndividuUncheckedCreateInput>
+    /**
+     * In case the KelompokNilaiIndividu was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KelompokNilaiIndividuUpdateInput, KelompokNilaiIndividuUncheckedUpdateInput>
+  }
+
+  /**
+   * KelompokNilaiIndividu delete
+   */
+  export type KelompokNilaiIndividuDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+    /**
+     * Filter which KelompokNilaiIndividu to delete.
+     */
+    where: KelompokNilaiIndividuWhereUniqueInput
+  }
+
+  /**
+   * KelompokNilaiIndividu deleteMany
+   */
+  export type KelompokNilaiIndividuDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KelompokNilaiIndividus to delete
+     */
+    where?: KelompokNilaiIndividuWhereInput
+    /**
+     * Limit how many KelompokNilaiIndividus to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KelompokNilaiIndividu without action
+   */
+  export type KelompokNilaiIndividuDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KelompokNilaiIndividu
+     */
+    select?: KelompokNilaiIndividuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KelompokNilaiIndividu
+     */
+    omit?: KelompokNilaiIndividuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KelompokNilaiIndividuInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -16278,6 +23753,70 @@ export namespace Prisma {
   };
 
   export type CourseGradeWeightsScalarFieldEnum = (typeof CourseGradeWeightsScalarFieldEnum)[keyof typeof CourseGradeWeightsScalarFieldEnum]
+
+
+  export const KelompokPenilaianScalarFieldEnum: {
+    id: 'id',
+    nama: 'nama',
+    keterangan: 'keterangan',
+    tahun: 'tahun',
+    created_at: 'created_at'
+  };
+
+  export type KelompokPenilaianScalarFieldEnum = (typeof KelompokPenilaianScalarFieldEnum)[keyof typeof KelompokPenilaianScalarFieldEnum]
+
+
+  export const KelompokTimScalarFieldEnum: {
+    id: 'id',
+    penilaianId: 'penilaianId',
+    nama: 'nama'
+  };
+
+  export type KelompokTimScalarFieldEnum = (typeof KelompokTimScalarFieldEnum)[keyof typeof KelompokTimScalarFieldEnum]
+
+
+  export const KelompokAnggotaScalarFieldEnum: {
+    id: 'id',
+    timId: 'timId',
+    penilaianId: 'penilaianId',
+    nrp: 'nrp'
+  };
+
+  export type KelompokAnggotaScalarFieldEnum = (typeof KelompokAnggotaScalarFieldEnum)[keyof typeof KelompokAnggotaScalarFieldEnum]
+
+
+  export const KelompokKriteriaScalarFieldEnum: {
+    id: 'id',
+    penilaianId: 'penilaianId',
+    nama: 'nama',
+    tipe: 'tipe',
+    bobot: 'bobot',
+    urutan: 'urutan'
+  };
+
+  export type KelompokKriteriaScalarFieldEnum = (typeof KelompokKriteriaScalarFieldEnum)[keyof typeof KelompokKriteriaScalarFieldEnum]
+
+
+  export const KelompokNilaiTimScalarFieldEnum: {
+    id: 'id',
+    kriteriaId: 'kriteriaId',
+    timId: 'timId',
+    nilai: 'nilai',
+    keterangan: 'keterangan'
+  };
+
+  export type KelompokNilaiTimScalarFieldEnum = (typeof KelompokNilaiTimScalarFieldEnum)[keyof typeof KelompokNilaiTimScalarFieldEnum]
+
+
+  export const KelompokNilaiIndividuScalarFieldEnum: {
+    id: 'id',
+    kriteriaId: 'kriteriaId',
+    nrp: 'nrp',
+    nilai: 'nilai',
+    keterangan: 'keterangan'
+  };
+
+  export type KelompokNilaiIndividuScalarFieldEnum = (typeof KelompokNilaiIndividuScalarFieldEnum)[keyof typeof KelompokNilaiIndividuScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -16675,6 +24214,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"UserNilai"> | string | null
     password?: StringNullableFilter<"UserNilai"> | string | null
     nilai?: NilaiListRelationFilter
+    kelompokAnggota?: KelompokAnggotaListRelationFilter
   }
 
   export type UserNilaiOrderByWithRelationInput = {
@@ -16683,6 +24223,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     nilai?: NilaiOrderByRelationAggregateInput
+    kelompokAnggota?: KelompokAnggotaOrderByRelationAggregateInput
   }
 
   export type UserNilaiWhereUniqueInput = Prisma.AtLeast<{
@@ -16694,6 +24235,7 @@ export namespace Prisma {
     nama?: StringNullableFilter<"UserNilai"> | string | null
     password?: StringNullableFilter<"UserNilai"> | string | null
     nilai?: NilaiListRelationFilter
+    kelompokAnggota?: KelompokAnggotaListRelationFilter
   }, "nrp" | "email">
 
   export type UserNilaiOrderByWithAggregationInput = {
@@ -17110,6 +24652,362 @@ export namespace Prisma {
     final_exam_weight?: IntWithAggregatesFilter<"CourseGradeWeights"> | number
   }
 
+  export type KelompokPenilaianWhereInput = {
+    AND?: KelompokPenilaianWhereInput | KelompokPenilaianWhereInput[]
+    OR?: KelompokPenilaianWhereInput[]
+    NOT?: KelompokPenilaianWhereInput | KelompokPenilaianWhereInput[]
+    id?: IntFilter<"KelompokPenilaian"> | number
+    nama?: StringFilter<"KelompokPenilaian"> | string
+    keterangan?: StringNullableFilter<"KelompokPenilaian"> | string | null
+    tahun?: StringNullableFilter<"KelompokPenilaian"> | string | null
+    created_at?: DateTimeFilter<"KelompokPenilaian"> | Date | string
+    tim?: KelompokTimListRelationFilter
+    kriteria?: KelompokKriteriaListRelationFilter
+  }
+
+  export type KelompokPenilaianOrderByWithRelationInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    keterangan?: SortOrderInput | SortOrder
+    tahun?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    tim?: KelompokTimOrderByRelationAggregateInput
+    kriteria?: KelompokKriteriaOrderByRelationAggregateInput
+  }
+
+  export type KelompokPenilaianWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: KelompokPenilaianWhereInput | KelompokPenilaianWhereInput[]
+    OR?: KelompokPenilaianWhereInput[]
+    NOT?: KelompokPenilaianWhereInput | KelompokPenilaianWhereInput[]
+    nama?: StringFilter<"KelompokPenilaian"> | string
+    keterangan?: StringNullableFilter<"KelompokPenilaian"> | string | null
+    tahun?: StringNullableFilter<"KelompokPenilaian"> | string | null
+    created_at?: DateTimeFilter<"KelompokPenilaian"> | Date | string
+    tim?: KelompokTimListRelationFilter
+    kriteria?: KelompokKriteriaListRelationFilter
+  }, "id">
+
+  export type KelompokPenilaianOrderByWithAggregationInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    keterangan?: SortOrderInput | SortOrder
+    tahun?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    _count?: KelompokPenilaianCountOrderByAggregateInput
+    _avg?: KelompokPenilaianAvgOrderByAggregateInput
+    _max?: KelompokPenilaianMaxOrderByAggregateInput
+    _min?: KelompokPenilaianMinOrderByAggregateInput
+    _sum?: KelompokPenilaianSumOrderByAggregateInput
+  }
+
+  export type KelompokPenilaianScalarWhereWithAggregatesInput = {
+    AND?: KelompokPenilaianScalarWhereWithAggregatesInput | KelompokPenilaianScalarWhereWithAggregatesInput[]
+    OR?: KelompokPenilaianScalarWhereWithAggregatesInput[]
+    NOT?: KelompokPenilaianScalarWhereWithAggregatesInput | KelompokPenilaianScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"KelompokPenilaian"> | number
+    nama?: StringWithAggregatesFilter<"KelompokPenilaian"> | string
+    keterangan?: StringNullableWithAggregatesFilter<"KelompokPenilaian"> | string | null
+    tahun?: StringNullableWithAggregatesFilter<"KelompokPenilaian"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"KelompokPenilaian"> | Date | string
+  }
+
+  export type KelompokTimWhereInput = {
+    AND?: KelompokTimWhereInput | KelompokTimWhereInput[]
+    OR?: KelompokTimWhereInput[]
+    NOT?: KelompokTimWhereInput | KelompokTimWhereInput[]
+    id?: IntFilter<"KelompokTim"> | number
+    penilaianId?: IntFilter<"KelompokTim"> | number
+    nama?: StringFilter<"KelompokTim"> | string
+    penilaian?: XOR<KelompokPenilaianScalarRelationFilter, KelompokPenilaianWhereInput>
+    anggota?: KelompokAnggotaListRelationFilter
+    nilai?: KelompokNilaiTimListRelationFilter
+  }
+
+  export type KelompokTimOrderByWithRelationInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    penilaian?: KelompokPenilaianOrderByWithRelationInput
+    anggota?: KelompokAnggotaOrderByRelationAggregateInput
+    nilai?: KelompokNilaiTimOrderByRelationAggregateInput
+  }
+
+  export type KelompokTimWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: KelompokTimWhereInput | KelompokTimWhereInput[]
+    OR?: KelompokTimWhereInput[]
+    NOT?: KelompokTimWhereInput | KelompokTimWhereInput[]
+    penilaianId?: IntFilter<"KelompokTim"> | number
+    nama?: StringFilter<"KelompokTim"> | string
+    penilaian?: XOR<KelompokPenilaianScalarRelationFilter, KelompokPenilaianWhereInput>
+    anggota?: KelompokAnggotaListRelationFilter
+    nilai?: KelompokNilaiTimListRelationFilter
+  }, "id">
+
+  export type KelompokTimOrderByWithAggregationInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    _count?: KelompokTimCountOrderByAggregateInput
+    _avg?: KelompokTimAvgOrderByAggregateInput
+    _max?: KelompokTimMaxOrderByAggregateInput
+    _min?: KelompokTimMinOrderByAggregateInput
+    _sum?: KelompokTimSumOrderByAggregateInput
+  }
+
+  export type KelompokTimScalarWhereWithAggregatesInput = {
+    AND?: KelompokTimScalarWhereWithAggregatesInput | KelompokTimScalarWhereWithAggregatesInput[]
+    OR?: KelompokTimScalarWhereWithAggregatesInput[]
+    NOT?: KelompokTimScalarWhereWithAggregatesInput | KelompokTimScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"KelompokTim"> | number
+    penilaianId?: IntWithAggregatesFilter<"KelompokTim"> | number
+    nama?: StringWithAggregatesFilter<"KelompokTim"> | string
+  }
+
+  export type KelompokAnggotaWhereInput = {
+    AND?: KelompokAnggotaWhereInput | KelompokAnggotaWhereInput[]
+    OR?: KelompokAnggotaWhereInput[]
+    NOT?: KelompokAnggotaWhereInput | KelompokAnggotaWhereInput[]
+    id?: IntFilter<"KelompokAnggota"> | number
+    timId?: IntFilter<"KelompokAnggota"> | number
+    penilaianId?: IntFilter<"KelompokAnggota"> | number
+    nrp?: StringFilter<"KelompokAnggota"> | string
+    tim?: XOR<KelompokTimScalarRelationFilter, KelompokTimWhereInput>
+    usernilai?: XOR<UserNilaiScalarRelationFilter, UserNilaiWhereInput>
+  }
+
+  export type KelompokAnggotaOrderByWithRelationInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+    nrp?: SortOrder
+    tim?: KelompokTimOrderByWithRelationInput
+    usernilai?: UserNilaiOrderByWithRelationInput
+  }
+
+  export type KelompokAnggotaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    penilaianId_nrp?: KelompokAnggotaPenilaianIdNrpCompoundUniqueInput
+    AND?: KelompokAnggotaWhereInput | KelompokAnggotaWhereInput[]
+    OR?: KelompokAnggotaWhereInput[]
+    NOT?: KelompokAnggotaWhereInput | KelompokAnggotaWhereInput[]
+    timId?: IntFilter<"KelompokAnggota"> | number
+    penilaianId?: IntFilter<"KelompokAnggota"> | number
+    nrp?: StringFilter<"KelompokAnggota"> | string
+    tim?: XOR<KelompokTimScalarRelationFilter, KelompokTimWhereInput>
+    usernilai?: XOR<UserNilaiScalarRelationFilter, UserNilaiWhereInput>
+  }, "id" | "penilaianId_nrp">
+
+  export type KelompokAnggotaOrderByWithAggregationInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+    nrp?: SortOrder
+    _count?: KelompokAnggotaCountOrderByAggregateInput
+    _avg?: KelompokAnggotaAvgOrderByAggregateInput
+    _max?: KelompokAnggotaMaxOrderByAggregateInput
+    _min?: KelompokAnggotaMinOrderByAggregateInput
+    _sum?: KelompokAnggotaSumOrderByAggregateInput
+  }
+
+  export type KelompokAnggotaScalarWhereWithAggregatesInput = {
+    AND?: KelompokAnggotaScalarWhereWithAggregatesInput | KelompokAnggotaScalarWhereWithAggregatesInput[]
+    OR?: KelompokAnggotaScalarWhereWithAggregatesInput[]
+    NOT?: KelompokAnggotaScalarWhereWithAggregatesInput | KelompokAnggotaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"KelompokAnggota"> | number
+    timId?: IntWithAggregatesFilter<"KelompokAnggota"> | number
+    penilaianId?: IntWithAggregatesFilter<"KelompokAnggota"> | number
+    nrp?: StringWithAggregatesFilter<"KelompokAnggota"> | string
+  }
+
+  export type KelompokKriteriaWhereInput = {
+    AND?: KelompokKriteriaWhereInput | KelompokKriteriaWhereInput[]
+    OR?: KelompokKriteriaWhereInput[]
+    NOT?: KelompokKriteriaWhereInput | KelompokKriteriaWhereInput[]
+    id?: IntFilter<"KelompokKriteria"> | number
+    penilaianId?: IntFilter<"KelompokKriteria"> | number
+    nama?: StringFilter<"KelompokKriteria"> | string
+    tipe?: StringFilter<"KelompokKriteria"> | string
+    bobot?: FloatFilter<"KelompokKriteria"> | number
+    urutan?: IntFilter<"KelompokKriteria"> | number
+    penilaian?: XOR<KelompokPenilaianScalarRelationFilter, KelompokPenilaianWhereInput>
+    nilaiTim?: KelompokNilaiTimListRelationFilter
+    nilaiIndividu?: KelompokNilaiIndividuListRelationFilter
+  }
+
+  export type KelompokKriteriaOrderByWithRelationInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    tipe?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+    penilaian?: KelompokPenilaianOrderByWithRelationInput
+    nilaiTim?: KelompokNilaiTimOrderByRelationAggregateInput
+    nilaiIndividu?: KelompokNilaiIndividuOrderByRelationAggregateInput
+  }
+
+  export type KelompokKriteriaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: KelompokKriteriaWhereInput | KelompokKriteriaWhereInput[]
+    OR?: KelompokKriteriaWhereInput[]
+    NOT?: KelompokKriteriaWhereInput | KelompokKriteriaWhereInput[]
+    penilaianId?: IntFilter<"KelompokKriteria"> | number
+    nama?: StringFilter<"KelompokKriteria"> | string
+    tipe?: StringFilter<"KelompokKriteria"> | string
+    bobot?: FloatFilter<"KelompokKriteria"> | number
+    urutan?: IntFilter<"KelompokKriteria"> | number
+    penilaian?: XOR<KelompokPenilaianScalarRelationFilter, KelompokPenilaianWhereInput>
+    nilaiTim?: KelompokNilaiTimListRelationFilter
+    nilaiIndividu?: KelompokNilaiIndividuListRelationFilter
+  }, "id">
+
+  export type KelompokKriteriaOrderByWithAggregationInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    tipe?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+    _count?: KelompokKriteriaCountOrderByAggregateInput
+    _avg?: KelompokKriteriaAvgOrderByAggregateInput
+    _max?: KelompokKriteriaMaxOrderByAggregateInput
+    _min?: KelompokKriteriaMinOrderByAggregateInput
+    _sum?: KelompokKriteriaSumOrderByAggregateInput
+  }
+
+  export type KelompokKriteriaScalarWhereWithAggregatesInput = {
+    AND?: KelompokKriteriaScalarWhereWithAggregatesInput | KelompokKriteriaScalarWhereWithAggregatesInput[]
+    OR?: KelompokKriteriaScalarWhereWithAggregatesInput[]
+    NOT?: KelompokKriteriaScalarWhereWithAggregatesInput | KelompokKriteriaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"KelompokKriteria"> | number
+    penilaianId?: IntWithAggregatesFilter<"KelompokKriteria"> | number
+    nama?: StringWithAggregatesFilter<"KelompokKriteria"> | string
+    tipe?: StringWithAggregatesFilter<"KelompokKriteria"> | string
+    bobot?: FloatWithAggregatesFilter<"KelompokKriteria"> | number
+    urutan?: IntWithAggregatesFilter<"KelompokKriteria"> | number
+  }
+
+  export type KelompokNilaiTimWhereInput = {
+    AND?: KelompokNilaiTimWhereInput | KelompokNilaiTimWhereInput[]
+    OR?: KelompokNilaiTimWhereInput[]
+    NOT?: KelompokNilaiTimWhereInput | KelompokNilaiTimWhereInput[]
+    id?: IntFilter<"KelompokNilaiTim"> | number
+    kriteriaId?: IntFilter<"KelompokNilaiTim"> | number
+    timId?: IntFilter<"KelompokNilaiTim"> | number
+    nilai?: FloatNullableFilter<"KelompokNilaiTim"> | number | null
+    keterangan?: StringNullableFilter<"KelompokNilaiTim"> | string | null
+    kriteria?: XOR<KelompokKriteriaScalarRelationFilter, KelompokKriteriaWhereInput>
+    tim?: XOR<KelompokTimScalarRelationFilter, KelompokTimWhereInput>
+  }
+
+  export type KelompokNilaiTimOrderByWithRelationInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrderInput | SortOrder
+    keterangan?: SortOrderInput | SortOrder
+    kriteria?: KelompokKriteriaOrderByWithRelationInput
+    tim?: KelompokTimOrderByWithRelationInput
+  }
+
+  export type KelompokNilaiTimWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    kriteriaId_timId?: KelompokNilaiTimKriteriaIdTimIdCompoundUniqueInput
+    AND?: KelompokNilaiTimWhereInput | KelompokNilaiTimWhereInput[]
+    OR?: KelompokNilaiTimWhereInput[]
+    NOT?: KelompokNilaiTimWhereInput | KelompokNilaiTimWhereInput[]
+    kriteriaId?: IntFilter<"KelompokNilaiTim"> | number
+    timId?: IntFilter<"KelompokNilaiTim"> | number
+    nilai?: FloatNullableFilter<"KelompokNilaiTim"> | number | null
+    keterangan?: StringNullableFilter<"KelompokNilaiTim"> | string | null
+    kriteria?: XOR<KelompokKriteriaScalarRelationFilter, KelompokKriteriaWhereInput>
+    tim?: XOR<KelompokTimScalarRelationFilter, KelompokTimWhereInput>
+  }, "id" | "kriteriaId_timId">
+
+  export type KelompokNilaiTimOrderByWithAggregationInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrderInput | SortOrder
+    keterangan?: SortOrderInput | SortOrder
+    _count?: KelompokNilaiTimCountOrderByAggregateInput
+    _avg?: KelompokNilaiTimAvgOrderByAggregateInput
+    _max?: KelompokNilaiTimMaxOrderByAggregateInput
+    _min?: KelompokNilaiTimMinOrderByAggregateInput
+    _sum?: KelompokNilaiTimSumOrderByAggregateInput
+  }
+
+  export type KelompokNilaiTimScalarWhereWithAggregatesInput = {
+    AND?: KelompokNilaiTimScalarWhereWithAggregatesInput | KelompokNilaiTimScalarWhereWithAggregatesInput[]
+    OR?: KelompokNilaiTimScalarWhereWithAggregatesInput[]
+    NOT?: KelompokNilaiTimScalarWhereWithAggregatesInput | KelompokNilaiTimScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"KelompokNilaiTim"> | number
+    kriteriaId?: IntWithAggregatesFilter<"KelompokNilaiTim"> | number
+    timId?: IntWithAggregatesFilter<"KelompokNilaiTim"> | number
+    nilai?: FloatNullableWithAggregatesFilter<"KelompokNilaiTim"> | number | null
+    keterangan?: StringNullableWithAggregatesFilter<"KelompokNilaiTim"> | string | null
+  }
+
+  export type KelompokNilaiIndividuWhereInput = {
+    AND?: KelompokNilaiIndividuWhereInput | KelompokNilaiIndividuWhereInput[]
+    OR?: KelompokNilaiIndividuWhereInput[]
+    NOT?: KelompokNilaiIndividuWhereInput | KelompokNilaiIndividuWhereInput[]
+    id?: IntFilter<"KelompokNilaiIndividu"> | number
+    kriteriaId?: IntFilter<"KelompokNilaiIndividu"> | number
+    nrp?: StringFilter<"KelompokNilaiIndividu"> | string
+    nilai?: FloatNullableFilter<"KelompokNilaiIndividu"> | number | null
+    keterangan?: StringNullableFilter<"KelompokNilaiIndividu"> | string | null
+    kriteria?: XOR<KelompokKriteriaScalarRelationFilter, KelompokKriteriaWhereInput>
+  }
+
+  export type KelompokNilaiIndividuOrderByWithRelationInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nrp?: SortOrder
+    nilai?: SortOrderInput | SortOrder
+    keterangan?: SortOrderInput | SortOrder
+    kriteria?: KelompokKriteriaOrderByWithRelationInput
+  }
+
+  export type KelompokNilaiIndividuWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    kriteriaId_nrp?: KelompokNilaiIndividuKriteriaIdNrpCompoundUniqueInput
+    AND?: KelompokNilaiIndividuWhereInput | KelompokNilaiIndividuWhereInput[]
+    OR?: KelompokNilaiIndividuWhereInput[]
+    NOT?: KelompokNilaiIndividuWhereInput | KelompokNilaiIndividuWhereInput[]
+    kriteriaId?: IntFilter<"KelompokNilaiIndividu"> | number
+    nrp?: StringFilter<"KelompokNilaiIndividu"> | string
+    nilai?: FloatNullableFilter<"KelompokNilaiIndividu"> | number | null
+    keterangan?: StringNullableFilter<"KelompokNilaiIndividu"> | string | null
+    kriteria?: XOR<KelompokKriteriaScalarRelationFilter, KelompokKriteriaWhereInput>
+  }, "id" | "kriteriaId_nrp">
+
+  export type KelompokNilaiIndividuOrderByWithAggregationInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nrp?: SortOrder
+    nilai?: SortOrderInput | SortOrder
+    keterangan?: SortOrderInput | SortOrder
+    _count?: KelompokNilaiIndividuCountOrderByAggregateInput
+    _avg?: KelompokNilaiIndividuAvgOrderByAggregateInput
+    _max?: KelompokNilaiIndividuMaxOrderByAggregateInput
+    _min?: KelompokNilaiIndividuMinOrderByAggregateInput
+    _sum?: KelompokNilaiIndividuSumOrderByAggregateInput
+  }
+
+  export type KelompokNilaiIndividuScalarWhereWithAggregatesInput = {
+    AND?: KelompokNilaiIndividuScalarWhereWithAggregatesInput | KelompokNilaiIndividuScalarWhereWithAggregatesInput[]
+    OR?: KelompokNilaiIndividuScalarWhereWithAggregatesInput[]
+    NOT?: KelompokNilaiIndividuScalarWhereWithAggregatesInput | KelompokNilaiIndividuScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"KelompokNilaiIndividu"> | number
+    kriteriaId?: IntWithAggregatesFilter<"KelompokNilaiIndividu"> | number
+    nrp?: StringWithAggregatesFilter<"KelompokNilaiIndividu"> | string
+    nilai?: FloatNullableWithAggregatesFilter<"KelompokNilaiIndividu"> | number | null
+    keterangan?: StringNullableWithAggregatesFilter<"KelompokNilaiIndividu"> | string | null
+  }
+
   export type EvaluationsCreateInput = {
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
@@ -17383,6 +25281,7 @@ export namespace Prisma {
     email?: string | null
     password?: string | null
     nilai?: NilaiCreateNestedManyWithoutUsernilaiInput
+    kelompokAnggota?: KelompokAnggotaCreateNestedManyWithoutUsernilaiInput
   }
 
   export type UserNilaiUncheckedCreateInput = {
@@ -17391,6 +25290,7 @@ export namespace Prisma {
     email?: string | null
     password?: string | null
     nilai?: NilaiUncheckedCreateNestedManyWithoutUsernilaiInput
+    kelompokAnggota?: KelompokAnggotaUncheckedCreateNestedManyWithoutUsernilaiInput
   }
 
   export type UserNilaiUpdateInput = {
@@ -17399,6 +25299,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUpdateManyWithoutUsernilaiNestedInput
+    kelompokAnggota?: KelompokAnggotaUpdateManyWithoutUsernilaiNestedInput
   }
 
   export type UserNilaiUncheckedUpdateInput = {
@@ -17407,6 +25308,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     nilai?: NilaiUncheckedUpdateManyWithoutUsernilaiNestedInput
+    kelompokAnggota?: KelompokAnggotaUncheckedUpdateManyWithoutUsernilaiNestedInput
   }
 
   export type UserNilaiCreateManyInput = {
@@ -17825,6 +25727,327 @@ export namespace Prisma {
     final_exam_weight?: IntFieldUpdateOperationsInput | number
   }
 
+  export type KelompokPenilaianCreateInput = {
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+    tim?: KelompokTimCreateNestedManyWithoutPenilaianInput
+    kriteria?: KelompokKriteriaCreateNestedManyWithoutPenilaianInput
+  }
+
+  export type KelompokPenilaianUncheckedCreateInput = {
+    id?: number
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+    tim?: KelompokTimUncheckedCreateNestedManyWithoutPenilaianInput
+    kriteria?: KelompokKriteriaUncheckedCreateNestedManyWithoutPenilaianInput
+  }
+
+  export type KelompokPenilaianUpdateInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tim?: KelompokTimUpdateManyWithoutPenilaianNestedInput
+    kriteria?: KelompokKriteriaUpdateManyWithoutPenilaianNestedInput
+  }
+
+  export type KelompokPenilaianUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tim?: KelompokTimUncheckedUpdateManyWithoutPenilaianNestedInput
+    kriteria?: KelompokKriteriaUncheckedUpdateManyWithoutPenilaianNestedInput
+  }
+
+  export type KelompokPenilaianCreateManyInput = {
+    id?: number
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+  }
+
+  export type KelompokPenilaianUpdateManyMutationInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KelompokPenilaianUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KelompokTimCreateInput = {
+    nama: string
+    penilaian: KelompokPenilaianCreateNestedOneWithoutTimInput
+    anggota?: KelompokAnggotaCreateNestedManyWithoutTimInput
+    nilai?: KelompokNilaiTimCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimUncheckedCreateInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    anggota?: KelompokAnggotaUncheckedCreateNestedManyWithoutTimInput
+    nilai?: KelompokNilaiTimUncheckedCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimUpdateInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    penilaian?: KelompokPenilaianUpdateOneRequiredWithoutTimNestedInput
+    anggota?: KelompokAnggotaUpdateManyWithoutTimNestedInput
+    nilai?: KelompokNilaiTimUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokTimUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    anggota?: KelompokAnggotaUncheckedUpdateManyWithoutTimNestedInput
+    nilai?: KelompokNilaiTimUncheckedUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokTimCreateManyInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+  }
+
+  export type KelompokTimUpdateManyMutationInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokTimUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokAnggotaCreateInput = {
+    penilaianId: number
+    tim: KelompokTimCreateNestedOneWithoutAnggotaInput
+    usernilai: UserNilaiCreateNestedOneWithoutKelompokAnggotaInput
+  }
+
+  export type KelompokAnggotaUncheckedCreateInput = {
+    id?: number
+    timId: number
+    penilaianId: number
+    nrp: string
+  }
+
+  export type KelompokAnggotaUpdateInput = {
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    tim?: KelompokTimUpdateOneRequiredWithoutAnggotaNestedInput
+    usernilai?: UserNilaiUpdateOneRequiredWithoutKelompokAnggotaNestedInput
+  }
+
+  export type KelompokAnggotaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokAnggotaCreateManyInput = {
+    id?: number
+    timId: number
+    penilaianId: number
+    nrp: string
+  }
+
+  export type KelompokAnggotaUpdateManyMutationInput = {
+    penilaianId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type KelompokAnggotaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokKriteriaCreateInput = {
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    penilaian: KelompokPenilaianCreateNestedOneWithoutKriteriaInput
+    nilaiTim?: KelompokNilaiTimCreateNestedManyWithoutKriteriaInput
+    nilaiIndividu?: KelompokNilaiIndividuCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaUncheckedCreateInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    nilaiTim?: KelompokNilaiTimUncheckedCreateNestedManyWithoutKriteriaInput
+    nilaiIndividu?: KelompokNilaiIndividuUncheckedCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaUpdateInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    penilaian?: KelompokPenilaianUpdateOneRequiredWithoutKriteriaNestedInput
+    nilaiTim?: KelompokNilaiTimUpdateManyWithoutKriteriaNestedInput
+    nilaiIndividu?: KelompokNilaiIndividuUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokKriteriaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    nilaiTim?: KelompokNilaiTimUncheckedUpdateManyWithoutKriteriaNestedInput
+    nilaiIndividu?: KelompokNilaiIndividuUncheckedUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokKriteriaCreateManyInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+  }
+
+  export type KelompokKriteriaUpdateManyMutationInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type KelompokKriteriaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type KelompokNilaiTimCreateInput = {
+    nilai?: number | null
+    keterangan?: string | null
+    kriteria: KelompokKriteriaCreateNestedOneWithoutNilaiTimInput
+    tim: KelompokTimCreateNestedOneWithoutNilaiInput
+  }
+
+  export type KelompokNilaiTimUncheckedCreateInput = {
+    id?: number
+    kriteriaId: number
+    timId: number
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiTimUpdateInput = {
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    kriteria?: KelompokKriteriaUpdateOneRequiredWithoutNilaiTimNestedInput
+    tim?: KelompokTimUpdateOneRequiredWithoutNilaiNestedInput
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    kriteriaId?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiTimCreateManyInput = {
+    id?: number
+    kriteriaId: number
+    timId: number
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiTimUpdateManyMutationInput = {
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    kriteriaId?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiIndividuCreateInput = {
+    nrp: string
+    nilai?: number | null
+    keterangan?: string | null
+    kriteria: KelompokKriteriaCreateNestedOneWithoutNilaiIndividuInput
+  }
+
+  export type KelompokNilaiIndividuUncheckedCreateInput = {
+    id?: number
+    kriteriaId: number
+    nrp: string
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiIndividuUpdateInput = {
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    kriteria?: KelompokKriteriaUpdateOneRequiredWithoutNilaiIndividuNestedInput
+  }
+
+  export type KelompokNilaiIndividuUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    kriteriaId?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiIndividuCreateManyInput = {
+    id?: number
+    kriteriaId: number
+    nrp: string
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiIndividuUpdateManyMutationInput = {
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiIndividuUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    kriteriaId?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -18177,6 +26400,16 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type KelompokAnggotaListRelationFilter = {
+    every?: KelompokAnggotaWhereInput
+    some?: KelompokAnggotaWhereInput
+    none?: KelompokAnggotaWhereInput
+  }
+
+  export type KelompokAnggotaOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserNilaiCountOrderByAggregateInput = {
@@ -18532,6 +26765,343 @@ export namespace Prisma {
     final_exam_weight?: SortOrder
   }
 
+  export type KelompokTimListRelationFilter = {
+    every?: KelompokTimWhereInput
+    some?: KelompokTimWhereInput
+    none?: KelompokTimWhereInput
+  }
+
+  export type KelompokKriteriaListRelationFilter = {
+    every?: KelompokKriteriaWhereInput
+    some?: KelompokKriteriaWhereInput
+    none?: KelompokKriteriaWhereInput
+  }
+
+  export type KelompokTimOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KelompokKriteriaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KelompokPenilaianCountOrderByAggregateInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    keterangan?: SortOrder
+    tahun?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type KelompokPenilaianAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type KelompokPenilaianMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    keterangan?: SortOrder
+    tahun?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type KelompokPenilaianMinOrderByAggregateInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    keterangan?: SortOrder
+    tahun?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type KelompokPenilaianSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type KelompokPenilaianScalarRelationFilter = {
+    is?: KelompokPenilaianWhereInput
+    isNot?: KelompokPenilaianWhereInput
+  }
+
+  export type KelompokNilaiTimListRelationFilter = {
+    every?: KelompokNilaiTimWhereInput
+    some?: KelompokNilaiTimWhereInput
+    none?: KelompokNilaiTimWhereInput
+  }
+
+  export type KelompokNilaiTimOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KelompokTimCountOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+  }
+
+  export type KelompokTimAvgOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+  }
+
+  export type KelompokTimMaxOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+  }
+
+  export type KelompokTimMinOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+  }
+
+  export type KelompokTimSumOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+  }
+
+  export type KelompokTimScalarRelationFilter = {
+    is?: KelompokTimWhereInput
+    isNot?: KelompokTimWhereInput
+  }
+
+  export type UserNilaiScalarRelationFilter = {
+    is?: UserNilaiWhereInput
+    isNot?: UserNilaiWhereInput
+  }
+
+  export type KelompokAnggotaPenilaianIdNrpCompoundUniqueInput = {
+    penilaianId: number
+    nrp: string
+  }
+
+  export type KelompokAnggotaCountOrderByAggregateInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+    nrp?: SortOrder
+  }
+
+  export type KelompokAnggotaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+  }
+
+  export type KelompokAnggotaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+    nrp?: SortOrder
+  }
+
+  export type KelompokAnggotaMinOrderByAggregateInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+    nrp?: SortOrder
+  }
+
+  export type KelompokAnggotaSumOrderByAggregateInput = {
+    id?: SortOrder
+    timId?: SortOrder
+    penilaianId?: SortOrder
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type KelompokNilaiIndividuListRelationFilter = {
+    every?: KelompokNilaiIndividuWhereInput
+    some?: KelompokNilaiIndividuWhereInput
+    none?: KelompokNilaiIndividuWhereInput
+  }
+
+  export type KelompokNilaiIndividuOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KelompokKriteriaCountOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    tipe?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+  }
+
+  export type KelompokKriteriaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+  }
+
+  export type KelompokKriteriaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    tipe?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+  }
+
+  export type KelompokKriteriaMinOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    nama?: SortOrder
+    tipe?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+  }
+
+  export type KelompokKriteriaSumOrderByAggregateInput = {
+    id?: SortOrder
+    penilaianId?: SortOrder
+    bobot?: SortOrder
+    urutan?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type KelompokKriteriaScalarRelationFilter = {
+    is?: KelompokKriteriaWhereInput
+    isNot?: KelompokKriteriaWhereInput
+  }
+
+  export type KelompokNilaiTimKriteriaIdTimIdCompoundUniqueInput = {
+    kriteriaId: number
+    timId: number
+  }
+
+  export type KelompokNilaiTimCountOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrder
+    keterangan?: SortOrder
+  }
+
+  export type KelompokNilaiTimAvgOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrder
+  }
+
+  export type KelompokNilaiTimMaxOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrder
+    keterangan?: SortOrder
+  }
+
+  export type KelompokNilaiTimMinOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrder
+    keterangan?: SortOrder
+  }
+
+  export type KelompokNilaiTimSumOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    timId?: SortOrder
+    nilai?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type KelompokNilaiIndividuKriteriaIdNrpCompoundUniqueInput = {
+    kriteriaId: number
+    nrp: string
+  }
+
+  export type KelompokNilaiIndividuCountOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nrp?: SortOrder
+    nilai?: SortOrder
+    keterangan?: SortOrder
+  }
+
+  export type KelompokNilaiIndividuAvgOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nilai?: SortOrder
+  }
+
+  export type KelompokNilaiIndividuMaxOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nrp?: SortOrder
+    nilai?: SortOrder
+    keterangan?: SortOrder
+  }
+
+  export type KelompokNilaiIndividuMinOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nrp?: SortOrder
+    nilai?: SortOrder
+    keterangan?: SortOrder
+  }
+
+  export type KelompokNilaiIndividuSumOrderByAggregateInput = {
+    id?: SortOrder
+    kriteriaId?: SortOrder
+    nilai?: SortOrder
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -18741,11 +27311,25 @@ export namespace Prisma {
     connect?: NilaiWhereUniqueInput | NilaiWhereUniqueInput[]
   }
 
+  export type KelompokAnggotaCreateNestedManyWithoutUsernilaiInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutUsernilaiInput, KelompokAnggotaUncheckedCreateWithoutUsernilaiInput> | KelompokAnggotaCreateWithoutUsernilaiInput[] | KelompokAnggotaUncheckedCreateWithoutUsernilaiInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutUsernilaiInput | KelompokAnggotaCreateOrConnectWithoutUsernilaiInput[]
+    createMany?: KelompokAnggotaCreateManyUsernilaiInputEnvelope
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+  }
+
   export type NilaiUncheckedCreateNestedManyWithoutUsernilaiInput = {
     create?: XOR<NilaiCreateWithoutUsernilaiInput, NilaiUncheckedCreateWithoutUsernilaiInput> | NilaiCreateWithoutUsernilaiInput[] | NilaiUncheckedCreateWithoutUsernilaiInput[]
     connectOrCreate?: NilaiCreateOrConnectWithoutUsernilaiInput | NilaiCreateOrConnectWithoutUsernilaiInput[]
     createMany?: NilaiCreateManyUsernilaiInputEnvelope
     connect?: NilaiWhereUniqueInput | NilaiWhereUniqueInput[]
+  }
+
+  export type KelompokAnggotaUncheckedCreateNestedManyWithoutUsernilaiInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutUsernilaiInput, KelompokAnggotaUncheckedCreateWithoutUsernilaiInput> | KelompokAnggotaCreateWithoutUsernilaiInput[] | KelompokAnggotaUncheckedCreateWithoutUsernilaiInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutUsernilaiInput | KelompokAnggotaCreateOrConnectWithoutUsernilaiInput[]
+    createMany?: KelompokAnggotaCreateManyUsernilaiInputEnvelope
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -18766,6 +27350,20 @@ export namespace Prisma {
     deleteMany?: NilaiScalarWhereInput | NilaiScalarWhereInput[]
   }
 
+  export type KelompokAnggotaUpdateManyWithoutUsernilaiNestedInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutUsernilaiInput, KelompokAnggotaUncheckedCreateWithoutUsernilaiInput> | KelompokAnggotaCreateWithoutUsernilaiInput[] | KelompokAnggotaUncheckedCreateWithoutUsernilaiInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutUsernilaiInput | KelompokAnggotaCreateOrConnectWithoutUsernilaiInput[]
+    upsert?: KelompokAnggotaUpsertWithWhereUniqueWithoutUsernilaiInput | KelompokAnggotaUpsertWithWhereUniqueWithoutUsernilaiInput[]
+    createMany?: KelompokAnggotaCreateManyUsernilaiInputEnvelope
+    set?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    disconnect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    delete?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    update?: KelompokAnggotaUpdateWithWhereUniqueWithoutUsernilaiInput | KelompokAnggotaUpdateWithWhereUniqueWithoutUsernilaiInput[]
+    updateMany?: KelompokAnggotaUpdateManyWithWhereWithoutUsernilaiInput | KelompokAnggotaUpdateManyWithWhereWithoutUsernilaiInput[]
+    deleteMany?: KelompokAnggotaScalarWhereInput | KelompokAnggotaScalarWhereInput[]
+  }
+
   export type NilaiUncheckedUpdateManyWithoutUsernilaiNestedInput = {
     create?: XOR<NilaiCreateWithoutUsernilaiInput, NilaiUncheckedCreateWithoutUsernilaiInput> | NilaiCreateWithoutUsernilaiInput[] | NilaiUncheckedCreateWithoutUsernilaiInput[]
     connectOrCreate?: NilaiCreateOrConnectWithoutUsernilaiInput | NilaiCreateOrConnectWithoutUsernilaiInput[]
@@ -18778,6 +27376,20 @@ export namespace Prisma {
     update?: NilaiUpdateWithWhereUniqueWithoutUsernilaiInput | NilaiUpdateWithWhereUniqueWithoutUsernilaiInput[]
     updateMany?: NilaiUpdateManyWithWhereWithoutUsernilaiInput | NilaiUpdateManyWithWhereWithoutUsernilaiInput[]
     deleteMany?: NilaiScalarWhereInput | NilaiScalarWhereInput[]
+  }
+
+  export type KelompokAnggotaUncheckedUpdateManyWithoutUsernilaiNestedInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutUsernilaiInput, KelompokAnggotaUncheckedCreateWithoutUsernilaiInput> | KelompokAnggotaCreateWithoutUsernilaiInput[] | KelompokAnggotaUncheckedCreateWithoutUsernilaiInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutUsernilaiInput | KelompokAnggotaCreateOrConnectWithoutUsernilaiInput[]
+    upsert?: KelompokAnggotaUpsertWithWhereUniqueWithoutUsernilaiInput | KelompokAnggotaUpsertWithWhereUniqueWithoutUsernilaiInput[]
+    createMany?: KelompokAnggotaCreateManyUsernilaiInputEnvelope
+    set?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    disconnect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    delete?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    update?: KelompokAnggotaUpdateWithWhereUniqueWithoutUsernilaiInput | KelompokAnggotaUpdateWithWhereUniqueWithoutUsernilaiInput[]
+    updateMany?: KelompokAnggotaUpdateManyWithWhereWithoutUsernilaiInput | KelompokAnggotaUpdateManyWithWhereWithoutUsernilaiInput[]
+    deleteMany?: KelompokAnggotaScalarWhereInput | KelompokAnggotaScalarWhereInput[]
   }
 
   export type KuliahCreateNestedOneWithoutSubmissionsInput = {
@@ -18914,6 +27526,372 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type KelompokTimCreateNestedManyWithoutPenilaianInput = {
+    create?: XOR<KelompokTimCreateWithoutPenilaianInput, KelompokTimUncheckedCreateWithoutPenilaianInput> | KelompokTimCreateWithoutPenilaianInput[] | KelompokTimUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutPenilaianInput | KelompokTimCreateOrConnectWithoutPenilaianInput[]
+    createMany?: KelompokTimCreateManyPenilaianInputEnvelope
+    connect?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+  }
+
+  export type KelompokKriteriaCreateNestedManyWithoutPenilaianInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutPenilaianInput, KelompokKriteriaUncheckedCreateWithoutPenilaianInput> | KelompokKriteriaCreateWithoutPenilaianInput[] | KelompokKriteriaUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutPenilaianInput | KelompokKriteriaCreateOrConnectWithoutPenilaianInput[]
+    createMany?: KelompokKriteriaCreateManyPenilaianInputEnvelope
+    connect?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+  }
+
+  export type KelompokTimUncheckedCreateNestedManyWithoutPenilaianInput = {
+    create?: XOR<KelompokTimCreateWithoutPenilaianInput, KelompokTimUncheckedCreateWithoutPenilaianInput> | KelompokTimCreateWithoutPenilaianInput[] | KelompokTimUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutPenilaianInput | KelompokTimCreateOrConnectWithoutPenilaianInput[]
+    createMany?: KelompokTimCreateManyPenilaianInputEnvelope
+    connect?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+  }
+
+  export type KelompokKriteriaUncheckedCreateNestedManyWithoutPenilaianInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutPenilaianInput, KelompokKriteriaUncheckedCreateWithoutPenilaianInput> | KelompokKriteriaCreateWithoutPenilaianInput[] | KelompokKriteriaUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutPenilaianInput | KelompokKriteriaCreateOrConnectWithoutPenilaianInput[]
+    createMany?: KelompokKriteriaCreateManyPenilaianInputEnvelope
+    connect?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+  }
+
+  export type KelompokTimUpdateManyWithoutPenilaianNestedInput = {
+    create?: XOR<KelompokTimCreateWithoutPenilaianInput, KelompokTimUncheckedCreateWithoutPenilaianInput> | KelompokTimCreateWithoutPenilaianInput[] | KelompokTimUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutPenilaianInput | KelompokTimCreateOrConnectWithoutPenilaianInput[]
+    upsert?: KelompokTimUpsertWithWhereUniqueWithoutPenilaianInput | KelompokTimUpsertWithWhereUniqueWithoutPenilaianInput[]
+    createMany?: KelompokTimCreateManyPenilaianInputEnvelope
+    set?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    disconnect?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    delete?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    connect?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    update?: KelompokTimUpdateWithWhereUniqueWithoutPenilaianInput | KelompokTimUpdateWithWhereUniqueWithoutPenilaianInput[]
+    updateMany?: KelompokTimUpdateManyWithWhereWithoutPenilaianInput | KelompokTimUpdateManyWithWhereWithoutPenilaianInput[]
+    deleteMany?: KelompokTimScalarWhereInput | KelompokTimScalarWhereInput[]
+  }
+
+  export type KelompokKriteriaUpdateManyWithoutPenilaianNestedInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutPenilaianInput, KelompokKriteriaUncheckedCreateWithoutPenilaianInput> | KelompokKriteriaCreateWithoutPenilaianInput[] | KelompokKriteriaUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutPenilaianInput | KelompokKriteriaCreateOrConnectWithoutPenilaianInput[]
+    upsert?: KelompokKriteriaUpsertWithWhereUniqueWithoutPenilaianInput | KelompokKriteriaUpsertWithWhereUniqueWithoutPenilaianInput[]
+    createMany?: KelompokKriteriaCreateManyPenilaianInputEnvelope
+    set?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    disconnect?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    delete?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    connect?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    update?: KelompokKriteriaUpdateWithWhereUniqueWithoutPenilaianInput | KelompokKriteriaUpdateWithWhereUniqueWithoutPenilaianInput[]
+    updateMany?: KelompokKriteriaUpdateManyWithWhereWithoutPenilaianInput | KelompokKriteriaUpdateManyWithWhereWithoutPenilaianInput[]
+    deleteMany?: KelompokKriteriaScalarWhereInput | KelompokKriteriaScalarWhereInput[]
+  }
+
+  export type KelompokTimUncheckedUpdateManyWithoutPenilaianNestedInput = {
+    create?: XOR<KelompokTimCreateWithoutPenilaianInput, KelompokTimUncheckedCreateWithoutPenilaianInput> | KelompokTimCreateWithoutPenilaianInput[] | KelompokTimUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutPenilaianInput | KelompokTimCreateOrConnectWithoutPenilaianInput[]
+    upsert?: KelompokTimUpsertWithWhereUniqueWithoutPenilaianInput | KelompokTimUpsertWithWhereUniqueWithoutPenilaianInput[]
+    createMany?: KelompokTimCreateManyPenilaianInputEnvelope
+    set?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    disconnect?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    delete?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    connect?: KelompokTimWhereUniqueInput | KelompokTimWhereUniqueInput[]
+    update?: KelompokTimUpdateWithWhereUniqueWithoutPenilaianInput | KelompokTimUpdateWithWhereUniqueWithoutPenilaianInput[]
+    updateMany?: KelompokTimUpdateManyWithWhereWithoutPenilaianInput | KelompokTimUpdateManyWithWhereWithoutPenilaianInput[]
+    deleteMany?: KelompokTimScalarWhereInput | KelompokTimScalarWhereInput[]
+  }
+
+  export type KelompokKriteriaUncheckedUpdateManyWithoutPenilaianNestedInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutPenilaianInput, KelompokKriteriaUncheckedCreateWithoutPenilaianInput> | KelompokKriteriaCreateWithoutPenilaianInput[] | KelompokKriteriaUncheckedCreateWithoutPenilaianInput[]
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutPenilaianInput | KelompokKriteriaCreateOrConnectWithoutPenilaianInput[]
+    upsert?: KelompokKriteriaUpsertWithWhereUniqueWithoutPenilaianInput | KelompokKriteriaUpsertWithWhereUniqueWithoutPenilaianInput[]
+    createMany?: KelompokKriteriaCreateManyPenilaianInputEnvelope
+    set?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    disconnect?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    delete?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    connect?: KelompokKriteriaWhereUniqueInput | KelompokKriteriaWhereUniqueInput[]
+    update?: KelompokKriteriaUpdateWithWhereUniqueWithoutPenilaianInput | KelompokKriteriaUpdateWithWhereUniqueWithoutPenilaianInput[]
+    updateMany?: KelompokKriteriaUpdateManyWithWhereWithoutPenilaianInput | KelompokKriteriaUpdateManyWithWhereWithoutPenilaianInput[]
+    deleteMany?: KelompokKriteriaScalarWhereInput | KelompokKriteriaScalarWhereInput[]
+  }
+
+  export type KelompokPenilaianCreateNestedOneWithoutTimInput = {
+    create?: XOR<KelompokPenilaianCreateWithoutTimInput, KelompokPenilaianUncheckedCreateWithoutTimInput>
+    connectOrCreate?: KelompokPenilaianCreateOrConnectWithoutTimInput
+    connect?: KelompokPenilaianWhereUniqueInput
+  }
+
+  export type KelompokAnggotaCreateNestedManyWithoutTimInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutTimInput, KelompokAnggotaUncheckedCreateWithoutTimInput> | KelompokAnggotaCreateWithoutTimInput[] | KelompokAnggotaUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutTimInput | KelompokAnggotaCreateOrConnectWithoutTimInput[]
+    createMany?: KelompokAnggotaCreateManyTimInputEnvelope
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+  }
+
+  export type KelompokNilaiTimCreateNestedManyWithoutTimInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutTimInput, KelompokNilaiTimUncheckedCreateWithoutTimInput> | KelompokNilaiTimCreateWithoutTimInput[] | KelompokNilaiTimUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutTimInput | KelompokNilaiTimCreateOrConnectWithoutTimInput[]
+    createMany?: KelompokNilaiTimCreateManyTimInputEnvelope
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+  }
+
+  export type KelompokAnggotaUncheckedCreateNestedManyWithoutTimInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutTimInput, KelompokAnggotaUncheckedCreateWithoutTimInput> | KelompokAnggotaCreateWithoutTimInput[] | KelompokAnggotaUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutTimInput | KelompokAnggotaCreateOrConnectWithoutTimInput[]
+    createMany?: KelompokAnggotaCreateManyTimInputEnvelope
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+  }
+
+  export type KelompokNilaiTimUncheckedCreateNestedManyWithoutTimInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutTimInput, KelompokNilaiTimUncheckedCreateWithoutTimInput> | KelompokNilaiTimCreateWithoutTimInput[] | KelompokNilaiTimUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutTimInput | KelompokNilaiTimCreateOrConnectWithoutTimInput[]
+    createMany?: KelompokNilaiTimCreateManyTimInputEnvelope
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+  }
+
+  export type KelompokPenilaianUpdateOneRequiredWithoutTimNestedInput = {
+    create?: XOR<KelompokPenilaianCreateWithoutTimInput, KelompokPenilaianUncheckedCreateWithoutTimInput>
+    connectOrCreate?: KelompokPenilaianCreateOrConnectWithoutTimInput
+    upsert?: KelompokPenilaianUpsertWithoutTimInput
+    connect?: KelompokPenilaianWhereUniqueInput
+    update?: XOR<XOR<KelompokPenilaianUpdateToOneWithWhereWithoutTimInput, KelompokPenilaianUpdateWithoutTimInput>, KelompokPenilaianUncheckedUpdateWithoutTimInput>
+  }
+
+  export type KelompokAnggotaUpdateManyWithoutTimNestedInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutTimInput, KelompokAnggotaUncheckedCreateWithoutTimInput> | KelompokAnggotaCreateWithoutTimInput[] | KelompokAnggotaUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutTimInput | KelompokAnggotaCreateOrConnectWithoutTimInput[]
+    upsert?: KelompokAnggotaUpsertWithWhereUniqueWithoutTimInput | KelompokAnggotaUpsertWithWhereUniqueWithoutTimInput[]
+    createMany?: KelompokAnggotaCreateManyTimInputEnvelope
+    set?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    disconnect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    delete?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    update?: KelompokAnggotaUpdateWithWhereUniqueWithoutTimInput | KelompokAnggotaUpdateWithWhereUniqueWithoutTimInput[]
+    updateMany?: KelompokAnggotaUpdateManyWithWhereWithoutTimInput | KelompokAnggotaUpdateManyWithWhereWithoutTimInput[]
+    deleteMany?: KelompokAnggotaScalarWhereInput | KelompokAnggotaScalarWhereInput[]
+  }
+
+  export type KelompokNilaiTimUpdateManyWithoutTimNestedInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutTimInput, KelompokNilaiTimUncheckedCreateWithoutTimInput> | KelompokNilaiTimCreateWithoutTimInput[] | KelompokNilaiTimUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutTimInput | KelompokNilaiTimCreateOrConnectWithoutTimInput[]
+    upsert?: KelompokNilaiTimUpsertWithWhereUniqueWithoutTimInput | KelompokNilaiTimUpsertWithWhereUniqueWithoutTimInput[]
+    createMany?: KelompokNilaiTimCreateManyTimInputEnvelope
+    set?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    disconnect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    delete?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    update?: KelompokNilaiTimUpdateWithWhereUniqueWithoutTimInput | KelompokNilaiTimUpdateWithWhereUniqueWithoutTimInput[]
+    updateMany?: KelompokNilaiTimUpdateManyWithWhereWithoutTimInput | KelompokNilaiTimUpdateManyWithWhereWithoutTimInput[]
+    deleteMany?: KelompokNilaiTimScalarWhereInput | KelompokNilaiTimScalarWhereInput[]
+  }
+
+  export type KelompokAnggotaUncheckedUpdateManyWithoutTimNestedInput = {
+    create?: XOR<KelompokAnggotaCreateWithoutTimInput, KelompokAnggotaUncheckedCreateWithoutTimInput> | KelompokAnggotaCreateWithoutTimInput[] | KelompokAnggotaUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokAnggotaCreateOrConnectWithoutTimInput | KelompokAnggotaCreateOrConnectWithoutTimInput[]
+    upsert?: KelompokAnggotaUpsertWithWhereUniqueWithoutTimInput | KelompokAnggotaUpsertWithWhereUniqueWithoutTimInput[]
+    createMany?: KelompokAnggotaCreateManyTimInputEnvelope
+    set?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    disconnect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    delete?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    connect?: KelompokAnggotaWhereUniqueInput | KelompokAnggotaWhereUniqueInput[]
+    update?: KelompokAnggotaUpdateWithWhereUniqueWithoutTimInput | KelompokAnggotaUpdateWithWhereUniqueWithoutTimInput[]
+    updateMany?: KelompokAnggotaUpdateManyWithWhereWithoutTimInput | KelompokAnggotaUpdateManyWithWhereWithoutTimInput[]
+    deleteMany?: KelompokAnggotaScalarWhereInput | KelompokAnggotaScalarWhereInput[]
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateManyWithoutTimNestedInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutTimInput, KelompokNilaiTimUncheckedCreateWithoutTimInput> | KelompokNilaiTimCreateWithoutTimInput[] | KelompokNilaiTimUncheckedCreateWithoutTimInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutTimInput | KelompokNilaiTimCreateOrConnectWithoutTimInput[]
+    upsert?: KelompokNilaiTimUpsertWithWhereUniqueWithoutTimInput | KelompokNilaiTimUpsertWithWhereUniqueWithoutTimInput[]
+    createMany?: KelompokNilaiTimCreateManyTimInputEnvelope
+    set?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    disconnect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    delete?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    update?: KelompokNilaiTimUpdateWithWhereUniqueWithoutTimInput | KelompokNilaiTimUpdateWithWhereUniqueWithoutTimInput[]
+    updateMany?: KelompokNilaiTimUpdateManyWithWhereWithoutTimInput | KelompokNilaiTimUpdateManyWithWhereWithoutTimInput[]
+    deleteMany?: KelompokNilaiTimScalarWhereInput | KelompokNilaiTimScalarWhereInput[]
+  }
+
+  export type KelompokTimCreateNestedOneWithoutAnggotaInput = {
+    create?: XOR<KelompokTimCreateWithoutAnggotaInput, KelompokTimUncheckedCreateWithoutAnggotaInput>
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutAnggotaInput
+    connect?: KelompokTimWhereUniqueInput
+  }
+
+  export type UserNilaiCreateNestedOneWithoutKelompokAnggotaInput = {
+    create?: XOR<UserNilaiCreateWithoutKelompokAnggotaInput, UserNilaiUncheckedCreateWithoutKelompokAnggotaInput>
+    connectOrCreate?: UserNilaiCreateOrConnectWithoutKelompokAnggotaInput
+    connect?: UserNilaiWhereUniqueInput
+  }
+
+  export type KelompokTimUpdateOneRequiredWithoutAnggotaNestedInput = {
+    create?: XOR<KelompokTimCreateWithoutAnggotaInput, KelompokTimUncheckedCreateWithoutAnggotaInput>
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutAnggotaInput
+    upsert?: KelompokTimUpsertWithoutAnggotaInput
+    connect?: KelompokTimWhereUniqueInput
+    update?: XOR<XOR<KelompokTimUpdateToOneWithWhereWithoutAnggotaInput, KelompokTimUpdateWithoutAnggotaInput>, KelompokTimUncheckedUpdateWithoutAnggotaInput>
+  }
+
+  export type UserNilaiUpdateOneRequiredWithoutKelompokAnggotaNestedInput = {
+    create?: XOR<UserNilaiCreateWithoutKelompokAnggotaInput, UserNilaiUncheckedCreateWithoutKelompokAnggotaInput>
+    connectOrCreate?: UserNilaiCreateOrConnectWithoutKelompokAnggotaInput
+    upsert?: UserNilaiUpsertWithoutKelompokAnggotaInput
+    connect?: UserNilaiWhereUniqueInput
+    update?: XOR<XOR<UserNilaiUpdateToOneWithWhereWithoutKelompokAnggotaInput, UserNilaiUpdateWithoutKelompokAnggotaInput>, UserNilaiUncheckedUpdateWithoutKelompokAnggotaInput>
+  }
+
+  export type KelompokPenilaianCreateNestedOneWithoutKriteriaInput = {
+    create?: XOR<KelompokPenilaianCreateWithoutKriteriaInput, KelompokPenilaianUncheckedCreateWithoutKriteriaInput>
+    connectOrCreate?: KelompokPenilaianCreateOrConnectWithoutKriteriaInput
+    connect?: KelompokPenilaianWhereUniqueInput
+  }
+
+  export type KelompokNilaiTimCreateNestedManyWithoutKriteriaInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutKriteriaInput, KelompokNilaiTimUncheckedCreateWithoutKriteriaInput> | KelompokNilaiTimCreateWithoutKriteriaInput[] | KelompokNilaiTimUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutKriteriaInput | KelompokNilaiTimCreateOrConnectWithoutKriteriaInput[]
+    createMany?: KelompokNilaiTimCreateManyKriteriaInputEnvelope
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+  }
+
+  export type KelompokNilaiIndividuCreateNestedManyWithoutKriteriaInput = {
+    create?: XOR<KelompokNilaiIndividuCreateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput> | KelompokNilaiIndividuCreateWithoutKriteriaInput[] | KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput | KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput[]
+    createMany?: KelompokNilaiIndividuCreateManyKriteriaInputEnvelope
+    connect?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+  }
+
+  export type KelompokNilaiTimUncheckedCreateNestedManyWithoutKriteriaInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutKriteriaInput, KelompokNilaiTimUncheckedCreateWithoutKriteriaInput> | KelompokNilaiTimCreateWithoutKriteriaInput[] | KelompokNilaiTimUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutKriteriaInput | KelompokNilaiTimCreateOrConnectWithoutKriteriaInput[]
+    createMany?: KelompokNilaiTimCreateManyKriteriaInputEnvelope
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+  }
+
+  export type KelompokNilaiIndividuUncheckedCreateNestedManyWithoutKriteriaInput = {
+    create?: XOR<KelompokNilaiIndividuCreateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput> | KelompokNilaiIndividuCreateWithoutKriteriaInput[] | KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput | KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput[]
+    createMany?: KelompokNilaiIndividuCreateManyKriteriaInputEnvelope
+    connect?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type KelompokPenilaianUpdateOneRequiredWithoutKriteriaNestedInput = {
+    create?: XOR<KelompokPenilaianCreateWithoutKriteriaInput, KelompokPenilaianUncheckedCreateWithoutKriteriaInput>
+    connectOrCreate?: KelompokPenilaianCreateOrConnectWithoutKriteriaInput
+    upsert?: KelompokPenilaianUpsertWithoutKriteriaInput
+    connect?: KelompokPenilaianWhereUniqueInput
+    update?: XOR<XOR<KelompokPenilaianUpdateToOneWithWhereWithoutKriteriaInput, KelompokPenilaianUpdateWithoutKriteriaInput>, KelompokPenilaianUncheckedUpdateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiTimUpdateManyWithoutKriteriaNestedInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutKriteriaInput, KelompokNilaiTimUncheckedCreateWithoutKriteriaInput> | KelompokNilaiTimCreateWithoutKriteriaInput[] | KelompokNilaiTimUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutKriteriaInput | KelompokNilaiTimCreateOrConnectWithoutKriteriaInput[]
+    upsert?: KelompokNilaiTimUpsertWithWhereUniqueWithoutKriteriaInput | KelompokNilaiTimUpsertWithWhereUniqueWithoutKriteriaInput[]
+    createMany?: KelompokNilaiTimCreateManyKriteriaInputEnvelope
+    set?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    disconnect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    delete?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    update?: KelompokNilaiTimUpdateWithWhereUniqueWithoutKriteriaInput | KelompokNilaiTimUpdateWithWhereUniqueWithoutKriteriaInput[]
+    updateMany?: KelompokNilaiTimUpdateManyWithWhereWithoutKriteriaInput | KelompokNilaiTimUpdateManyWithWhereWithoutKriteriaInput[]
+    deleteMany?: KelompokNilaiTimScalarWhereInput | KelompokNilaiTimScalarWhereInput[]
+  }
+
+  export type KelompokNilaiIndividuUpdateManyWithoutKriteriaNestedInput = {
+    create?: XOR<KelompokNilaiIndividuCreateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput> | KelompokNilaiIndividuCreateWithoutKriteriaInput[] | KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput | KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput[]
+    upsert?: KelompokNilaiIndividuUpsertWithWhereUniqueWithoutKriteriaInput | KelompokNilaiIndividuUpsertWithWhereUniqueWithoutKriteriaInput[]
+    createMany?: KelompokNilaiIndividuCreateManyKriteriaInputEnvelope
+    set?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    disconnect?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    delete?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    connect?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    update?: KelompokNilaiIndividuUpdateWithWhereUniqueWithoutKriteriaInput | KelompokNilaiIndividuUpdateWithWhereUniqueWithoutKriteriaInput[]
+    updateMany?: KelompokNilaiIndividuUpdateManyWithWhereWithoutKriteriaInput | KelompokNilaiIndividuUpdateManyWithWhereWithoutKriteriaInput[]
+    deleteMany?: KelompokNilaiIndividuScalarWhereInput | KelompokNilaiIndividuScalarWhereInput[]
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateManyWithoutKriteriaNestedInput = {
+    create?: XOR<KelompokNilaiTimCreateWithoutKriteriaInput, KelompokNilaiTimUncheckedCreateWithoutKriteriaInput> | KelompokNilaiTimCreateWithoutKriteriaInput[] | KelompokNilaiTimUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiTimCreateOrConnectWithoutKriteriaInput | KelompokNilaiTimCreateOrConnectWithoutKriteriaInput[]
+    upsert?: KelompokNilaiTimUpsertWithWhereUniqueWithoutKriteriaInput | KelompokNilaiTimUpsertWithWhereUniqueWithoutKriteriaInput[]
+    createMany?: KelompokNilaiTimCreateManyKriteriaInputEnvelope
+    set?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    disconnect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    delete?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    connect?: KelompokNilaiTimWhereUniqueInput | KelompokNilaiTimWhereUniqueInput[]
+    update?: KelompokNilaiTimUpdateWithWhereUniqueWithoutKriteriaInput | KelompokNilaiTimUpdateWithWhereUniqueWithoutKriteriaInput[]
+    updateMany?: KelompokNilaiTimUpdateManyWithWhereWithoutKriteriaInput | KelompokNilaiTimUpdateManyWithWhereWithoutKriteriaInput[]
+    deleteMany?: KelompokNilaiTimScalarWhereInput | KelompokNilaiTimScalarWhereInput[]
+  }
+
+  export type KelompokNilaiIndividuUncheckedUpdateManyWithoutKriteriaNestedInput = {
+    create?: XOR<KelompokNilaiIndividuCreateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput> | KelompokNilaiIndividuCreateWithoutKriteriaInput[] | KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput[]
+    connectOrCreate?: KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput | KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput[]
+    upsert?: KelompokNilaiIndividuUpsertWithWhereUniqueWithoutKriteriaInput | KelompokNilaiIndividuUpsertWithWhereUniqueWithoutKriteriaInput[]
+    createMany?: KelompokNilaiIndividuCreateManyKriteriaInputEnvelope
+    set?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    disconnect?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    delete?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    connect?: KelompokNilaiIndividuWhereUniqueInput | KelompokNilaiIndividuWhereUniqueInput[]
+    update?: KelompokNilaiIndividuUpdateWithWhereUniqueWithoutKriteriaInput | KelompokNilaiIndividuUpdateWithWhereUniqueWithoutKriteriaInput[]
+    updateMany?: KelompokNilaiIndividuUpdateManyWithWhereWithoutKriteriaInput | KelompokNilaiIndividuUpdateManyWithWhereWithoutKriteriaInput[]
+    deleteMany?: KelompokNilaiIndividuScalarWhereInput | KelompokNilaiIndividuScalarWhereInput[]
+  }
+
+  export type KelompokKriteriaCreateNestedOneWithoutNilaiTimInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutNilaiTimInput, KelompokKriteriaUncheckedCreateWithoutNilaiTimInput>
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutNilaiTimInput
+    connect?: KelompokKriteriaWhereUniqueInput
+  }
+
+  export type KelompokTimCreateNestedOneWithoutNilaiInput = {
+    create?: XOR<KelompokTimCreateWithoutNilaiInput, KelompokTimUncheckedCreateWithoutNilaiInput>
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutNilaiInput
+    connect?: KelompokTimWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type KelompokKriteriaUpdateOneRequiredWithoutNilaiTimNestedInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutNilaiTimInput, KelompokKriteriaUncheckedCreateWithoutNilaiTimInput>
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutNilaiTimInput
+    upsert?: KelompokKriteriaUpsertWithoutNilaiTimInput
+    connect?: KelompokKriteriaWhereUniqueInput
+    update?: XOR<XOR<KelompokKriteriaUpdateToOneWithWhereWithoutNilaiTimInput, KelompokKriteriaUpdateWithoutNilaiTimInput>, KelompokKriteriaUncheckedUpdateWithoutNilaiTimInput>
+  }
+
+  export type KelompokTimUpdateOneRequiredWithoutNilaiNestedInput = {
+    create?: XOR<KelompokTimCreateWithoutNilaiInput, KelompokTimUncheckedCreateWithoutNilaiInput>
+    connectOrCreate?: KelompokTimCreateOrConnectWithoutNilaiInput
+    upsert?: KelompokTimUpsertWithoutNilaiInput
+    connect?: KelompokTimWhereUniqueInput
+    update?: XOR<XOR<KelompokTimUpdateToOneWithWhereWithoutNilaiInput, KelompokTimUpdateWithoutNilaiInput>, KelompokTimUncheckedUpdateWithoutNilaiInput>
+  }
+
+  export type KelompokKriteriaCreateNestedOneWithoutNilaiIndividuInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutNilaiIndividuInput, KelompokKriteriaUncheckedCreateWithoutNilaiIndividuInput>
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutNilaiIndividuInput
+    connect?: KelompokKriteriaWhereUniqueInput
+  }
+
+  export type KelompokKriteriaUpdateOneRequiredWithoutNilaiIndividuNestedInput = {
+    create?: XOR<KelompokKriteriaCreateWithoutNilaiIndividuInput, KelompokKriteriaUncheckedCreateWithoutNilaiIndividuInput>
+    connectOrCreate?: KelompokKriteriaCreateOrConnectWithoutNilaiIndividuInput
+    upsert?: KelompokKriteriaUpsertWithoutNilaiIndividuInput
+    connect?: KelompokKriteriaWhereUniqueInput
+    update?: XOR<XOR<KelompokKriteriaUpdateToOneWithWhereWithoutNilaiIndividuInput, KelompokKriteriaUpdateWithoutNilaiIndividuInput>, KelompokKriteriaUncheckedUpdateWithoutNilaiIndividuInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -19129,6 +28107,38 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type KuliahCreateWithoutGroupsInput = {
@@ -19358,6 +28368,7 @@ export namespace Prisma {
     nama?: string | null
     email?: string | null
     password?: string | null
+    kelompokAnggota?: KelompokAnggotaCreateNestedManyWithoutUsernilaiInput
   }
 
   export type UserNilaiUncheckedCreateWithoutNilaiInput = {
@@ -19365,6 +28376,7 @@ export namespace Prisma {
     nama?: string | null
     email?: string | null
     password?: string | null
+    kelompokAnggota?: KelompokAnggotaUncheckedCreateNestedManyWithoutUsernilaiInput
   }
 
   export type UserNilaiCreateOrConnectWithoutNilaiInput = {
@@ -19416,6 +28428,7 @@ export namespace Prisma {
     nama?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    kelompokAnggota?: KelompokAnggotaUpdateManyWithoutUsernilaiNestedInput
   }
 
   export type UserNilaiUncheckedUpdateWithoutNilaiInput = {
@@ -19423,6 +28436,7 @@ export namespace Prisma {
     nama?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    kelompokAnggota?: KelompokAnggotaUncheckedUpdateManyWithoutUsernilaiNestedInput
   }
 
   export type NilaiCreateWithoutUsernilaiInput = {
@@ -19452,6 +28466,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type KelompokAnggotaCreateWithoutUsernilaiInput = {
+    penilaianId: number
+    tim: KelompokTimCreateNestedOneWithoutAnggotaInput
+  }
+
+  export type KelompokAnggotaUncheckedCreateWithoutUsernilaiInput = {
+    id?: number
+    timId: number
+    penilaianId: number
+  }
+
+  export type KelompokAnggotaCreateOrConnectWithoutUsernilaiInput = {
+    where: KelompokAnggotaWhereUniqueInput
+    create: XOR<KelompokAnggotaCreateWithoutUsernilaiInput, KelompokAnggotaUncheckedCreateWithoutUsernilaiInput>
+  }
+
+  export type KelompokAnggotaCreateManyUsernilaiInputEnvelope = {
+    data: KelompokAnggotaCreateManyUsernilaiInput | KelompokAnggotaCreateManyUsernilaiInput[]
+    skipDuplicates?: boolean
+  }
+
   export type NilaiUpsertWithWhereUniqueWithoutUsernilaiInput = {
     where: NilaiWhereUniqueInput
     update: XOR<NilaiUpdateWithoutUsernilaiInput, NilaiUncheckedUpdateWithoutUsernilaiInput>
@@ -19466,6 +28501,32 @@ export namespace Prisma {
   export type NilaiUpdateManyWithWhereWithoutUsernilaiInput = {
     where: NilaiScalarWhereInput
     data: XOR<NilaiUpdateManyMutationInput, NilaiUncheckedUpdateManyWithoutUsernilaiInput>
+  }
+
+  export type KelompokAnggotaUpsertWithWhereUniqueWithoutUsernilaiInput = {
+    where: KelompokAnggotaWhereUniqueInput
+    update: XOR<KelompokAnggotaUpdateWithoutUsernilaiInput, KelompokAnggotaUncheckedUpdateWithoutUsernilaiInput>
+    create: XOR<KelompokAnggotaCreateWithoutUsernilaiInput, KelompokAnggotaUncheckedCreateWithoutUsernilaiInput>
+  }
+
+  export type KelompokAnggotaUpdateWithWhereUniqueWithoutUsernilaiInput = {
+    where: KelompokAnggotaWhereUniqueInput
+    data: XOR<KelompokAnggotaUpdateWithoutUsernilaiInput, KelompokAnggotaUncheckedUpdateWithoutUsernilaiInput>
+  }
+
+  export type KelompokAnggotaUpdateManyWithWhereWithoutUsernilaiInput = {
+    where: KelompokAnggotaScalarWhereInput
+    data: XOR<KelompokAnggotaUpdateManyMutationInput, KelompokAnggotaUncheckedUpdateManyWithoutUsernilaiInput>
+  }
+
+  export type KelompokAnggotaScalarWhereInput = {
+    AND?: KelompokAnggotaScalarWhereInput | KelompokAnggotaScalarWhereInput[]
+    OR?: KelompokAnggotaScalarWhereInput[]
+    NOT?: KelompokAnggotaScalarWhereInput | KelompokAnggotaScalarWhereInput[]
+    id?: IntFilter<"KelompokAnggota"> | number
+    timId?: IntFilter<"KelompokAnggota"> | number
+    penilaianId?: IntFilter<"KelompokAnggota"> | number
+    nrp?: StringFilter<"KelompokAnggota"> | string
   }
 
   export type KuliahCreateWithoutSubmissionsInput = {
@@ -19721,6 +28782,627 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type KelompokTimCreateWithoutPenilaianInput = {
+    nama: string
+    anggota?: KelompokAnggotaCreateNestedManyWithoutTimInput
+    nilai?: KelompokNilaiTimCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimUncheckedCreateWithoutPenilaianInput = {
+    id?: number
+    nama: string
+    anggota?: KelompokAnggotaUncheckedCreateNestedManyWithoutTimInput
+    nilai?: KelompokNilaiTimUncheckedCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimCreateOrConnectWithoutPenilaianInput = {
+    where: KelompokTimWhereUniqueInput
+    create: XOR<KelompokTimCreateWithoutPenilaianInput, KelompokTimUncheckedCreateWithoutPenilaianInput>
+  }
+
+  export type KelompokTimCreateManyPenilaianInputEnvelope = {
+    data: KelompokTimCreateManyPenilaianInput | KelompokTimCreateManyPenilaianInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KelompokKriteriaCreateWithoutPenilaianInput = {
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    nilaiTim?: KelompokNilaiTimCreateNestedManyWithoutKriteriaInput
+    nilaiIndividu?: KelompokNilaiIndividuCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaUncheckedCreateWithoutPenilaianInput = {
+    id?: number
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    nilaiTim?: KelompokNilaiTimUncheckedCreateNestedManyWithoutKriteriaInput
+    nilaiIndividu?: KelompokNilaiIndividuUncheckedCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaCreateOrConnectWithoutPenilaianInput = {
+    where: KelompokKriteriaWhereUniqueInput
+    create: XOR<KelompokKriteriaCreateWithoutPenilaianInput, KelompokKriteriaUncheckedCreateWithoutPenilaianInput>
+  }
+
+  export type KelompokKriteriaCreateManyPenilaianInputEnvelope = {
+    data: KelompokKriteriaCreateManyPenilaianInput | KelompokKriteriaCreateManyPenilaianInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KelompokTimUpsertWithWhereUniqueWithoutPenilaianInput = {
+    where: KelompokTimWhereUniqueInput
+    update: XOR<KelompokTimUpdateWithoutPenilaianInput, KelompokTimUncheckedUpdateWithoutPenilaianInput>
+    create: XOR<KelompokTimCreateWithoutPenilaianInput, KelompokTimUncheckedCreateWithoutPenilaianInput>
+  }
+
+  export type KelompokTimUpdateWithWhereUniqueWithoutPenilaianInput = {
+    where: KelompokTimWhereUniqueInput
+    data: XOR<KelompokTimUpdateWithoutPenilaianInput, KelompokTimUncheckedUpdateWithoutPenilaianInput>
+  }
+
+  export type KelompokTimUpdateManyWithWhereWithoutPenilaianInput = {
+    where: KelompokTimScalarWhereInput
+    data: XOR<KelompokTimUpdateManyMutationInput, KelompokTimUncheckedUpdateManyWithoutPenilaianInput>
+  }
+
+  export type KelompokTimScalarWhereInput = {
+    AND?: KelompokTimScalarWhereInput | KelompokTimScalarWhereInput[]
+    OR?: KelompokTimScalarWhereInput[]
+    NOT?: KelompokTimScalarWhereInput | KelompokTimScalarWhereInput[]
+    id?: IntFilter<"KelompokTim"> | number
+    penilaianId?: IntFilter<"KelompokTim"> | number
+    nama?: StringFilter<"KelompokTim"> | string
+  }
+
+  export type KelompokKriteriaUpsertWithWhereUniqueWithoutPenilaianInput = {
+    where: KelompokKriteriaWhereUniqueInput
+    update: XOR<KelompokKriteriaUpdateWithoutPenilaianInput, KelompokKriteriaUncheckedUpdateWithoutPenilaianInput>
+    create: XOR<KelompokKriteriaCreateWithoutPenilaianInput, KelompokKriteriaUncheckedCreateWithoutPenilaianInput>
+  }
+
+  export type KelompokKriteriaUpdateWithWhereUniqueWithoutPenilaianInput = {
+    where: KelompokKriteriaWhereUniqueInput
+    data: XOR<KelompokKriteriaUpdateWithoutPenilaianInput, KelompokKriteriaUncheckedUpdateWithoutPenilaianInput>
+  }
+
+  export type KelompokKriteriaUpdateManyWithWhereWithoutPenilaianInput = {
+    where: KelompokKriteriaScalarWhereInput
+    data: XOR<KelompokKriteriaUpdateManyMutationInput, KelompokKriteriaUncheckedUpdateManyWithoutPenilaianInput>
+  }
+
+  export type KelompokKriteriaScalarWhereInput = {
+    AND?: KelompokKriteriaScalarWhereInput | KelompokKriteriaScalarWhereInput[]
+    OR?: KelompokKriteriaScalarWhereInput[]
+    NOT?: KelompokKriteriaScalarWhereInput | KelompokKriteriaScalarWhereInput[]
+    id?: IntFilter<"KelompokKriteria"> | number
+    penilaianId?: IntFilter<"KelompokKriteria"> | number
+    nama?: StringFilter<"KelompokKriteria"> | string
+    tipe?: StringFilter<"KelompokKriteria"> | string
+    bobot?: FloatFilter<"KelompokKriteria"> | number
+    urutan?: IntFilter<"KelompokKriteria"> | number
+  }
+
+  export type KelompokPenilaianCreateWithoutTimInput = {
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+    kriteria?: KelompokKriteriaCreateNestedManyWithoutPenilaianInput
+  }
+
+  export type KelompokPenilaianUncheckedCreateWithoutTimInput = {
+    id?: number
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+    kriteria?: KelompokKriteriaUncheckedCreateNestedManyWithoutPenilaianInput
+  }
+
+  export type KelompokPenilaianCreateOrConnectWithoutTimInput = {
+    where: KelompokPenilaianWhereUniqueInput
+    create: XOR<KelompokPenilaianCreateWithoutTimInput, KelompokPenilaianUncheckedCreateWithoutTimInput>
+  }
+
+  export type KelompokAnggotaCreateWithoutTimInput = {
+    penilaianId: number
+    usernilai: UserNilaiCreateNestedOneWithoutKelompokAnggotaInput
+  }
+
+  export type KelompokAnggotaUncheckedCreateWithoutTimInput = {
+    id?: number
+    penilaianId: number
+    nrp: string
+  }
+
+  export type KelompokAnggotaCreateOrConnectWithoutTimInput = {
+    where: KelompokAnggotaWhereUniqueInput
+    create: XOR<KelompokAnggotaCreateWithoutTimInput, KelompokAnggotaUncheckedCreateWithoutTimInput>
+  }
+
+  export type KelompokAnggotaCreateManyTimInputEnvelope = {
+    data: KelompokAnggotaCreateManyTimInput | KelompokAnggotaCreateManyTimInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KelompokNilaiTimCreateWithoutTimInput = {
+    nilai?: number | null
+    keterangan?: string | null
+    kriteria: KelompokKriteriaCreateNestedOneWithoutNilaiTimInput
+  }
+
+  export type KelompokNilaiTimUncheckedCreateWithoutTimInput = {
+    id?: number
+    kriteriaId: number
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiTimCreateOrConnectWithoutTimInput = {
+    where: KelompokNilaiTimWhereUniqueInput
+    create: XOR<KelompokNilaiTimCreateWithoutTimInput, KelompokNilaiTimUncheckedCreateWithoutTimInput>
+  }
+
+  export type KelompokNilaiTimCreateManyTimInputEnvelope = {
+    data: KelompokNilaiTimCreateManyTimInput | KelompokNilaiTimCreateManyTimInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KelompokPenilaianUpsertWithoutTimInput = {
+    update: XOR<KelompokPenilaianUpdateWithoutTimInput, KelompokPenilaianUncheckedUpdateWithoutTimInput>
+    create: XOR<KelompokPenilaianCreateWithoutTimInput, KelompokPenilaianUncheckedCreateWithoutTimInput>
+    where?: KelompokPenilaianWhereInput
+  }
+
+  export type KelompokPenilaianUpdateToOneWithWhereWithoutTimInput = {
+    where?: KelompokPenilaianWhereInput
+    data: XOR<KelompokPenilaianUpdateWithoutTimInput, KelompokPenilaianUncheckedUpdateWithoutTimInput>
+  }
+
+  export type KelompokPenilaianUpdateWithoutTimInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    kriteria?: KelompokKriteriaUpdateManyWithoutPenilaianNestedInput
+  }
+
+  export type KelompokPenilaianUncheckedUpdateWithoutTimInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    kriteria?: KelompokKriteriaUncheckedUpdateManyWithoutPenilaianNestedInput
+  }
+
+  export type KelompokAnggotaUpsertWithWhereUniqueWithoutTimInput = {
+    where: KelompokAnggotaWhereUniqueInput
+    update: XOR<KelompokAnggotaUpdateWithoutTimInput, KelompokAnggotaUncheckedUpdateWithoutTimInput>
+    create: XOR<KelompokAnggotaCreateWithoutTimInput, KelompokAnggotaUncheckedCreateWithoutTimInput>
+  }
+
+  export type KelompokAnggotaUpdateWithWhereUniqueWithoutTimInput = {
+    where: KelompokAnggotaWhereUniqueInput
+    data: XOR<KelompokAnggotaUpdateWithoutTimInput, KelompokAnggotaUncheckedUpdateWithoutTimInput>
+  }
+
+  export type KelompokAnggotaUpdateManyWithWhereWithoutTimInput = {
+    where: KelompokAnggotaScalarWhereInput
+    data: XOR<KelompokAnggotaUpdateManyMutationInput, KelompokAnggotaUncheckedUpdateManyWithoutTimInput>
+  }
+
+  export type KelompokNilaiTimUpsertWithWhereUniqueWithoutTimInput = {
+    where: KelompokNilaiTimWhereUniqueInput
+    update: XOR<KelompokNilaiTimUpdateWithoutTimInput, KelompokNilaiTimUncheckedUpdateWithoutTimInput>
+    create: XOR<KelompokNilaiTimCreateWithoutTimInput, KelompokNilaiTimUncheckedCreateWithoutTimInput>
+  }
+
+  export type KelompokNilaiTimUpdateWithWhereUniqueWithoutTimInput = {
+    where: KelompokNilaiTimWhereUniqueInput
+    data: XOR<KelompokNilaiTimUpdateWithoutTimInput, KelompokNilaiTimUncheckedUpdateWithoutTimInput>
+  }
+
+  export type KelompokNilaiTimUpdateManyWithWhereWithoutTimInput = {
+    where: KelompokNilaiTimScalarWhereInput
+    data: XOR<KelompokNilaiTimUpdateManyMutationInput, KelompokNilaiTimUncheckedUpdateManyWithoutTimInput>
+  }
+
+  export type KelompokNilaiTimScalarWhereInput = {
+    AND?: KelompokNilaiTimScalarWhereInput | KelompokNilaiTimScalarWhereInput[]
+    OR?: KelompokNilaiTimScalarWhereInput[]
+    NOT?: KelompokNilaiTimScalarWhereInput | KelompokNilaiTimScalarWhereInput[]
+    id?: IntFilter<"KelompokNilaiTim"> | number
+    kriteriaId?: IntFilter<"KelompokNilaiTim"> | number
+    timId?: IntFilter<"KelompokNilaiTim"> | number
+    nilai?: FloatNullableFilter<"KelompokNilaiTim"> | number | null
+    keterangan?: StringNullableFilter<"KelompokNilaiTim"> | string | null
+  }
+
+  export type KelompokTimCreateWithoutAnggotaInput = {
+    nama: string
+    penilaian: KelompokPenilaianCreateNestedOneWithoutTimInput
+    nilai?: KelompokNilaiTimCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimUncheckedCreateWithoutAnggotaInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    nilai?: KelompokNilaiTimUncheckedCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimCreateOrConnectWithoutAnggotaInput = {
+    where: KelompokTimWhereUniqueInput
+    create: XOR<KelompokTimCreateWithoutAnggotaInput, KelompokTimUncheckedCreateWithoutAnggotaInput>
+  }
+
+  export type UserNilaiCreateWithoutKelompokAnggotaInput = {
+    nrp: string
+    nama?: string | null
+    email?: string | null
+    password?: string | null
+    nilai?: NilaiCreateNestedManyWithoutUsernilaiInput
+  }
+
+  export type UserNilaiUncheckedCreateWithoutKelompokAnggotaInput = {
+    nrp: string
+    nama?: string | null
+    email?: string | null
+    password?: string | null
+    nilai?: NilaiUncheckedCreateNestedManyWithoutUsernilaiInput
+  }
+
+  export type UserNilaiCreateOrConnectWithoutKelompokAnggotaInput = {
+    where: UserNilaiWhereUniqueInput
+    create: XOR<UserNilaiCreateWithoutKelompokAnggotaInput, UserNilaiUncheckedCreateWithoutKelompokAnggotaInput>
+  }
+
+  export type KelompokTimUpsertWithoutAnggotaInput = {
+    update: XOR<KelompokTimUpdateWithoutAnggotaInput, KelompokTimUncheckedUpdateWithoutAnggotaInput>
+    create: XOR<KelompokTimCreateWithoutAnggotaInput, KelompokTimUncheckedCreateWithoutAnggotaInput>
+    where?: KelompokTimWhereInput
+  }
+
+  export type KelompokTimUpdateToOneWithWhereWithoutAnggotaInput = {
+    where?: KelompokTimWhereInput
+    data: XOR<KelompokTimUpdateWithoutAnggotaInput, KelompokTimUncheckedUpdateWithoutAnggotaInput>
+  }
+
+  export type KelompokTimUpdateWithoutAnggotaInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    penilaian?: KelompokPenilaianUpdateOneRequiredWithoutTimNestedInput
+    nilai?: KelompokNilaiTimUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokTimUncheckedUpdateWithoutAnggotaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    nilai?: KelompokNilaiTimUncheckedUpdateManyWithoutTimNestedInput
+  }
+
+  export type UserNilaiUpsertWithoutKelompokAnggotaInput = {
+    update: XOR<UserNilaiUpdateWithoutKelompokAnggotaInput, UserNilaiUncheckedUpdateWithoutKelompokAnggotaInput>
+    create: XOR<UserNilaiCreateWithoutKelompokAnggotaInput, UserNilaiUncheckedCreateWithoutKelompokAnggotaInput>
+    where?: UserNilaiWhereInput
+  }
+
+  export type UserNilaiUpdateToOneWithWhereWithoutKelompokAnggotaInput = {
+    where?: UserNilaiWhereInput
+    data: XOR<UserNilaiUpdateWithoutKelompokAnggotaInput, UserNilaiUncheckedUpdateWithoutKelompokAnggotaInput>
+  }
+
+  export type UserNilaiUpdateWithoutKelompokAnggotaInput = {
+    nrp?: StringFieldUpdateOperationsInput | string
+    nama?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    nilai?: NilaiUpdateManyWithoutUsernilaiNestedInput
+  }
+
+  export type UserNilaiUncheckedUpdateWithoutKelompokAnggotaInput = {
+    nrp?: StringFieldUpdateOperationsInput | string
+    nama?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    nilai?: NilaiUncheckedUpdateManyWithoutUsernilaiNestedInput
+  }
+
+  export type KelompokPenilaianCreateWithoutKriteriaInput = {
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+    tim?: KelompokTimCreateNestedManyWithoutPenilaianInput
+  }
+
+  export type KelompokPenilaianUncheckedCreateWithoutKriteriaInput = {
+    id?: number
+    nama: string
+    keterangan?: string | null
+    tahun?: string | null
+    created_at?: Date | string
+    tim?: KelompokTimUncheckedCreateNestedManyWithoutPenilaianInput
+  }
+
+  export type KelompokPenilaianCreateOrConnectWithoutKriteriaInput = {
+    where: KelompokPenilaianWhereUniqueInput
+    create: XOR<KelompokPenilaianCreateWithoutKriteriaInput, KelompokPenilaianUncheckedCreateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiTimCreateWithoutKriteriaInput = {
+    nilai?: number | null
+    keterangan?: string | null
+    tim: KelompokTimCreateNestedOneWithoutNilaiInput
+  }
+
+  export type KelompokNilaiTimUncheckedCreateWithoutKriteriaInput = {
+    id?: number
+    timId: number
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiTimCreateOrConnectWithoutKriteriaInput = {
+    where: KelompokNilaiTimWhereUniqueInput
+    create: XOR<KelompokNilaiTimCreateWithoutKriteriaInput, KelompokNilaiTimUncheckedCreateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiTimCreateManyKriteriaInputEnvelope = {
+    data: KelompokNilaiTimCreateManyKriteriaInput | KelompokNilaiTimCreateManyKriteriaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KelompokNilaiIndividuCreateWithoutKriteriaInput = {
+    nrp: string
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput = {
+    id?: number
+    nrp: string
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiIndividuCreateOrConnectWithoutKriteriaInput = {
+    where: KelompokNilaiIndividuWhereUniqueInput
+    create: XOR<KelompokNilaiIndividuCreateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiIndividuCreateManyKriteriaInputEnvelope = {
+    data: KelompokNilaiIndividuCreateManyKriteriaInput | KelompokNilaiIndividuCreateManyKriteriaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KelompokPenilaianUpsertWithoutKriteriaInput = {
+    update: XOR<KelompokPenilaianUpdateWithoutKriteriaInput, KelompokPenilaianUncheckedUpdateWithoutKriteriaInput>
+    create: XOR<KelompokPenilaianCreateWithoutKriteriaInput, KelompokPenilaianUncheckedCreateWithoutKriteriaInput>
+    where?: KelompokPenilaianWhereInput
+  }
+
+  export type KelompokPenilaianUpdateToOneWithWhereWithoutKriteriaInput = {
+    where?: KelompokPenilaianWhereInput
+    data: XOR<KelompokPenilaianUpdateWithoutKriteriaInput, KelompokPenilaianUncheckedUpdateWithoutKriteriaInput>
+  }
+
+  export type KelompokPenilaianUpdateWithoutKriteriaInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tim?: KelompokTimUpdateManyWithoutPenilaianNestedInput
+  }
+
+  export type KelompokPenilaianUncheckedUpdateWithoutKriteriaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tahun?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tim?: KelompokTimUncheckedUpdateManyWithoutPenilaianNestedInput
+  }
+
+  export type KelompokNilaiTimUpsertWithWhereUniqueWithoutKriteriaInput = {
+    where: KelompokNilaiTimWhereUniqueInput
+    update: XOR<KelompokNilaiTimUpdateWithoutKriteriaInput, KelompokNilaiTimUncheckedUpdateWithoutKriteriaInput>
+    create: XOR<KelompokNilaiTimCreateWithoutKriteriaInput, KelompokNilaiTimUncheckedCreateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiTimUpdateWithWhereUniqueWithoutKriteriaInput = {
+    where: KelompokNilaiTimWhereUniqueInput
+    data: XOR<KelompokNilaiTimUpdateWithoutKriteriaInput, KelompokNilaiTimUncheckedUpdateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiTimUpdateManyWithWhereWithoutKriteriaInput = {
+    where: KelompokNilaiTimScalarWhereInput
+    data: XOR<KelompokNilaiTimUpdateManyMutationInput, KelompokNilaiTimUncheckedUpdateManyWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiIndividuUpsertWithWhereUniqueWithoutKriteriaInput = {
+    where: KelompokNilaiIndividuWhereUniqueInput
+    update: XOR<KelompokNilaiIndividuUpdateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedUpdateWithoutKriteriaInput>
+    create: XOR<KelompokNilaiIndividuCreateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedCreateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiIndividuUpdateWithWhereUniqueWithoutKriteriaInput = {
+    where: KelompokNilaiIndividuWhereUniqueInput
+    data: XOR<KelompokNilaiIndividuUpdateWithoutKriteriaInput, KelompokNilaiIndividuUncheckedUpdateWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiIndividuUpdateManyWithWhereWithoutKriteriaInput = {
+    where: KelompokNilaiIndividuScalarWhereInput
+    data: XOR<KelompokNilaiIndividuUpdateManyMutationInput, KelompokNilaiIndividuUncheckedUpdateManyWithoutKriteriaInput>
+  }
+
+  export type KelompokNilaiIndividuScalarWhereInput = {
+    AND?: KelompokNilaiIndividuScalarWhereInput | KelompokNilaiIndividuScalarWhereInput[]
+    OR?: KelompokNilaiIndividuScalarWhereInput[]
+    NOT?: KelompokNilaiIndividuScalarWhereInput | KelompokNilaiIndividuScalarWhereInput[]
+    id?: IntFilter<"KelompokNilaiIndividu"> | number
+    kriteriaId?: IntFilter<"KelompokNilaiIndividu"> | number
+    nrp?: StringFilter<"KelompokNilaiIndividu"> | string
+    nilai?: FloatNullableFilter<"KelompokNilaiIndividu"> | number | null
+    keterangan?: StringNullableFilter<"KelompokNilaiIndividu"> | string | null
+  }
+
+  export type KelompokKriteriaCreateWithoutNilaiTimInput = {
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    penilaian: KelompokPenilaianCreateNestedOneWithoutKriteriaInput
+    nilaiIndividu?: KelompokNilaiIndividuCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaUncheckedCreateWithoutNilaiTimInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    nilaiIndividu?: KelompokNilaiIndividuUncheckedCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaCreateOrConnectWithoutNilaiTimInput = {
+    where: KelompokKriteriaWhereUniqueInput
+    create: XOR<KelompokKriteriaCreateWithoutNilaiTimInput, KelompokKriteriaUncheckedCreateWithoutNilaiTimInput>
+  }
+
+  export type KelompokTimCreateWithoutNilaiInput = {
+    nama: string
+    penilaian: KelompokPenilaianCreateNestedOneWithoutTimInput
+    anggota?: KelompokAnggotaCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimUncheckedCreateWithoutNilaiInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    anggota?: KelompokAnggotaUncheckedCreateNestedManyWithoutTimInput
+  }
+
+  export type KelompokTimCreateOrConnectWithoutNilaiInput = {
+    where: KelompokTimWhereUniqueInput
+    create: XOR<KelompokTimCreateWithoutNilaiInput, KelompokTimUncheckedCreateWithoutNilaiInput>
+  }
+
+  export type KelompokKriteriaUpsertWithoutNilaiTimInput = {
+    update: XOR<KelompokKriteriaUpdateWithoutNilaiTimInput, KelompokKriteriaUncheckedUpdateWithoutNilaiTimInput>
+    create: XOR<KelompokKriteriaCreateWithoutNilaiTimInput, KelompokKriteriaUncheckedCreateWithoutNilaiTimInput>
+    where?: KelompokKriteriaWhereInput
+  }
+
+  export type KelompokKriteriaUpdateToOneWithWhereWithoutNilaiTimInput = {
+    where?: KelompokKriteriaWhereInput
+    data: XOR<KelompokKriteriaUpdateWithoutNilaiTimInput, KelompokKriteriaUncheckedUpdateWithoutNilaiTimInput>
+  }
+
+  export type KelompokKriteriaUpdateWithoutNilaiTimInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    penilaian?: KelompokPenilaianUpdateOneRequiredWithoutKriteriaNestedInput
+    nilaiIndividu?: KelompokNilaiIndividuUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokKriteriaUncheckedUpdateWithoutNilaiTimInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    nilaiIndividu?: KelompokNilaiIndividuUncheckedUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokTimUpsertWithoutNilaiInput = {
+    update: XOR<KelompokTimUpdateWithoutNilaiInput, KelompokTimUncheckedUpdateWithoutNilaiInput>
+    create: XOR<KelompokTimCreateWithoutNilaiInput, KelompokTimUncheckedCreateWithoutNilaiInput>
+    where?: KelompokTimWhereInput
+  }
+
+  export type KelompokTimUpdateToOneWithWhereWithoutNilaiInput = {
+    where?: KelompokTimWhereInput
+    data: XOR<KelompokTimUpdateWithoutNilaiInput, KelompokTimUncheckedUpdateWithoutNilaiInput>
+  }
+
+  export type KelompokTimUpdateWithoutNilaiInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    penilaian?: KelompokPenilaianUpdateOneRequiredWithoutTimNestedInput
+    anggota?: KelompokAnggotaUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokTimUncheckedUpdateWithoutNilaiInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    anggota?: KelompokAnggotaUncheckedUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokKriteriaCreateWithoutNilaiIndividuInput = {
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    penilaian: KelompokPenilaianCreateNestedOneWithoutKriteriaInput
+    nilaiTim?: KelompokNilaiTimCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaUncheckedCreateWithoutNilaiIndividuInput = {
+    id?: number
+    penilaianId: number
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+    nilaiTim?: KelompokNilaiTimUncheckedCreateNestedManyWithoutKriteriaInput
+  }
+
+  export type KelompokKriteriaCreateOrConnectWithoutNilaiIndividuInput = {
+    where: KelompokKriteriaWhereUniqueInput
+    create: XOR<KelompokKriteriaCreateWithoutNilaiIndividuInput, KelompokKriteriaUncheckedCreateWithoutNilaiIndividuInput>
+  }
+
+  export type KelompokKriteriaUpsertWithoutNilaiIndividuInput = {
+    update: XOR<KelompokKriteriaUpdateWithoutNilaiIndividuInput, KelompokKriteriaUncheckedUpdateWithoutNilaiIndividuInput>
+    create: XOR<KelompokKriteriaCreateWithoutNilaiIndividuInput, KelompokKriteriaUncheckedCreateWithoutNilaiIndividuInput>
+    where?: KelompokKriteriaWhereInput
+  }
+
+  export type KelompokKriteriaUpdateToOneWithWhereWithoutNilaiIndividuInput = {
+    where?: KelompokKriteriaWhereInput
+    data: XOR<KelompokKriteriaUpdateWithoutNilaiIndividuInput, KelompokKriteriaUncheckedUpdateWithoutNilaiIndividuInput>
+  }
+
+  export type KelompokKriteriaUpdateWithoutNilaiIndividuInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    penilaian?: KelompokPenilaianUpdateOneRequiredWithoutKriteriaNestedInput
+    nilaiTim?: KelompokNilaiTimUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokKriteriaUncheckedUpdateWithoutNilaiIndividuInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    nilaiTim?: KelompokNilaiTimUncheckedUpdateManyWithoutKriteriaNestedInput
+  }
+
   export type NilaiCreateManyKuliahInput = {
     idnilai?: number
     grade?: Decimal | DecimalJsLike | number | string | null
@@ -19811,6 +29493,12 @@ export namespace Prisma {
     bobot?: number | null
   }
 
+  export type KelompokAnggotaCreateManyUsernilaiInput = {
+    id?: number
+    timId: number
+    penilaianId: number
+  }
+
   export type NilaiUpdateWithoutUsernilaiInput = {
     grade?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     kriteria?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19835,6 +29523,23 @@ export namespace Prisma {
     idkuliah?: NullableIntFieldUpdateOperationsInput | number | null
     judulkriteria?: NullableStringFieldUpdateOperationsInput | string | null
     bobot?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type KelompokAnggotaUpdateWithoutUsernilaiInput = {
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    tim?: KelompokTimUpdateOneRequiredWithoutAnggotaNestedInput
+  }
+
+  export type KelompokAnggotaUncheckedUpdateWithoutUsernilaiInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type KelompokAnggotaUncheckedUpdateManyWithoutUsernilaiInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AccountCreateManyUserInput = {
@@ -19887,6 +29592,168 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KelompokTimCreateManyPenilaianInput = {
+    id?: number
+    nama: string
+  }
+
+  export type KelompokKriteriaCreateManyPenilaianInput = {
+    id?: number
+    nama: string
+    tipe: string
+    bobot?: number
+    urutan?: number
+  }
+
+  export type KelompokTimUpdateWithoutPenilaianInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    anggota?: KelompokAnggotaUpdateManyWithoutTimNestedInput
+    nilai?: KelompokNilaiTimUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokTimUncheckedUpdateWithoutPenilaianInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    anggota?: KelompokAnggotaUncheckedUpdateManyWithoutTimNestedInput
+    nilai?: KelompokNilaiTimUncheckedUpdateManyWithoutTimNestedInput
+  }
+
+  export type KelompokTimUncheckedUpdateManyWithoutPenilaianInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokKriteriaUpdateWithoutPenilaianInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    nilaiTim?: KelompokNilaiTimUpdateManyWithoutKriteriaNestedInput
+    nilaiIndividu?: KelompokNilaiIndividuUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokKriteriaUncheckedUpdateWithoutPenilaianInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+    nilaiTim?: KelompokNilaiTimUncheckedUpdateManyWithoutKriteriaNestedInput
+    nilaiIndividu?: KelompokNilaiIndividuUncheckedUpdateManyWithoutKriteriaNestedInput
+  }
+
+  export type KelompokKriteriaUncheckedUpdateManyWithoutPenilaianInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    tipe?: StringFieldUpdateOperationsInput | string
+    bobot?: FloatFieldUpdateOperationsInput | number
+    urutan?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type KelompokAnggotaCreateManyTimInput = {
+    id?: number
+    penilaianId: number
+    nrp: string
+  }
+
+  export type KelompokNilaiTimCreateManyTimInput = {
+    id?: number
+    kriteriaId: number
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokAnggotaUpdateWithoutTimInput = {
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    usernilai?: UserNilaiUpdateOneRequiredWithoutKelompokAnggotaNestedInput
+  }
+
+  export type KelompokAnggotaUncheckedUpdateWithoutTimInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokAnggotaUncheckedUpdateManyWithoutTimInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    penilaianId?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KelompokNilaiTimUpdateWithoutTimInput = {
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    kriteria?: KelompokKriteriaUpdateOneRequiredWithoutNilaiTimNestedInput
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateWithoutTimInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    kriteriaId?: IntFieldUpdateOperationsInput | number
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateManyWithoutTimInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    kriteriaId?: IntFieldUpdateOperationsInput | number
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiTimCreateManyKriteriaInput = {
+    id?: number
+    timId: number
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiIndividuCreateManyKriteriaInput = {
+    id?: number
+    nrp: string
+    nilai?: number | null
+    keterangan?: string | null
+  }
+
+  export type KelompokNilaiTimUpdateWithoutKriteriaInput = {
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+    tim?: KelompokTimUpdateOneRequiredWithoutNilaiNestedInput
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateWithoutKriteriaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiTimUncheckedUpdateManyWithoutKriteriaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    timId?: IntFieldUpdateOperationsInput | number
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiIndividuUpdateWithoutKriteriaInput = {
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiIndividuUncheckedUpdateWithoutKriteriaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KelompokNilaiIndividuUncheckedUpdateManyWithoutKriteriaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nrp?: StringFieldUpdateOperationsInput | string
+    nilai?: NullableFloatFieldUpdateOperationsInput | number | null
+    keterangan?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

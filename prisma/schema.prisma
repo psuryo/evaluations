@@ -76,6 +76,7 @@ model UserNilai {
   email    String? @db.VarChar @unique
   password String? @db.VarChar
   nilai    Nilai[]
+  kelompokAnggota KelompokAnggota[]
 
   @@map("usernilai")
 }
@@ -156,4 +157,88 @@ model CourseGradeWeights {
   final_exam_weight       Int @default(40)
 
   @@map("course_grade_weights")
+}
+
+// ─── Penilaian Kelompok (fasilitas terpisah) ────────────────────────────────
+
+model KelompokPenilaian {
+  id         Int      @id @default(autoincrement())
+  nama       String   @db.VarChar
+  keterangan String?  @db.Text
+  tahun      String?  @db.VarChar
+  created_at DateTime @default(now())
+
+  tim      KelompokTim[]
+  kriteria KelompokKriteria[]
+
+  @@map("kelompok_penilaian")
+}
+
+model KelompokTim {
+  id            Int    @id @default(autoincrement())
+  penilaianId   Int
+  nama          String @db.VarChar
+
+  penilaian KelompokPenilaian    @relation(fields: [penilaianId], references: [id], onDelete: Cascade)
+  anggota   KelompokAnggota[]
+  nilai     KelompokNilaiTim[]
+
+  @@map("kelompok_tim")
+}
+
+model KelompokAnggota {
+  id          Int    @id @default(autoincrement())
+  timId       Int
+  penilaianId Int
+  nrp         String @db.VarChar
+
+  tim       KelompokTim @relation(fields: [timId], references: [id], onDelete: Cascade)
+  usernilai UserNilai   @relation(fields: [nrp], references: [nrp], onDelete: NoAction, onUpdate: NoAction)
+
+  // satu mahasiswa hanya boleh di satu kelompok per penilaian
+  @@unique([penilaianId, nrp])
+  @@map("kelompok_anggota")
+}
+
+// tipe: "KELOMPOK" | "INDIVIDU"
+model KelompokKriteria {
+  id          Int    @id @default(autoincrement())
+  penilaianId Int
+  nama        String @db.VarChar
+  tipe        String @db.VarChar
+  bobot       Float  @default(0)
+  urutan      Int    @default(0)
+
+  penilaian KelompokPenilaian        @relation(fields: [penilaianId], references: [id], onDelete: Cascade)
+  nilaiTim  KelompokNilaiTim[]
+  nilaiIndividu KelompokNilaiIndividu[]
+
+  @@map("kelompok_kriteria")
+}
+
+model KelompokNilaiTim {
+  id         Int   @id @default(autoincrement())
+  kriteriaId Int
+  timId      Int
+  nilai      Float?
+  keterangan String? @db.Text
+
+  kriteria KelompokKriteria @relation(fields: [kriteriaId], references: [id], onDelete: Cascade)
+  tim      KelompokTim      @relation(fields: [timId], references: [id], onDelete: Cascade)
+
+  @@unique([kriteriaId, timId])
+  @@map("kelompok_nilai_tim")
+}
+
+model KelompokNilaiIndividu {
+  id         Int     @id @default(autoincrement())
+  kriteriaId Int
+  nrp        String  @db.VarChar
+  nilai      Float?
+  keterangan String? @db.Text
+
+  kriteria KelompokKriteria @relation(fields: [kriteriaId], references: [id], onDelete: Cascade)
+
+  @@unique([kriteriaId, nrp])
+  @@map("kelompok_nilai_individu")
 }
