@@ -3,6 +3,8 @@
 import { useState, useMemo, useRef } from "react"
 import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
 import CourseGradeAnalysis from "./CourseGradeAnalysis"
+import ExcelGradeImportModal from "./ExcelGradeImportModal"
+import { downloadGradeTemplateBrowser } from "@/app/src/lib/excelGradeUtils"
 
 interface Criteria {
   judulkriteria: string
@@ -98,6 +100,7 @@ export default function GradeMatrixEditor({
 
   // Modal / box for adding new students
   const [showAddModal, setShowAddModal] = useState(false)
+  const [showImportModal, setShowImportModal] = useState(false)
   const [newStudentNrps, setNewStudentNrps] = useState("")
   const [enrolling, setEnrolling] = useState(false)
 
@@ -394,6 +397,105 @@ export default function GradeMatrixEditor({
     } finally {
       setEnrolling(false)
     }
+  }
+
+  // Handler ketika dosen memilih "Terapkan ke Matriks Nilai" dari modal import Excel
+  const handleApplyImportedGrades = async (
+    updates: { idnilai: number; grade: number | null; kriteria?: string | null }[],
+    newNrps: string[]
+  ) => {
+    // 1. Terapkan nilai & deskripsi rubrik ke gradesMap dan commentsMap di editor draft
+    const updatedGradesMap: Record<number, string | number> = {}
+    const updatedCommentsMap: Record<number, string> = {}
+    for (const u of updates) {
+      updatedGradesMap[u.idnilai] = u.grade !== null ? u.grade : ""
+      if (u.kriteria !== undefined && u.kriteria !== null) {
+        updatedCommentsMap[u.idnilai] = u.kriteria
+      }
+    }
+    setGradesMap((prev) => ({ ...prev, ...updatedGradesMap }))
+    setCommentsMap((prev) => ({ ...prev, ...updatedCommentsMap }))
+
+    // 2. Jika ada mahasiswa baru yang ingin didaftarkan
+    if (newNrps.length > 0) {
+      try {
+        const res = await fetch(`/api/admin/kuliah/${idkuliah}/nilai`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nrps: newNrps }),
+        })
+        if (res.ok) {
+          setToastMsg({
+            type: "success",
+            text: `${updates.length} nilai & deskripsi berhasil diterapkan ke editor, dan ${newNrps.length} mahasiswa baru didaftarkan. Halaman akan dimuat ulang.`,
+          })
+          setTimeout(() => window.location.reload(), 1200)
+          return
+        }
+      } catch (e) {
+        console.error("Gagal mendaftarkan mahasiswa baru:", e)
+      }
+    }
+
+    setToastMsg({
+      type: "success",
+      text: `${updates.length} nilai & deskripsi rubrik berhasil diterapkan ke matriks editor. Klik "💾 Simpan Semua Nilai & Catatan" untuk menyimpan permanen ke database.`,
+    })
+  }
+
+  // Handler ketika dosen memilih "Import & Langsung Simpan" ke database
+  const handleDirectSaveImportedGrades = async (
+    updates: { idnilai: number; grade: number | null; kriteria?: string | null }[],
+    newNrps: string[]
+  ): Promise<boolean> => {
+    // 1. Daftarkan mahasiswa baru terlebih dahulu jika ada
+    if (newNrps.length > 0) {
+      const resEnroll = await fetch(`/api/admin/kuliah/${idkuliah}/nilai`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nrps: newNrps }),
+      })
+      if (!resEnroll.ok) {
+        const d = await resEnroll.json()
+        throw new Error(d.error || "Gagal mendaftarkan mahasiswa baru")
+      }
+    }
+
+    // 2. Simpan nilai & deskripsi ke database
+    if (updates.length > 0) {
+      const resSave = await fetch(`/api/admin/kuliah/${idkuliah}/nilai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ updates }),
+      })
+      const d = await resSave.json()
+      if (!resSave.ok) throw new Error(d.error || "Gagal menyimpan nilai")
+
+      // Update state lokal & saved ref
+      const newGrades: Record<number, string | number> = {}
+      const newComments: Record<number, string> = {}
+      for (const u of updates) {
+        newGrades[u.idnilai] = u.grade !== null ? u.grade : ""
+        if (u.kriteria !== undefined && u.kriteria !== null) {
+          newComments[u.idnilai] = u.kriteria
+        }
+      }
+      setGradesMap((prev) => ({ ...prev, ...newGrades }))
+      setCommentsMap((prev) => ({ ...prev, ...newComments }))
+      savedGradesRef.current = { ...savedGradesRef.current, ...newGrades }
+      savedCommentsRef.current = { ...savedCommentsRef.current, ...newComments }
+    }
+
+    setToastMsg({
+      type: "success",
+      text: `Berhasil mengimpor ${updates.length} nilai & deskripsi rubrik dari Excel dan menyimpannya ke database!`,
+    })
+
+    if (newNrps.length > 0) {
+      setTimeout(() => window.location.reload(), 1000)
+    }
+
+    return true
   }
 
   // Overall grading progress calculation
@@ -1032,7 +1134,55 @@ export default function GradeMatrixEditor({
             </span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <button
+              type="button"
+              className="gm-btn secondary"
+              style={{
+                background: "#f0fdf4",
+                borderColor: "#bbf7d0",
+                color: "#166534",
+                fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+              onClick={() =>
+                downloadGradeTemplateBrowser({
+                  matkul,
+                  tahun,
+                  criteriaList,
+                  students: students.map((s) => ({
+                    nrp: s.nrp,
+                    nama: s.nama,
+                    email: s.email,
+                    grades: s.grades,
+                  })),
+                })
+              }
+              title="Unduh template Excel pengisian nilai untuk mata kuliah ini"
+            >
+              <span>📄</span> Unduh Template Excel
+            </button>
+
+            <button
+              type="button"
+              className="gm-btn secondary"
+              style={{
+                background: "#eff6ff",
+                borderColor: "#bfdbfe",
+                color: "#1d4ed8",
+                fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+              onClick={() => setShowImportModal(true)}
+              title="Import nilai mahasiswa dari file Excel (.xlsx / .xls)"
+            >
+              <span>📥</span> Import Nilai Excel
+            </button>
+
             <button
               type="button"
               className="gm-btn secondary"
@@ -1065,15 +1215,30 @@ export default function GradeMatrixEditor({
               Belum Ada Mahasiswa di Mata Kuliah Ini
             </p>
             <p style={{ fontSize: "13px", color: "#888", marginBottom: "20px" }}>
-              Daftarkan mahasiswa terlebih dahulu agar form input nilai per kriteria muncul.
+              Daftarkan mahasiswa terlebih dahulu atau langsung import daftar mahasiswa &amp; nilainya dari file Excel.
             </p>
-            <button
-              type="button"
-              className="gm-btn primary"
-              onClick={() => setShowAddModal(true)}
-            >
-              <span>+</span> Tambah Mahasiswa Sekarang
-            </button>
+            <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="gm-btn primary"
+                onClick={() => setShowAddModal(true)}
+              >
+                <span>+</span> Tambah Mahasiswa Manual
+              </button>
+              <button
+                type="button"
+                className="gm-btn secondary"
+                style={{
+                  background: "#eff6ff",
+                  borderColor: "#bfdbfe",
+                  color: "#1d4ed8",
+                  fontWeight: 600,
+                }}
+                onClick={() => setShowImportModal(true)}
+              >
+                <span>📥</span> Import Mahasiswa &amp; Nilai dari Excel
+              </button>
+            </div>
           </div>
         ) : viewMode === "analyze" ? (
           /* ========================================================== */
@@ -1791,6 +1956,21 @@ export default function GradeMatrixEditor({
           content={kunci_jawaban ?? null}
           idkuliah={idkuliah}
         />
+
+        {/* Modal Import Nilai dari Excel */}
+        {showImportModal && (
+          <ExcelGradeImportModal
+            isOpen={showImportModal}
+            onClose={() => setShowImportModal(false)}
+            idkuliah={idkuliah}
+            matkul={matkul}
+            tahun={tahun}
+            criteriaList={criteriaList}
+            students={students}
+            onApplyGrades={handleApplyImportedGrades}
+            onSaveDirect={handleDirectSaveImportedGrades}
+          />
+        )}
       </div>
     </>
   )
