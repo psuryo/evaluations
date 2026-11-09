@@ -23,6 +23,7 @@ export default function KelompokList() {
   const [nama, setNama] = useState("")
   const [tahun, setTahun] = useState("")
   const [keterangan, setKeterangan] = useState("")
+  const [copyFromId, setCopyFromId] = useState("")
   const [saving, setSaving] = useState(false)
 
   async function load() {
@@ -43,6 +44,15 @@ export default function KelompokList() {
     load()
   }, [])
 
+  function duplicate(item: Item) {
+    setNama(`Salinan ${item.nama}`)
+    setTahun(item.tahun ?? "")
+    setKeterangan(item.keterangan ? `Disalin dari ${item.nama}` : "")
+    setCopyFromId(String(item.id))
+    setShowForm(true)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   async function create(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
@@ -51,7 +61,12 @@ export default function KelompokList() {
       const res = await fetch("/api/admin/kelompok", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nama, tahun, keterangan }),
+        body: JSON.stringify({
+          nama,
+          tahun,
+          keterangan,
+          copyFromId: copyFromId ? Number(copyFromId) : undefined,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
@@ -79,7 +94,19 @@ export default function KelompokList() {
             mahasiswa.
           </p>
         </div>
-        <button id="btn-new-kelompok" className="kp-btn" onClick={() => setShowForm((v) => !v)}>
+        <button
+          id="btn-new-kelompok"
+          className="kp-btn"
+          onClick={() => {
+            if (!showForm) {
+              setNama("")
+              setTahun("")
+              setKeterangan("")
+              setCopyFromId("")
+            }
+            setShowForm((v) => !v)
+          }}
+        >
           {showForm ? "Batal" : "+ Penilaian Baru"}
         </button>
       </div>
@@ -103,6 +130,27 @@ export default function KelompokList() {
           <div className="kp-field">
             <label className="kp-label" htmlFor="kp-ket">Keterangan</label>
             <textarea id="kp-ket" className="kp-textarea" value={keterangan} onChange={(e) => setKeterangan(e.target.value)} />
+          </div>
+          <div className="kp-field">
+            <label className="kp-label" htmlFor="kp-copy">Salin kelompok dari penilaian lain (opsional)</label>
+            <select
+              id="kp-copy"
+              className="kp-select"
+              value={copyFromId}
+              onChange={(e) => setCopyFromId(e.target.value)}
+            >
+              <option value="">-- Tidak menyalin (buat kelompok kosong) --</option>
+              {items
+                .filter((i) => i.jumlahTim > 0)
+                .map((i) => (
+                  <option key={i.id} value={i.id}>
+                    {i.nama} {i.tahun ? `(${i.tahun})` : ""} — {i.jumlahTim} kelompok, {i.jumlahMahasiswa} mahasiswa
+                  </option>
+                ))}
+            </select>
+            <p className="hint" style={{ marginTop: 4, marginBottom: 0 }}>
+              Jika dipilih, semua kelompok beserta anggotanya dari penilaian tersebut akan otomatis disalin ke penilaian baru ini.
+            </p>
           </div>
           <button id="btn-create-kelompok" className="kp-btn" disabled={saving || !nama.trim()}>
             {saving ? "Membuat…" : "Buat & atur kelompok →"}
@@ -129,8 +177,17 @@ export default function KelompokList() {
                 <span className="kp-pill amber">{i.jumlahKriteria} kriteria</span>
               </div>
             </div>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
               <Link href={`/admin/kelompok/${i.id}`} className="kp-btn sm">Buka →</Link>
+              {i.jumlahTim > 0 && (
+                <button
+                  className="kp-btn sm ghost"
+                  onClick={() => duplicate(i)}
+                  title="Buat penilaian baru dengan menyalin kelompok dari penilaian ini"
+                >
+                  Salin Kelompok
+                </button>
+              )}
               <button className="kp-btn sm danger" onClick={() => remove(i)}>Hapus</button>
             </div>
           </div>

@@ -110,3 +110,27 @@
 .kp-nilai-row .kp-score { display: block; margin: 0; width: 100%; text-align: right; }
 .kp-nilai-row .kp-note { width: 100%; }
 @media (max-width: 640px) { .kp-nilai-row { grid-template-columns: 1fr; } }
+
+/* Modal styles for Copy Kelompok */
+.kp-modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+.kp-modal { background: #fff; border-radius: 14px; width: 100%; max-width: 580px; max-height: 88vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.kp-modal-head { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 24px; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+.kp-modal-title { font-size: 17px; font-weight: 600; margin: 0; }
+.kp-modal-close { background: none; border: none; font-size: 18px; color: #888; cursor: pointer; padding: 4px; line-height: 1; border-radius: 4px; }
+.kp-modal-close:hover { color: #111; background: #f0f0f0; }
+.kp-modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.kp-modal-footer { display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding: 16px 24px; border-top: 0.5px solid rgba(0,0,0,0.08); background: #faf9f7; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; flex-wrap: wrap; }
+
+.kp-copy-preview { background: #f9f8f5; border: 0.5px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 14px; margin-top: 14px; max-height: 200px; overflow-y: auto; }
+.kp-copy-team-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+.kp-copy-team-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.kp-copy-team-name { font-weight: 600; font-size: 13px; color: #222; margin-bottom: 4px; }
+.kp-copy-team-members { font-size: 12px; color: #666; line-height: 1.4; }
+
+.kp-radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.kp-radio-label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s; }
+.kp-radio-label:hover { background: #f9f8f5; }
+.kp-radio-label input { margin-top: 3px; cursor: pointer; }
+.kp-radio-text-title { font-size: 13px; font-weight: 500; color: #111; }
+.kp-radio-text-sub { font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
+

@@ -35,17 +35,52 @@ export async function POST(req: NextRequest) {
   const denied = await requireAdmin()
   if (denied) return denied
   try {
-    const { nama, keterangan, tahun } = await req.json()
+    const { nama, keterangan, tahun, copyFromId } = await req.json()
     if (!nama || !String(nama).trim()) {
       return NextResponse.json({ error: "Nama penilaian wajib diisi" }, { status: 400 })
     }
-    const created = await prisma.kelompokPenilaian.create({
-      data: {
-        nama: String(nama).trim(),
-        keterangan: keterangan ? String(keterangan).trim() : null,
-        tahun: tahun ? String(tahun).trim() : null,
-      },
+
+    const created = await prisma.$transaction(async (tx) => {
+      const item = await tx.kelompokPenilaian.create({
+        data: {
+          nama: String(nama).trim(),
+          keterangan: keterangan ? String(keterangan).trim() : null,
+          tahun: tahun ? String(tahun).trim() : null,
+        },
+      })
+
+      if (copyFromId) {
+        const srcId = parseInt(String(copyFromId), 10)
+        if (!isNaN(srcId) && srcId > 0) {
+          const sourceTim = await tx.kelompokTim.findMany({
+            where: { penilaianId: srcId },
+            include: { anggota: true },
+            orderBy: { id: "asc" },
+          })
+
+          for (const t of sourceTim) {
+            const newTim = await tx.kelompokTim.create({
+              data: {
+                penilaianId: item.id,
+                nama: t.nama,
+              },
+            })
+            if (t.anggota.length > 0) {
+              await tx.kelompokAnggota.createMany({
+                data: t.anggota.map((a) => ({
+                  timId: newTim.id,
+                  penilaianId: item.id,
+                  nrp: a.nrp,
+                })),
+              })
+            }
+          }
+        }
+      }
+
+      return item
     })
+
     return NextResponse.json({ item: created }, { status: 201 })
   } catch (e) {
     console.error(e)

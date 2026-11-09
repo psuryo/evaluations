@@ -6,6 +6,13 @@ import { computeTotal } from "@/app/src/lib/kelompokScoring"
 
 type Tipe = "KELOMPOK" | "INDIVIDU"
 interface Student { nrp: string; nama: string | null; email: string | null }
+interface CopyAssessmentItem {
+  id: number
+  nama: string
+  tahun: string | null
+  jumlahTim: number
+  jumlahMahasiswa: number
+}
 interface KriteriaDraft { id?: number; key: string; nama: string; tipe: Tipe; bobot: string }
 interface TimDraft { id?: number; key: string; nama: string; anggota: string[] }
 interface Loaded {
@@ -49,6 +56,19 @@ export default function KelompokEditor({ id }: { id: number }) {
   // tampilan input nilai
   const [nilaiQ, setNilaiQ] = useState("")
   const [collapsed, setCollapsed] = useState<Record<number, boolean>>({})
+
+  // modal copy kelompok dari penilaian lain
+  const [copyModalOpen, setCopyModalOpen] = useState(false)
+  const [copyList, setCopyList] = useState<CopyAssessmentItem[]>([])
+  const [copySelectedId, setCopySelectedId] = useState<string>("")
+  const [copyPreview, setCopyPreview] = useState<{
+    penilaian: { id: number; nama: string; tahun: string | null }
+    tim: { id: number; nama: string; anggota: { nrp: string; nama: string }[] }[]
+  } | null>(null)
+  const [copyMode, setCopyMode] = useState<"replace" | "append">("replace")
+  const [copyLoading, setCopyLoading] = useState(false)
+  const [copySubmitting, setCopySubmitting] = useState(false)
+  const [copyModalError, setCopyModalError] = useState("")
 
   const load = useCallback(async () => {
     try {
@@ -133,6 +153,131 @@ export default function KelompokEditor({ id }: { id: number }) {
     setPasteMsg({ key: timKey, text: parts.join(" · "), ok: unknown.length + other.length === 0 })
     if (unknown.length + other.length === 0) setPaste(null)
     else setPaste({ key: timKey, text: [...unknown, ...other].join("\n") })
+  }
+
+  async function openCopyModal() {
+    setCopyModalOpen(true)
+    setCopyModalError("")
+    setCopySelectedId("")
+    setCopyPreview(null)
+    setCopyMode("replace")
+    setCopyLoading(true)
+    try {
+      const res = await fetch("/api/admin/kelompok")
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      const filtered = (data.items as CopyAssessmentItem[]).filter(
+        (i) => i.id !== id && i.jumlahTim > 0
+      )
+      setCopyList(filtered)
+      if (filtered.length > 0) {
+        setCopySelectedId(String(filtered[0].id))
+        loadCopyPreview(filtered[0].id)
+      }
+    } catch (e) {
+      setCopyModalError(e instanceof Error ? e.message : "Gagal memuat daftar penilaian")
+    } finally {
+      setCopyLoading(false)
+    }
+  }
+
+  async function loadCopyPreview(sourceId: number) {
+    setCopyLoading(true)
+    setCopyModalError("")
+    try {
+      const res = await fetch(`/api/admin/kelompok/${sourceId}`)
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setCopyPreview(data)
+    } catch (e) {
+      setCopyModalError(e instanceof Error ? e.message : "Gagal memuat detail kelompok")
+    } finally {
+      setCopyLoading(false)
+    }
+  }
+
+  function handleSelectCopySource(sourceIdStr: string) {
+    setCopySelectedId(sourceIdStr)
+    if (!sourceIdStr) {
+      setCopyPreview(null)
+      return
+    }
+    loadCopyPreview(Number(sourceIdStr))
+  }
+
+  function applyCopyToEditor() {
+    if (!copyPreview || copyPreview.tim.length === 0) return
+    if (copyMode === "replace") {
+      const newTimList: TimDraft[] = copyPreview.tim.map((t) => ({
+        key: newKey(),
+        nama: t.nama,
+        anggota: t.anggota.map((a) => a.nrp),
+      }))
+      setTim(newTimList)
+      setDirty(true)
+      setCopyModalOpen(false)
+      flash(
+        `Berhasil menyalin ${newTimList.length} kelompok ke editor. Silakan periksa lalu klik "Simpan konfigurasi" di bawah.`
+      )
+    } else {
+      const assignedNrp = new Set(tim.flatMap((t) => t.anggota))
+      let skipped = 0
+      const appendTim: TimDraft[] = copyPreview.tim.map((t) => {
+        const validAnggota: string[] = []
+        for (const a of t.anggota) {
+          if (assignedNrp.has(a.nrp)) {
+            skipped++
+          } else {
+            validAnggota.push(a.nrp)
+            assignedNrp.add(a.nrp)
+          }
+        }
+        return {
+          key: newKey(),
+          nama: t.nama,
+          anggota: validAnggota,
+        }
+      })
+      setTim((prev) => [...prev, ...appendTim])
+      setDirty(true)
+      setCopyModalOpen(false)
+      let msg = `Berhasil menambahkan ${appendTim.length} kelompok ke editor.`
+      if (skipped > 0) msg += ` (${skipped} mahasiswa dilewati karena sudah ada di kelompok lain).`
+      msg += ` Klik "Simpan konfigurasi" di bawah untuk menyimpan.`
+      flash(msg)
+    }
+  }
+
+  async function copyAndSaveDirectly() {
+    if (!copySelectedId || !copyPreview) return
+    const confirmed = confirm(
+      copyMode === "replace"
+        ? `Apakah Anda yakin ingin menyalin ${copyPreview.tim.length} kelompok dan MENGGANTIKAN seluruh kelompok yang ada di database saat ini?`
+        : `Tambahkan ${copyPreview.tim.length} kelompok dari "${copyPreview.penilaian.nama}" dan langsung simpan ke database?`
+    )
+    if (!confirmed) return
+
+    setCopySubmitting(true)
+    setCopyModalError("")
+    try {
+      const res = await fetch(`/api/admin/kelompok/${id}/copy`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sourcePenilaianId: Number(copySelectedId),
+          mode: copyMode,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setCopyModalOpen(false)
+      await load()
+      flash(data.message || "Kelompok berhasil disalin dan disimpan.")
+    } catch (e) {
+      setCopyModalError(e instanceof Error ? e.message : "Gagal menyalin kelompok")
+    } finally {
+      setCopySubmitting(false)
+    }
   }
 
   async function saveConfig() {
@@ -325,6 +470,54 @@ export default function KelompokEditor({ id }: { id: number }) {
             <textarea className="kp-textarea" value={info.keterangan} onChange={(e) => { setInfo({ ...info, keterangan: e.target.value }); setDirty(true) }} />
           </div>
 
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "20px 0 12px", flexWrap: "wrap", gap: 10 }}>
+            <div>
+              <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Kelompok Mahasiswa</h2>
+              <span className="hint" style={{ margin: "2px 0 0", display: "inline-block" }}>
+                {tim.length} kelompok terdaftar · {assigned.size} mahasiswa
+              </span>
+            </div>
+            <button
+              id="btn-open-copy"
+              type="button"
+              className="kp-btn ghost sm"
+              onClick={openCopyModal}
+              title="Salin semua kelompok beserta anggotanya dari penilaian lain"
+            >
+              📋 Salin dari Penilaian Lain
+            </button>
+          </div>
+
+          {tim.length === 0 && (
+            <div className="kp-card" style={{ textAlign: "center", padding: "36px 20px" }}>
+              <p style={{ fontSize: 15, fontWeight: 500, marginBottom: 6 }}>Belum ada kelompok</p>
+              <p className="hint" style={{ marginBottom: 18 }}>
+                Mulai dengan menambah kelompok secara manual atau salin seluruh kelompok beserta anggotanya dari penilaian sebelumnya.
+              </p>
+              <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+                <button
+                  id="btn-add-tim-empty"
+                  type="button"
+                  className="kp-btn"
+                  onClick={() => {
+                    setTim((p) => [...p, { key: newKey(), nama: `Kelompok ${p.length + 1}`, anggota: [] }])
+                    setDirty(true)
+                  }}
+                >
+                  + Tambah kelompok manual
+                </button>
+                <button
+                  id="btn-copy-empty"
+                  type="button"
+                  className="kp-btn ghost"
+                  onClick={openCopyModal}
+                >
+                  📋 Salin Kelompok dari Penilaian Lain
+                </button>
+              </div>
+            </div>
+          )}
+
           {tim.map((t, idx) => (
             <div key={t.key} className="kp-card">
               <div className="kp-team-head">
@@ -389,7 +582,29 @@ export default function KelompokEditor({ id }: { id: number }) {
               </div>
             </div>
           ))}
-          <button id="btn-add-tim" className="kp-btn ghost" onClick={() => { setTim((p) => [...p, { key: newKey(), nama: `Kelompok ${p.length + 1}`, anggota: [] }]); setDirty(true) }}>+ Tambah kelompok</button>
+          {tim.length > 0 && (
+            <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+              <button
+                id="btn-add-tim"
+                type="button"
+                className="kp-btn ghost"
+                onClick={() => {
+                  setTim((p) => [...p, { key: newKey(), nama: `Kelompok ${p.length + 1}`, anggota: [] }])
+                  setDirty(true)
+                }}
+              >
+                + Tambah kelompok
+              </button>
+              <button
+                id="btn-copy-bottom"
+                type="button"
+                className="kp-btn ghost"
+                onClick={openCopyModal}
+              >
+                📋 Salin Kelompok dari Penilaian Lain
+              </button>
+            </div>
+          )}
         </>
       )}
 
@@ -555,6 +770,163 @@ export default function KelompokEditor({ id }: { id: number }) {
       {tab === "nilai" && loaded.tim.length > 0 && loaded.kriteria.length > 0 && (
         <div className="kp-savebar">
           <button id="btn-save-scores" className="kp-btn" disabled={busy || !scoresDirty} onClick={saveScores}>{busy ? "Menyimpan…" : scoresDirty ? "Simpan nilai" : "Tersimpan ✓"}</button>
+        </div>
+      )}
+
+      {/* ── Modal Copy Kelompok dari Penilaian Lain ── */}
+      {copyModalOpen && (
+        <div className="kp-modal-backdrop" onClick={() => !copySubmitting && setCopyModalOpen(false)}>
+          <div className="kp-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="kp-modal-head">
+              <h3 className="kp-modal-title">Salin Kelompok dari Penilaian Lain</h3>
+              <button
+                type="button"
+                className="kp-modal-close"
+                onClick={() => setCopyModalOpen(false)}
+                disabled={copySubmitting}
+                aria-label="Tutup modal"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="kp-modal-body">
+              <p className="hint" style={{ marginTop: 0, marginBottom: 14 }}>
+                Pilih penilaian yang ingin disalin. Semua kelompok beserta anggotanya akan disalin ke penilaian ini.
+              </p>
+
+              {copyModalError && <div className="kp-alert err">{copyModalError}</div>}
+
+              {copyList.length === 0 && !copyLoading ? (
+                <div className="kp-empty" style={{ padding: "20px 0" }}>
+                  Tidak ada penilaian lain yang memiliki kelompok untuk disalin.
+                </div>
+              ) : (
+                <>
+                  <div className="kp-field">
+                    <label className="kp-label" htmlFor="select-copy-source">Pilih Penilaian Sumber</label>
+                    <select
+                      id="select-copy-source"
+                      className="kp-select"
+                      value={copySelectedId}
+                      onChange={(e) => handleSelectCopySource(e.target.value)}
+                      disabled={copyLoading || copySubmitting}
+                    >
+                      {copyList.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.nama} {item.tahun ? `(${item.tahun})` : ""} — {item.jumlahTim} kelompok, {item.jumlahMahasiswa} mahasiswa
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {copyLoading && (
+                    <div className="hint" style={{ textAlign: "center", padding: 10 }}>
+                      Memuat detail kelompok…
+                    </div>
+                  )}
+
+                  {copyPreview && (
+                    <>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 10 }}>
+                        <span className="kp-pill blue">{copyPreview.tim.length} kelompok</span>
+                        <span className="kp-pill green">
+                          {copyPreview.tim.reduce((s, t) => s + t.anggota.length, 0)} mahasiswa
+                        </span>
+                      </div>
+
+                      <div className="kp-copy-preview">
+                        {copyPreview.tim.map((t, idx) => (
+                          <div key={t.id || idx} className="kp-copy-team-item">
+                            <div className="kp-copy-team-name">
+                              {t.nama} <span style={{ fontWeight: 400, color: "#888" }}>({t.anggota.length} anggota)</span>
+                            </div>
+                            <div className="kp-copy-team-members">
+                              {t.anggota.length === 0 ? (
+                                <span style={{ color: "#aaa", fontStyle: "italic" }}>Tidak ada anggota</span>
+                              ) : (
+                                t.anggota.map((a) => `${a.nama} (${a.nrp})`).join(", ")
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {tim.length > 0 && (
+                        <div className="kp-radio-group">
+                          <label className="kp-radio-label">
+                            <input
+                              type="radio"
+                              name="copyMode"
+                              value="replace"
+                              checked={copyMode === "replace"}
+                              onChange={() => setCopyMode("replace")}
+                              disabled={copySubmitting}
+                            />
+                            <div>
+                              <div className="kp-radio-text-title">Gantikan semua kelompok saat ini</div>
+                              <div className="kp-radio-text-sub">
+                                Semua {tim.length} kelompok saat ini di halaman ini akan digantikan dengan {copyPreview.tim.length} kelompok di atas.
+                              </div>
+                            </div>
+                          </label>
+                          <label className="kp-radio-label">
+                            <input
+                              type="radio"
+                              name="copyMode"
+                              value="append"
+                              checked={copyMode === "append"}
+                              onChange={() => setCopyMode("append")}
+                              disabled={copySubmitting}
+                            />
+                            <div>
+                              <div className="kp-radio-text-title">Tambahkan ke kelompok saat ini</div>
+                              <div className="kp-radio-text-sub">
+                                Kelompok di atas akan ditambahkan tanpa menghapus kelompok saat ini. Mahasiswa yang sudah terdaftar akan dilewati.
+                              </div>
+                            </div>
+                          </label>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+
+            <div className="kp-modal-footer">
+              <button
+                type="button"
+                className="kp-btn sm ghost"
+                onClick={() => setCopyModalOpen(false)}
+                disabled={copySubmitting}
+              >
+                Batal
+              </button>
+              {copyPreview && copyPreview.tim.length > 0 && (
+                <>
+                  <button
+                    type="button"
+                    className="kp-btn sm"
+                    onClick={applyCopyToEditor}
+                    disabled={copySubmitting || copyLoading}
+                    title="Terapkan ke editor agar bisa diperiksa sebelum disimpan"
+                  >
+                    Salin ke Editor
+                  </button>
+                  <button
+                    type="button"
+                    className="kp-btn sm ghost"
+                    onClick={copyAndSaveDirectly}
+                    disabled={copySubmitting || copyLoading}
+                    title="Langsung simpan kelompok ke database"
+                  >
+                    {copySubmitting ? "Menyimpan…" : "Salin & Langsung Simpan"}
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </>
