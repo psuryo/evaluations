@@ -15,6 +15,7 @@ interface CourseItem {
   matkul: string
   tahun: string
   kunci_jawaban?: string | null
+  is_published: boolean
   criteriaList: Criteria[]
   totalBobot: number
   totalCriteria: number
@@ -31,8 +32,10 @@ export default function CourseList({ initialCourses }: CourseListProps) {
   const [courses, setCourses] = useState<CourseItem[]>(initialCourses)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedYear, setSelectedYear] = useState<string>("all")
+  const [selectedPublishStatus, setSelectedPublishStatus] = useState<"all" | "published" | "draft">("all")
   const [expandedCourseId, setExpandedCourseId] = useState<number | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
+  const [togglingPublishId, setTogglingPublishId] = useState<number | null>(null)
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null)
   const [selectedAnswerKeyCourse, setSelectedAnswerKeyCourse] = useState<{
     idkuliah: number
@@ -55,12 +58,57 @@ export default function CourseList({ initialCourses }: CourseListProps) {
       )
 
     const matchesYear = selectedYear === "all" || c.tahun === selectedYear
-    return matchesSearch && matchesYear
+    const matchesPublish =
+      selectedPublishStatus === "all" ||
+      (selectedPublishStatus === "published" && c.is_published) ||
+      (selectedPublishStatus === "draft" && !c.is_published)
+
+    return matchesSearch && matchesYear && matchesPublish
   })
 
   // Toggle criteria breakdown expansion
   const toggleExpand = (idkuliah: number) => {
     setExpandedCourseId(expandedCourseId === idkuliah ? null : idkuliah)
+  }
+
+  // Handle toggle publish/draft
+  const handleTogglePublish = async (idkuliah: number, currentPublished: boolean, matkulName: string) => {
+    const actionText = currentPublished
+      ? `tarik publikasi nilai "${matkulName}"?\n\nMahasiswa tidak akan dapat melihat nilai mereka lagi sampai Anda mempublikasikannya kembali.`
+      : `publikasikan nilai "${matkulName}"?\n\nMahasiswa yang terdaftar akan dapat langsung melihat rincian nilai dan nilai akhir mereka.`
+
+    const confirmed = window.confirm(`Apakah Anda yakin ingin ${actionText}`)
+    if (!confirmed) return
+
+    setTogglingPublishId(idkuliah)
+    setStatusMsg(null)
+
+    try {
+      const res = await fetch(`/api/admin/kuliah/${idkuliah}/publish`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_published: !currentPublished }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Gagal mengubah status publikasi.")
+      }
+
+      const data = await res.json()
+      setCourses((prev) =>
+        prev.map((c) => (c.idkuliah === idkuliah ? { ...c, is_published: data.is_published } : c))
+      )
+      setStatusMsg({
+        type: "success",
+        text: data.message || `Status publikasi nilai "${matkulName}" berhasil diperbarui.`,
+      })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Gagal mengubah status publikasi nilai."
+      setStatusMsg({ type: "error", text: message })
+    } finally {
+      setTogglingPublishId(null)
+    }
   }
 
   // Handle delete course
@@ -230,6 +278,18 @@ export default function CourseList({ initialCourses }: CourseListProps) {
           color: #1f6b45;
           border: 0.5px solid #a8d8bc;
         }
+        .cl-badge.published {
+          background: #ecfdf5;
+          color: #065f46;
+          border: 0.5px solid #a7f3d0;
+          font-weight: 600;
+        }
+        .cl-badge.draft {
+          background: #fef3c7;
+          color: #92400e;
+          border: 0.5px solid #fde68a;
+          font-weight: 600;
+        }
         .cl-badge.warn {
           background: #fdf8ee;
           color: #8a6200;
@@ -267,6 +327,27 @@ export default function CourseList({ initialCourses }: CourseListProps) {
           background: #111;
           color: #fff;
           border-color: #111;
+        }
+        .cl-action-btn.publish {
+          color: #065f46;
+          background: #ecfdf5;
+          border-color: #a7f3d0;
+          font-weight: 600;
+        }
+        .cl-action-btn.publish:hover {
+          background: #059669;
+          color: #fff;
+          border-color: #059669;
+        }
+        .cl-action-btn.unpublish {
+          color: #92400e;
+          background: #fffbeb;
+          border-color: #fde68a;
+        }
+        .cl-action-btn.unpublish:hover {
+          background: #d97706;
+          color: #fff;
+          border-color: #d97706;
         }
         .cl-action-btn.delete {
           color: #b91c1c;
@@ -394,10 +475,34 @@ export default function CourseList({ initialCourses }: CourseListProps) {
           <div className="cl-filter-tabs">
             <button
               type="button"
+              className={`cl-tab-btn ${selectedPublishStatus === "all" ? "active" : ""}`}
+              onClick={() => setSelectedPublishStatus("all")}
+            >
+              Semua ({courses.length})
+            </button>
+            <button
+              type="button"
+              className={`cl-tab-btn ${selectedPublishStatus === "published" ? "active" : ""}`}
+              onClick={() => setSelectedPublishStatus("published")}
+              style={{ color: selectedPublishStatus === "published" ? "#fff" : "#065f46" }}
+            >
+              ✓ Dipublikasikan ({courses.filter((c) => c.is_published).length})
+            </button>
+            <button
+              type="button"
+              className={`cl-tab-btn ${selectedPublishStatus === "draft" ? "active" : ""}`}
+              onClick={() => setSelectedPublishStatus("draft")}
+              style={{ color: selectedPublishStatus === "draft" ? "#fff" : "#92400e" }}
+            >
+              🔒 Draft ({courses.filter((c) => !c.is_published).length})
+            </button>
+            <span style={{ color: "#ccc", margin: "0 4px" }}>|</span>
+            <button
+              type="button"
               className={`cl-tab-btn ${selectedYear === "all" ? "active" : ""}`}
               onClick={() => setSelectedYear("all")}
             >
-              Semua Tahun ({courses.length})
+              Semua Tahun
             </button>
             {availableYears.map((yr) => (
               <button
@@ -455,6 +560,16 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                       </div>
 
                       <div className="cl-badges-row">
+                        <span
+                          className={`cl-badge ${c.is_published ? "published" : "draft"}`}
+                          title={
+                            c.is_published
+                              ? "Nilai kuliah ini telah dipublikasikan dan dapat dilihat oleh mahasiswa"
+                              : "Nilai kuliah ini masih draft dan belum bisa dilihat oleh mahasiswa"
+                          }
+                        >
+                          {c.is_published ? "✓ Dipublikasikan" : "🔒 Draft (Disembunyikan)"}
+                        </span>
                         <span className={`cl-badge ${is100 ? "ok" : "warn"}`}>
                           {is100 ? "✓ Bobot: 100%" : `⚠️ Bobot: ${c.totalBobot}%`}
                         </span>
@@ -510,6 +625,23 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                       >
                         📝 Input Nilai
                       </Link>
+                      <button
+                        type="button"
+                        className={`cl-action-btn ${c.is_published ? "unpublish" : "publish"}`}
+                        disabled={togglingPublishId === c.idkuliah}
+                        onClick={() => handleTogglePublish(c.idkuliah, c.is_published, c.matkul)}
+                        title={
+                          c.is_published
+                            ? "Tarik publikasi nilai (sembunyikan nilai dari mahasiswa)"
+                            : "Publikasikan nilai ke mahasiswa yang terdaftar"
+                        }
+                      >
+                        {togglingPublishId === c.idkuliah
+                          ? "..."
+                          : c.is_published
+                          ? "🔒 Tarik Publikasi"
+                          : "🚀 Publikasikan"}
+                      </button>
                       <Link
                         href={`/admin/kuliah/${c.idkuliah}/edit`}
                         className="cl-action-btn"

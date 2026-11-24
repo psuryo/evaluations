@@ -23,6 +23,7 @@ export interface SubjectGrade {
   matkul: string
   tahun: string
   kunci_jawaban?: string | null
+  is_published: boolean
   students: StudentGrade[]
 }
 
@@ -114,6 +115,20 @@ export default function CollapsibleGradeList({
                   <div className="gr-subject-title-row">
                     <span className="gr-subject-name">{subject.matkul}</span>
                     <span className="gr-subject-year">{subject.tahun}</span>
+                    <span
+                      className={`gr-publish-badge ${subject.is_published ? "published" : "draft"}`}
+                      title={
+                        subject.is_published
+                          ? "Nilai kuliah ini telah dipublikasikan secara resmi"
+                          : "Nilai kuliah ini belum dipublikasikan oleh dosen pengampu"
+                      }
+                    >
+                      {subject.is_published
+                        ? "✓ Dipublikasikan"
+                        : isAdminView
+                        ? "🔒 Draft (Disembunyikan)"
+                        : "🔒 Belum Dipublikasikan"}
+                    </span>
                   </div>
                   <span className="gr-subject-meta">
                     {!isAdminView && singleStudent
@@ -123,7 +138,7 @@ export default function CollapsibleGradeList({
                 </div>
 
                 <div className="gr-subject-header-right">
-                  {subject.kunci_jawaban && (
+                  {subject.kunci_jawaban && (isAdminView || subject.is_published) && (
                     <button
                       type="button"
                       className="gr-answer-key-btn"
@@ -156,7 +171,14 @@ export default function CollapsibleGradeList({
 
                   {!isAdminView && singleStudent && (
                     <div className="gr-header-grade-preview">
-                      {singleStudent.finalGrade !== null ? (
+                      {!subject.is_published ? (
+                        <span
+                          className="gr-final-locked"
+                          title="Nilai mata kuliah ini belum dipublikasikan oleh dosen"
+                        >
+                          🔒 Menunggu Publikasi
+                        </span>
+                      ) : singleStudent.finalGrade !== null ? (
                         <span className="gr-final-badge">
                           Final: {singleStudent.finalGrade.toFixed(2)}
                         </span>
@@ -192,7 +214,16 @@ export default function CollapsibleGradeList({
 
               {isOpen && (
                 <div className="gr-subject-content">
-                  {subject.students.length === 0 ? (
+                  {!subject.is_published && !isAdminView ? (
+                    <div className="gr-unpublished-box">
+                      <div style={{ fontSize: "36px", marginBottom: "4px" }}>🔒</div>
+                      <h3 className="gr-unpublished-title">Nilai Belum Dipublikasikan</h3>
+                      <p className="gr-unpublished-text">
+                        Dosen pengampu mata kuliah ini belum mempublikasikan nilai resmi.
+                        Rincian kriteria penilaian dan nilai akhir Anda akan dapat dilihat di sini setelah dosen mempublikasikan nilai tersebut.
+                      </p>
+                    </div>
+                  ) : subject.students.length === 0 ? (
                     <div className="gr-student-empty">No student grades found for this course.</div>
                   ) : (
                     subject.students.map((student) => (

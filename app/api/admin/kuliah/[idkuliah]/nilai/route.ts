@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/src/lib/auth"
 import { prisma } from "@/app/src/lib/prisma"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
@@ -114,6 +114,7 @@ export async function GET(
         idkuliah: course.idkuliah,
         matkul: course.matkul,
         tahun: course.tahun,
+        is_published: course.is_published ?? false,
       },
       criteriaList,
       students,

@@ -49,6 +49,7 @@ model Kuliah {
   matkul        String?      @db.VarChar
   tahun         String?      @db.VarChar
   kunci_jawaban String?      @db.Text
+  is_published  Boolean      @default(false)
   nilai         Nilai[]
   groups        Group[]
   submissions   Submission[]

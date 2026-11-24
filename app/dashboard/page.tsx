@@ -31,7 +31,7 @@ async function getDashboardStats(nrp: string) {
       select: { idkuliah: true, nrp: true },
     }),
     prisma.kuliah.count({
-      where: { nilai: { some: {} } },
+      where: { nilai: { some: {} }, is_published: true },
     }),
   ])
 
@@ -112,12 +112,16 @@ async function getStudentGrades(nrp: string) {
         const [course, weights] = await Promise.all([
           prisma.kuliah.findUnique({
             where: { idkuliah: grade.idkuliah ?? 0 },
-            select: { matkul: true },
+            select: { matkul: true, is_published: true },
           }),
           prisma.courseGradeWeights.findUnique({
             where: { idkuliah: grade.idkuliah ?? 0 },
           }),
         ])
+
+        if (!course?.is_published) {
+          return null
+        }
 
         const midAssignmentGradeNum = grade.mid_assignment_grade ? parseFloat(grade.mid_assignment_grade.toString()) : 0
         const midExamGradeNum = grade.mid_exam_grade ? parseFloat(grade.mid_exam_grade.toString()) : 0
@@ -147,7 +151,7 @@ async function getStudentGrades(nrp: string) {
       })
     )
 
-    return gradesWithCourseInfo
+    return gradesWithCourseInfo.filter((g): g is NonNullable<typeof g> => g !== null)
   } catch (error) {
     console.error("Error fetching student grades:", error)
     return []

@@ -15,7 +15,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
   const nilaiRecords = await prisma.nilai.findMany({
     where: whereClause,
     include: {
-      kuliah: { select: { matkul: true, tahun: true, kunci_jawaban: true } },
+      kuliah: { select: { matkul: true, tahun: true, kunci_jawaban: true, is_published: true } },
       usernilai: { select: { nama: true, nrp: true } },
     },
     // Order courses by idkuliah desc (most recent first)
@@ -31,6 +31,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
       matkul: string
       tahun: string
       kunci_jawaban: string | null
+      is_published: boolean
       students: Map<
         string,
         {
@@ -51,12 +52,15 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
   for (const n of nilaiRecords) {
     if (!n.idkuliah) continue
 
+    const isPublished = n.kuliah?.is_published ?? false
+
     if (!subjectMap.has(n.idkuliah)) {
       subjectMap.set(n.idkuliah, {
         idkuliah: n.idkuliah,
         matkul: n.kuliah?.matkul ?? "Untitled",
         tahun: n.kuliah?.tahun ?? "—",
         kunci_jawaban: n.kuliah?.kunci_jawaban ?? null,
+        is_published: isPublished,
         students: new Map(),
       })
     }
@@ -72,12 +76,15 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
       })
     }
 
+    // Only reveal grade numbers if viewer is admin or course has been published by lecturer
+    const shouldRevealGrade = isAdmin || isPublished
+
     subject.students.get(nrpKey)!.criteria.push({
       idnilai: n.idnilai,
       judulkriteria: n.judulkriteria ?? "—",
       kriteria: n.kriteria ?? "—",
       bobot: n.bobot,
-      grade: n.grade !== null ? Number(n.grade) : null,
+      grade: shouldRevealGrade && n.grade !== null ? Number(n.grade) : null,
     })
   }
 
@@ -95,7 +102,7 @@ async function getGradesBySubject(nrp: string | null, isAdmin: boolean): Promise
         })
         const gradesWithValue = sortedCriteria.filter((c) => c.grade !== null)
         const finalGrade =
-          gradesWithValue.length > 0
+          (isAdmin || s.is_published) && gradesWithValue.length > 0
             ? gradesWithValue.reduce((acc, c) => acc + c.grade!, 0)
             : null
 
@@ -383,6 +390,53 @@ export default async function GradePage({
           border-radius: 20px;
           padding: 3px 10px;
           white-space: nowrap;
+        }
+        .gr-publish-badge {
+          font-size: 11px;
+          font-weight: 600;
+          padding: 2px 8px;
+          border-radius: 6px;
+          letter-spacing: 0.02em;
+        }
+        .gr-publish-badge.published {
+          background: #edf8f2;
+          color: #1f6b45;
+          border: 0.5px solid #a8d8bc;
+        }
+        .gr-publish-badge.draft {
+          background: #fef3c7;
+          color: #92400e;
+          border: 0.5px solid #fde68a;
+        }
+        .gr-final-locked {
+          font-size: 12px;
+          font-weight: 500;
+          color: #92400e;
+          background: #fef3c7;
+          border: 0.5px solid #fde68a;
+          border-radius: 20px;
+          padding: 3px 10px;
+          white-space: nowrap;
+        }
+        .gr-unpublished-box {
+          padding: 40px 24px;
+          text-align: center;
+          background: #fafaf8;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+        .gr-unpublished-title {
+          font-size: 15px;
+          font-weight: 600;
+          color: #111;
+        }
+        .gr-unpublished-text {
+          font-size: 13px;
+          color: #777;
+          max-width: 480px;
+          line-height: 1.5;
         }
 
         .gr-criteria-table { width: 100%; border-collapse: collapse; }

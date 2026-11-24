@@ -24,6 +24,7 @@ interface CourseFormProps {
     matkul: string
     tahun: string
     kunci_jawaban?: string | null
+    is_published?: boolean
     criteriaList: CriteriaItem[]
     students?: string[]
   }
@@ -74,6 +75,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
   const [tahun, setTahun] = useState(initialData?.tahun ?? new Date().getFullYear().toString())
   const [kunciJawaban, setKunciJawaban] = useState(initialData?.kunci_jawaban ?? "")
   const [kunciJawabanTab, setKunciJawabanTab] = useState<"edit" | "preview">("edit")
+  const [isPublished, setIsPublished] = useState(initialData?.is_published ?? false)
   const [criteriaList, setCriteriaList] = useState<CriteriaItem[]>(
     initialData?.criteriaList && initialData.criteriaList.length > 0
       ? initialData.criteriaList
@@ -267,6 +269,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
           matkul: matkul.trim(),
           tahun: tahun.trim(),
           kunci_jawaban: kunciJawaban.trim() || null,
+          is_published: isPublished,
           kriteriaList: criteriaList.map((c) => ({
             judulkriteria: c.judulkriteria.trim(),
             kriteria: c.kriteria.trim(),
@@ -723,6 +726,27 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
                 required
               />
             </div>
+          </div>
+
+          <div style={{ marginTop: "16px", paddingTop: "14px", borderTop: "0.5px solid rgba(0,0,0,0.06)" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", userSelect: "none" }}>
+              <input
+                type="checkbox"
+                checked={isPublished}
+                onChange={(e) => setIsPublished(e.target.checked)}
+                style={{ width: "18px", height: "18px", cursor: "pointer", accentColor: "#059669" }}
+              />
+              <div>
+                <span style={{ fontSize: "14px", fontWeight: 600, color: isPublished ? "#065f46" : "#111" }}>
+                  {isPublished ? "✓ Nilai Dipublikasikan ke Mahasiswa" : "🔒 Publikasikan Nilai ke Mahasiswa"}
+                </span>
+                <p style={{ fontSize: "12px", color: "#666", marginTop: "2px" }}>
+                  {isPublished
+                    ? "Mahasiswa yang terdaftar dapat langsung melihat nilai dan rincian kriteria mereka."
+                    : "Biarkan tidak dicentang jika nilai masih dalam bentuk draft dan belum ingin diperlihatkan ke mahasiswa."}
+                </p>
+              </div>
+            </label>
           </div>
         </div>
 

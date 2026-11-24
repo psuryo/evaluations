@@ -31,6 +31,7 @@ interface GradeMatrixEditorProps {
   matkul: string
   tahun?: string
   kunci_jawaban?: string | null
+  is_published?: boolean
   criteriaList: Criteria[]
   initialStudents: StudentRow[]
 }
@@ -40,10 +41,13 @@ export default function GradeMatrixEditor({
   matkul,
   tahun = "",
   kunci_jawaban,
+  is_published = false,
   criteriaList,
   initialStudents,
 }: GradeMatrixEditorProps) {
   const [showAnswerKeyModal, setShowAnswerKeyModal] = useState(false)
+  const [published, setPublished] = useState(is_published)
+  const [togglingPublish, setTogglingPublish] = useState(false)
 
   // State for all grades: Record<idnilai, string | number>
   const [gradesMap, setGradesMap] = useState<Record<number, string | number>>(() => {
@@ -330,6 +334,39 @@ export default function GradeMatrixEditor({
       return false
     } finally {
       setSaving(false)
+    }
+  }
+
+  // Toggle publish status for this course
+  const handleTogglePublish = async () => {
+    const actionText = published
+      ? `tarik publikasi nilai "${matkul}"?\n\nMahasiswa tidak akan dapat melihat nilai mereka sampai dipublikasikan kembali.`
+      : `publikasikan nilai "${matkul}"?\n\nMahasiswa yang terdaftar akan dapat langsung melihat rincian nilai dan nilai akhir mereka.`
+    if (!window.confirm(`Apakah Anda yakin ingin ${actionText}`)) return
+
+    setTogglingPublish(true)
+    setToastMsg(null)
+    try {
+      const res = await fetch(`/api/admin/kuliah/${idkuliah}/publish`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_published: !published }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Gagal mengubah status publikasi")
+      }
+      const data = await res.json()
+      setPublished(data.is_published)
+      setToastMsg({
+        type: "success",
+        text: data.message || "Status publikasi nilai berhasil diperbarui.",
+      })
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal mengubah status publikasi"
+      setToastMsg({ type: "error", text: msg })
+    } finally {
+      setTogglingPublish(false)
     }
   }
 
@@ -1132,6 +1169,28 @@ export default function GradeMatrixEditor({
             <span style={{ fontSize: "12px", color: "#666" }}>
               Progress Penilaian: <strong>{totalGradedStudents}</strong> / {students.length} Mahasiswa Lengkap
             </span>
+
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: 600,
+                padding: "3px 10px",
+                borderRadius: "20px",
+                background: published ? "#ecfdf5" : "#fef3c7",
+                color: published ? "#065f46" : "#92400e",
+                border: published ? "0.5px solid #a7f3d0" : "0.5px solid #fde68a",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+              title={
+                published
+                  ? "Nilai kuliah ini telah dipublikasikan dan dapat dilihat oleh mahasiswa"
+                  : "Nilai kuliah ini masih berstatus draft dan belum bisa dilihat mahasiswa"
+              }
+            >
+              {published ? "✓ Dipublikasikan" : "🔒 Draft (Disembunyikan)"}
+            </span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
@@ -1189,6 +1248,28 @@ export default function GradeMatrixEditor({
               onClick={() => setShowAddModal(true)}
             >
               <span>+</span> Daftarkan Mahasiswa
+            </button>
+            <button
+              type="button"
+              className="gm-btn"
+              style={{
+                background: published ? "#fffbeb" : "#ecfdf5",
+                borderColor: published ? "#fde68a" : "#a7f3d0",
+                color: published ? "#92400e" : "#065f46",
+                fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+              disabled={togglingPublish}
+              onClick={handleTogglePublish}
+              title={
+                published
+                  ? "Tarik publikasi nilai kuliah ini (nilai disembunyikan dari mahasiswa)"
+                  : "Publikasikan nilai ke seluruh mahasiswa yang terdaftar di kuliah ini"
+              }
+            >
+              <span>{togglingPublish ? "..." : published ? "🔒 Tarik Publikasi" : "🚀 Publikasikan Nilai"}</span>
             </button>
             <button
               type="button"

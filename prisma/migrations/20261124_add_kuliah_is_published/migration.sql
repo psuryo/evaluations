@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "kuliah" ADD COLUMN IF NOT EXISTS "is_published" BOOLEAN NOT NULL DEFAULT FALSE;

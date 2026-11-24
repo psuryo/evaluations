@@ -84,6 +84,7 @@ async function getKuliahManagementData() {
       matkul: c.matkul ?? "Untitled",
       tahun: c.tahun ?? "—",
       kunci_jawaban: c.kunci_jawaban ?? null,
+      is_published: c.is_published ?? false,
       criteriaList,
       totalBobot,
       totalCriteria: criteriaList.length,
@@ -95,6 +96,7 @@ async function getKuliahManagementData() {
 
   const totalCriteriaDefinitions = formattedCourses.reduce((sum, c) => sum + c.totalCriteria, 0)
   const valid100CoursesCount = formattedCourses.filter((c) => c.totalBobot === 100).length
+  const publishedCoursesCount = formattedCourses.filter((c) => c.is_published).length
 
   return {
     courses: formattedCourses,
@@ -102,6 +104,7 @@ async function getKuliahManagementData() {
     totalStudentsCount,
     totalCriteriaDefinitions,
     valid100CoursesCount,
+    publishedCoursesCount,
     totalNilaiCount,
   }
 }
@@ -270,14 +273,14 @@ export default async function KuliahAdminPage() {
               <p className="km-stat-sub">mata kuliah terdaftar</p>
             </div>
             <div className="km-stat-card">
-              <p className="km-stat-label">Bobot Valid (100%)</p>
-              <p className="km-stat-val" style={{ color: "#1f6b45" }}>{data.valid100CoursesCount}</p>
-              <p className="km-stat-sub">kuliah memenuhi syarat</p>
+              <p className="km-stat-label">Dipublikasikan</p>
+              <p className="km-stat-val" style={{ color: "#1f6b45" }}>{data.publishedCoursesCount}</p>
+              <p className="km-stat-sub">{data.totalCourses - data.publishedCoursesCount} masih draft/disembunyikan</p>
             </div>
             <div className="km-stat-card">
-              <p className="km-stat-label">Total Kriteria</p>
-              <p className="km-stat-val">{data.totalCriteriaDefinitions}</p>
-              <p className="km-stat-sub">komponen penilaian</p>
+              <p className="km-stat-label">Bobot Valid (100%)</p>
+              <p className="km-stat-val" style={{ color: "#2563eb" }}>{data.valid100CoursesCount}</p>
+              <p className="km-stat-sub">kuliah memenuhi syarat</p>
             </div>
             <div className="km-stat-card">
               <p className="km-stat-label">Total Mahasiswa</p>

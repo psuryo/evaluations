@@ -248,6 +248,7 @@ export default async function CourseGradesPage({
             matkul={course.matkul ?? ""}
             tahun={course.tahun ?? ""}
             kunci_jawaban={course.kunci_jawaban ?? null}
+            is_published={course.is_published ?? false}
             criteriaList={criteriaList}
             initialStudents={students}
           />

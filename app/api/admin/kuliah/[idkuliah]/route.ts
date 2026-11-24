@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/src/lib/auth"
 import { prisma } from "@/app/src/lib/prisma"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
@@ -107,6 +107,7 @@ export async function GET(
         matkul: course.matkul,
         tahun: course.tahun,
         kunci_jawaban: course.kunci_jawaban ?? null,
+        is_published: course.is_published ?? false,
         criteriaList,
         totalBobot,
         students: studentDetails,
@@ -140,7 +141,7 @@ export async function PUT(
     }
 
     const body = await req.json()
-    const { matkul, tahun, kriteriaList, kunci_jawaban } = body
+    const { matkul, tahun, kriteriaList, kunci_jawaban, is_published } = body
 
     if (!matkul || !matkul.trim()) {
       return NextResponse.json({ error: "Nama mata kuliah wajib diisi" }, { status: 400 })
@@ -191,13 +192,18 @@ export async function PUT(
     }
 
     // Update Kuliah
+    const updatePayload: { matkul: string; tahun: string; kunci_jawaban: string | null; is_published?: boolean } = {
+      matkul: matkul.trim(),
+      tahun: tahun.trim(),
+      kunci_jawaban: typeof kunci_jawaban === "string" ? (kunci_jawaban.trim() || null) : null,
+    }
+    if (typeof is_published === "boolean") {
+      updatePayload.is_published = is_published
+    }
+
     const updated = await prisma.kuliah.update({
       where: { idkuliah },
-      data: {
-        matkul: matkul.trim(),
-        tahun: tahun.trim(),
-        kunci_jawaban: typeof kunci_jawaban === "string" ? (kunci_jawaban.trim() || null) : null,
-      },
+      data: updatePayload,
     })
 
     // Get current enrolled students and existing grades/custom comments

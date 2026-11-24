@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/src/lib/auth"
 import { prisma } from "@/app/src/lib/prisma"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
@@ -95,6 +95,7 @@ export async function GET() {
         matkul: c.matkul ?? "Untitled",
         tahun: c.tahun ?? "—",
         kunci_jawaban: c.kunci_jawaban ?? null,
+        is_published: c.is_published ?? false,
         criteriaList,
         totalBobot,
         totalCriteria: criteriaList.length,
@@ -122,7 +123,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { matkul, tahun, kriteriaList, students, kunci_jawaban } = body
+    const { matkul, tahun, kriteriaList, students, kunci_jawaban, is_published } = body
 
     // 1. Validate Course metadata
     if (!matkul || typeof matkul !== "string" || !matkul.trim()) {
@@ -200,6 +201,7 @@ export async function POST(req: NextRequest) {
         matkul: matkul.trim(),
         tahun: tahun.trim(),
         kunci_jawaban: typeof kunci_jawaban === "string" && kunci_jawaban.trim() ? kunci_jawaban.trim() : null,
+        is_published: typeof is_published === "boolean" ? is_published : false,
       },
     })
 
