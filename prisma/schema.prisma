@@ -243,3 +243,19 @@ model KelompokNilaiIndividu {
   @@unique([kriteriaId, nrp])
   @@map("kelompok_nilai_individu")
 }
+
+model AuthLog {
+  id         Int      @id @default(autoincrement())
+  event      String   @db.VarChar(64)
+  email      String?  @db.VarChar(255)
+  user_id    String?  @db.VarChar(255)
+  provider   String?  @db.VarChar(64)
+  reason     String?  @db.Text
+  metadata   Json?
+  created_at DateTime @default(now())
+
+  @@index([event])
+  @@index([email])
+  @@index([created_at])
+  @@map("auth_logs")
+}

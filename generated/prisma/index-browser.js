@@ -270,9 +270,25 @@ exports.Prisma.KelompokNilaiIndividuScalarFieldEnum = {
   keterangan: 'keterangan'
 };
 
+exports.Prisma.AuthLogScalarFieldEnum = {
+  id: 'id',
+  event: 'event',
+  email: 'email',
+  user_id: 'user_id',
+  provider: 'provider',
+  reason: 'reason',
+  metadata: 'metadata',
+  created_at: 'created_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -283,6 +299,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 
 
@@ -305,7 +327,8 @@ exports.Prisma.ModelName = {
   KelompokAnggota: 'KelompokAnggota',
   KelompokKriteria: 'KelompokKriteria',
   KelompokNilaiTim: 'KelompokNilaiTim',
-  KelompokNilaiIndividu: 'KelompokNilaiIndividu'
+  KelompokNilaiIndividu: 'KelompokNilaiIndividu',
+  AuthLog: 'AuthLog'
 };
 
 /**

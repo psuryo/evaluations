@@ -108,6 +108,11 @@ export type KelompokNilaiTim = $Result.DefaultSelection<Prisma.$KelompokNilaiTim
  * 
  */
 export type KelompokNilaiIndividu = $Result.DefaultSelection<Prisma.$KelompokNilaiIndividuPayload>
+/**
+ * Model AuthLog
+ * 
+ */
+export type AuthLog = $Result.DefaultSelection<Prisma.$AuthLogPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -419,6 +424,16 @@ export class PrismaClient<
     * ```
     */
   get kelompokNilaiIndividu(): Prisma.KelompokNilaiIndividuDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.authLog`: Exposes CRUD operations for the **AuthLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AuthLogs
+    * const authLogs = await prisma.authLog.findMany()
+    * ```
+    */
+  get authLog(): Prisma.AuthLogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -871,7 +886,8 @@ export namespace Prisma {
     KelompokAnggota: 'KelompokAnggota',
     KelompokKriteria: 'KelompokKriteria',
     KelompokNilaiTim: 'KelompokNilaiTim',
-    KelompokNilaiIndividu: 'KelompokNilaiIndividu'
+    KelompokNilaiIndividu: 'KelompokNilaiIndividu',
+    AuthLog: 'AuthLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -887,7 +903,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "evaluations" | "group" | "kriteria" | "kuliah" | "nilai" | "userNilai" | "submission" | "verificationToken" | "user" | "account" | "session" | "studentFinalGrade" | "courseGradeWeights" | "kelompokPenilaian" | "kelompokTim" | "kelompokAnggota" | "kelompokKriteria" | "kelompokNilaiTim" | "kelompokNilaiIndividu"
+      modelProps: "evaluations" | "group" | "kriteria" | "kuliah" | "nilai" | "userNilai" | "submission" | "verificationToken" | "user" | "account" | "session" | "studentFinalGrade" | "courseGradeWeights" | "kelompokPenilaian" | "kelompokTim" | "kelompokAnggota" | "kelompokKriteria" | "kelompokNilaiTim" | "kelompokNilaiIndividu" | "authLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2297,6 +2313,80 @@ export namespace Prisma {
           }
         }
       }
+      AuthLog: {
+        payload: Prisma.$AuthLogPayload<ExtArgs>
+        fields: Prisma.AuthLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuthLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuthLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>
+          }
+          findFirst: {
+            args: Prisma.AuthLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuthLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>
+          }
+          findMany: {
+            args: Prisma.AuthLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>[]
+          }
+          create: {
+            args: Prisma.AuthLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>
+          }
+          createMany: {
+            args: Prisma.AuthLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuthLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>[]
+          }
+          delete: {
+            args: Prisma.AuthLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>
+          }
+          update: {
+            args: Prisma.AuthLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.AuthLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuthLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuthLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.AuthLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthLogPayload>
+          }
+          aggregate: {
+            args: Prisma.AuthLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuthLog>
+          }
+          groupBy: {
+            args: Prisma.AuthLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuthLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuthLogCountArgs<ExtArgs>
+            result: $Utils.Optional<AuthLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2424,6 +2514,7 @@ export namespace Prisma {
     kelompokKriteria?: KelompokKriteriaOmit
     kelompokNilaiTim?: KelompokNilaiTimOmit
     kelompokNilaiIndividu?: KelompokNilaiIndividuOmit
+    authLog?: AuthLogOmit
   }
 
   /* Types for Logging */
@@ -23613,6 +23704,1075 @@ export namespace Prisma {
 
 
   /**
+   * Model AuthLog
+   */
+
+  export type AggregateAuthLog = {
+    _count: AuthLogCountAggregateOutputType | null
+    _avg: AuthLogAvgAggregateOutputType | null
+    _sum: AuthLogSumAggregateOutputType | null
+    _min: AuthLogMinAggregateOutputType | null
+    _max: AuthLogMaxAggregateOutputType | null
+  }
+
+  export type AuthLogAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AuthLogSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AuthLogMinAggregateOutputType = {
+    id: number | null
+    event: string | null
+    email: string | null
+    user_id: string | null
+    provider: string | null
+    reason: string | null
+    created_at: Date | null
+  }
+
+  export type AuthLogMaxAggregateOutputType = {
+    id: number | null
+    event: string | null
+    email: string | null
+    user_id: string | null
+    provider: string | null
+    reason: string | null
+    created_at: Date | null
+  }
+
+  export type AuthLogCountAggregateOutputType = {
+    id: number
+    event: number
+    email: number
+    user_id: number
+    provider: number
+    reason: number
+    metadata: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type AuthLogAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type AuthLogSumAggregateInputType = {
+    id?: true
+  }
+
+  export type AuthLogMinAggregateInputType = {
+    id?: true
+    event?: true
+    email?: true
+    user_id?: true
+    provider?: true
+    reason?: true
+    created_at?: true
+  }
+
+  export type AuthLogMaxAggregateInputType = {
+    id?: true
+    event?: true
+    email?: true
+    user_id?: true
+    provider?: true
+    reason?: true
+    created_at?: true
+  }
+
+  export type AuthLogCountAggregateInputType = {
+    id?: true
+    event?: true
+    email?: true
+    user_id?: true
+    provider?: true
+    reason?: true
+    metadata?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type AuthLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuthLog to aggregate.
+     */
+    where?: AuthLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthLogs to fetch.
+     */
+    orderBy?: AuthLogOrderByWithRelationInput | AuthLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuthLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AuthLogs
+    **/
+    _count?: true | AuthLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AuthLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AuthLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuthLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuthLogMaxAggregateInputType
+  }
+
+  export type GetAuthLogAggregateType<T extends AuthLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuthLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuthLog[P]>
+      : GetScalarType<T[P], AggregateAuthLog[P]>
+  }
+
+
+
+
+  export type AuthLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuthLogWhereInput
+    orderBy?: AuthLogOrderByWithAggregationInput | AuthLogOrderByWithAggregationInput[]
+    by: AuthLogScalarFieldEnum[] | AuthLogScalarFieldEnum
+    having?: AuthLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuthLogCountAggregateInputType | true
+    _avg?: AuthLogAvgAggregateInputType
+    _sum?: AuthLogSumAggregateInputType
+    _min?: AuthLogMinAggregateInputType
+    _max?: AuthLogMaxAggregateInputType
+  }
+
+  export type AuthLogGroupByOutputType = {
+    id: number
+    event: string
+    email: string | null
+    user_id: string | null
+    provider: string | null
+    reason: string | null
+    metadata: JsonValue | null
+    created_at: Date
+    _count: AuthLogCountAggregateOutputType | null
+    _avg: AuthLogAvgAggregateOutputType | null
+    _sum: AuthLogSumAggregateOutputType | null
+    _min: AuthLogMinAggregateOutputType | null
+    _max: AuthLogMaxAggregateOutputType | null
+  }
+
+  type GetAuthLogGroupByPayload<T extends AuthLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuthLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuthLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuthLogGroupByOutputType[P]>
+            : GetScalarType<T[P], AuthLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuthLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    event?: boolean
+    email?: boolean
+    user_id?: boolean
+    provider?: boolean
+    reason?: boolean
+    metadata?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["authLog"]>
+
+  export type AuthLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    event?: boolean
+    email?: boolean
+    user_id?: boolean
+    provider?: boolean
+    reason?: boolean
+    metadata?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["authLog"]>
+
+  export type AuthLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    event?: boolean
+    email?: boolean
+    user_id?: boolean
+    provider?: boolean
+    reason?: boolean
+    metadata?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["authLog"]>
+
+  export type AuthLogSelectScalar = {
+    id?: boolean
+    event?: boolean
+    email?: boolean
+    user_id?: boolean
+    provider?: boolean
+    reason?: boolean
+    metadata?: boolean
+    created_at?: boolean
+  }
+
+  export type AuthLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "event" | "email" | "user_id" | "provider" | "reason" | "metadata" | "created_at", ExtArgs["result"]["authLog"]>
+
+  export type $AuthLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AuthLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      event: string
+      email: string | null
+      user_id: string | null
+      provider: string | null
+      reason: string | null
+      metadata: Prisma.JsonValue | null
+      created_at: Date
+    }, ExtArgs["result"]["authLog"]>
+    composites: {}
+  }
+
+  type AuthLogGetPayload<S extends boolean | null | undefined | AuthLogDefaultArgs> = $Result.GetResult<Prisma.$AuthLogPayload, S>
+
+  type AuthLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuthLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuthLogCountAggregateInputType | true
+    }
+
+  export interface AuthLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuthLog'], meta: { name: 'AuthLog' } }
+    /**
+     * Find zero or one AuthLog that matches the filter.
+     * @param {AuthLogFindUniqueArgs} args - Arguments to find a AuthLog
+     * @example
+     * // Get one AuthLog
+     * const authLog = await prisma.authLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuthLogFindUniqueArgs>(args: SelectSubset<T, AuthLogFindUniqueArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AuthLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuthLogFindUniqueOrThrowArgs} args - Arguments to find a AuthLog
+     * @example
+     * // Get one AuthLog
+     * const authLog = await prisma.authLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuthLogFindUniqueOrThrowArgs>(args: SelectSubset<T, AuthLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuthLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogFindFirstArgs} args - Arguments to find a AuthLog
+     * @example
+     * // Get one AuthLog
+     * const authLog = await prisma.authLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuthLogFindFirstArgs>(args?: SelectSubset<T, AuthLogFindFirstArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuthLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogFindFirstOrThrowArgs} args - Arguments to find a AuthLog
+     * @example
+     * // Get one AuthLog
+     * const authLog = await prisma.authLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuthLogFindFirstOrThrowArgs>(args?: SelectSubset<T, AuthLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AuthLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AuthLogs
+     * const authLogs = await prisma.authLog.findMany()
+     * 
+     * // Get first 10 AuthLogs
+     * const authLogs = await prisma.authLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const authLogWithIdOnly = await prisma.authLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AuthLogFindManyArgs>(args?: SelectSubset<T, AuthLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AuthLog.
+     * @param {AuthLogCreateArgs} args - Arguments to create a AuthLog.
+     * @example
+     * // Create one AuthLog
+     * const AuthLog = await prisma.authLog.create({
+     *   data: {
+     *     // ... data to create a AuthLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuthLogCreateArgs>(args: SelectSubset<T, AuthLogCreateArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AuthLogs.
+     * @param {AuthLogCreateManyArgs} args - Arguments to create many AuthLogs.
+     * @example
+     * // Create many AuthLogs
+     * const authLog = await prisma.authLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuthLogCreateManyArgs>(args?: SelectSubset<T, AuthLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AuthLogs and returns the data saved in the database.
+     * @param {AuthLogCreateManyAndReturnArgs} args - Arguments to create many AuthLogs.
+     * @example
+     * // Create many AuthLogs
+     * const authLog = await prisma.authLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AuthLogs and only return the `id`
+     * const authLogWithIdOnly = await prisma.authLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuthLogCreateManyAndReturnArgs>(args?: SelectSubset<T, AuthLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AuthLog.
+     * @param {AuthLogDeleteArgs} args - Arguments to delete one AuthLog.
+     * @example
+     * // Delete one AuthLog
+     * const AuthLog = await prisma.authLog.delete({
+     *   where: {
+     *     // ... filter to delete one AuthLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuthLogDeleteArgs>(args: SelectSubset<T, AuthLogDeleteArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AuthLog.
+     * @param {AuthLogUpdateArgs} args - Arguments to update one AuthLog.
+     * @example
+     * // Update one AuthLog
+     * const authLog = await prisma.authLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuthLogUpdateArgs>(args: SelectSubset<T, AuthLogUpdateArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AuthLogs.
+     * @param {AuthLogDeleteManyArgs} args - Arguments to filter AuthLogs to delete.
+     * @example
+     * // Delete a few AuthLogs
+     * const { count } = await prisma.authLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuthLogDeleteManyArgs>(args?: SelectSubset<T, AuthLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuthLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AuthLogs
+     * const authLog = await prisma.authLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuthLogUpdateManyArgs>(args: SelectSubset<T, AuthLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuthLogs and returns the data updated in the database.
+     * @param {AuthLogUpdateManyAndReturnArgs} args - Arguments to update many AuthLogs.
+     * @example
+     * // Update many AuthLogs
+     * const authLog = await prisma.authLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AuthLogs and only return the `id`
+     * const authLogWithIdOnly = await prisma.authLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuthLogUpdateManyAndReturnArgs>(args: SelectSubset<T, AuthLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AuthLog.
+     * @param {AuthLogUpsertArgs} args - Arguments to update or create a AuthLog.
+     * @example
+     * // Update or create a AuthLog
+     * const authLog = await prisma.authLog.upsert({
+     *   create: {
+     *     // ... data to create a AuthLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AuthLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuthLogUpsertArgs>(args: SelectSubset<T, AuthLogUpsertArgs<ExtArgs>>): Prisma__AuthLogClient<$Result.GetResult<Prisma.$AuthLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AuthLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogCountArgs} args - Arguments to filter AuthLogs to count.
+     * @example
+     * // Count the number of AuthLogs
+     * const count = await prisma.authLog.count({
+     *   where: {
+     *     // ... the filter for the AuthLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuthLogCountArgs>(
+      args?: Subset<T, AuthLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuthLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AuthLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuthLogAggregateArgs>(args: Subset<T, AuthLogAggregateArgs>): Prisma.PrismaPromise<GetAuthLogAggregateType<T>>
+
+    /**
+     * Group by AuthLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuthLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuthLogGroupByArgs['orderBy'] }
+        : { orderBy?: AuthLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuthLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuthLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AuthLog model
+   */
+  readonly fields: AuthLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AuthLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuthLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AuthLog model
+   */
+  interface AuthLogFieldRefs {
+    readonly id: FieldRef<"AuthLog", 'Int'>
+    readonly event: FieldRef<"AuthLog", 'String'>
+    readonly email: FieldRef<"AuthLog", 'String'>
+    readonly user_id: FieldRef<"AuthLog", 'String'>
+    readonly provider: FieldRef<"AuthLog", 'String'>
+    readonly reason: FieldRef<"AuthLog", 'String'>
+    readonly metadata: FieldRef<"AuthLog", 'Json'>
+    readonly created_at: FieldRef<"AuthLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AuthLog findUnique
+   */
+  export type AuthLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthLog to fetch.
+     */
+    where: AuthLogWhereUniqueInput
+  }
+
+  /**
+   * AuthLog findUniqueOrThrow
+   */
+  export type AuthLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthLog to fetch.
+     */
+    where: AuthLogWhereUniqueInput
+  }
+
+  /**
+   * AuthLog findFirst
+   */
+  export type AuthLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthLog to fetch.
+     */
+    where?: AuthLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthLogs to fetch.
+     */
+    orderBy?: AuthLogOrderByWithRelationInput | AuthLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuthLogs.
+     */
+    cursor?: AuthLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuthLogs.
+     */
+    distinct?: AuthLogScalarFieldEnum | AuthLogScalarFieldEnum[]
+  }
+
+  /**
+   * AuthLog findFirstOrThrow
+   */
+  export type AuthLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthLog to fetch.
+     */
+    where?: AuthLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthLogs to fetch.
+     */
+    orderBy?: AuthLogOrderByWithRelationInput | AuthLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuthLogs.
+     */
+    cursor?: AuthLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuthLogs.
+     */
+    distinct?: AuthLogScalarFieldEnum | AuthLogScalarFieldEnum[]
+  }
+
+  /**
+   * AuthLog findMany
+   */
+  export type AuthLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthLogs to fetch.
+     */
+    where?: AuthLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthLogs to fetch.
+     */
+    orderBy?: AuthLogOrderByWithRelationInput | AuthLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AuthLogs.
+     */
+    cursor?: AuthLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuthLogs.
+     */
+    distinct?: AuthLogScalarFieldEnum | AuthLogScalarFieldEnum[]
+  }
+
+  /**
+   * AuthLog create
+   */
+  export type AuthLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AuthLog.
+     */
+    data: XOR<AuthLogCreateInput, AuthLogUncheckedCreateInput>
+  }
+
+  /**
+   * AuthLog createMany
+   */
+  export type AuthLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AuthLogs.
+     */
+    data: AuthLogCreateManyInput | AuthLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuthLog createManyAndReturn
+   */
+  export type AuthLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many AuthLogs.
+     */
+    data: AuthLogCreateManyInput | AuthLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuthLog update
+   */
+  export type AuthLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AuthLog.
+     */
+    data: XOR<AuthLogUpdateInput, AuthLogUncheckedUpdateInput>
+    /**
+     * Choose, which AuthLog to update.
+     */
+    where: AuthLogWhereUniqueInput
+  }
+
+  /**
+   * AuthLog updateMany
+   */
+  export type AuthLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AuthLogs.
+     */
+    data: XOR<AuthLogUpdateManyMutationInput, AuthLogUncheckedUpdateManyInput>
+    /**
+     * Filter which AuthLogs to update
+     */
+    where?: AuthLogWhereInput
+    /**
+     * Limit how many AuthLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuthLog updateManyAndReturn
+   */
+  export type AuthLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * The data used to update AuthLogs.
+     */
+    data: XOR<AuthLogUpdateManyMutationInput, AuthLogUncheckedUpdateManyInput>
+    /**
+     * Filter which AuthLogs to update
+     */
+    where?: AuthLogWhereInput
+    /**
+     * Limit how many AuthLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuthLog upsert
+   */
+  export type AuthLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AuthLog to update in case it exists.
+     */
+    where: AuthLogWhereUniqueInput
+    /**
+     * In case the AuthLog found by the `where` argument doesn't exist, create a new AuthLog with this data.
+     */
+    create: XOR<AuthLogCreateInput, AuthLogUncheckedCreateInput>
+    /**
+     * In case the AuthLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuthLogUpdateInput, AuthLogUncheckedUpdateInput>
+  }
+
+  /**
+   * AuthLog delete
+   */
+  export type AuthLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+    /**
+     * Filter which AuthLog to delete.
+     */
+    where: AuthLogWhereUniqueInput
+  }
+
+  /**
+   * AuthLog deleteMany
+   */
+  export type AuthLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuthLogs to delete
+     */
+    where?: AuthLogWhereInput
+    /**
+     * Limit how many AuthLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuthLog without action
+   */
+  export type AuthLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthLog
+     */
+    select?: AuthLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthLog
+     */
+    omit?: AuthLogOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -23833,12 +24993,34 @@ export namespace Prisma {
   export type KelompokNilaiIndividuScalarFieldEnum = (typeof KelompokNilaiIndividuScalarFieldEnum)[keyof typeof KelompokNilaiIndividuScalarFieldEnum]
 
 
+  export const AuthLogScalarFieldEnum: {
+    id: 'id',
+    event: 'event',
+    email: 'email',
+    user_id: 'user_id',
+    provider: 'provider',
+    reason: 'reason',
+    metadata: 'metadata',
+    created_at: 'created_at'
+  };
+
+  export type AuthLogScalarFieldEnum = (typeof AuthLogScalarFieldEnum)[keyof typeof AuthLogScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -23855,6 +25037,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -23936,6 +25127,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -25034,6 +26239,75 @@ export namespace Prisma {
     keterangan?: StringNullableWithAggregatesFilter<"KelompokNilaiIndividu"> | string | null
   }
 
+  export type AuthLogWhereInput = {
+    AND?: AuthLogWhereInput | AuthLogWhereInput[]
+    OR?: AuthLogWhereInput[]
+    NOT?: AuthLogWhereInput | AuthLogWhereInput[]
+    id?: IntFilter<"AuthLog"> | number
+    event?: StringFilter<"AuthLog"> | string
+    email?: StringNullableFilter<"AuthLog"> | string | null
+    user_id?: StringNullableFilter<"AuthLog"> | string | null
+    provider?: StringNullableFilter<"AuthLog"> | string | null
+    reason?: StringNullableFilter<"AuthLog"> | string | null
+    metadata?: JsonNullableFilter<"AuthLog">
+    created_at?: DateTimeFilter<"AuthLog"> | Date | string
+  }
+
+  export type AuthLogOrderByWithRelationInput = {
+    id?: SortOrder
+    event?: SortOrder
+    email?: SortOrderInput | SortOrder
+    user_id?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+  }
+
+  export type AuthLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: AuthLogWhereInput | AuthLogWhereInput[]
+    OR?: AuthLogWhereInput[]
+    NOT?: AuthLogWhereInput | AuthLogWhereInput[]
+    event?: StringFilter<"AuthLog"> | string
+    email?: StringNullableFilter<"AuthLog"> | string | null
+    user_id?: StringNullableFilter<"AuthLog"> | string | null
+    provider?: StringNullableFilter<"AuthLog"> | string | null
+    reason?: StringNullableFilter<"AuthLog"> | string | null
+    metadata?: JsonNullableFilter<"AuthLog">
+    created_at?: DateTimeFilter<"AuthLog"> | Date | string
+  }, "id">
+
+  export type AuthLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    event?: SortOrder
+    email?: SortOrderInput | SortOrder
+    user_id?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    _count?: AuthLogCountOrderByAggregateInput
+    _avg?: AuthLogAvgOrderByAggregateInput
+    _max?: AuthLogMaxOrderByAggregateInput
+    _min?: AuthLogMinOrderByAggregateInput
+    _sum?: AuthLogSumOrderByAggregateInput
+  }
+
+  export type AuthLogScalarWhereWithAggregatesInput = {
+    AND?: AuthLogScalarWhereWithAggregatesInput | AuthLogScalarWhereWithAggregatesInput[]
+    OR?: AuthLogScalarWhereWithAggregatesInput[]
+    NOT?: AuthLogScalarWhereWithAggregatesInput | AuthLogScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"AuthLog"> | number
+    event?: StringWithAggregatesFilter<"AuthLog"> | string
+    email?: StringNullableWithAggregatesFilter<"AuthLog"> | string | null
+    user_id?: StringNullableWithAggregatesFilter<"AuthLog"> | string | null
+    provider?: StringNullableWithAggregatesFilter<"AuthLog"> | string | null
+    reason?: StringNullableWithAggregatesFilter<"AuthLog"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"AuthLog">
+    created_at?: DateTimeWithAggregatesFilter<"AuthLog"> | Date | string
+  }
+
   export type EvaluationsCreateInput = {
     evaluator_nrp?: string | null
     evaluated_nrp?: string | null
@@ -26079,6 +27353,80 @@ export namespace Prisma {
     nrp?: StringFieldUpdateOperationsInput | string
     nilai?: NullableFloatFieldUpdateOperationsInput | number | null
     keterangan?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AuthLogCreateInput = {
+    event: string
+    email?: string | null
+    user_id?: string | null
+    provider?: string | null
+    reason?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+  }
+
+  export type AuthLogUncheckedCreateInput = {
+    id?: number
+    event: string
+    email?: string | null
+    user_id?: string | null
+    provider?: string | null
+    reason?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+  }
+
+  export type AuthLogUpdateInput = {
+    event?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthLogUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    event?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthLogCreateManyInput = {
+    id?: number
+    event: string
+    email?: string | null
+    user_id?: string | null
+    provider?: string | null
+    reason?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+  }
+
+  export type AuthLogUpdateManyMutationInput = {
+    event?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthLogUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    event?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -27150,6 +28498,94 @@ export namespace Prisma {
     kriteriaId?: SortOrder
     nilai?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type AuthLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    event?: SortOrder
+    email?: SortOrder
+    user_id?: SortOrder
+    provider?: SortOrder
+    reason?: SortOrder
+    metadata?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type AuthLogAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type AuthLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    event?: SortOrder
+    email?: SortOrder
+    user_id?: SortOrder
+    provider?: SortOrder
+    reason?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type AuthLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    event?: SortOrder
+    email?: SortOrder
+    user_id?: SortOrder
+    provider?: SortOrder
+    reason?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type AuthLogSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
@@ -28205,6 +29641,29 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type KuliahCreateWithoutGroupsInput = {
