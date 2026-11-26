@@ -226,6 +226,135 @@ export function downloadGradeTemplateBrowser(params: {
   XLSX.writeFile(wb, fileName)
 }
 
+export interface ExportGradeStudentItem {
+  nrp: string
+  nama: string
+  email?: string
+  grades: Record<string, { grade: number | null; kriteria?: string | null }>
+}
+
+/**
+ * Buat workbook Excel export nilai lengkap:
+ * - Sheet 1 ("Nilai"): Seluruh nilai per kriteria dan total nilai mahasiswa
+ * - Sheet 2 ("Catatan & Kriteria"): Daftar kriteria/bobot default serta catatan/kriteria per mahasiswa
+ */
+export function createGradeExportWorkbook({
+  matkul,
+  tahun = "",
+  criteriaList,
+  students,
+}: {
+  matkul: string
+  tahun?: string
+  criteriaList: CriteriaItem[]
+  students: ExportGradeStudentItem[]
+}): XLSX.WorkBook {
+  const wb = XLSX.utils.book_new()
+  const totalBobot = criteriaList.reduce((acc, c) => acc + (c.bobot || 0), 0)
+
+  // ── Sheet 1: Nilai Mahasiswa ──────────────────────────────────────────
+  const gradeHeaders: string[] = [
+    "No",
+    "NRP",
+    "Nama Mahasiswa",
+    "Email",
+    ...criteriaList.map((c) => (c.bobot ? `${c.judulkriteria} (Maks ${c.bobot})` : c.judulkriteria)),
+    `Total Nilai${totalBobot ? ` (Maks ${totalBobot})` : ""}`,
+  ]
+
+  const gradeRows: (string | number)[][] = students.map((st, idx) => {
+    let totalScore = 0
+    let hasAnyGrade = false
+
+    const critCells: (string | number)[] = criteriaList.map((crit) => {
+      const item = st.grades[crit.judulkriteria]
+      if (item && item.grade !== null && item.grade !== undefined && !isNaN(Number(item.grade))) {
+        const num = Number(item.grade)
+        totalScore += num
+        hasAnyGrade = true
+        return num
+      }
+      return ""
+    })
+
+    const finalGrade: string | number = hasAnyGrade ? Math.round(totalScore * 100) / 100 : ""
+
+    return [idx + 1, st.nrp, st.nama, st.email || "—", ...critCells, finalGrade]
+  })
+
+  const wsGrades = XLSX.utils.aoa_to_sheet([gradeHeaders, ...gradeRows])
+  wsGrades["!cols"] = [
+    { wch: 6 },
+    { wch: 18 },
+    { wch: 30 },
+    { wch: 28 },
+    ...criteriaList.map((c) => ({
+      wch: Math.max((c.bobot ? `${c.judulkriteria} (Maks ${c.bobot})` : c.judulkriteria).length + 4, 18),
+    })),
+    { wch: 20 },
+  ]
+
+  // ── Sheet 2: Catatan & Kriteria ───────────────────────────────────────
+  const notesRows: (string | number)[][] = [
+    ["INFORMASI MATA KULIAH & DAFTAR KRITERIA"],
+    ["Mata Kuliah", matkul],
+    ["Tahun / Semester", tahun || "—"],
+    ["Total Bobot Maksimal", totalBobot],
+    [""],
+    ["No", "Nama Kriteria", "Bobot Maksimal", "Deskripsi / Kriteria Default"],
+    ...criteriaList.map((c, idx) => [idx + 1, c.judulkriteria, c.bobot, c.kriteria || "—"]),
+    [""],
+    ["CATATAN / KRITERIA PENILAIAN PER MAHASISWA"],
+    [
+      "No",
+      "NRP",
+      "Nama Mahasiswa",
+      ...criteriaList.map((c) => `${c.judulkriteria} - Catatan/Kriteria`),
+    ],
+    ...students.map((st, idx) => [
+      idx + 1,
+      st.nrp,
+      st.nama,
+      ...criteriaList.map((crit) => {
+        const item = st.grades[crit.judulkriteria]
+        const note = item?.kriteria ?? crit.kriteria ?? ""
+        return note.trim() || "—"
+      }),
+    ]),
+  ]
+
+  const wsNotes = XLSX.utils.aoa_to_sheet(notesRows)
+  wsNotes["!cols"] = [
+    { wch: 6 },
+    { wch: 20 },
+    { wch: 30 },
+    ...criteriaList.map((c) => ({
+      wch: Math.max(`${c.judulkriteria} - Catatan/Kriteria`.length + 4, 38),
+    })),
+  ]
+
+  XLSX.utils.book_append_sheet(wb, wsGrades, "Nilai")
+  XLSX.utils.book_append_sheet(wb, wsNotes, "Catatan & Kriteria")
+
+  return wb
+}
+
+/**
+ * Trigger download file Excel export nilai & catatan di browser (client-side).
+ */
+export function exportGradesToExcelBrowser(params: {
+  matkul: string
+  tahun?: string
+  criteriaList: CriteriaItem[]
+  students: ExportGradeStudentItem[]
+}) {
+  const wb = createGradeExportWorkbook(params)
+  const safeMatkul = params.matkul.replace(/[^a-zA-Z0-9_-]/g, "_")
+  const safeTahun = (params.tahun || "").replace(/[^a-zA-Z0-9_-]/g, "_")
+  const fileName = `Export_Nilai_${safeMatkul}${safeTahun ? "_" + safeTahun : ""}.xlsx`
+  XLSX.writeFile(wb, fileName)
+}
+
 /**
  * Parse file Excel yang diunggah dosen untuk input nilai dan deskripsi rubrik.
  */

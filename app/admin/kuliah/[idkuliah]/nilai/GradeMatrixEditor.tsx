@@ -4,7 +4,7 @@ import { useState, useMemo, useRef } from "react"
 import AnswerKeyModal from "@/app/src/components/AnswerKeyModal"
 import CourseGradeAnalysis from "./CourseGradeAnalysis"
 import ExcelGradeImportModal from "./ExcelGradeImportModal"
-import { downloadGradeTemplateBrowser } from "@/app/src/lib/excelGradeUtils"
+import { downloadGradeTemplateBrowser, exportGradesToExcelBrowser } from "@/app/src/lib/excelGradeUtils"
 
 interface Criteria {
   judulkriteria: string
@@ -1240,6 +1240,53 @@ export default function GradeMatrixEditor({
               title="Import nilai mahasiswa dari file Excel (.xlsx / .xls)"
             >
               <span>📥</span> Import Nilai Excel
+            </button>
+
+            <button
+              type="button"
+              className="gm-btn secondary"
+              style={{
+                background: "#f5f3ff",
+                borderColor: "#ddd6fe",
+                color: "#5b21b6",
+                fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+              onClick={() =>
+                exportGradesToExcelBrowser({
+                  matkul,
+                  tahun,
+                  criteriaList,
+                  students: students.map((s) => {
+                    const liveGrades: Record<string, { grade: number | null; kriteria?: string | null }> = {}
+                    for (const crit of criteriaList) {
+                      const item = s.grades[crit.judulkriteria]
+                      if (!item) continue
+                      const rawGrade = gradesMap[item.idnilai]
+                      const parsedGrade =
+                        rawGrade !== "" && rawGrade !== undefined && rawGrade !== null && !isNaN(Number(rawGrade))
+                          ? Number(rawGrade)
+                          : null
+                      const liveComment = commentsMap[item.idnilai] ?? item.kriteria ?? crit.kriteria ?? ""
+                      liveGrades[crit.judulkriteria] = {
+                        grade: parsedGrade,
+                        kriteria: liveComment,
+                      }
+                    }
+                    return {
+                      nrp: s.nrp,
+                      nama: s.nama,
+                      email: s.email,
+                      grades: liveGrades,
+                    }
+                  }),
+                })
+              }
+              title="Export seluruh nilai dan catatan/kriteria ke file Excel (.xlsx)"
+            >
+              <span>📤</span> Export Excel
             </button>
 
             <button
