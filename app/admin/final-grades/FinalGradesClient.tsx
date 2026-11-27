@@ -61,6 +61,15 @@ interface GradeFormState {
   finalGrade: string
 }
 
+interface WeightFormState {
+  idkuliah: number
+  courseLabel: string
+  midAssignment: string
+  midExam: string
+  finalAssignment: string
+  finalExam: string
+}
+
 function formatScore(val: number | null): string {
   if (val === null || Number.isNaN(val)) return "—"
   return val.toFixed(2)
@@ -101,6 +110,10 @@ export default function FinalGradesClient({
   const [formError, setFormError] = useState<string>("")
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [deletingId, setDeletingId] = useState<number | null>(null)
+
+  const [weightState, setWeightState] = useState<WeightFormState | null>(null)
+  const [weightError, setWeightError] = useState<string>("")
+  const [isSavingWeights, setIsSavingWeights] = useState<boolean>(false)
 
   const courseOptions = useMemo(() => {
     return courses.filter(
@@ -306,6 +319,51 @@ export default function FinalGradesClient({
     }
   }
 
+  const openWeightModal = (course: CourseFinalGradesGroup) => {
+    setWeightError("")
+    setWeightState({
+      idkuliah: course.idkuliah,
+      courseLabel: `${course.matkul} (${course.tahun})`,
+      midAssignment: String(course.weights.midAssignment),
+      midExam: String(course.weights.midExam),
+      finalAssignment: String(course.weights.finalAssignment),
+      finalExam: String(course.weights.finalExam),
+    })
+  }
+
+  const handleSaveWeights = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!weightState) return
+
+    setWeightError("")
+    setIsSavingWeights(true)
+    try {
+      const res = await fetch("/api/admin/final-grades/weights", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idkuliah: weightState.idkuliah,
+          mid_assignment_weight: Number(weightState.midAssignment),
+          mid_exam_weight: Number(weightState.midExam),
+          final_assignment_weight: Number(weightState.finalAssignment),
+          final_exam_weight: Number(weightState.finalExam),
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) {
+        setWeightError(json.error ?? "Gagal menyimpan bobot")
+        setIsSavingWeights(false)
+        return
+      }
+      setWeightState(null)
+      setIsSavingWeights(false)
+      router.refresh()
+    } catch {
+      setWeightError("Terjadi kesalahan jaringan")
+      setIsSavingWeights(false)
+    }
+  }
+
   return (
     <div className="fg-content">
       {/* Filter Bar */}
@@ -436,9 +494,18 @@ export default function FinalGradesClient({
                     {course.weights.finalExam}%
                   </p>
                 </div>
-                <span className="fg-student-count">
-                  {course.students.length} mahasiswa
-                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span className="fg-student-count">
+                    {course.students.length} mahasiswa
+                  </span>
+                  <button
+                    type="button"
+                    className="fg-btn-sm"
+                    onClick={() => openWeightModal(course)}
+                  >
+                    Edit Bobot
+                  </button>
+                </div>
               </div>
 
               {course.students.length === 0 ? (
@@ -727,6 +794,156 @@ export default function FinalGradesClient({
                   disabled={isSaving}
                 >
                   {isSaving ? "Menyimpan..." : "Simpan"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Edit Weights Modal */}
+      {weightState && (
+        <div
+          className="fg-modal-backdrop"
+          onClick={() => !isSavingWeights && setWeightState(null)}
+        >
+          <div className="fg-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="fg-modal-header">
+              <h3 className="fg-modal-title">Edit Bobot Nilai</h3>
+              <button
+                type="button"
+                className="fg-modal-close"
+                onClick={() => !isSavingWeights && setWeightState(null)}
+              >
+                ×
+              </button>
+            </div>
+
+            {weightError && <div className="fg-form-error">{weightError}</div>}
+
+            <form onSubmit={handleSaveWeights}>
+              <div className="fg-form-grid">
+                <div className="fg-form-field fg-form-full">
+                  <label className="fg-filter-label">Mata Kuliah</label>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#333",
+                      background: "#faf9f6",
+                      padding: "9px 12px",
+                      borderRadius: 8,
+                      border: "0.5px solid rgba(0,0,0,0.08)",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {weightState.courseLabel}
+                  </div>
+                </div>
+
+                <div className="fg-form-field">
+                  <label className="fg-filter-label">Tugas UTS (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    required
+                    className="fg-input"
+                    value={weightState.midAssignment}
+                    onChange={(e) =>
+                      setWeightState({
+                        ...weightState,
+                        midAssignment: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="fg-form-field">
+                  <label className="fg-filter-label">UTS (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    required
+                    className="fg-input"
+                    value={weightState.midExam}
+                    onChange={(e) =>
+                      setWeightState({
+                        ...weightState,
+                        midExam: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="fg-form-field">
+                  <label className="fg-filter-label">Tugas UAS (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    required
+                    className="fg-input"
+                    value={weightState.finalAssignment}
+                    onChange={(e) =>
+                      setWeightState({
+                        ...weightState,
+                        finalAssignment: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="fg-form-field">
+                  <label className="fg-filter-label">UAS (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    required
+                    className="fg-input"
+                    value={weightState.finalExam}
+                    onChange={(e) =>
+                      setWeightState({
+                        ...weightState,
+                        finalExam: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="fg-form-field fg-form-full">
+                  <span style={{ fontSize: 12, color: "#777" }}>
+                    Total bobot:{" "}
+                    <strong>
+                      {(Number(weightState.midAssignment) || 0) +
+                        (Number(weightState.midExam) || 0) +
+                        (Number(weightState.finalAssignment) || 0) +
+                        (Number(weightState.finalExam) || 0)}
+                      %
+                    </strong>
+                  </span>
+                </div>
+              </div>
+
+              <div className="fg-modal-footer">
+                <button
+                  type="button"
+                  className="fg-btn-cancel"
+                  disabled={isSavingWeights}
+                  onClick={() => setWeightState(null)}
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="fg-btn-save"
+                  disabled={isSavingWeights}
+                >
+                  {isSavingWeights ? "Menyimpan..." : "Simpan Bobot"}
                 </button>
               </div>
             </form>
