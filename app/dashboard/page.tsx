@@ -651,9 +651,18 @@ export default async function Dashboard({
               )}
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4, gap: 12, flexWrap: "wrap" }}>
             <h1 className="db-title">{isImpersonating || viewingAs ? "Student Dashboard" : "Dashboard"}</h1>
-            {!isImpersonating && !viewingAs && <Link href="/evaluate" className="db-nav-link">Start evaluation →</Link>}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Link
+                href={viewingAs ? `/final-grades?viewAs=${viewingAs}` : "/final-grades"}
+                className="db-nav-link"
+                style={{ background: "#fff", color: "#111", border: "0.5px solid rgba(0,0,0,0.14)" }}
+              >
+                Final Grades →
+              </Link>
+              {!isImpersonating && !viewingAs && <Link href="/evaluate" className="db-nav-link">Start evaluation →</Link>}
+            </div>
           </div>
           <p className="db-subtitle">Group evaluations &amp; grade overview.</p>
 

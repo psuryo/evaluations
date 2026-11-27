@@ -244,6 +244,9 @@ export default async function KuliahAdminPage() {
             <Link href="/admin/kuliah" className="km-nav-link active">
               Kelola Kuliah
             </Link>
+            <Link href="/admin/final-grades" className="km-nav-link">
+              Final Grades
+            </Link>
           </nav>
           <div className="km-user">
             <span className="km-email">{session.user.email}</span>

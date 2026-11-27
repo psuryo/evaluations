@@ -17,6 +17,7 @@ export default function KelompokShell({
           <Link href="/admin">Dashboard</Link>
           <Link href="/admin/evaluations">Evaluations</Link>
           <Link href="/admin/kuliah">Kelola Kuliah</Link>
+          <Link href="/admin/final-grades">Final Grades</Link>
           <Link href="/admin/kelompok" className="active">Penilaian Kelompok</Link>
         </nav>
         <div className="kp-user">

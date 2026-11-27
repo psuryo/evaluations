@@ -239,6 +239,9 @@ export default async function AdminPage() {
             <Link href="/admin/kuliah" className="ad-nav-link">
               Kelola Kuliah
             </Link>
+            <Link href="/admin/final-grades" className="ad-nav-link">
+              Final Grades
+            </Link>
             <Link href="/admin/kelompok" className="ad-nav-link">
               Penilaian Kelompok
             </Link>
