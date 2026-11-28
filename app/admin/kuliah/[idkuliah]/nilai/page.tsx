@@ -63,6 +63,10 @@ export default async function CourseGradesPage({
     })
     .map(({ judulkriteria, kriteria, bobot }) => ({ judulkriteria, kriteria, bobot }))
 
+  if (criteriaList.length === 0) {
+    redirect(`/admin/nilai/new?idkuliah=${course.idkuliah}`)
+  }
+
   // Group student grades
   const studentMap = new Map<
     string,

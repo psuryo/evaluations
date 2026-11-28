@@ -526,23 +526,42 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                 ? "Coba ubah kata kunci pencarian atau filter tahun akademik."
                 : "Belum ada mata kuliah yang dibuat. Buat mata kuliah pertama Anda sekarang."}
             </p>
-            <Link
-              href="/admin/kuliah/new"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "10px 20px",
-                background: "#111",
-                color: "#fff",
-                borderRadius: "8px",
-                textDecoration: "none",
-                fontSize: "13px",
-                fontWeight: 600,
-              }}
-            >
-              <span>+</span> Buat Kuliah Baru (Bobot 100%)
-            </Link>
+            <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
+              <Link
+                href="/admin/nilai/new"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "10px 20px",
+                  background: "#111",
+                  color: "#fff",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                }}
+              >
+                <span>+</span> Buat Nilai
+              </Link>
+              <Link
+                href="/admin/kuliah/new"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "10px 20px",
+                  background: "#f4f3ef",
+                  color: "#111",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                }}
+              >
+                <span>+</span> Buat Kuliah Baru
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="cl-cards-list">
@@ -570,9 +589,15 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                         >
                           {c.is_published ? "✓ Dipublikasikan" : "🔒 Draft (Disembunyikan)"}
                         </span>
-                        <span className={`cl-badge ${is100 ? "ok" : "warn"}`}>
-                          {is100 ? "✓ Bobot: 100%" : `⚠️ Bobot: ${c.totalBobot}%`}
-                        </span>
+                        {c.totalCriteria > 0 ? (
+                          <span className={`cl-badge ${is100 ? "ok" : "warn"}`}>
+                            {is100 ? "✓ Bobot: 100%" : `⚠️ Bobot: ${c.totalBobot}%`}
+                          </span>
+                        ) : (
+                          <span className="cl-badge info">
+                            Belum ada nilai
+                          </span>
+                        )}
                         {c.kunci_jawaban && (
                           <span
                             className="cl-badge"
@@ -618,12 +643,20 @@ export default function CourseList({ initialCourses }: CourseListProps) {
                         </button>
                       )}
                       <Link
-                        href={`/admin/kuliah/${c.idkuliah}/nilai`}
+                        href={
+                          c.totalCriteria > 0
+                            ? `/admin/kuliah/${c.idkuliah}/nilai`
+                            : `/admin/nilai/new?idkuliah=${c.idkuliah}`
+                        }
                         className="cl-action-btn"
                         style={{ background: "#111", color: "#fff", borderColor: "#111" }}
-                        title="Input nilai mahasiswa per kriteria"
+                        title={
+                          c.totalCriteria > 0
+                            ? "Input nilai mahasiswa per kriteria"
+                            : "Buat kriteria & input nilai untuk mata kuliah ini"
+                        }
                       >
-                        📝 Input Nilai
+                        {c.totalCriteria > 0 ? "📝 Input Nilai" : "📝 Buat Nilai"}
                       </Link>
                       <button
                         type="button"

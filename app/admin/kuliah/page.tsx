@@ -10,6 +10,9 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 async function getKuliahManagementData() {
   const [courses, totalStudentsCount, totalNilaiCount] = await Promise.all([
     prisma.kuliah.findMany({
+      where: {
+        nilai: { some: {} },
+      },
       include: {
         nilai: {
           select: {
@@ -260,12 +263,21 @@ export default async function KuliahAdminPage() {
             <div>
               <h1 className="km-title">Modul Dosen: Kelola Mata Kuliah</h1>
               <p className="km-subtitle">
-                Atur mata kuliah, kriteria penilaian, dan tentukan bobot kriteria dengan syarat total 100%.
+                Buat dan kelola mata kuliah secara terpisah dari input nilai dan final grades.
               </p>
             </div>
-            <Link href="/admin/kuliah/new" className="km-btn-new">
-              <span>+</span> Buat Kuliah Baru (Bobot 100%)
-            </Link>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <Link
+                href="/admin/nilai/new"
+                className="km-btn-new"
+                style={{ background: "#fff", color: "#111", border: "0.5px solid rgba(0,0,0,0.18)" }}
+              >
+                <span>+</span> Buat Nilai
+              </Link>
+              <Link href="/admin/kuliah/new" className="km-btn-new">
+                <span>+</span> Buat Kuliah Baru
+              </Link>
+            </div>
           </div>
 
           {/* Metric Stat Cards */}

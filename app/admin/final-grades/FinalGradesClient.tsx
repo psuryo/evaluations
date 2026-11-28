@@ -2,6 +2,11 @@
 
 import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
+import FinalGradeImportModal from "./FinalGradeImportModal"
+import {
+  FinalGradeTemplateRow,
+  downloadFinalGradeTemplateBrowser,
+} from "@/app/src/lib/excelFinalGradeUtils"
 
 export interface FinalGradeRow {
   id: number
@@ -37,6 +42,7 @@ export interface CourseOption {
   idkuliah: number
   matkul: string
   tahun: string
+  hasFinalGrades: boolean
 }
 
 export interface StudentOption {
@@ -107,13 +113,41 @@ export default function FinalGradesClient({
   const [sortDir, setSortDir] = useState<SortDir>("asc")
 
   const [formState, setFormState] = useState<GradeFormState | null>(null)
+  const [onlyUnusedCourses, setOnlyUnusedCourses] = useState<boolean>(true)
   const [formError, setFormError] = useState<string>("")
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [deletingId, setDeletingId] = useState<number | null>(null)
 
+  const unusedCourses = useMemo(
+    () => allCourses.filter((c) => !c.hasFinalGrades),
+    [allCourses]
+  )
+  const modalCourseOptions = useMemo(
+    () => (onlyUnusedCourses ? unusedCourses : allCourses),
+    [onlyUnusedCourses, unusedCourses, allCourses]
+  )
+
   const [weightState, setWeightState] = useState<WeightFormState | null>(null)
   const [weightError, setWeightError] = useState<string>("")
   const [isSavingWeights, setIsSavingWeights] = useState<boolean>(false)
+  const [togglingPublishId, setTogglingPublishId] = useState<number | null>(null)
+  const [showImportModal, setShowImportModal] = useState<boolean>(false)
+
+  const existingRowsByCourse = useMemo(() => {
+    const map: Record<number, FinalGradeTemplateRow[]> = {}
+    for (const c of courses) {
+      map[c.idkuliah] = c.students.map((s) => ({
+        nrp: s.nrp,
+        nama: s.nama,
+        midAssignmentGrade: s.midAssignmentGrade,
+        midExamGrade: s.midExamGrade,
+        finalAssignmentGrade: s.finalAssignmentGrade,
+        finalExamGrade: s.finalExamGrade,
+        finalGrade: s.storedFinalGrade,
+      }))
+    }
+    return map
+  }, [courses])
 
   const courseOptions = useMemo(() => {
     return courses.filter(
@@ -199,14 +233,22 @@ export default function FinalGradesClient({
     return sortDir === "asc" ? " ↑" : " ↓"
   }
 
-  const openCreateModal = () => {
+  const openCreateModal = (presetCourseId?: number) => {
     setFormError("")
+    const useUnusedOnly = presetCourseId === undefined && unusedCourses.length > 0
+    setOnlyUnusedCourses(useUnusedOnly)
+
+    const options = useUnusedOnly ? unusedCourses : allCourses
     const defaultCourseId =
-      selectedCourseId !== "ALL"
-        ? selectedCourseId
-        : allCourses[0]
-          ? String(allCourses[0].idkuliah)
-          : ""
+      presetCourseId !== undefined
+        ? String(presetCourseId)
+        : useUnusedOnly
+          ? String(unusedCourses[0].idkuliah)
+          : selectedCourseId !== "ALL"
+            ? selectedCourseId
+            : options[0]
+              ? String(options[0].idkuliah)
+              : ""
     const defaultNrp = allStudents[0]?.nrp ?? ""
 
     setFormState({
@@ -319,6 +361,44 @@ export default function FinalGradesClient({
     }
   }
 
+  const handleTogglePublish = async (course: CourseFinalGradesGroup) => {
+    const actionText = course.isPublished
+      ? `tarik publikasi nilai "${course.matkul}"?\n\nMahasiswa tidak akan dapat melihat final grade mata kuliah ini sampai dipublikasikan kembali.`
+      : `publikasikan nilai "${course.matkul}"?\n\nMahasiswa yang terdaftar akan dapat langsung melihat final grade mereka.`
+    if (!window.confirm(`Apakah Anda yakin ingin ${actionText}`)) return
+
+    setTogglingPublishId(course.idkuliah)
+    try {
+      const res = await fetch(`/api/admin/kuliah/${course.idkuliah}/publish`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_published: !course.isPublished }),
+      })
+      const json = await res.json()
+      if (!res.ok) {
+        alert(json.error ?? "Gagal mengubah status publikasi")
+      } else {
+        router.refresh()
+      }
+    } catch {
+      alert("Terjadi kesalahan jaringan")
+    } finally {
+      setTogglingPublishId(null)
+    }
+  }
+
+  const handleDownloadTemplateTop = () => {
+    const selected =
+      selectedCourseId !== "ALL"
+        ? allCourses.find((c) => String(c.idkuliah) === selectedCourseId)
+        : allCourses[0]
+    downloadFinalGradeTemplateBrowser({
+      matkul: selected?.matkul ?? "Final_Grades",
+      tahun: selected?.tahun ?? "",
+      students: selected ? (existingRowsByCourse[selected.idkuliah] ?? []) : [],
+    })
+  }
+
   const openWeightModal = (course: CourseFinalGradesGroup) => {
     setWeightError("")
     setWeightState({
@@ -422,14 +502,34 @@ export default function FinalGradesClient({
           />
         </div>
 
-        <button
-          type="button"
-          className="fg-btn-add"
-          onClick={openCreateModal}
-          disabled={allCourses.length === 0 || allStudents.length === 0}
-        >
-          + Tambah Nilai
-        </button>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <button
+            type="button"
+            className="fg-btn-add"
+            style={{ background: "#fff", color: "#111", border: "0.5px solid rgba(0,0,0,0.18)" }}
+            onClick={handleDownloadTemplateTop}
+            disabled={allCourses.length === 0}
+          >
+            📄 Download Template
+          </button>
+          <button
+            type="button"
+            className="fg-btn-add"
+            style={{ background: "#fff", color: "#111", border: "0.5px solid rgba(0,0,0,0.18)" }}
+            onClick={() => setShowImportModal(true)}
+            disabled={allCourses.length === 0}
+          >
+            📥 Import Nilai
+          </button>
+          <button
+            type="button"
+            className="fg-btn-add"
+            onClick={() => openCreateModal()}
+            disabled={allCourses.length === 0 || allStudents.length === 0}
+          >
+            + Tambah Nilai
+          </button>
+        </div>
       </div>
 
       {/* Summary Stats */}
@@ -494,10 +594,34 @@ export default function FinalGradesClient({
                     {course.weights.finalExam}%
                   </p>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                   <span className="fg-student-count">
                     {course.students.length} mahasiswa
                   </span>
+                  <button
+                    type="button"
+                    className="fg-btn-sm"
+                    style={
+                      course.isPublished
+                        ? { color: "#92400e", background: "#fffbeb", borderColor: "#fde68a" }
+                        : { color: "#065f46", background: "#ecfdf5", borderColor: "#a7f3d0", fontWeight: 600 }
+                    }
+                    disabled={togglingPublishId === course.idkuliah}
+                    onClick={() => handleTogglePublish(course)}
+                  >
+                    {togglingPublishId === course.idkuliah
+                      ? "..."
+                      : course.isPublished
+                        ? "🔒 Tarik Publikasi"
+                        : "🚀 Publikasikan"}
+                  </button>
+                  <button
+                    type="button"
+                    className="fg-btn-sm"
+                    onClick={() => openCreateModal(course.idkuliah)}
+                  >
+                    + Tambah Mahasiswa
+                  </button>
                   <button
                     type="button"
                     className="fg-btn-sm"
@@ -636,12 +760,42 @@ export default function FinalGradesClient({
                         }
                         required
                       >
-                        {allCourses.map((c) => (
+                        {modalCourseOptions.map((c) => (
                           <option key={c.idkuliah} value={String(c.idkuliah)}>
-                            {c.matkul} ({c.tahun})
+                            {c.matkul} ({c.tahun}){c.hasFinalGrades ? " — sudah ada nilai" : ""}
                           </option>
                         ))}
                       </select>
+                      <label
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 6,
+                          fontSize: 12,
+                          color: "#666",
+                          marginTop: 4,
+                          cursor: "pointer",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={onlyUnusedCourses}
+                          onChange={(e) => {
+                            const next = e.target.checked
+                            setOnlyUnusedCourses(next)
+                            const nextList = next ? unusedCourses : allCourses
+                            if (!nextList.some((c) => String(c.idkuliah) === formState.idkuliah)) {
+                              setFormState({
+                                ...formState,
+                                idkuliah: nextList[0] ? String(nextList[0].idkuliah) : "",
+                              })
+                            }
+                          }}
+                        />
+                        <span>
+                          Hanya tampilkan kuliah yang belum digunakan di Final Grades ({unusedCourses.length})
+                        </span>
+                      </label>
                     </div>
                     <div className="fg-form-field fg-form-full">
                       <label className="fg-filter-label">Mahasiswa</label>
@@ -950,6 +1104,14 @@ export default function FinalGradesClient({
           </div>
         </div>
       )}
+      <FinalGradeImportModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onImported={() => router.refresh()}
+        allCourses={allCourses}
+        existingRowsByCourse={existingRowsByCourse}
+        defaultCourseId={selectedCourseId !== "ALL" ? selectedCourseId : undefined}
+      />
     </div>
   )
 }

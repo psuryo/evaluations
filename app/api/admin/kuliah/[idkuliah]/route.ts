@@ -149,46 +149,47 @@ export async function PUT(
     if (!tahun || !tahun.trim()) {
       return NextResponse.json({ error: "Tahun akademik wajib diisi" }, { status: 400 })
     }
-    if (!Array.isArray(kriteriaList) || kriteriaList.length === 0) {
-      return NextResponse.json({ error: "Minimal 1 kriteria penilaian harus ada" }, { status: 400 })
-    }
 
-    let calculatedTotalBobot = 0
+    const hasKriteriaPayload = Array.isArray(kriteriaList) && kriteriaList.length > 0
     const cleanKriteriaList: { judulkriteria: string; kriteria: string; bobot: number }[] = []
 
-    for (let i = 0; i < kriteriaList.length; i++) {
-      const k = kriteriaList[i]
-      const judul = k.judulkriteria?.toString().trim()
-      const desc = k.kriteria?.toString().trim()
-      const bobotNum = parseInt(k.bobot, 10)
+    if (hasKriteriaPayload) {
+      let calculatedTotalBobot = 0
 
-      if (!judul) {
-        return NextResponse.json({ error: `Judul kriteria pada baris ke-${i + 1} wajib diisi` }, { status: 400 })
-      }
-      if (!desc) {
-        return NextResponse.json({ error: `Deskripsi kriteria "${judul}" wajib diisi` }, { status: 400 })
-      }
-      if (isNaN(bobotNum) || bobotNum <= 0) {
-        return NextResponse.json({ error: `Bobot "${judul}" harus berupa angka positif` }, { status: 400 })
+      for (let i = 0; i < kriteriaList.length; i++) {
+        const k = kriteriaList[i]
+        const judul = k.judulkriteria?.toString().trim()
+        const desc = k.kriteria?.toString().trim()
+        const bobotNum = parseInt(k.bobot, 10)
+
+        if (!judul) {
+          return NextResponse.json({ error: `Judul kriteria pada baris ke-${i + 1} wajib diisi` }, { status: 400 })
+        }
+        if (!desc) {
+          return NextResponse.json({ error: `Deskripsi kriteria "${judul}" wajib diisi` }, { status: 400 })
+        }
+        if (isNaN(bobotNum) || bobotNum <= 0) {
+          return NextResponse.json({ error: `Bobot "${judul}" harus berupa angka positif` }, { status: 400 })
+        }
+
+        calculatedTotalBobot += bobotNum
+        cleanKriteriaList.push({
+          judulkriteria: judul,
+          kriteria: desc,
+          bobot: bobotNum,
+        })
       }
 
-      calculatedTotalBobot += bobotNum
-      cleanKriteriaList.push({
-        judulkriteria: judul,
-        kriteria: desc,
-        bobot: bobotNum,
-      })
-    }
-
-    // STRICT 100% CHECK
-    if (calculatedTotalBobot !== 100) {
-      return NextResponse.json(
-        {
-          error: `Total keseluruhan bobot harus tepat 100%. Saat ini akumulasi bobot adalah ${calculatedTotalBobot}%.`,
-          currentTotal: calculatedTotalBobot,
-        },
-        { status: 400 }
-      )
+      // STRICT 100% CHECK
+      if (calculatedTotalBobot !== 100) {
+        return NextResponse.json(
+          {
+            error: `Total keseluruhan bobot harus tepat 100%. Saat ini akumulasi bobot adalah ${calculatedTotalBobot}%.`,
+            currentTotal: calculatedTotalBobot,
+          },
+          { status: 400 }
+        )
+      }
     }
 
     // Update Kuliah
@@ -206,65 +207,67 @@ export async function PUT(
       data: updatePayload,
     })
 
-    // Get current enrolled students and existing grades/custom comments
-    const currentNilai = await prisma.nilai.findMany({
-      where: { idkuliah },
-      select: {
-        nrp: true,
-        judulkriteria: true,
-        grade: true,
-        kriteria: true,
-      },
-    })
+    if (hasKriteriaPayload) {
+      // Get current enrolled students and existing grades/custom comments
+      const currentNilai = await prisma.nilai.findMany({
+        where: { idkuliah },
+        select: {
+          nrp: true,
+          judulkriteria: true,
+          grade: true,
+          kriteria: true,
+        },
+      })
 
-    // Map existing grade & comment per student per judulkriteria to preserve existing progress:
-    const existingGradeMap = new Map<string, { grade: number | null; kriteria: string | null }>()
-    const studentNrpsSet = new Set<string>()
-    for (const n of currentNilai) {
-      if (n.nrp) studentNrpsSet.add(n.nrp)
-      const key = `${n.nrp ?? ""}__${n.judulkriteria ?? ""}`
-      existingGradeMap.set(key, {
-        grade: n.grade !== null ? Number(n.grade) : null,
-        kriteria: n.kriteria ?? null,
+      // Map existing grade & comment per student per judulkriteria to preserve existing progress:
+      const existingGradeMap = new Map<string, { grade: number | null; kriteria: string | null }>()
+      const studentNrpsSet = new Set<string>()
+      for (const n of currentNilai) {
+        if (n.nrp) studentNrpsSet.add(n.nrp)
+        const key = `${n.nrp ?? ""}__${n.judulkriteria ?? ""}`
+        existingGradeMap.set(key, {
+          grade: n.grade !== null ? Number(n.grade) : null,
+          kriteria: n.kriteria ?? null,
+        })
+      }
+      const existingNrps = Array.from(studentNrpsSet)
+
+      // Recreate criteria while strictly PRESERVING all existing student grades and custom comments
+      await prisma.$transaction(async (tx) => {
+        await tx.nilai.deleteMany({
+          where: { idkuliah },
+        })
+
+        if (existingNrps.length > 0) {
+          const newNilaiData = []
+          for (const nrp of existingNrps) {
+            for (const crit of cleanKriteriaList) {
+              const key = `${nrp}__${crit.judulkriteria}`
+              const prev = existingGradeMap.get(key)
+              newNilaiData.push({
+                idkuliah,
+                nrp,
+                judulkriteria: crit.judulkriteria,
+                kriteria: prev?.kriteria || crit.kriteria,
+                bobot: crit.bobot,
+                grade: prev?.grade ?? null, // PRESERVES EXISTING GRADES!
+              })
+            }
+          }
+          await tx.nilai.createMany({ data: newNilaiData })
+        } else {
+          const templateNilai = cleanKriteriaList.map((crit) => ({
+            idkuliah,
+            nrp: null,
+            judulkriteria: crit.judulkriteria,
+            kriteria: crit.kriteria,
+            bobot: crit.bobot,
+            grade: null,
+          }))
+          await tx.nilai.createMany({ data: templateNilai })
+        }
       })
     }
-    const existingNrps = Array.from(studentNrpsSet)
-
-    // Recreate criteria while strictly PRESERVING all existing student grades and custom comments
-    await prisma.$transaction(async (tx) => {
-      await tx.nilai.deleteMany({
-        where: { idkuliah },
-      })
-
-      if (existingNrps.length > 0) {
-        const newNilaiData = []
-        for (const nrp of existingNrps) {
-          for (const crit of cleanKriteriaList) {
-            const key = `${nrp}__${crit.judulkriteria}`
-            const prev = existingGradeMap.get(key)
-            newNilaiData.push({
-              idkuliah,
-              nrp,
-              judulkriteria: crit.judulkriteria,
-              kriteria: prev?.kriteria || crit.kriteria,
-              bobot: crit.bobot,
-              grade: prev?.grade ?? null, // PRESERVES EXISTING GRADES!
-            })
-          }
-        }
-        await tx.nilai.createMany({ data: newNilaiData })
-      } else {
-        const templateNilai = cleanKriteriaList.map((crit) => ({
-          idkuliah,
-          nrp: null,
-          judulkriteria: crit.judulkriteria,
-          kriteria: crit.kriteria,
-          bobot: crit.bobot,
-          grade: null,
-        }))
-        await tx.nilai.createMany({ data: templateNilai })
-      }
-    })
 
     return NextResponse.json({
       message: "Kuliah berhasil diperbarui",

@@ -115,8 +115,7 @@ export default async function NewCoursePage() {
           <div className="nc-header">
             <h1 className="nc-title">Buat Mata Kuliah Baru</h1>
             <p className="nc-subtitle">
-              Tentukan nama mata kuliah, tahun akademik, rincian kriteria penilaian (judul &amp; rubrik), serta bobot persentase.
-              Sesuai aturan, <strong>total bobot keseluruhan harus tepat 100%</strong>.
+              Buat data mata kuliah baru pada tabel <code>kuliah</code>. Pembuatan nilai dan kriteria penilaian dapat dilakukan secara terpisah kapan saja setelah mata kuliah dibuat.
             </p>
           </div>
 

@@ -123,6 +123,7 @@ async function getFinalGradesData(): Promise<{
     idkuliah: c.idkuliah,
     matkul: c.matkul ?? "Untitled",
     tahun: c.tahun ?? "—",
+    hasFinalGrades: gradesByCourse.has(c.idkuliah),
   }))
 
   const allStudents: StudentOption[] = students.map((s) => ({

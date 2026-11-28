@@ -71,6 +71,8 @@ const PRESET_TEMPLATES = [
 export default function CourseForm({ initialData, isEditing = false }: CourseFormProps) {
   const router = useRouter()
 
+  const hasCriteriaSection = isEditing && (initialData?.criteriaList?.length ?? 0) > 0
+
   const [matkul, setMatkul] = useState(initialData?.matkul ?? "")
   const [tahun, setTahun] = useState(initialData?.tahun ?? new Date().getFullYear().toString())
   const [kunciJawaban, setKunciJawaban] = useState(initialData?.kunci_jawaban ?? "")
@@ -79,11 +81,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
   const [criteriaList, setCriteriaList] = useState<CriteriaItem[]>(
     initialData?.criteriaList && initialData.criteriaList.length > 0
       ? initialData.criteriaList
-      : [
-          { judulkriteria: "Tugas & Proyek", kriteria: "Penugasan berkala dan implementasi proyek", bobot: 30 },
-          { judulkriteria: "UTS", kriteria: "Ujian Tengah Semester", bobot: 35 },
-          { judulkriteria: "UAS", kriteria: "Ujian Akhir Semester", bobot: 35 },
-        ]
+      : []
   )
 
   // Student enrollment state
@@ -207,51 +205,38 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
       setErrorMsg("Tahun / semester akademik wajib diisi.")
       return
     }
-    if (criteriaList.length === 0) {
-      setErrorMsg("Minimal 1 kriteria penilaian harus dibuat.")
-      return
-    }
-
-    // Check each criteria validity
-    for (let i = 0; i < criteriaList.length; i++) {
-      const c = criteriaList[i]
-      if (!c.judulkriteria.trim()) {
-        setErrorMsg(`Judul kriteria pada baris #${i + 1} belum diisi.`)
+    if (hasCriteriaSection) {
+      if (criteriaList.length === 0) {
+        setErrorMsg("Minimal 1 kriteria penilaian harus dibuat.")
         return
       }
-      if (!c.kriteria.trim()) {
-        setErrorMsg(`Deskripsi kriteria "${c.judulkriteria}" belum diisi.`)
-        return
-      }
-      if (typeof c.bobot !== "number" || c.bobot <= 0) {
-        setErrorMsg(`Bobot untuk "${c.judulkriteria}" harus lebih dari 0%.`)
-        return
-      }
-    }
 
-    // CRITICAL: Strict 100% validation check
-    if (totalBobot !== 100) {
-      setErrorMsg(
-        `Total keseluruhan bobot harus tepat 100%. Saat ini akumulasi adalah ${totalBobot}% (${
-          isUnder100 ? `kurang ${100 - totalBobot}%` : `kelebihan ${totalBobot - 100}%`
-        }).`
-      )
-      return
-    }
+      // Check each criteria validity
+      for (let i = 0; i < criteriaList.length; i++) {
+        const c = criteriaList[i]
+        if (!c.judulkriteria.trim()) {
+          setErrorMsg(`Judul kriteria pada baris #${i + 1} belum diisi.`)
+          return
+        }
+        if (!c.kriteria.trim()) {
+          setErrorMsg(`Deskripsi kriteria "${c.judulkriteria}" belum diisi.`)
+          return
+        }
+        if (typeof c.bobot !== "number" || c.bobot <= 0) {
+          setErrorMsg(`Bobot untuk "${c.judulkriteria}" harus lebih dari 0%.`)
+          return
+        }
+      }
 
-    // Gather student NRPs
-    let studentList: string[] = []
-    if (studentMode === "paste" && pastedNrps.trim()) {
-      studentList = Array.from(
-        new Set(
-          pastedNrps
-            .split(/[\n,;]+/)
-            .map((s) => s.trim())
-            .filter(Boolean)
+      // CRITICAL: Strict 100% validation check
+      if (totalBobot !== 100) {
+        setErrorMsg(
+          `Total keseluruhan bobot harus tepat 100%. Saat ini akumulasi adalah ${totalBobot}% (${
+            isUnder100 ? `kurang ${100 - totalBobot}%` : `kelebihan ${totalBobot - 100}%`
+          }).`
         )
-      )
-    } else if (studentMode === "select" && selectedStudents.length > 0) {
-      studentList = selectedStudents
+        return
+      }
     }
 
     setSubmitting(true)
@@ -262,21 +247,28 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
         : "/api/admin/kuliah"
       const method = isEditing ? "PUT" : "POST"
 
+      const payload: Record<string, unknown> = {
+        matkul: matkul.trim(),
+        tahun: tahun.trim(),
+        is_published: isPublished,
+      }
+
+      if (isEditing) {
+        payload.kunci_jawaban = kunciJawaban.trim() || null
+      }
+
+      if (hasCriteriaSection) {
+        payload.kriteriaList = criteriaList.map((c) => ({
+          judulkriteria: c.judulkriteria.trim(),
+          kriteria: c.kriteria.trim(),
+          bobot: Number(c.bobot),
+        }))
+      }
+
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          matkul: matkul.trim(),
-          tahun: tahun.trim(),
-          kunci_jawaban: kunciJawaban.trim() || null,
-          is_published: isPublished,
-          kriteriaList: criteriaList.map((c) => ({
-            judulkriteria: c.judulkriteria.trim(),
-            kriteria: c.kriteria.trim(),
-            bobot: Number(c.bobot),
-          })),
-          students: studentList,
-        }),
+        body: JSON.stringify(payload),
       })
 
       const data = await response.json()
@@ -287,8 +279,8 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
 
       setSuccessMsg(
         isEditing
-          ? "Kuliah dan kriteria berhasil diperbarui!"
-          : "Kuliah baru berhasil dibuat dengan bobot 100%!"
+          ? "Mata kuliah berhasil diperbarui!"
+          : "Mata kuliah baru berhasil dibuat!"
       )
 
       setTimeout(() => {
@@ -750,7 +742,8 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
           </div>
         </div>
 
-        {/* SECTION 2: KRITERIA & BOBOT PENILAIAN */}
+        {/* SECTION 2: KRITERIA & BOBOT PENILAIAN (hanya saat edit kuliah yang sudah memiliki nilai) */}
+        {hasCriteriaSection && (
         <div className="cf-card">
           <div className="cf-card-header">
             <div>
@@ -956,9 +949,30 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
             </div>
           </div>
         </div>
+        )}
 
-        {/* SECTION 3: PENDAFTARAN MAHASISWA (OPSIONAL) */}
-        {!isEditing && (
+        {isEditing && !hasCriteriaSection && initialData?.idkuliah && (
+          <div className="cf-card" style={{ background: "#fafaf8" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+              <div>
+                <h2 className="cf-card-title" style={{ fontSize: "15px" }}>📝 Belum Ada Data Nilai</h2>
+                <p className="cf-card-subtitle" style={{ marginTop: "4px" }}>
+                  Mata kuliah ini belum memiliki kriteria penilaian pada tabel <code>nilai</code>. Anda dapat membuat nilai dan kriteria secara terpisah.
+                </p>
+              </div>
+              <Link
+                href={`/admin/nilai/new?idkuliah=${initialData.idkuliah}`}
+                className="cf-btn-add"
+                style={{ background: "#111", color: "#fff", textDecoration: "none" }}
+              >
+                📝 Buat Nilai untuk Kuliah Ini
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 3: PENDAFTARAN MAHASISWA — dipindahkan ke halaman pembuatan nilai */}
+        {false && !isEditing && (
           <div className="cf-card">
             <div className="cf-card-header">
               <div>
@@ -1118,7 +1132,8 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
           </div>
         )}
 
-        {/* SECTION: KUNCI JAWABAN UJIAN (FORMAT MARKDOWN) */}
+        {/* SECTION: KUNCI JAWABAN UJIAN (FORMAT MARKDOWN) - hanya saat edit kuliah */}
+        {isEditing && (
         <div className="cf-card">
           <div className="cf-card-header" style={{ alignItems: "flex-start" }}>
             <div>
@@ -1278,6 +1293,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
             </div>
           )}
         </div>
+        )}
 
         {/* SUBMIT & CANCEL ACTIONS */}
         <div className="cf-actions">
@@ -1287,7 +1303,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
           <button
             type="submit"
             className="cf-btn-submit"
-            disabled={submitting || !isExact100 || !matkul.trim() || !tahun.trim()}
+            disabled={submitting || (hasCriteriaSection && !isExact100) || !matkul.trim() || !tahun.trim()}
           >
             {submitting ? (
               <>
@@ -1297,7 +1313,7 @@ export default function CourseForm({ initialData, isEditing = false }: CourseFor
             ) : (
               <>
                 <span>✓</span>
-                <span>{isEditing ? "Simpan Perubahan Kuliah" : "Buat Kuliah Baru (Bobot 100%)"}</span>
+                <span>{isEditing ? "Simpan Perubahan Kuliah" : "Buat Mata Kuliah"}</span>
               </>
             )}
           </button>

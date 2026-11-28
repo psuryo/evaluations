@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { matkul, tahun, kriteriaList, students, kunci_jawaban, is_published } = body
+    const { matkul, tahun, kunci_jawaban, is_published } = body
 
     // 1. Validate Course metadata
     if (!matkul || typeof matkul !== "string" || !matkul.trim()) {
@@ -133,69 +133,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Tahun / semester akademik wajib diisi" }, { status: 400 })
     }
 
-    // 2. Validate Kriteria List
-    if (!Array.isArray(kriteriaList) || kriteriaList.length === 0) {
-      return NextResponse.json({ error: "Minimal 1 kriteria penilaian harus ditambahkan" }, { status: 400 })
-    }
-
-    let calculatedTotalBobot = 0
-    const cleanKriteriaList: { judulkriteria: string; kriteria: string; bobot: number }[] = []
-
-    for (let i = 0; i < kriteriaList.length; i++) {
-      const k = kriteriaList[i]
-      const judul = k.judulkriteria?.toString().trim()
-      const desc = k.kriteria?.toString().trim()
-      const bobotNum = parseInt(k.bobot, 10)
-
-      if (!judul) {
-        return NextResponse.json({ error: `Judul kriteria pada baris ke-${i + 1} wajib diisi` }, { status: 400 })
-      }
-      if (!desc) {
-        return NextResponse.json({ error: `Deskripsi kriteria "${judul}" wajib diisi` }, { status: 400 })
-      }
-      if (isNaN(bobotNum) || bobotNum <= 0) {
-        return NextResponse.json({ error: `Bobot untuk kriteria "${judul}" harus berupa angka positif lebih dari 0` }, { status: 400 })
-      }
-
-      calculatedTotalBobot += bobotNum
-      cleanKriteriaList.push({
-        judulkriteria: judul,
-        kriteria: desc,
-        bobot: bobotNum,
-      })
-    }
-
-    // 3. STRICT OVERALL BOBOT CONSTRAINT: MUST EQUAL 100
-    if (calculatedTotalBobot !== 100) {
-      return NextResponse.json(
-        {
-          error: `Total keseluruhan bobot harus tepat 100%. Saat ini akumulasi bobot adalah ${calculatedTotalBobot}% (${
-            calculatedTotalBobot < 100
-              ? `kurang ${100 - calculatedTotalBobot}%`
-              : `kelebihan ${calculatedTotalBobot - 100}%`
-          }).`,
-          currentTotal: calculatedTotalBobot,
-        },
-        { status: 400 }
-      )
-    }
-
-    // 4. Parse students if provided (NRP array or comma/newline separated string)
-    let cleanNrps: string[] = []
-    if (Array.isArray(students)) {
-      cleanNrps = Array.from(new Set(students.map((s: string) => String(s).trim()).filter(Boolean)))
-    } else if (typeof students === "string" && students.trim()) {
-      cleanNrps = Array.from(
-        new Set(
-          students
-            .split(/[\n,;]+/)
-            .map((s) => s.trim())
-            .filter(Boolean)
-        )
-      )
-    }
-
-    // 5. Create Course in DB
+    // 2. Create Course in DB (without creating nilai or student_final_grades records)
     const newKuliah = await prisma.kuliah.create({
       data: {
         matkul: matkul.trim(),
@@ -205,72 +143,14 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // 6. Create Course Grade Weights entry
-    await prisma.courseGradeWeights.upsert({
-      where: { idkuliah: newKuliah.idkuliah },
-      create: {
-        idkuliah: newKuliah.idkuliah,
-        mid_assignment_weight: 15,
-        mid_exam_weight: 25,
-        final_assignment_weight: 20,
-        final_exam_weight: 40,
-      },
-      update: {},
-    })
-
-    // 7. Insert Nilai records (for students or template)
-    if (cleanNrps.length > 0) {
-      const nilaiToInsert: {
-        idkuliah: number
-        nrp: string
-        judulkriteria: string
-        kriteria: string
-        bobot: number
-        grade: null
-      }[] = []
-
-      for (const nrp of cleanNrps) {
-        for (const crit of cleanKriteriaList) {
-          nilaiToInsert.push({
-            idkuliah: newKuliah.idkuliah,
-            nrp,
-            judulkriteria: crit.judulkriteria,
-            kriteria: crit.kriteria,
-            bobot: crit.bobot,
-            grade: null,
-          })
-        }
-      }
-
-      await prisma.nilai.createMany({
-        data: nilaiToInsert,
-      })
-    } else {
-      // Insert template definition so kriteria and bobot are recorded for this course
-      const templateNilai = cleanKriteriaList.map((crit) => ({
-        idkuliah: newKuliah.idkuliah,
-        nrp: null,
-        judulkriteria: crit.judulkriteria,
-        kriteria: crit.kriteria,
-        bobot: crit.bobot,
-        grade: null,
-      }))
-
-      await prisma.nilai.createMany({
-        data: templateNilai,
-      })
-    }
-
     return NextResponse.json(
       {
-        message: "Kuliah berhasil dibuat dengan kriteria dan bobot 100%",
+        message: "Mata kuliah berhasil dibuat",
         kuliah: {
           idkuliah: newKuliah.idkuliah,
           matkul: newKuliah.matkul,
           tahun: newKuliah.tahun,
-          kriteriaCount: cleanKriteriaList.length,
-          totalBobot: calculatedTotalBobot,
-          enrolledStudentsCount: cleanNrps.length,
+          is_published: newKuliah.is_published,
         },
       },
       { status: 201 }
